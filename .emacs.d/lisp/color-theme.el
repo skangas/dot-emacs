@@ -1,0 +1,1 @@
+/home/skangas/.emacs.d/lisp/color-theme-6.6.0/color-theme.el

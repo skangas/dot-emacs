@@ -1,0 +1,52 @@
+8
+
+dir
+23
+svn+ssh://chavez.local.se/srv/svn/kangas/trunk/home-full/.emacsel/color-theme-6.6.0/themes
+svn+ssh://chavez.local.se/srv/svn/kangas
+
+
+
+2007-07-27T22:42:35.642447Z
+5
+kangas
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+dea24632-363c-dc11-b287-0020af5af066
+
+color-theme-library.el
+file
+
+
+
+
+2007-08-01T22:49:21.000000Z
+885ae7f72a6dfba0b3b4055add6caacd
+2007-07-27T22:42:35.642447Z
+5
+kangas
+
+color-theme-example.el
+file
+
+
+
+
+2007-08-01T22:49:21.000000Z
+59db97b984eaed8ba75757446f77cead
+2007-07-27T22:42:35.642447Z
+5
+kangas
+
