@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+use 5.010_000;
+use warnings;
+use strict;
+
+=head1 NAME
+
+@@@ - 
+
+=cut
+
+our $VERSION = '0.01';
+
+use Data::Dumper;
+
+
+
+=head1 AUTHOR
+
+Stefan Kangas C<< <skangas at skangas.se> >>
+
+=head1 BUGS
+
+Please report any bugs to C<< <skangas at skangas.se> >>
+
+=head1 COPYRIGHT
+
+Copyright YYYY Stefan Kangas, all rights reserved.
+
+=head1 LICENSE
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as perl itself.
+
+=cut
+
+1; # End of @@@
+
+__END__
+
