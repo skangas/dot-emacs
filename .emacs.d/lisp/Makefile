@@ -34,6 +34,8 @@ EMACSWIKI_DOWNLOAD=http://www.emacswiki.org/cgi-bin/wiki/download
 # Where I most recently fetched various random elisp files written by
 # other people.
 
+autopair.el:
+	curl -O http://autopair.googlecode.com/svn/trunk/autopair.el
 boxquote.el:
 	curl -O http://www.davep.org/emacs/boxquote.el
 centered-cursor-mode.el:
@@ -48,6 +50,14 @@ filladapt.el:
 	curl -O http://www.wonderworks.com/download/filladapt.el
 haskell-ghci.el:
 	curl -O http://home.arachsys.com/~chris/haskell-ghci.el
+iimage.el:
+	curl -O http://www.netlaputa.ne.jp/~kose/Emacs/lisp/iimage.el
+openwith.el:
+	curl -O http://stud4.tuwien.ac.at/~e0225855/misc/openwith.el
+rcirc-late-fix.el:
+	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-late-fix.el
+rcirc-notify.el:
+	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-notify.el
 sr-speedbar.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/sr-speedbar.el # $
 sunrise-commander.el:
