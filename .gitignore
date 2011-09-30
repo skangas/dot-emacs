@@ -1,6 +1,9 @@
+\#*
 auto-save-list/
+bbdb
 cache
 emms
 news
 saveplace
+tramp
 *.elc
