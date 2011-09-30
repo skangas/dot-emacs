@@ -16,11 +16,18 @@
 
 ;; Various configuration settings
 
+   ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
+   ;;   are enabled by default.
+
 (auto-compression-mode 1)                            ; Automatically read/write compressed files
 (auto-image-file-mode 1)                             ; View images in emacs
 (column-number-mode 1)                               ; Put column number into modeline
 
 (setq user-full-name "Stefan Kangas")
+
+(setq frame-title-format '((buffer-file-name "%f" "%b")
+                           " -- %F"
+                           (:eval (format " [%s]" mode-name))))
 
 (global-font-lock-mode t)                            ; Syntax hi-lighting
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; No menu
@@ -41,6 +48,7 @@
 (setq visible-bell t)                                ; No audible bell
 (setq-default fill-column 80)  ;; note to self: use M-q and C-u 78 C-x f
 (setq-default indent-tabs-mode nil)                  ; Always indent using spaces, never tabs
+(setq fortune-file "~/dokument/quotes")
 ;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will sometimes crash emacs
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 
@@ -73,7 +81,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; midnight-mode - close inactive buffers
 (require 'midnight)
-(midnight-delay-set 'midnight-delay "6:00am")
+(midnight-delay-set 'midnight-delay "06:00")
 (timer-activate midnight-timer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,9 +94,9 @@
 (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
       ido-enable-flex-matching t
       ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-      ido-ignore-buffers
-      '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-        "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+        ;; ido-ignore-buffers
+      ;; '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+        ;; "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
       ido-work-directory-list '("~/" "~/org" "~/src")
       ido-case-fold t) ; be case-insensitive
 
@@ -99,10 +107,14 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 100
       recentf-save-file "~/.emacs.d/cache/recentf")
-(defun my-ido-choose-from-recentf ()
+(defun my-ido-recentf-open ()
   "Use ido to select a recently opened file from the `recentf-list'"
   (interactive)
   (find-file (ido-completing-read "Open file: " recentf-list nil t)))
+
+;; get rid of `find-file-read-only' and replace it with something
+;; more useful.
+(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; window numbering
@@ -237,6 +249,43 @@
   (define-key occur-mode-map (kbd "n") 'next-logical-line)
   (define-key occur-mode-map (kbd "p") 'previous-logical-line))
 (add-hook 'occur-mode-hook 'my-occur-mode-customizations)
+
+;; time-stamp
+(add-hook 'before-save-hook 'time-stamp)
+
+;; openwith
+
+(require 'openwith)
+
+(setq openwith-confirm-invocation nil)
+
+(defvar my-video-types)
+(setq my-video-types-regexp (regexp-opt '(".mpg" ".mpeg" ".avi" ".ogv" ".wmv" ".asf" ".flv" ".mov" ".mkv" ".m4a" ".mp4")))
+
+(setq openwith-associations
+      (let ((video-types (concat my-video-types-regexp "\\'")))
+        `((,video-types "mplayer" ("-idx" file))
+          ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
+          ("\\.mp3\\'" "mplayer" (file))
+          ("\\.pdf\\'" "evince" (file)))))
+          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+
+;;; nisse
+
+(setq lazy-highlight-initial-delay 0.1)
+
+
+(when (require 'diminish nil 'noerror)
+  (eval-after-load "company"
+      '(diminish 'company-mode "Cmp"))
+  (eval-after-load "abbrev"
+    '(diminish 'abbrev-mode "Ab"))
+  (eval-after-load "yasnippet"
+    '(diminish 'yas/minor-mode "Y")))
+
+(add-hook 'emacs-lisp-mode-hook 
+  (lambda()
+    (setq mode-name "el")))
 
 (provide 'my-general)
 
