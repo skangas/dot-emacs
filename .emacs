@@ -2,22 +2,25 @@
 ;; ~skangas/.emacs
 ;;
 
-(defvar *emacs-load-start* (current-time))
-
-;; This should be the default. It has to be a require.
+;; Let's put this here, in case we need it. Has to be a require.
 (require 'cl)
+(defvar *emacs-load-start* (current-time))
 
 ;; Enter the debugger when an error is found
 (setq debug-on-error t)
 
 ;; Add local elisp directories
-(add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/jdee-2.4.0.1/lisp/"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal/mentor/"))
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/skangas-detached-worktree/"))
+
+(require 'warnings) ;; work-around until Emacs > 23.2 is released
+
+(require 'sunrise-commander)
 
 ;; Require my configuration files
 (require 'my-color-theme)

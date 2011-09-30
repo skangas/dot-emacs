@@ -1,6 +1,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PERL
 
+;; (defun flymake-perl-init (buffer)
+;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                      buffer 'flymake-create-temp-inplace))
+;;          (local-file  (concat (flymake-build-relative-filename
+;;                                (file-name-directory
+;;                                 (buffer-file-name
+;;                                  (current-buffer)))
+;;                                (file-name-directory temp-file))
+;;                               (file-name-nondirectory temp-file))))
+;;     (list "perl" (list "-wc " local-file))))
+
+;; ;; (setq flymake-allowed-file-name-masks
+;; ;;       (cons '(".+\\.pl$"
+;; ;;               flymake-perl-init
+;; ;;               flymake-simple-cleanup
+;; ;;               flymake-get-real-file-name)
+;; ;;             flymake-allowed-file-name-masks))
+;; (set (make-local-variable flymake-err-line-patterns)
+;;      (cons '("\\(.*\\) at \\([^ \n]+\\) line \\([0-9]+\\)[,.\n]"
+;;              2 3 nil 1)
+;;            flymake-err-line-patterns))
+
 ;; use cperl-mode instead of perl-mode
 (defalias 'perl-mode 'cperl-mode)
 
