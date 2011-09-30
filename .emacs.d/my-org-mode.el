@@ -21,9 +21,19 @@
        ;; (unless (string-equal (buffer-name) "secrets.org.gpg")
        ;;   (flyspell-mode 1))
 
+
+       ;; Use IDO for target completion
+       (setq org-completion-use-ido t)
+
+       ;; Use IDO only for buffers
+       ;; set ido-mode to buffer and ido-everywhere to t via the customize interface
+       ;; '(ido-mode (quote both) nil (ido))
+       ;; '(ido-everywhere t)
+
        ;; read-only if this is my password file
        (when (string-equal (buffer-name) "secrets.org.gpg")
          (setq buffer-read-only t)))
+
      (add-hook 'org-mode-hook 'my-org-mode-hook-defun)
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -83,23 +93,6 @@
      (setq org-babel-load-languages '((emacs-lisp . t)
                                       (latex . t)))
 
-     ;;; org-mode hooks
-     (defun my-org-mode-hook-defun ()
-       ;; make sure cua-mode is disabled
-       (cua-mode -1)
-
-       ;; flyspell unless this is my password file
-       ;; (unless (string-equal (buffer-name) "secrets.org.gpg")
-       ;;   (flyspell-mode 1))
-
-       ;; Use IDO for target completion
-       (setq org-completion-use-ido t)
-
-       ;; Use IDO only for buffers
-       ;; set ido-mode to buffer and ido-everywhere to t via the customize interface
-       ;; '(ido-mode (quote both) nil (ido))
-       ;; '(ido-everywhere t)
-
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;;;; refiling
      
@@ -122,41 +115,41 @@
      (setq org-agenda-dim-blocked-tasks t)
 
      (setq org-agenda-custom-commands
-      (quote (("w" "Tasks waiting on something" tags "WAITING/!"
-               ((org-use-tag-inheritance nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-todo-ignore-with-date nil)
-                (org-agenda-overriding-header "Waiting Tasks")))
-              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-overriding-header "Tasks to Refile")))
-              ("N" "Notes" tags "NOTE"
-               ((org-agenda-overriding-header "Notes")))
-              ("n" "Next" tags-todo "-WAITING-CANCELLED/!NEXT"
-               ((org-agenda-overriding-header "Next Tasks")))
-              ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED-WAITING-SOMEDAY"
-               ((org-agenda-skip-function 'bh/skip-non-projects)
-                (org-agenda-overriding-header "Projects")))
-              ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED-WAITING-SOMEDAY"
-               ((org-agenda-skip-function 'bh/skip-projects)
-                (org-agenda-overriding-header "Other Non-Project Tasks")))
-              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
-               ((org-agenda-overriding-header "Tasks to  Archive")))
-              ("h" "Habits" tags-todo "STYLE=\"habit\""
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-overriding-header "Habits")))
-              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
-               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                (org-agenda-overriding-header "Stuck Projects")))
-              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-               ((org-agenda-skip-function
-                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+           (quote (("w" "Tasks waiting on something" tags "WAITING/!"
+                    ((org-use-tag-inheritance nil)
+                     (org-agenda-todo-ignore-scheduled nil)
+                     (org-agenda-todo-ignore-deadlines nil)
+                     (org-agenda-todo-ignore-with-date nil)
+                     (org-agenda-overriding-header "Waiting Tasks")))
+                   ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+                    ((org-agenda-todo-ignore-with-date nil)
+                     (org-agenda-todo-ignore-deadlines nil)
+                     (org-agenda-todo-ignore-scheduled nil)
+                     (org-agenda-overriding-header "Tasks to Refile")))
+                   ("N" "Notes" tags "NOTE"
+                    ((org-agenda-overriding-header "Notes")))
+                   ("n" "Next" tags-todo "-WAITING-CANCELLED/!NEXT"
+                    ((org-agenda-overriding-header "Next Tasks")))
+                   ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED-WAITING-SOMEDAY"
+                    ((org-agenda-skip-function 'bh/skip-non-projects)
+                     (org-agenda-overriding-header "Projects")))
+                   ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED-WAITING-SOMEDAY"
+                    ((org-agenda-skip-function 'bh/skip-projects)
+                     (org-agenda-overriding-header "Other Non-Project Tasks")))
+                   ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
+                    ((org-agenda-overriding-header "Tasks to  Archive")))
+                   ("h" "Habits" tags-todo "STYLE=\"habit\""
+                    ((org-agenda-todo-ignore-with-date nil)
+                     (org-agenda-todo-ignore-scheduled nil)
+                     (org-agenda-todo-ignore-deadlines nil)
+                     (org-agenda-overriding-header "Habits")))
+                   ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+                    ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                     (org-agenda-overriding-header "Stuck Projects")))
+                   ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+                    ((org-agenda-skip-function
+                      '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                     (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;;;; iimage -- display images in your org-mode-file
@@ -186,11 +179,11 @@
               :special-strings t
               :table-of-contents nil
 
-             ;; ("misc"
-             ;;  :base-directory "~/misc/"
-             ;;  :base-extension (regexp-opt '("asc" "css"))
-             ;;  :publishing-directory "~/org/www/html"
-             ;;  :publishing-function org-publish-attachment)))))
+              ;; ("misc"
+              ;;  :base-directory "~/misc/"
+              ;;  :base-extension (regexp-opt '("asc" "css"))
+              ;;  :publishing-directory "~/org/www/html"
+              ;;  :publishing-function org-publish-attachment)))))
 
               :style "<link rel=\"stylesheet\"
                      href=\"style.css\"
@@ -206,7 +199,7 @@
                  (when (outline-invisible-p)
                    (save-excursion
                      (outline-previous-visible-heading 1)
-                     (org-show-subtree))))))))
+                     (org-show-subtree)))))))
 
 (provide 'my-org-mode)
 
