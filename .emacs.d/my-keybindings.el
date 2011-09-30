@@ -5,7 +5,7 @@
 (require 'boxquote)
 
 (global-set-key (kbd "<C-tab>") 'hippie-expand)
-(global-set-key (kbd "C-c C-b") 'org-iswitchb)
+;; (global-set-key (kbd "C-c C-b") 'org-iswitchb)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'bbdb)
 (global-set-key (kbd "C-c l") 'org-store-link)
@@ -42,7 +42,15 @@
 ;;                    (let ((buffer (get-buffer "*nnmail split history*")))
 ;;                      (delete-windows-on buffer)
 ;;                      (bury-buffer buffer))))
-(global-set-key [f6] 'emms-browser)
+
+(defun my-emms-browser ()
+  (interactive)
+  ;; (emms-cache-set-from-mpd-all)
+  (select-frame (make-frame '((name . "EMMS"))))
+  (emms-player-mpd-connect)
+  (emms-browser))
+
+(global-set-key [f6] 'my-emms-browser)
 (global-set-key [f7] 'w3m)
 (global-set-key [f9] 'org-remember)
 (global-set-key [(meta f11)] 'my-ido-choose-from-recentf)
@@ -118,6 +126,28 @@ interactively with no active region, copy a single line instead."
            (gnus))
           (candidate
            (switch-to-buffer candidate)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; http://emacs.wordpress.com/2007/01/17/eval-and-replace-anywhere/
+
+(defun my-eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  
+  (backward-kill-sexp)
+  (condition-case err
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (insert (current-kill 0))
+           (error err))))
+
+(global-set-key (kbd "C-c e") 'my-eval-and-replace)
+
+;; (defun my-last-used-buffer ()
+;;   (interactive)
+;;   (switch-to-buffer (other-buffer)))
+
+;; (global-set-key (kbd "C-'") 'my-last-used-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; http://groups.google.com/group/gnu.emacs.help/msg/a784fbb684a24e17

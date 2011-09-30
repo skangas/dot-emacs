@@ -34,13 +34,16 @@ This will run newline-and-indent, and then indent once more."
     	      source)))
 
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-ghci)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'haskell-refac-mode)
 (add-hook 'haskell-mode-hook 'hs-lint-mode-hook)
 
 ;; show error below
 (when (fboundp 'resize-minibuffer-mode) ; for old emacs
   (resize-minibuffer-mode)
   (setq resize-minibuffer-window-exactly nil))
+
 
 ;; TODO what does this do?
 ;; (defvar multiline-flymake-mode nil)
