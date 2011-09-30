@@ -87,7 +87,8 @@
      (setq org-todo-keywords '((sequence "MAYBE(m)" "TODO(t)" "STARTED(s)" "APPT(a)" "|" "DONE(d)" "CANCELED(c)" "(f)DEFERRED")))
 
      ;; agenda
-     (setq org-agenda-files (list "~/org/personal.org"
+     (setq org-agenda-files (list "~/org/gtd.org"
+                                  "~/org/personal.org"
                                   "~/org/skola.org"))
 
      (setq org-babel-load-languages '((emacs-lisp . t)
