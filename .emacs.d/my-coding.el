@@ -69,20 +69,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; speedbar
 
-(require 'sr-speedbar)
+;; (require 'sr-speedbar)
 
 ;; TODO: go to correct window
-(defun my-close-speedbar-fun ()
-  (interactive)
-  (when (string-equal major-mode "speedbar-mode")
-    ;; (let ((sb-frame (speedbar-current-frame)))
-    ;;   (dframe-select-attached-frame sb-frame)
-      (delete-window)))
-      ;; (select-frame back-frame))))
+;; (defun my-close-speedbar-fun ()
+;;   (interactive)
+;;   (when (string-equal major-mode "speedbar-mode")
+;;     ;; (let ((sb-frame (speedbar-current-frame)))
+;;     ;;   (dframe-select-attached-frame sb-frame)
+;;       (delete-window)))
+;;       ;; (select-frame back-frame))))
 
-(setq speedbar-mode-hook
-      (lambda ()
-        (define-key speedbar-key-map (kbd "q") 'my-close-speedbar-fun)))
+;; (setq speedbar-mode-hook
+;;       (lambda ()
+;;         (define-key speedbar-key-map (kbd "q") 'my-close-speedbar-fun)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; compile command

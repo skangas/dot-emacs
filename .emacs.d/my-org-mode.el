@@ -56,6 +56,9 @@
      (setq org-agenda-files (list "~/org/personal.org"
                                   "~/org/skola.org"))
 
+     (setq org-babel-load-languages '((emacs-lisp . t)
+                                      (latex . t)))
+
      ;;; org-mode hooks
      (defun my-org-mode-hook-defun ()
        ;; make sure cua-mode is disabled

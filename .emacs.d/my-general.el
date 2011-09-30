@@ -47,6 +47,7 @@
 ;; Man
 (setq Man-width 80)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backup files
 (setq version-control t         ; use versioned backups
       kept-old-versions 255
@@ -56,16 +57,20 @@
       backup-directory-alist
       '(("." . "~/.emacs.d/cache/saves")))    ; don't litter my fs tree
 
+;; Delete old and big backup files that just wastes space
+(let ((bak-dir (expand-file-name "~/.emacs.d/cache/saves")))
+  (when (and (file-exists-p bak-dir)
+             (file-directory-p bak-dir))
+    (start-process (concat "delete old backup files in " bak-dir)
+                   "*Messages*" "find" bak-dir "-size" "+1M" "-mtime" "+90" "-delete")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IsearchOtherEnd - Search restarts at top of buffer if it hits the bottom
 (add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
 (defun my-goto-match-beginning ()
   (when isearch-forward (goto-char isearch-other-end)))
 
-;; (add-hook 'Info-mode-hook ; After Info-mode has started
-;;           (lambda ()
-;;     	    (setq Info-additional-directory-list Info-default-directory-list)
-;;             ))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; midnight-mode - close inactive buffers
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "6:00am")
