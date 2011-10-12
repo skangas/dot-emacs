@@ -17,9 +17,11 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal/mentor/"))
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/skangas-detached-worktree/"))
+(add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 (require 'warnings) ;; work-around until Emacs > 23.2 is released
 
+(require 'mentor) ;; fix me, autoload instead
 (require 'sunrise-commander)
 
 ;; Require my configuration files
