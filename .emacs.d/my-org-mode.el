@@ -87,9 +87,7 @@
      (setq org-todo-keywords '((sequence "MAYBE(m)" "TODO(t)" "STARTED(s)" "APPT(a)" "|" "DONE(d)" "CANCELED(c)" "(f)DEFERRED")))
 
      ;; agenda
-     (setq org-agenda-files (list "~/org/gtd.org"
-                                  "~/org/personal.org"
-                                  "~/org/skola.org"))
+     (setq org-agenda-files (list "~/org/gtd.org"))
 
      (setq org-babel-load-languages '((emacs-lisp . t)
                                       (latex . t)))
@@ -99,7 +97,7 @@
      
      ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
      (setq org-refile-targets '((org-agenda-files :maxlevel . 5)
-                                ("data.org" :maxlevel . 5)
+                                ("maybe.org" :maxlevel . 5)
                                 (nil :maxlevel . 5)))
 
      ;; Targets start with the file name - allows creating level 1 tasks
