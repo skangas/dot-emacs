@@ -11,7 +11,7 @@
 (setq max-specpdl-size 15600)
 (setq max-lisp-eval-depth 9000)
 
-;; Change yes or no prompt to y or n prompts:
+;; Change all yes or no prompt to y or n prompts:
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Various configuration settings
@@ -32,11 +32,11 @@
 
 (global-font-lock-mode t)                            ; Syntax hi-lighting
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; No menu
-(if (fboundp 'mwheel-install) (mwheel-install))      ; Enable mousewheel
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; No scrollbar
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; No toolbar
-(put 'narrow-to-region 'disabled nil)
-(put 'set-goal-column 'disabled nil)
+(if (fboundp 'mwheel-install) (mwheel-install))      ; Enable mousewheel
+(if (fboundp 'column-number-mode) (column-number-mode -1)) ; No column number
+(if (fboundp 'line-number-mode) (line-number-mode -1))     ; No line number
 (setq bookmark-save-flag 1)                          ; Save bookmarks immediately when added
 (setq default-indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
 (setq frame-title-format '(buffer-file-name "%f" ("%b")))
@@ -49,12 +49,16 @@
 (setq visible-bell t)                                ; No audible bell
 (setq-default fill-column 80)  ;; note to self: use M-q and C-u 78 C-x f
 (setq-default indent-tabs-mode nil)                  ; Always indent using spaces, never tabs
-(setq fortune-file "~/dokument/quotes")
-;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will sometimes crash emacs
+(setq mouse-yank-at-point t)                         ; Yank to cursor, even in X
+(setq fortune-file "~/dokument/quotes")              ; Why do I set this? Nvm, I guess it doesn't hurt...
+;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
+(setq Man-width 80)                                  ; Limit man to 80 character width
+(setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
 
-;; Man
-(setq Man-width 80)
+;; Enable some features
+(put 'narrow-to-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backup files
