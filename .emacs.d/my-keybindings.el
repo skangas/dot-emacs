@@ -21,8 +21,6 @@
                   (sr-speedbar-toggle)
                   (sr-speedbar-select-window)))
 
-(global-set-key (kbd "M-g") 'goto-line)
-
 ;; OK, Steve Yegge, I'll give it a try
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
@@ -50,8 +48,10 @@
   (emms-player-mpd-connect)
   (emms-browser))
 
-(global-set-key [f6] 'my-emms-browser)
-(global-set-key [f7] 'w3m)
+(global-set-key [f6] 'mentor)
+(global-set-key [f7] 'my-emms-browser)
+(global-set-key [f8] 'w3m)
+
 (global-set-key [f9] 'org-remember)
 (global-set-key [(meta f11)] 'my-ido-choose-from-recentf)
 (global-set-key [f12] 'compile)
@@ -142,52 +142,6 @@ interactively with no active region, copy a single line instead."
            (error err))))
 
 (global-set-key (kbd "C-c e") 'my-eval-and-replace)
-
-;; (defun my-last-used-buffer ()
-;;   (interactive)
-;;   (switch-to-buffer (other-buffer)))
-
-;; (global-set-key (kbd "C-'") 'my-last-used-buffer)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; http://groups.google.com/group/gnu.emacs.help/msg/a784fbb684a24e17
-
-(defun move-text-internal (arg)
-   (cond
-    ((and mark-active transient-mark-mode)
-     (if (> (point) (mark))
-        (exchange-point-and-mark))
-     (let ((column (current-column))
-          (text (delete-and-extract-region (point) (mark))))
-       (forward-line arg)
-       (move-to-column column t)
-       (set-mark (point))
-       (insert text)
-       (exchange-point-and-mark)
-       (setq deactivate-mark nil)))
-    (t
-     (beginning-of-line)
-     (when (or (> arg 0) (not (bobp)))
-       (forward-line)
-       (when (or (< arg 0) (not (eobp)))
-        (transpose-lines arg))
-       (forward-line -1)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun move-text-down (arg)
-   "Move region (transient-mark-mode active) or current line
-  arg lines down."
-   (interactive "*p")
-   (move-text-internal arg))
-
-(defun move-text-up (arg)
-   "Move region (transient-mark-mode active) or current line
-  arg lines up."
-   (interactive "*p")
-   (move-text-internal (- arg)))
-
-(global-set-key "\M-P" 'move-text-up)
-(global-set-key "\M-N" 'move-text-down) 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun reb-query-replace (to-string)
