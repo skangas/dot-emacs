@@ -38,9 +38,10 @@
 (add-hook 'scheme-mode-hook           'my-enable-paredit-mode)
 
 ;; make eldoc aware of paredit
-(eldoc-add-command
- 'paredit-backward-delete
- 'paredit-close-round)
+(eval-after-load 'eldoc
+  '(progn (eldoc-add-command
+           'paredit-backward-delete
+           'paredit-close-round)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; eldoc
