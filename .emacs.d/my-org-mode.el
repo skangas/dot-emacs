@@ -4,11 +4,6 @@
 (require 'org-protocol)
 (require 'org-exp-blocks)
 
-  (require 'org-latex)
-  (add-to-list 'org-export-latex-packages-alist '("" "listings"))
-  (add-to-list 'org-export-latex-packages-alist '("" "color"))
-
-
 (eval-after-load "org"
   '(progn
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -89,9 +84,6 @@
      ;; agenda
      (setq org-agenda-files (list "~/org/gtd.org"))
 
-     (setq org-babel-load-languages '((emacs-lisp . t)
-                                      (latex . t)))
-
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;;;; refiling
      
@@ -149,6 +141,22 @@
                     ((org-agenda-skip-function
                       '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
                      (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;;;; babel
+
+     ;; languages to load
+     (setq org-babel-load-languages '((emacs-lisp . t)
+                                      (haskell . t)
+                                      (latex . t)))
+
+     ;; export listings
+     (setq org-export-latex-listings t)
+
+     ;; Load necessary packages for latex
+     (require 'org-latex)
+     (add-to-list 'org-export-latex-packages-alist '("" "listings"))
+     (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;;;; iimage -- display images in your org-mode-file

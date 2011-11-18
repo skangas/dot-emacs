@@ -38,6 +38,8 @@
            bbdb-check-zip-codes-p nil
            bbbdb-default-country "Sweden"
            bbdb-user-mail-names (regexp-opt '("skangas@skangas.se"
+                                              "stefan@fripost.org"
+                                              "skangas@fripost.org"
                                               "skangas@fsfe.org"
                                               "stefan@marxist.se"
                                               "stefankangas@gmail.com"
