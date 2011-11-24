@@ -82,14 +82,16 @@ interactively with no active region, copy a single line instead."
 ;; Page down/up move the point, not the screen.;; (from snarfed.org) This
 ;; means that pgup/pgdn can move the point to the beginning or end of the
 ;; buffer.
-(global-set-key [next]
-  (lambda () (interactive)
-    (condition-case nil (scroll-up)
-      (end-of-buffer (goto-char (point-max))))))
-(global-set-key [prior]
-  (lambda () (interactive)
-    (condition-case nil (scroll-down)
-      (beginning-of-buffer (goto-char (point-min))))))
+(defun my-scroll-down ()
+  (interactive)
+  (condition-case nil (scroll-down)
+    (beginning-of-buffer (goto-char (point-min)))))
+(defun my-scroll-up ()
+  (interactive)
+  (condition-case nil (scroll-up)
+    (end-of-buffer (goto-char (point-max)))))
+(global-set-key [next] 'my-scroll-down)
+(global-set-key [prior] 'my-scroll-up)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-switch-to-gnus (&optional arg)
