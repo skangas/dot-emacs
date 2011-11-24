@@ -21,7 +21,7 @@
 
 (require 'warnings) ;; work-around until Emacs > 23.2 is released
 
-(require 'mentor) ;; fix me, autoload instead
+;; (require 'mentor) ;; fix me, autoload instead
 (require 'sunrise-commander)
 
 ;; Require my configuration files
