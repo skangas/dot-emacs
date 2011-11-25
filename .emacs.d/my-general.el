@@ -43,7 +43,7 @@
 (setq default-indicate-empty-lines t)                ; Show empty lines at end of file
 (setq inhibit-startup-message t)                     ; No startup message
 (setq require-final-newline t)                       ; Make sure text files end in a newline
-(setq scroll-conservatively 100000)                  ; Always scroll one line at a time
+(setq scroll-conservatively most-positive-fixnum)    ; Always scroll one line at a time
 (setq scroll-preserve-screen-position t)             ; Affects Page-up Page-down
 (setq cua-enable-cua-keys nil)                       ; No cua-keys
 (setq visible-bell t)                                ; No audible bell
@@ -260,20 +260,20 @@
 
 ;; openwith
 
-(require 'openwith)
+;; (require 'openwith)
 
-(setq openwith-confirm-invocation nil)
+;; (setq openwith-confirm-invocation nil)
 
-(defvar my-video-types)
-(setq my-video-types-regexp (regexp-opt '(".mpg" ".mpeg" ".avi" ".ogv" ".wmv" ".asf" ".flv" ".mov" ".mkv" ".m4a" ".mp4")))
+;; (defvar my-video-types)
+;; (setq my-video-types-regexp (regexp-opt '(".mpg" ".mpeg" ".avi" ".ogv" ".wmv" ".asf" ".flv" ".mov" ".mkv" ".m4a" ".mp4")))
 
-(setq openwith-associations
-      (let ((video-types (concat my-video-types-regexp "\\'")))
-        `((,video-types "mplayer" ("-idx" file))
-          ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
-          ("\\.mp3\\'" "mplayer" (file))
-          ("\\.pdf\\'" "evince" (file)))))
-          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+;; (setq openwith-associations
+;;       (let ((video-types (concat my-video-types-regexp "\\'")))
+;;         `((,video-types "mplayer" ("-idx" file))
+;;           ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
+;;           ("\\.mp3\\'" "mplayer" (file))
+;;           ("\\.pdf\\'" "evince" (file)))))
+;;           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
 
 ;;; nisse
 
