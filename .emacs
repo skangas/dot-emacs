@@ -24,7 +24,7 @@
 ;; (require 'mentor) ;; fix me, autoload instead
 (require 'sunrise-commander)
 
-;; Require my configuration files
+;; ;; Require my configuration files
 (require 'my-color-theme)
 
 (require 'my-general)
