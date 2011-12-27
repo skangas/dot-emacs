@@ -133,7 +133,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; cursor
-(blink-cursor-mode 0) ; stop cursor from blinking
+;; (blink-cursor-mode 0) ; stop cursor from blinking
 ;; cursor-chg
 ;(require 'cursor-chg)  ; Load the library
 ;; (toggle-cursor-type-when-idle 0) ; Turn on cursor change when Emacs is idle
