@@ -22,7 +22,9 @@
 (auto-compression-mode 1)                            ; Automatically read/write compressed files
 (auto-image-file-mode 1)                             ; View images in emacs
 (column-number-mode 1)                               ; Put column number into modeline
-(global-visual-line-mode 1)                          ; Wrap sanely
+;; (global-visual-line-mode 1)                          ; Wrap sanely
+;; FIXME: add visual line mode to all modes where it makes sense
+
 
 (setq user-full-name "Stefan Kangas")
 
