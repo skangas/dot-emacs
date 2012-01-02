@@ -1,11 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacs-lisp-mode
 
-
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
-
-  ;(turn-on-eldoc-mode)
 
   ;; automatically compile all .el files on save
   (add-hook 'after-save-hook 'my-recompile-el)
@@ -20,7 +17,6 @@
         (when (file-exists-p (concat buffer-file-name ".elc"))
           (delete-file (concat buffer-file-name ".elc")))
         (byte-compile-file buffer-file-name)))))
-
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
