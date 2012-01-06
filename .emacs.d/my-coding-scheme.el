@@ -1,10 +1,11 @@
-(require 'quack)
-(quack-install)
+;; (require 'quack)
+;; (quack-install)
+
+(defun my-scheme-mode-customizations ()
+  ;; (setq quack-fontify-style 'emacs)
+  (my-coding-keys scheme-mode-map))
 
 (add-hook 'scheme-mode-hook 'my-scheme-mode-customizations t)
-(defun my-scheme-mode-customizations ()
-  (setq quack-fontify-style 'emacs)
-  (my-coding-keys scheme-mode-map))
 
 (provide 'my-coding-scheme)
 
