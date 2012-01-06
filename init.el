@@ -48,7 +48,7 @@
 (require 'my-cedet)
 (require 'my-coding-c)
 (require 'my-coding-cpp)
-(require 'my-coding-common-lisp)
+;; (require 'my-coding-common-lisp)
 (require 'my-coding-elisp)
 ;; (require 'my-coding-haskell)
 (require 'my-coding-html-css)
