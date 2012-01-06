@@ -7,7 +7,7 @@
 (defvar *emacs-load-start* (current-time))
 
 ;; Enter the debugger when an error is found
-(setq debug-on-error t)
+(setq debug-on-error nil)
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
@@ -37,7 +37,7 @@
 (require 'my-buffers)
 (require 'my-dired)
 (require 'my-ediff)
-(require 'my-emms)
+;; (require 'my-emms)
 (require 'my-org-mode)
 (require 'my-outline)
 (require 'my-rcirc)

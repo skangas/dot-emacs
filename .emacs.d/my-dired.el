@@ -1,67 +1,52 @@
-
-;; (setq dired-guess-shell-alist-user
-;;       (list
-;;        (list (concat my-video-types "\\.$" "FOO-COMMAND");; fixed rule
-;;              ;; possibly more rules...
-;;              (list "\\.bar$";; rule with condition test
-;;                    '(if CONDITION
-;;                         "BAR-COMMAND-1"
-;;                       "BAR-COMMAND-2"))))
-
-(setq dired-listing-switches "-alh")
-
-;; Add media files to be played by mplayer
-(when (boundp 'my-video-types)
-  (add-to-list 'dired-guess-shell-alist-user
-                `(,(concat my-video-types "$") "mplayer -idx")))
-
-
-;; Search filenames only
-(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map (kbd "C-s") 'dired-isearch-filenames)))
-
 ;; Load Dired-x when Dired is loaded to enable some extra commands.
 (add-hook 'dired-load-hook '(lambda () (require 'dired-x)))
 
-;; Sanitize n and p
-(defun dired-next-file-line ()
-  "Moves to the next dired line that have a file or directory name on it"
-  (interactive)
-  (call-interactively 'dired-next-line)
-  (if (not (dired-move-to-filename))
-      (dired-next-file-line)))
-(defun dired-previous-file-line ()
-  "Moves to the previous dired line that have a file or directory name on it"
-   (interactive)
-   (call-interactively 'dired-previous-line)
-   (if (not (dired-move-to-filename))
-       (dired-previous-file-line)))
-(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "n" 'dired-next-file-line)))
-(add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map "p" 'dired-previous-file-line)))
+;;; Use human sizes
+(setq dired-listing-switches "-lAh")
 
-;; TODO: WRITE command for switching between showing dot-files and not
+;; Search filenames only
+(define-key dired-mode-map (kbd "C-s") 'dired-isearch-filenames)
 
-;; we want dired to use only one buffer for all directories
-;; (eval-after-load "dired"
-;;   '(progn
-;;      (defadvice dired-advertised-find-file (around dired-subst-directory activate)
-;;        "Replace current buffer if file is a directory."
-;;        (interactive)
-;;        (let* ((orig (current-buffer))
-;; 	      (filename (dired-get-filename))
-;; 	      (bye-p (file-directory-p filename)))
-;; 	 ad-do-it
-;; 	 (when (and bye-p (not (string-match "[/\\\\]\\.$" filename)))
-;; 	   (kill-buffer orig))))))
+;; openwith.el -- open files using external helpers
 
-; jump to a file by typing that filename's first character -- DISABLED FOR NOW
-;(require 'dired-view)
-;(add-hook 'dired-mode-hook 'dired-view-minor-mode-on) ; enable by default
-;; (add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-toggle)))
-;; (add-hook 'dired-mode-hook '(lambda () (define-key dired-mode-map (kbd ":") 'dired-view-minor-mode-dired-toggle)))
+(require 'openwith)
+(openwith-mode t)
 
-;; Enable toggling of uninteresting files.
-(setq dired-omit-files-p t)
-(setq dired-omit-files "^\\.?#\\|^\\.svn$\\|^\\.$")
+(setq my-video-types '(".asf" ".avi" ".flv"
+                       ".m4a" ".mkv" ".mov"
+                       ".mp4" ".mpeg" ".mpg"
+                       ".ogv" ".wmv"))
+(setq my-video-types-regexp (regexp-opt my-video-types))
+
+(setq openwith-associations
+      (let ((video-types (concat my-video-types-regexp "\\'")))
+        `((,video-types "mplayer" ("-idx" file))
+          ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
+          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+          ;; ("\\.mp3\\'" "mplayer" (file))
+          ;; ("\\.pdf\\'" "evince" (file))
+          )))
+
+;; Toggle showing dot-files using "."
+
+;;; FIXME: some weird warning when compiling this
+(define-minor-mode dired-hide-dotfiles-mode
+  :lighter " Hide"
+  :init-value nil
+  (if (not (eq major-mode 'dired-mode))
+      (progn 
+	(error "Doesn't seem to be a Dired buffer")
+	(setq dired-hide-dotfiles-mode nil))
+    (if dired-hide-dotfiles-mode
+	(setq dired-actual-switches "-lh")
+      (setq dired-actual-switches "-lAh"))
+    (revert-buffer)))
+
+(define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
+
+(add-hook 'dired-mode-hook
+	  (lambda ()
+	    (dired-hide-dotfiles-mode 1)))
 
 (provide 'my-dired)
 

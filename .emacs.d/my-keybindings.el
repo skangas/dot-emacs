@@ -90,8 +90,8 @@ interactively with no active region, copy a single line instead."
   (interactive)
   (condition-case nil (scroll-up)
     (end-of-buffer (goto-char (point-max)))))
-(global-set-key [next] 'my-scroll-down)
-(global-set-key [prior] 'my-scroll-up)
+(global-set-key [next] 'my-scroll-up)
+(global-set-key [prior] 'my-scroll-down)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-switch-to-gnus (&optional arg)
