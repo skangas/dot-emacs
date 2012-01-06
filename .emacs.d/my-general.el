@@ -25,7 +25,6 @@
 ;; (global-visual-line-mode 1)                          ; Wrap sanely
 ;; FIXME: add visual line mode to all modes where it makes sense
 
-
 (setq user-full-name "Stefan Kangas")
 
 (setq frame-title-format '((buffer-file-name "%f" "%b")
@@ -259,25 +258,6 @@
 
 ;; time-stamp
 (add-hook 'before-save-hook 'time-stamp)
-
-;; openwith
-
-;; (require 'openwith)
-
-;; (setq openwith-confirm-invocation nil)
-
-;; (defvar my-video-types)
-;; (setq my-video-types-regexp (regexp-opt '(".mpg" ".mpeg" ".avi" ".ogv" ".wmv" ".asf" ".flv" ".mov" ".mkv" ".m4a" ".mp4")))
-
-;; (setq openwith-associations
-;;       (let ((video-types (concat my-video-types-regexp "\\'")))
-;;         `((,video-types "mplayer" ("-idx" file))
-;;           ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
-;;           ("\\.mp3\\'" "mplayer" (file))
-;;           ("\\.pdf\\'" "evince" (file)))))
-;;           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
-
-;;; nisse
 
 (setq lazy-highlight-initial-delay 0.1)
 
