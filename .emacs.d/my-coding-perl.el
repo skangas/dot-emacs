@@ -1,32 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PERL
 
-;; (defun flymake-perl-init (buffer)
-;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;;                      buffer 'flymake-create-temp-inplace))
-;;          (local-file  (concat (flymake-build-relative-filename
-;;                                (file-name-directory
-;;                                 (buffer-file-name
-;;                                  (current-buffer)))
-;;                                (file-name-directory temp-file))
-;;                               (file-name-nondirectory temp-file))))
-;;     (list "perl" (list "-wc " local-file))))
-
-;; ;; (setq flymake-allowed-file-name-masks
-;; ;;       (cons '(".+\\.pl$"
-;; ;;               flymake-perl-init
-;; ;;               flymake-simple-cleanup
-;; ;;               flymake-get-real-file-name)
-;; ;;             flymake-allowed-file-name-masks))
-;; (set (make-local-variable flymake-err-line-patterns)
-;;      (cons '("\\(.*\\) at \\([^ \n]+\\) line \\([0-9]+\\)[,.\n]"
-;;              2 3 nil 1)
-;;            flymake-err-line-patterns))
-
 ;; use cperl-mode instead of perl-mode
 (defalias 'perl-mode 'cperl-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; go to the correct file when using ffap on a perl module
 (eval-after-load "ffap" '(require 'ffap-perl-module))
@@ -38,8 +14,6 @@
 ;; yaml-mode
 (autoload 'yaml-mode "yaml-mode" "YAML Mode." t)
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
-
-;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -88,9 +62,10 @@
   (abbrev-mode 1)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; flymake
-
   ;; outline-minor-mode
+
+  ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
+
   (outline-minor-mode)
 
   (defun cperl-outline-level ()
@@ -122,7 +97,7 @@
          "\\)"                          ; end capture group \1
          "\\b"                          ; Word boundary
          ))
-  ;; (flymake-mode)
+
   (setq cperl-outline-regexp  my-cperl-outline-regexp)
   (setq outline-regexp        cperl-outline-regexp)
   (setq outline-level        'cperl-outline-level))

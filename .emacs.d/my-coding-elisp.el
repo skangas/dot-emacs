@@ -1,6 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; emacs-lisp-mode
-
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
 

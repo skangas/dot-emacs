@@ -21,9 +21,6 @@
 
 (require 'warnings) ;; work-around until Emacs > 23.2 is released
 
-;; (require 'mentor) ;; fix me, autoload instead
-(require 'sunrise-commander)
-
 ;; ;; Require my configuration files
 (require 'my-color-theme)
 
@@ -47,17 +44,21 @@
 (require 'my-coding)
 (require 'my-cedet)
 (require 'my-coding-c)
-(require 'my-coding-cpp)
 ;; (require 'my-coding-common-lisp)
+(require 'my-coding-cpp)
 (require 'my-coding-elisp)
 ;; (require 'my-coding-haskell)
 (require 'my-coding-html-css)
 (require 'my-coding-java)
 (require 'my-coding-perl)
+(require 'my-coding-php)
 (require 'my-coding-scheme)
-;; (require 'my-coding-php)
 
 (require 'my-desktop)
+
+;; Various packages
+;; (require 'mentor) ;; fix me, autoload instead
+(require 'sunrise-commander)
 
 (require 'my-z-end)
 

@@ -1,6 +1,5 @@
 ;;(require 'org-install)
 
-;;(add-to-list 'load-path "/usr/share/emacs/23.1/site-lisp/org-mode/")
 (require 'org-protocol)
 (require 'org-exp-blocks)
 

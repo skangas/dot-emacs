@@ -29,19 +29,6 @@
               (use-local-map (copy-keymap (current-local-map))))
             (local-set-key (kbd "C-x k") 'server-edit)))
 
-;; ;; close emacsclient with C-c q
-;; (defun my-exit-emacs-client ()
-;;   "consistent exit emacsclient.
-;;    if not in emacs client, echo a message in minibuffer, don't exit emacs.
-;;    if in server mode
-;;       and editing file, do C-x # server-edit
-;;       else do C-x 5 0 delete-frame"
-;;   (interactive)
-;;   (if server-buffer-clients
-;;       (server-edit)
-;;     (delete-frame)))
-;; (global-set-key (kbd "C-c q") 'my-exit-emacs-client)
-
 (provide 'my-emacs-server)
 
 ;; my-emacs-server.el ends here

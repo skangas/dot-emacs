@@ -1,6 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; tramp
-
 (eval-after-load "tramp"
   '(progn
      (setq tramp-default-method "ssh")
