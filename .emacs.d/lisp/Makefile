@@ -53,7 +53,7 @@ haskell-ghci.el:
 iimage.el:
 	curl -O http://www.netlaputa.ne.jp/~kose/Emacs/lisp/iimage.el
 openwith.el:
-	curl -O http://stud4.tuwien.ac.at/~e0225855/misc/openwith.el
+	curl -O http://web.student.tuwien.ac.at/~e0225855/misc/openwith.el
 paredit.el:
 	curl -O http://mumble.net/~campbell/emacs/paredit.el
 rcirc-late-fix.el:
