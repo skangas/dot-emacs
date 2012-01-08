@@ -15,7 +15,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/jdee-2.4.0.1/lisp/"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal/mentor/"))
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/skangas-detached-worktree/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
@@ -57,7 +56,8 @@
 (require 'my-desktop)
 
 ;; Various packages
-;; (require 'mentor) ;; fix me, autoload instead
+(autoload 'mentor "mentor" "mentor" t)
+
 (require 'sunrise-commander)
 
 (require 'my-z-end)
