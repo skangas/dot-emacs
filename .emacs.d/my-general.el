@@ -96,6 +96,9 @@
 (ido-mode t)
 (ido-everywhere 1)
 
+;; Avoid [Too Big] messages
+(setq ido-max-directory-size 100000)
+
 ;; display matches vertically
 (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
       ido-enable-flex-matching t

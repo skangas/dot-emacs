@@ -9,6 +9,7 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'bbdb)
 (global-set-key (kbd "C-c l") 'org-store-link)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
 (global-set-key (kbd "C-c S")    
@@ -20,6 +21,20 @@
                   (interactive)
                   (sr-speedbar-toggle)
                   (sr-speedbar-select-window)))
+
+;; Translate using tyda.nu
+
+(defun my-translate-using-tyda (&optional arg)
+  (interactive "P")
+  (let* ((ord (thing-at-point 'word))
+         (url (concat "http://tyda.se/search?form=1&w=" ord)))
+    (if ord
+        (browse-url-generic url (if arg
+                                    (not browse-url-new-window-flag)
+                                  browse-url-new-window-flag))
+      (error "No word at point"))))
+
+(global-set-key (kbd "C-c t") 'my-translate-using-tyda)
 
 ;; OK, Steve Yegge, I'll give it a try
 (global-set-key "\C-w" 'backward-kill-word)
