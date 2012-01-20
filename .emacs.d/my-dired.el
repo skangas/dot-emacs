@@ -5,7 +5,7 @@
 (setq dired-listing-switches "-lAh")
 
 ;; Search filenames only
-(define-key dired-mode-map (kbd "C-s") 'dired-isearch-filenames)
+(setq dired-isearch-filenames 'dwim)
 
 ;; openwith.el -- open files using external helpers
 
@@ -29,8 +29,8 @@
 
 ;; Toggle showing dot-files using "."
 
-;;; FIXME: some weird warning when compiling this
 (define-minor-mode dired-hide-dotfiles-mode
+  ""
   :lighter " Hide"
   :init-value nil
   (if (not (eq major-mode 'dired-mode))
