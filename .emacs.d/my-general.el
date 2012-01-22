@@ -61,7 +61,9 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Used only by certain modes.
+(setq sentence-end "\\.  ?")
+
 ;; Backup files
 (setq version-control t         ; use versioned backups
       kept-old-versions 255
@@ -92,6 +94,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ido-mode
+
 (require 'ido)
 (ido-mode t)
 (ido-everywhere 1)
@@ -270,6 +273,8 @@
     '(diminish 'abbrev-mode "Ab"))
   (eval-after-load "company"
     '(diminish 'company-mode "Cmp"))
+  (eval-after-load "paredit"
+    '(diminish 'paredit-mode "ParEd"))
   (eval-after-load "yasnippet"
     '(diminish 'yas/minor-mode "Y")))
 

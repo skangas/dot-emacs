@@ -5,8 +5,8 @@
 
 (eval-after-load "org"
   '(progn
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;; org-mode hooks
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; org-mode hooks
      (defun my-org-mode-hook-defun ()
        ;; make sure cua-mode is disabled
        (cua-mode -1)
@@ -15,14 +15,8 @@
        ;; (unless (string-equal (buffer-name) "secrets.org.gpg")
        ;;   (flyspell-mode 1))
 
-
        ;; Use IDO for target completion
        (setq org-completion-use-ido t)
-
-       ;; Use IDO only for buffers
-       ;; set ido-mode to buffer and ido-everywhere to t via the customize interface
-       ;; '(ido-mode (quote both) nil (ido))
-       ;; '(ido-everywhere t)
 
        ;; read-only if this is my password file
        (when (string-equal (buffer-name) "secrets.org.gpg")
@@ -30,30 +24,8 @@
 
      (add-hook 'org-mode-hook 'my-org-mode-hook-defun)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; remember.el
-     (org-remember-insinuate)
-     (setq org-directory "~/org/")
-     (setq org-default-notes-file (concat org-directory "/notes.org"))
-
-     ;; remember templates
-     (setq org-remember-templates
-           `(("Todo" ?t "* TODO %?
-  %U
-  %i
-  %a" "~/org/gtd.org" "Inkorg")
-             ("Journal" ?j "* %U %?\n\n  %i\n  %a" "~/org/journal.org")
-             ("Idea" ?i "* %^{Title}\n  %i\n  %a" "~/org/journal.org" "Idéer")
-             ("Event" ?e ,(concat "* %^{Title}\n%i\n%a\n"
-                                  "\n:PROPERTIES:\n:created: %U\n:END:")
-              "~/org/gtd.org" "Möten och aktiviteter")
-             ;; default for org-protocol://remember://
-             (?w ,(concat "* %c\n\n%i\n\n"
-                          ":PROPERTIES:\n:created: %u\n:END:" "%^{content_tags}p")
-                 "~/org/notes/bookmarks.org" "Bookmarks")))
-     
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; various options 
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; options
 
      ;; Sanitize C-a, C-e, C-k for org-mode
      (setq org-special-ctrl-a/e t)
@@ -72,77 +44,145 @@
      ;; Return activates link
      (setq org-return-follows-link t)
 
-     ;; http://orgmode.org/manual/Clean-view.html#Clean-view
-
-     ;; Only use odd levels
-     (setq org-odd-levels-only nil)
-
      ;; My todo levels
-     (setq org-todo-keywords '((sequence "MAYBE(m)" "TODO(t)" "STARTED(s)" "APPT(a)" "|" "DONE(d)" "CANCELED(c)" "(f)DEFERRED")))
+     (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)" "CANCELED(c)")
+                               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE")))
 
-     ;; agenda
-     (setq org-agenda-files (list "~/org/gtd.org"))
+     (setq org-todo-state-tags-triggers
+           (quote (("CANCELLED" ("CANCELLED" . t))
+                   ("WAITING" ("WAITING" . t))
+                   ("HOLD" ("WAITING" . t) ("HOLD" . t))
+                   (done ("WAITING") ("HOLD"))
+                   ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+                   ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+                   ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;;; refiling
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; remember.el
+
+     (org-remember-insinuate)
+
+     (setq org-directory "~/org/")
      
-     ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+     (setq org-default-notes-file (concat org-directory "notes.org"))
+
+     ;; Targets include current file and any file contributing to the agenda - up to 5 levels deep
      (setq org-refile-targets '((org-agenda-files :maxlevel . 5)
                                 ("maybe.org" :maxlevel . 5)
                                 (nil :maxlevel . 5)))
 
-     ;; Targets start with the file name - allows creating level 1 tasks
-     (setq org-refile-use-outline-path 'file)
+     (setq org-remember-templates
+           `(("Todo" ?t "* TODO %?\n%U" "~/org/gtd.org" "Inkorg")
+             ("Note" ?n "* %?\n%U" "~/org/gtd.org" "Inkorg")             
+             ("Todo+länk" ?l "* TODO %?\n%U\n%i\n%a" "~/org/gtd.org" "Inkorg")
+             ("Event" ?e ,(concat "* %^{Title}\n%i\n%a\n"
+                                  "\n:PROPERTIES:\n:created: %U\n:END:")
+              "~/org/gtd.org" "Möten och aktiviteter")
+             ;; default for org-protocol://remember://
+             (?w ,(concat "* %c\n\n%i\n\n"
+                          ":PROPERTIES:\n:created: %u\n:END:" "%^{content_tags}p")
+                 "~/org/notes/bookmarks.org" "Bookmarks")))
 
-     ;; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
-     (setq org-outline-path-complete-in-steps t)
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; refile
+
+     ;; Provide refile targets as paths
+     (setq org-refile-use-outline-path t)
+
+     ;; Complete the outline path in hierarchical steps
+     (setq org-outline-path-complete-in-steps nil)
 
      ;; Allow refile to create parent tasks with confirmation
      (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;;; agenda
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; agenda
+
+     (setq org-agenda-files (list "~/org/gtd.org"))
+     
      (setq org-agenda-dim-blocked-tasks t)
 
      (setq org-agenda-custom-commands
-           (quote (("w" "Tasks waiting on something" tags "WAITING/!"
-                    ((org-use-tag-inheritance nil)
-                     (org-agenda-todo-ignore-scheduled nil)
-                     (org-agenda-todo-ignore-deadlines nil)
-                     (org-agenda-todo-ignore-with-date nil)
-                     (org-agenda-overriding-header "Waiting Tasks")))
-                   ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-                    ((org-agenda-todo-ignore-with-date nil)
-                     (org-agenda-todo-ignore-deadlines nil)
-                     (org-agenda-todo-ignore-scheduled nil)
-                     (org-agenda-overriding-header "Tasks to Refile")))
-                   ("N" "Notes" tags "NOTE"
-                    ((org-agenda-overriding-header "Notes")))
-                   ("n" "Next" tags-todo "-WAITING-CANCELLED/!NEXT"
-                    ((org-agenda-overriding-header "Next Tasks")))
-                   ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED-WAITING-SOMEDAY"
-                    ((org-agenda-skip-function 'bh/skip-non-projects)
-                     (org-agenda-overriding-header "Projects")))
-                   ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED-WAITING-SOMEDAY"
-                    ((org-agenda-skip-function 'bh/skip-projects)
-                     (org-agenda-overriding-header "Other Non-Project Tasks")))
-                   ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
-                    ((org-agenda-overriding-header "Tasks to  Archive")))
-                   ("h" "Habits" tags-todo "STYLE=\"habit\""
-                    ((org-agenda-todo-ignore-with-date nil)
-                     (org-agenda-todo-ignore-scheduled nil)
-                     (org-agenda-todo-ignore-deadlines nil)
-                     (org-agenda-overriding-header "Habits")))
-                   ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
-                    ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                     (org-agenda-overriding-header "Stuck Projects")))
-                   ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-                    ((org-agenda-skip-function
-                      '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                     (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+           (quote (("N" "Notes" tags "NOTE"
+                    ((org-agenda-overriding-header "Notes")
+                     (org-tags-match-list-sublevels t)))
+                   (" " "Agenda"
+                    ((agenda "" nil)
+                     (tags "REFILE"
+                           ((org-agenda-overriding-header "Tasks to Refile")
+                            (org-tags-match-list-sublevels nil)))
+                     (tags-todo "-CANCELLED/!"
+                                ((org-agenda-overriding-header "Stuck Projects")
+                                 (org-tags-match-list-sublevels 'indented)
+                                 (org-agenda-skip-function 'bh/skip-non-stuck-projects)))
+                     (tags-todo "-WAITING-CANCELLED/!NEXT"
+                                ((org-agenda-overriding-header "Next Tasks")
+                                 (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                                 (org-agenda-todo-ignore-scheduled t)
+                                 (org-agenda-todo-ignore-deadlines t)
+                                 (org-tags-match-list-sublevels t)
+                                 (org-agenda-sorting-strategy
+                                  '(todo-state-down effort-up category-keep))))
+                     (tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
+                                ((org-agenda-overriding-header "Tasks")
+                                 (org-agenda-skip-function 'bh/skip-project-tasks-maybe)
+                                 (org-agenda-todo-ignore-scheduled t)
+                                 (org-agenda-todo-ignore-deadlines t)
+                                 (org-agenda-sorting-strategy
+                                  '(category-keep))))
+                     (tags-todo "-CANCELLED/!"
+                                ((org-agenda-overriding-header "Projects")
+                                 (org-agenda-skip-function 'bh/skip-non-projects)
+                                 (org-agenda-todo-ignore-scheduled 'future)
+                                 (org-agenda-todo-ignore-deadlines 'future)
+                                 (org-agenda-sorting-strategy
+                                  '(category-keep))))
+                     (tags-todo "-CANCELLED/!WAITING|HOLD"
+                                ((org-agenda-overriding-header "Waiting and Postponed Tasks")
+                                 (org-agenda-skip-function 'bh/skip-projects-and-habits)
+                                 (org-agenda-todo-ignore-scheduled t)
+                                 (org-agenda-todo-ignore-deadlines t)))
+                     (tags "-REFILE/"
+                           ((org-agenda-overriding-header "Tasks to Archive")
+                            (org-agenda-skip-function 'bh/skip-non-archivable-tasks))))
+                    nil)
+                   ("r" "Tasks to Refile" tags "REFILE"
+                    ((org-agenda-overriding-header "Tasks to Refile")
+                     (org-tags-match-list-sublevels nil)))
+                   ("#" "Stuck Projects" tags-todo "-CANCELLED/!"
+                    ((org-agenda-overriding-header "Stuck Projects")
+                     (org-agenda-skip-function 'bh/skip-non-stuck-projects)))
+                   ("n" "Next Tasks" tags-todo "-WAITING-CANCELLED/!NEXT"
+                    ((org-agenda-overriding-header "Next Tasks")
+                     (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                     (org-agenda-todo-ignore-scheduled t)
+                     (org-agenda-todo-ignore-deadlines t)
+                     (org-tags-match-list-sublevels t)
+                     (org-agenda-sorting-strategy
+                      '(todo-state-down effort-up category-keep))))
+                   ("R" "Tasks" tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
+                    ((org-agenda-overriding-header "Tasks")
+                     (org-agenda-skip-function 'bh/skip-project-tasks-maybe)
+                     (org-agenda-sorting-strategy
+                      '(category-keep))))
+                   ("p" "Projects" tags-todo "-CANCELLED/!"
+                    ((org-agenda-overriding-header "Projects")
+                     (org-agenda-skip-function 'bh/skip-non-projects)
+                     (org-agenda-todo-ignore-scheduled 'future)
+                     (org-agenda-todo-ignore-deadlines 'future)
+                     (org-agenda-sorting-strategy
+                      '(category-keep))))
+                   ("w" "Waiting Tasks" tags-todo "-CANCELLED/!WAITING|HOLD"
+                    ((org-agenda-overriding-header "Waiting and Postponed tasks"))
+                    (org-agenda-skip-function 'bh/skip-projects-and-habits)
+                    (org-agenda-todo-ignore-scheduled 'future)
+                    (org-agenda-todo-ignore-deadlines 'future))
+                   ("A" "Tasks to Archive" tags "-REFILE/"
+                    ((org-agenda-overriding-header "Tasks to Archive")
+                     (org-agenda-skip-function 'bh/skip-non-archivable-tasks))))))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;;; babel
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; babel
 
      ;; languages to load
      (setq org-babel-load-languages '((emacs-lisp . t)
@@ -157,8 +197,8 @@
      (add-to-list 'org-export-latex-packages-alist '("" "listings"))
      (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;;; iimage -- display images in your org-mode-file
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; iimage -- display images in your org-mode-file
      (require 'iimage)
      (add-to-list 'iimage-mode-image-regex-alist
                   (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex
@@ -171,33 +211,9 @@
          (set-face-underline-p 'org-link t))
        (iimage-mode))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;;; publish -- skangas.se. WIP
-     (setq org-publish-project-alist
-           '(("www"
-              :author Stefan Kangas
-              :email skangas@skangas.se
-              :base-directory "~/org/www/"
-              :publishing-directory "~/org/www/html"
-
-              :auto-postamble nil
-              :section-numbers nil
-              :special-strings t
-              :table-of-contents nil
-
-              ;; ("misc"
-              ;;  :base-directory "~/misc/"
-              ;;  :base-extension (regexp-opt '("asc" "css"))
-              ;;  :publishing-directory "~/org/www/html"
-              ;;  :publishing-function org-publish-attachment)))))
-
-              :style "<link rel=\"stylesheet\"
-                     href=\"style.css\"
-                     type=\"text/css\"/>")))
-     
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;;;; Org ad hoc code, quick hacks and workarounds
-     ;;;; http://orgmode.org/worg/org-hacks.html
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; Org ad hoc code, quick hacks and workarounds
+     ;; ;; http://orgmode.org/worg/org-hacks.html
      
      ;; Fix a problem with saveplace.el putting you back in a folded position.
      (add-hook 'org-mode-hook
