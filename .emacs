@@ -2,11 +2,12 @@
 ;; ~skangas/.emacs
 ;;
 
-;; Let's put this here, in case we need it. Has to be a require.
-(require 'cl)
 (defvar *emacs-load-start* (current-time))
 
-;; Enter the debugger when an error is found
+;; Get this over with. Has to be a require.
+(require 'cl)
+
+;; Do not enter the debugger when an error is found...
 (setq debug-on-error nil)
 
 ;; Add local elisp directories
@@ -15,12 +16,11 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/jdee-2.4.0.1/lisp/"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
-;(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/skangas-detached-worktree/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 (require 'warnings) ;; work-around until Emacs > 23.2 is released
 
-;; ;; Require my configuration files
+;; Require my configuration files
 (require 'my-color-theme)
 
 (require 'my-general)
@@ -56,9 +56,9 @@
 (require 'my-desktop)
 
 ;; Various packages
+(autoload 'boxquote "boxquote" "boxquote" t)
 (autoload 'mentor "mentor" "mentor" t)
-
-(require 'sunrise-commander)
+(autoload 'sunrise "sunrise-commander" "sunrise-commander" t)
 
 (require 'my-z-end)
 
@@ -79,6 +79,3 @@
 ;; Time .emacs load time
 (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
-
-;; only for certain modes
-(setq sentence-end "\\.  ?")
