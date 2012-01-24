@@ -7,7 +7,6 @@
  '(mairix-file-path "~/Maildir/")
  '(mairix-mail-program (quote gnus))
  '(mairix-search-file "mairix_search")
- '(org-agenda-files (quote ("~/org/gtd.org" "~/org/skola.org")))
  '(org-enforce-todo-dependencies t)
  '(safe-local-variable-values (quote ((truncate-partial-width-windows . t) (epa-file-cache-passphrase-for-symmetric-encryption . t)))))
 
