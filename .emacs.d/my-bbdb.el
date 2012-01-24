@@ -10,7 +10,9 @@
 
 (eval-after-load "bbdb"
   '(progn
-     (setq bbdb-offer-save 1                        ;; 1 is save without asking
+     (setq bbdb-send-mail-style 'gnus               ;; Use gnus for sending email
+
+           bbdb-offer-save 1                        ;; 1 is save without asking
 
            bbdb-use-pop-up t                        ;; allow popups for addresses
            bbdb-electric-p t                        ;; be disposable with SPC

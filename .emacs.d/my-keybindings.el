@@ -102,31 +102,24 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key [(control f3)] 'w3m-goto-url-new-session)
-(global-set-key [f5] 'my-switch-to-gnus)
-(global-set-key [f6] 'mentor)
-(global-set-key [f7] 'my-emms-browser)
-(global-set-key [f8] 'w3m)
-(global-set-key [f12] 'compile)
-
+(global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
+(global-set-key (kbd "<f5>") 'my-switch-to-gnus)
+(global-set-key (kbd "<f6>") 'mentor)
+;; (global-set-key (kbd "<f9> ") 'my-emms-browser)
+(global-set-key (kbd "<f8>") 'w3m)
+(global-set-key (kbd "<f11>") 'compile)
 (global-set-key (kbd "<C-tab>") 'hippie-expand)
-
 (global-set-key (kbd "C-M-r") 'org-remember)
-
-(global-set-key (kbd "C-c C-a") 'org-agenda)
 (global-set-key (kbd "C-c C-b") 'org-iswitchb)
-
 (global-set-key (kbd "C-c S") 'my-use-swedish-dictionary)
-
+(global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'bbdb)
 (global-set-key (kbd "C-c e") 'my-eval-and-replace)
 (global-set-key (kbd "C-c l") 'org-store-link)
-
+(global-set-key (kbd "C-c r") 'org-remember)
 (global-set-key (kbd "C-c t") 'my-translate-using-tyda)
-
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
-
 ;; OK, Steve Yegge, I'll give it a try
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
