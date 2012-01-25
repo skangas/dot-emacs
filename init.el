@@ -18,6 +18,12 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
+(let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
+      (in-place) "~/.emacs.d/lisp/geier/elisp/geiser.el")
+  (if (file-exists-p byte-compiled)
+     (load byte-compiled)
+   (load-file in-place)))
+
 (require 'warnings) ;; work-around until Emacs > 23.2 is released
 
 ;; Require my configuration files
