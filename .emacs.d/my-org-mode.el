@@ -3,6 +3,8 @@
 (require 'org-protocol)
 (require 'org-exp-blocks)
 
+
+
 (eval-after-load "org"
   '(progn
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
@@ -31,6 +33,9 @@
          (setq buffer-read-only t)))
 
      (add-hook 'org-mode-hook 'my-org-mode-hook-defun)
+
+     ;; Save all org-mode buffers every hour
+     (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; options
