@@ -13,9 +13,10 @@
 (openwith-mode t)
 
 (setq my-video-types '(".asf" ".avi" ".f4v"
-                       ".flv" ".m4a" ".mkv"
-                       ".mov" ".mp4" ".mpeg"
-                       ".mpg" ".ogv" ".wmv"))
+                       ".flv" ".m4a" ".m4v"
+                       ".mkv" ".mov" ".mp4"
+                       ".mpeg" ".mpg" ".ogv"
+                       ".wmv"))
 (setq my-video-types-regexp (regexp-opt my-video-types))
 
 (setq openwith-associations
