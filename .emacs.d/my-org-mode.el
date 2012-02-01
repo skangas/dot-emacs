@@ -70,6 +70,7 @@
                                  ("@skola" . ?s)
                                  ("@hemma" . ?h)
                                  (:endgroup)
+                                 ("SKOLA" . ?S)
                                  ("TELEFON" . ?p)
                                  ("REFILE" . ?r)
                                  ("WAITING" . ?w)
