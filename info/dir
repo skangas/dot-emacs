@@ -6,5 +6,6 @@ File: dir	Node: Top	This is the top of the INFO tree
 * SICP: (sicp). Structure and Interpretation of Computer Programs
 * EMMS: (emms). Emacs Multimedia System.
 * Diceware Passphrase: (diceware). Diceware alternative Beale list.
+* Org Mode: (org). Outline-based notes management and organizer.
 
 ---- User's `dir' ends here ----
