@@ -71,6 +71,7 @@
                                  ("@hemma" . ?h)
                                  (:endgroup)
                                  ("SKOLA" . ?S)
+                                 ("AVANTI" . ?a)
                                  ("TELEFON" . ?p)
                                  ("REFILE" . ?r)
                                  ("WAITING" . ?w)
