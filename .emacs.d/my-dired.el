@@ -1,17 +1,15 @@
 ;; Load Dired-x when Dired is loaded to enable some extra commands.
 (add-hook 'dired-load-hook '(lambda () (require 'dired-x)))
 
-;;; Use human sizes
+;; Use human sizes
 (setq dired-listing-switches "-lAh")
 
 ;; Search filenames only
 (setq dired-isearch-filenames 'dwim)
 
-;; openwith.el -- open files using external helpers
-
+;;; openwith.el -- open files using external helpers
 (require 'openwith)
 (openwith-mode t)
-
 (setq my-video-types '(".asf" ".avi" ".f4v"
                        ".flv" ".m4a" ".m4v"
                        ".mkv" ".mov" ".mp4"
@@ -28,8 +26,7 @@
           ;; ("\\.pdf\\'" "evince" (file))
           )))
 
-;; Toggle showing dot-files using "."
-
+;;; Toggle showing dot-files using "."
 (define-minor-mode dired-hide-dotfiles-mode
   ""
   :lighter " Hide"
