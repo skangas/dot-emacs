@@ -7,6 +7,12 @@
 
 (add-hook 'scheme-mode-hook 'my-scheme-mode-customizations t)
 
+;; Geiser
+(eval-after-load "geiser"
+  '(progn
+     (setq geiser-default-implementation 'guile)
+     (setq geiser-active-implementations '(guile))))
+
 (provide 'my-coding-scheme)
 
 ;; my-coding-scheme.el ends here

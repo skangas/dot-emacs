@@ -18,12 +18,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
-(let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
-      (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))
-  (if (file-exists-p byte-compiled)
-     (load byte-compiled)
-   (load-file in-place)))
-
 (require 'warnings) ;; work-around until Emacs > 23.2 is released
 
 ;; Require my configuration files
@@ -65,6 +59,12 @@
 (autoload 'boxquote "boxquote" "boxquote" t)
 (autoload 'mentor "mentor" "mentor" t)
 (autoload 'sunrise "sunrise-commander" "sunrise-commander" t)
+
+(let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
+      (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))
+  (if (file-exists-p byte-compiled)
+     (load byte-compiled)
+   (load-file in-place)))
 
 (require 'my-z-end)
 

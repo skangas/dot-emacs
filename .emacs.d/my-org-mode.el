@@ -3,8 +3,6 @@
 (require 'org-protocol)
 (require 'org-exp-blocks)
 
-
-
 (eval-after-load "org"
   '(progn
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
