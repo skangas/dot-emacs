@@ -70,12 +70,16 @@
                                  (:endgroup)
                                  ("SKOLA" . ?S)
                                  ("AVANTI" . ?a)
+                                 ("FRIPOST" . ?f)
+
                                  ("TELEFON" . ?p)
+
                                  ("REFILE" . ?r)
+
                                  ("WAITING" . ?w)
                                  ("HOLD" . ?h)
                                  ("PERSONAL" . ?P)
-                                 ("WORK" . ?W)
+                                 ;; ("WORK" . ?W)
                                  ("NOTE" . ?n)
                                  ("CANCELLED" . ?c)
                                  ("FLAGGED" . ??))))
