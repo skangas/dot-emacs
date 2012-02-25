@@ -9,7 +9,7 @@
  '(mairix-search-file "mairix_search")
  '(org-enforce-todo-dependencies t)
  '(org-modules (quote (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-w3m)))
- '(safe-local-variable-values (quote ((truncate-partial-width-windows . t) (epa-file-cache-passphrase-for-symmetric-encryption . t)))))
+ '(safe-local-variable-values (quote ((system-time-locale . "sv_SE.UTF-8") (truncate-partial-width-windows . t) (epa-file-cache-passphrase-for-symmetric-encryption . t)))))
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
