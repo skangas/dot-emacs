@@ -67,6 +67,7 @@
                                  ("@ärende" . ?ä)
                                  ("@skola" . ?s)
                                  ("@hemma" . ?h)
+                                 ("@lokalen" . ?l)
                                  (:endgroup)
                                  ("SKOLA" . ?S)
                                  ("AVANTI" . ?a)
