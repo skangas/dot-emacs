@@ -1,6 +1,8 @@
 ;;-*-coding: emacs-mule;-*-
 (define-abbrev-table 'Buffer-menu-mode-abbrev-table '())
 
+(define-abbrev-table 'Custom-mode-abbrev-table '())
+
 (define-abbrev-table 'awk-mode-abbrev-table
   '(
    ))
@@ -15,9 +17,13 @@
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
+(define-abbrev-table 'change-log-mode-abbrev-table '())
+
 (define-abbrev-table 'comint-mode-abbrev-table '())
 
 (define-abbrev-table 'completion-list-mode-abbrev-table '())
+
+(define-abbrev-table 'css-mode-abbrev-table '())
 
 (define-abbrev-table 'diary-fancy-display-mode-abbrev-table '())
 
@@ -27,11 +33,17 @@
 
 (define-abbrev-table 'dig-mode-abbrev-table '())
 
+(define-abbrev-table 'docTeX-mode-abbrev-table '())
+
 (define-abbrev-table 'dsssl-mode-abbrev-table '())
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
 
 (define-abbrev-table 'fundamental-mode-abbrev-table '())
+
+(define-abbrev-table 'geiser-messages-mode-abbrev-table '())
+
+(define-abbrev-table 'geiser-repl-mode-abbrev-table '())
 
 (define-abbrev-table 'global-abbrev-table '())
 
@@ -40,6 +52,8 @@
 (define-abbrev-table 'gnus-sticky-article-mode-abbrev-table '())
 
 (define-abbrev-table 'haskell-mode-abbrev-table '())
+
+(define-abbrev-table 'html-mode-abbrev-table '())
 
 (define-abbrev-table 'idl-mode-abbrev-table '())
 
@@ -52,6 +66,12 @@
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
 (define-abbrev-table 'literate-haskell-mode-abbrev-table '())
+
+(define-abbrev-table 'log-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-log-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'magit-show-branches-mode-abbrev-table '())
 
 (define-abbrev-table 'makefile-automake-mode-abbrev-table '())
 
@@ -75,11 +95,21 @@
 
 (define-abbrev-table 'outline-mode-abbrev-table '())
 
+(define-abbrev-table 'php-mode-abbrev-table
+  '(
+    ("else" "else" c-electric-continued-statement 0)
+    ("while" "while" c-electric-continued-statement 0)
+   ))
+
 (define-abbrev-table 'pike-mode-abbrev-table
   '(
    ))
 
 (define-abbrev-table 'scheme-mode-abbrev-table '())
+
+(define-abbrev-table 'select-tags-table-mode-abbrev-table '())
+
+(define-abbrev-table 'sgml-mode-abbrev-table '())
 
 (define-abbrev-table 'sh-mode-abbrev-table '())
 
@@ -96,7 +126,7 @@
     ("hÅ‰l" "HÅ‰lsningar,
 Stefan Kangas" nil 2)
     ("mkh" "Med kamratliga hÅ‰lsningar,
-Stefan Kangas" nil 1)
+Stefan Kangas" nil 2)
     ("mvh" "Med vÅ‰nliga hÅ‰lsningar,
 Stefan Kangas" nil 2)
     ("sinc" "Sincerely,
