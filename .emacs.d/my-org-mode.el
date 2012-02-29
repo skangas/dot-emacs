@@ -70,16 +70,13 @@
                                  ("@lokalen" . ?l)
                                  (:endgroup)
                                  ("SKOLA" . ?S)
-                                 ("AVANTI" . ?a)
-                                 ("FRIPOST" . ?f)
-
-                                 ("TELEFON" . ?p)
+                                 ("AVANTI" . ?A)
+                                 ("FRIPOST" . ?F)
+                                 ("PERSONAL" . ?P)
 
                                  ("REFILE" . ?r)
-
                                  ("WAITING" . ?w)
                                  ("HOLD" . ?h)
-                                 ("PERSONAL" . ?P)
                                  ;; ("WORK" . ?W)
                                  ("NOTE" . ?n)
                                  ("CANCELLED" . ?c)
