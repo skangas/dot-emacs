@@ -105,11 +105,8 @@
 
      (setq org-remember-templates
            `(("Todo" ?t "* TODO %?\n%U" "~/org/refile.org")
+             ("Länk" ?l "* TODO %?\n%U\n%a\n  %i" "~/org/refile.org")
              ("Note" ?n "* %? :NOTE:\n%U" "~/org/refile.org")             
-             ("Todo+länk" ?l "* TODO %?\n%U\n%a\n  %i" "~/org/refile.org")
-             ("Event" ?e ,(concat "* %^{Title}\n%i\n%a\n"
-                                  "\n:PROPERTIES:\n:created: %U\n:END:")
-              "~/org/gtd.org" "Möten och aktiviteter")
              ;; default for org-protocol://remember://
              (?w ,(concat "* %c\n%U\n%i"
                           "%^{content_tags}p")
