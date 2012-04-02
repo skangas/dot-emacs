@@ -10,6 +10,7 @@
 (setq auto-insert-alist
       '((("\\.h\\(pp\\)?$" "C/C++ Header") . ["c-header-template" my-auto-update-source-file])
         ((cperl-mode . "Perl Program") . ["perl-template"  my-auto-update-source-file])
+        ((org-mode . "Org-mode File") . ["org-mode-template"  my-auto-update-source-file])
         ((shell-mode . "Shell Script") . ["shell-template" my-auto-update-source-file])))
 
 (defun my-auto-update-source-file ()
@@ -31,6 +32,10 @@
     (while (search-forward "YYYY" nil t)
       (save-restriction
 	(narrow-to-region (match-beginning 0) (match-end 0))
-	(replace-match (substring (current-time-string) -4))))))
+	(replace-match (format-time-string "%Y" (current-time)))))))
+
+(insert-today)
+
+(format-time-string "%A, %B %e %Y" (current-time))
 
 (provide 'my-auto-insert-mode)
