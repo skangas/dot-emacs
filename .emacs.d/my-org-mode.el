@@ -100,12 +100,12 @@
        (load-library "reftex")
        (and (buffer-file-name) (file-exists-p (buffer-file-name))
             (progn
-              (setq TeX-master "rapport.tex")
-              (reftex-parse-all)
-              ;;add a custom reftex cite format to insert links
-              (reftex-set-cite-format "[[rtcite:%l][\\cite{%l}]]"))))
-
+              (reftex-parse-all))))
      (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+
+     ;;;; use latexmk to generate pdf (needed for bibtex to work)
+     ;; sudo apt-get install latexmk
+     (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
 
      (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
      (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
@@ -120,20 +120,20 @@
      ;;         "pdflatex -interaction nonstopmode -output-directory %o %f"))
 
      ;; http://www-public.it-sudparis.eu/~berger_o/weblog/2012/03/23/how-to-manage-and-export-bibliographic-notesrefs-in-org-mode/
-     (defun my-rtcite-export-handler (path desc format)
-       (message "my-rtcite-export-handler is called : path = %s, desc = %s, format = %s" path desc format)
-       (let* ((search (when (string-match "::#?\\(.+\\)\\'" path)
-                        (match-string 1 path)))
-              (path (substring path 0 (match-beginning 0))))
-         (cond ((eq format 'latex)
-                (if (or (not desc)
-                        (equal 0 (search "rtcite:" desc)))
-                    (format "\\cite{%s}" search)
-                  (format "\\cite[%s]{%s}" desc search))))))
+     ;; (defun my-rtcite-export-handler (path desc format)
+     ;;   (message "my-rtcite-export-handler is called : path = %s, desc = %s, format = %s" path desc format)
+     ;;   (let* ((search (when (string-match "::#?\\(.+\\)\\'" path)
+     ;;                    (match-string 1 path)))
+     ;;          (path (substring path 0 (match-beginning 0))))
+     ;;     (cond ((eq format 'latex)
+     ;;            (if (or (not desc)
+     ;;                    (equal 0 (search "rtcite:" desc)))
+     ;;                (format "\\cite{%s}" search)
+     ;;              (format "\\cite[%s]{%s}" desc search))))))
 
-     (org-add-link-type "rtcite"
-                        'org-bibtex-open
-                        'my-rtcite-export-handler)
+     ;; (org-add-link-type "rtcite"
+     ;;                    'org-bibtex-open
+     ;;                    'my-rtcite-export-handler)
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; remember.el
