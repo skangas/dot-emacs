@@ -100,9 +100,19 @@
        (load-library "reftex")
        (and (buffer-file-name)
             (file-exists-p (buffer-file-name))
+            (setq TeX-master "rapport.tex")
             (reftex-parse-all))
        (define-key org-mode-map (kbd "C-c )") 'reftex-citation))
      (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+
+     (setq reftex-default-bibliography
+           '("default.bib" "referenser.bib"))
+
+     (setq org-latex-to-pdf-process
+           '("pdflatex -interaction nonstopmode -output-directory %o %f"
+             "bibtex %f"
+             "pdflatex -interaction nonstopmode -output-directory %o %f"
+             "pdflatex -interaction nonstopmode -output-directory %o %f"))
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; remember.el
