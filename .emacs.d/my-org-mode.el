@@ -270,11 +270,14 @@
                                       (haskell . t)
                                       (latex . t)))
 
-     ;; export listings
-     (setq org-export-latex-listings t)
 
      ;; Load necessary packages for latex
      (require 'org-latex)
+
+     ;; export listings
+     (setq org-export-latex-listings t)
+
+     ;; export listings
      (add-to-list 'org-export-latex-packages-alist '("" "listings"))
      (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
