@@ -96,22 +96,22 @@
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; reftex
-     (defun org-mode-reftex-setup ()
-       (load-library "reftex")
-       (and (buffer-file-name) (file-exists-p (buffer-file-name))
-            (progn
-              (reftex-parse-all))))
-     (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+     ;; (defun org-mode-reftex-setup ()
+     ;;   (load-library "reftex")
+     ;;   (and (buffer-file-name) (file-exists-p (buffer-file-name))
+     ;;        (progn
+     ;;          (reftex-parse-all))))
+     ;; (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
-     ;;;; use latexmk to generate pdf (needed for bibtex to work)
-     ;; sudo apt-get install latexmk
-     (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
+     ;; ;;;; use latexmk to generate pdf (needed for bibtex to work)
+     ;; ;; sudo apt-get install latexmk
+     ;; (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
 
-     (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-     (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
+     ;; (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
+     ;; (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
 
-     (setq reftex-default-bibliography
-           '("default.bib" "referenser.bib"))
+     ;; (setq reftex-default-bibliography
+     ;;       '("default.bib" "referenser.bib"))
 
      ;; (setq org-latex-to-pdf-process
      ;;       '("pdflatex -interaction nonstopmode -output-directory %o %f"
