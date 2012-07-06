@@ -212,6 +212,17 @@
 (setq ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
 
+;; Wait for wheezy or install hunspell-sv-se from testing
+;; http://packages.debian.org/wheezy/hunspell-sv-se
+
+;; (eval-after-load "ispell"
+;;     (progn
+;;       (setq ispell-dictionary "swedish"
+;; 	    ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
+;; 	    ispell-silently-savep t)))
+
+;; (setq-default ispell-program-name "hunspell")
+
 ;; center cursor in info-mode
 (when (and (require 'info)
            (require 'centered-cursor-mode))
