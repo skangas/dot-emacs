@@ -59,15 +59,17 @@
      (setq org-return-follows-link t)
 
      ;; My todo levels
-     (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)" "CANCELED(c)")
-                               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE")))
+     (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELED(c)")
+                               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
 
      ;; Tags with fast selection keys
      (setq org-tag-alist (quote ((:startgroup)
                                  ("@ärende" . ?ä)
-                                 ("@skola" . ?s)
                                  ("@hemma" . ?h)
+                                 ("@jobb" . ?j)
                                  ("@lokalen" . ?l)
+                                 ("@skola" . ?s)
+                                 ("@telefon" . ?t)
                                  (:endgroup)
                                  ("SKOLA" . ?S)
                                  ("AVANTI" . ?A)
@@ -500,3 +502,9 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 (provide 'my-org-mode)
 
 ;; my-org-mode.el ends here
+
+
+
+
+
+
