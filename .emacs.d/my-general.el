@@ -55,6 +55,7 @@
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 (setq Man-width 80)                                  ; Limit man to 80 character width
 (setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
+(setq message-send-mail-partially-limit nil)         ; Never split emails
 
 ;; Enable some features
 (put 'narrow-to-region 'disabled nil)
