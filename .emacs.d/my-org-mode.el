@@ -145,8 +145,8 @@
      (setq org-default-notes-file (concat org-directory "notes.org"))
 
      (setq org-remember-templates
-           `(("Todo" ?t "* TODO %?\n%U" "~/org/refile.org")
-             ("Länk" ?l "* TODO %?\n%U\n%a\n  %i" "~/org/refile.org")
+           `(("Todo" ?t "* NEXT %?\n%U" "~/org/refile.org")
+             ("Länk" ?l "* NEXT %?\n%U\n%a\n  %i" "~/org/refile.org")
              ("Note" ?n "* %? :NOTE:\n%U" "~/org/refile.org")             
              ;; default for org-protocol://remember://
              (?w ,(concat "* %c\n%U\n%i"
