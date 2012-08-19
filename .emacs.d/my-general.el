@@ -114,6 +114,16 @@
 
 (add-to-list 'ido-ignore-files ".os$")
 
+;;;; WORKAROUND FOR GNUS BUG
+;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
+
+(add-hook 'ido-before-fallback-functions
+        (lambda (fn)
+            (and (eq fn 'read-file-name)
+                 (> (length ido-text) 0)
+                 (boundp 'initial)
+                 (setq initial nil))))
+
 ;; open recent files using ido
 (require 'recentf)
 (recentf-mode 1)
