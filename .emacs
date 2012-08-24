@@ -7,6 +7,11 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
+;; Hack to get my configuration running at work
+(when (eq system-type 'windows-nt)
+  (when load-file-name
+    (setenv "HOME" (file-name-directory load-file-name))))
+
 ;; Do not enter the debugger when an error is found...
 (setq debug-on-error nil)
 
