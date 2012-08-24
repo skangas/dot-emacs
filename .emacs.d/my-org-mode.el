@@ -8,6 +8,12 @@
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; MobileOrg
+     (setq org-mobile-directory "~/Dropbox/mobileorg")
+     ;(setq org-mobile-files "~/org/todo.org")
+     (load-file "~/.emacs.d/.secrets.el")
+
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; org-mode hooks
      (defun my-org-mode-hook-defun ()
        ;; make sure cua-mode is disabled
