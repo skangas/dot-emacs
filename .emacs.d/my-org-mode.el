@@ -11,7 +11,6 @@
      ;; ;; MobileOrg
      (setq org-mobile-directory "~/Dropbox/mobileorg")
      ;(setq org-mobile-files "~/org/todo.org")
-     (load-file "~/.emacs.d/.secrets.el")
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; org-mode hooks
