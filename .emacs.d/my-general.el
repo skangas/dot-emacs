@@ -22,7 +22,6 @@
 (auto-compression-mode 1)                            ; Automatically read/write compressed files
 (auto-image-file-mode 1)                             ; View images in emacs
 (column-number-mode 1)                               ; Put column number into modeline
-(global-visual-line-mode nil)                        ; Don't use global visual-line-mode
 ;; FIXME: add visual line mode to all modes where it makes sense
 
 (setq user-full-name "Stefan Kangas")
@@ -56,6 +55,7 @@
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 (setq Man-width 80)                                  ; Limit man to 80 character width
 (setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
+(setq message-send-mail-partially-limit nil)         ; Never split emails
 
 ;; Enable some features
 (put 'narrow-to-region 'disabled nil)
@@ -113,6 +113,16 @@
       ido-case-fold t) ; be case-insensitive
 
 (add-to-list 'ido-ignore-files ".os$")
+
+;;;; WORKAROUND FOR GNUS BUG
+;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
+
+(add-hook 'ido-before-fallback-functions
+        (lambda (fn)
+            (and (eq fn 'read-file-name)
+                 (> (length ido-text) 0)
+                 (boundp 'initial)
+                 (setq initial nil))))
 
 ;; open recent files using ido
 (require 'recentf)
