@@ -51,6 +51,10 @@
                                               "stefan.kangas@ungvanster.se"
                                               "kangass@student.chalmers.se")))
 
+     ;; Auto-create outgoing
+     (setq bbdb/send-auto-create-p 'prompt)
+     (setq bbdb/send-prompt-for-create-p t)
+
      ;; from the FAQ -- fixes needing to restart emacs after adding aliases
      (add-hook 'message-setup-hook 'bbdb-define-all-aliases)))
 
