@@ -64,8 +64,6 @@ rcirc-notify.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-notify.el
 sr-speedbar.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/sr-speedbar.el # $
-sunrise-commander.el:
-	curl -O $(EMACSWIKI_DOWNLOAD)/sunrise-commander.el # $
 zenburn-theme.el:
 	curl -O https://github.com/djcb/elisp/raw/master/themes/zenburn-theme.el
 window-numbering.el:

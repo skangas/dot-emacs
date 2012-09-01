@@ -4,8 +4,6 @@
 (require 'ffap)
 (require 'ansi-color)
 
-(require 'sunrise-commander) ; sunrise commander
-
 ;; various stuff 
 (setq message-log-max 1024) ;; do this first
 (setq max-specpdl-size 15600)
