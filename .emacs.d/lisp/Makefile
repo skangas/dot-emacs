@@ -58,6 +58,8 @@ pandoc-mode.el:
 	curl -O http://wwwuser.gwdg.de/~jkremer/pandoc-mode.el
 paredit.el:
 	curl -O http://mumble.net/~campbell/emacs/paredit.el
+php-mode.el:
+	curl -O http://php-mode.svn.sourceforge.net/svnroot/php-mode/tags/php-mode-1.5.0/php-mode.el
 rcirc-late-fix.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-late-fix.el
 rcirc-notify.el:
