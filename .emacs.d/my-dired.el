@@ -4,6 +4,9 @@
 ;; Use human sizes
 (setq dired-listing-switches "-lAh")
 
+;; If non-nil, Dired tries to guess a default target directory.
+(setq dired-dwim-target t)
+
 ;; Search filenames only
 (setq dired-isearch-filenames 'dwim)
 
