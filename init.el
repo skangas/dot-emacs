@@ -7,7 +7,7 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
-;; Hack to get my configuration running at work
+;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
   (when load-file-name
     (setenv "HOME" (file-name-directory load-file-name))))
@@ -23,11 +23,17 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
-(require 'warnings) ;; work-around until Emacs > 23.2 is released
+;; Create necessary directories
+(dolist (dir '("~/.emacs.d/cache"))
+  (unless (file-directory-p dir)
+    (make-directory dir)))
+
+;; work-around until Emacs > 23.2 is released
+(when (< emacs-major-version 24)
+  (require 'warnings))
 
 ;; Require my configuration files
 (require 'my-color-theme)
-
 (require 'my-general)
 (require 'my-emacs-server)
 (require 'my-keybindings)
@@ -41,9 +47,9 @@
 ;; (require 'my-emms)
 (require 'my-org-mode)
 (require 'my-outline)
-(require 'my-rcirc)
+;; (require 'my-rcirc)
 (require 'my-tramp)
-(require 'my-w3m)
+;; (require 'my-w3m)
 
 (require 'my-coding)
 (require 'my-cedet)
@@ -55,7 +61,7 @@
 (require 'my-coding-html-css)
 (require 'my-coding-java)
 (require 'my-coding-perl)
-(require 'my-coding-php)
+;;(require 'my-coding-php)
 (require 'my-coding-scheme)
 
 (require 'my-desktop)
