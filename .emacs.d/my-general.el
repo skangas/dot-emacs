@@ -311,6 +311,11 @@
       (goto-char (point-min))
       (message (format "%d" (count-matches "\\sw+"))))))
 
+;; ediff
+(setq ediff-split-window-function (lambda (&optional arg)
+				    (if (> (frame-width) 150)
+					(split-window-horizontally arg)
+				      (split-window-vertically arg))))
 
 (provide 'my-general)
 
