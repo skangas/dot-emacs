@@ -317,6 +317,10 @@
 					(split-window-horizontally arg)
 				      (split-window-vertically arg))))
 
+(require 'epa-file)
+(epa-file-enable)
+;(setq epa-armor t)
+
 (provide 'my-general)
 
 ;; my-general.el ends here
