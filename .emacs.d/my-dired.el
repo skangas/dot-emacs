@@ -1,3 +1,5 @@
+(require 'dired)
+
 ;; Load Dired-x when Dired is loaded to enable some extra commands.
 (add-hook 'dired-load-hook '(lambda () (require 'dired-x)))
 
@@ -43,11 +45,13 @@
       (setq dired-actual-switches "-lAh"))
     (revert-buffer)))
 
-(define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
+(eval-after-load "dired"
+  '(progn
+     (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
 
-(add-hook 'dired-mode-hook
-	  (lambda ()
-	    (dired-hide-dotfiles-mode 1)))
+     (add-hook 'dired-mode-hook (lambda () (dired-hide-dotfiles-mode 1)))))
+
+
 
 (provide 'my-dired)
 
