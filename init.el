@@ -12,9 +12,6 @@
   (when load-file-name
     (setenv "HOME" (file-name-directory load-file-name))))
 
-;; Do not enter the debugger when an error is found...
-(setq debug-on-error nil)
-
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
@@ -68,7 +65,6 @@
 ;; Various packages
 (autoload 'boxquote "boxquote" "boxquote" t)
 (autoload 'mentor "mentor" "mentor" t)
-(autoload 'sunrise "sunrise-commander" "sunrise-commander" t)
 
 (let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
       (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))
