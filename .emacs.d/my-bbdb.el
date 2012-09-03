@@ -1,12 +1,11 @@
-(require 'bbdb-loaddefs)
-(require 'bbdb)
-
-;; initial configuration
-(when (fboundp 'bbdb-initialize)
-  (bbdb-initialize 'gnus 'message))
+(require 'bbdb-loaddefs nil t)
+(require 'bbdb nil t)
 
 (eval-after-load "bbdb"
   '(progn
+     (when (fboundp 'bbdb-initialize)
+       (bbdb-initialize 'gnus 'message))
+
      (setq bbdb-file "~/.emacs.d/bbdb")
 
      (if (> (string-to-number bbdb-version) 3)
