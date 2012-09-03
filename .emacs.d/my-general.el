@@ -4,8 +4,6 @@
 (require 'ffap)
 (require 'ansi-color)
 
-(require 'sunrise-commander) ; sunrise commander
-
 ;; various stuff 
 (setq message-log-max 1024) ;; do this first
 (setq max-specpdl-size 15600)
@@ -315,6 +313,11 @@
       (goto-char (point-min))
       (message (format "%d" (count-matches "\\sw+"))))))
 
+;; ediff
+(setq ediff-split-window-function (lambda (&optional arg)
+				    (if (> (frame-width) 150)
+					(split-window-horizontally arg)
+				      (split-window-vertically arg))))
 
 (provide 'my-general)
 
