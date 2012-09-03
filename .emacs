@@ -43,7 +43,6 @@
 (require 'my-bbdb)
 (require 'my-buffers)
 (require 'my-dired)
-(require 'my-ediff)
 ;; (require 'my-emms)
 (require 'my-org-mode)
 (require 'my-outline)
@@ -77,8 +76,6 @@
      (load byte-compiled)
    (load-file in-place)))
 
-(require 'my-z-end)
-
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 
 (when (condition-case nil
@@ -93,6 +90,13 @@
 (setq custom-file "~/.emacs.d/my-custom-file.el")
 (load custom-file 'noerror)
 
+;; Show current version (this needs to be last to be on top)
+(defun my-welcome-message ()
+  (insert (concat ";; " (substring (emacs-version) 0 16) "."))
+  (newline-and-indent)  (newline-and-indent))
+(add-hook 'after-init-hook 'my-welcome-message)
+
 ;; Time .emacs load time
 (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+
