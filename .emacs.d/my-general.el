@@ -99,6 +99,8 @@
 (ido-mode t)
 (ido-everywhere 1)
 
+(setq ido-use-filename-at-point 'guess)
+
 ;; Avoid [Too Big] messages
 (setq ido-max-directory-size 100000)
 
