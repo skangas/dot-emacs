@@ -25,7 +25,7 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
-;; work-around until Emacs > 23.2 is released
+;; work-around for Emacs < 23.2
 (when (< emacs-major-version 24)
   (require 'warnings))
 
