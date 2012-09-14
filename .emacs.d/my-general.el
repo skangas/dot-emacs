@@ -1,13 +1,7 @@
 ;;; General settings
 
-(require 'cl)
 (require 'ffap)
 (require 'ansi-color)
-
-;; various stuff 
-(setq message-log-max 1024) ;; do this first
-(setq max-specpdl-size 15600)
-(setq max-lisp-eval-depth 9000)
 
 ;; Change all yes or no prompt to y or n prompts:
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -21,13 +15,7 @@
 (auto-image-file-mode 1)                             ; View images in emacs
 (column-number-mode 1)                               ; Put column number into modeline
 ;; FIXME: add visual line mode to all modes where it makes sense
-
 (setq user-full-name "Stefan Kangas")
-
-(setq frame-title-format '((buffer-file-name "%f" "%b")
-                           " -- %F"
-                           (:eval (format " [%s]" mode-name))))
-
 (global-font-lock-mode t)                            ; Syntax hi-lighting
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; No menu
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; No scrollbar
@@ -50,10 +38,17 @@
 (setq mouse-yank-at-point t)                         ; Yank to cursor, even in X
 (setq fortune-file "~/dokument/quotes")              ; Why do I set this? Nvm, I guess it doesn't hurt...
 ;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
-(when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
+(when window-system (global-unset-key "\C-z"))       ; Disable keyboard iconfying
 (setq Man-width 80)                                  ; Limit man to 80 character width
 (setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
 (setq message-send-mail-partially-limit nil)         ; Never split emails
+(setq lazy-highlight-initial-delay 0.1)              ; Seconds to wait before isearch highlights matches
+
+(setq frame-title-format '((buffer-file-name "%f" "%b")
+                           " -- %F"
+                           (:eval (format " [%s]" mode-name))))
+
+(add-hook 'before-save-hook 'time-stamp)
 
 ;; Enable some features
 (put 'narrow-to-region 'disabled nil)
@@ -79,12 +74,6 @@
                    "*Messages*" "find" bak-dir "-size" "+1M" "-mtime" "+90" "-delete")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IsearchOtherEnd - Search restarts at top of buffer if it hits the bottom
-(add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
-(defun my-goto-match-beginning ()
-  (when isearch-forward (goto-char isearch-other-end)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; midnight-mode - close inactive buffers
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "06:00")
@@ -97,46 +86,27 @@
 (ido-mode t)
 (ido-everywhere 1)
 
-(setq ido-use-filename-at-point 'guess)
-
-;; Avoid [Too Big] messages
-(setq ido-max-directory-size 100000)
-
-;; display matches vertically
-(setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
-      ido-enable-flex-matching t
+(setq ido-enable-flex-matching t
+      ido-use-filename-at-point 'guess
       ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-        ;; ido-ignore-buffers
-      ;; '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-        ;; "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+
       ido-work-directory-list '("~/" "~/org" "~/src")
-      ido-case-fold t) ; be case-insensitive
+      ido-case-fold t                   ; Be case-insensitive
+      ido-max-directory-size 100000     ; Avoid [Too Big] messages
+      ;; display matches vertically
+      ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
+                              " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))) 
 
 (add-to-list 'ido-ignore-files ".os$")
 
 ;;;; WORKAROUND FOR GNUS BUG
 ;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
-
 (add-hook 'ido-before-fallback-functions
         (lambda (fn)
             (and (eq fn 'read-file-name)
                  (> (length ido-text) 0)
                  (boundp 'initial)
                  (setq initial nil))))
-
-;; open recent files using ido
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-saved-items 100
-      recentf-save-file "~/.emacs.d/cache/recentf")
-(defun my-ido-recentf-open ()
-  "Use ido to select a recently opened file from the `recentf-list'"
-  (interactive)
-  (find-file (ido-completing-read "Open file: " recentf-list nil t)))
-
-;; get rid of `find-file-read-only' and replace it with something
-;; more useful.
-(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; window numbering
@@ -195,6 +165,7 @@
 (global-unset-key "\C-x\C-c")
 (global-set-key "\C-x\C-c" 'confirm-exit-emacs)
 
+;; Show paren mode
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
@@ -275,19 +246,6 @@
   ;; Since we killed it, don't let caller do that.
   nil)
 
-;; occur-mode
-
-(defun my-occur-mode-customizations ()
-  (define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
-  (define-key occur-mode-map (kbd "n") 'next-logical-line)
-  (define-key occur-mode-map (kbd "p") 'previous-logical-line))
-(add-hook 'occur-mode-hook 'my-occur-mode-customizations)
-
-;; time-stamp
-(add-hook 'before-save-hook 'time-stamp)
-
-(setq lazy-highlight-initial-delay 0.1)
-
 ;;; abbreviate mode names
 (when (require 'diminish nil 'noerror)
   (eval-after-load "abbrev"
@@ -298,7 +256,6 @@
     '(diminish 'paredit-mode "ParEd"))
   (eval-after-load "yasnippet"
     '(diminish 'yas/minor-mode "Y")))
-
 (add-hook 'emacs-lisp-mode-hook 
   (lambda()
     (setq mode-name "el")))
