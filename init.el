@@ -7,6 +7,11 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
+;; various stuff 
+(setq message-log-max 1024) ;; do this first
+(setq max-specpdl-size 15600)
+(setq max-lisp-eval-depth 9000)
+
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
   (when load-file-name

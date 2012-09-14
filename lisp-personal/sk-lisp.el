@@ -1,3 +1,19 @@
+(defun sk-fix-org-html-export-for-web ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward "^<div id=\"content\">$")
+    (beginning-of-line)
+    (next-logical-line)
+    (delete-region (point) (point-min))
+    (while (re-search-forward "</?div[^>]*>" nil t)
+      (replace-match ""))
+    (while (re-search-forward "\\(</?\\)h2[^>]*>" nil t)
+      (replace-match "\\1h3>"))
+    (re-search-forward "^<p class=\"date\">")
+    (beginning-of-line)
+    (delete-region (point) (point-max))))
+
 (defun sk-replace-in-literal-string (regexp to-string)
   "Search and replace only in literal string"
   (interactive
