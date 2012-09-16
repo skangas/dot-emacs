@@ -7,13 +7,15 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
+;; various stuff 
+(setq message-log-max 1024) ;; do this first
+(setq max-specpdl-size 15600)
+(setq max-lisp-eval-depth 9000)
+
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
   (when load-file-name
     (setenv "HOME" (file-name-directory load-file-name))))
-
-;; Do not enter the debugger when an error is found...
-(setq debug-on-error nil)
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
@@ -28,7 +30,7 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
-;; work-around until Emacs > 23.2 is released
+;; work-around for Emacs < 23.2
 (when (< emacs-major-version 24)
   (require 'warnings))
 
@@ -67,7 +69,6 @@
 ;; Various packages
 (autoload 'boxquote "boxquote" "boxquote" t)
 (autoload 'mentor "mentor" "mentor" t)
-(autoload 'sunrise "sunrise-commander" "sunrise-commander" t)
 
 (let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
       (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))

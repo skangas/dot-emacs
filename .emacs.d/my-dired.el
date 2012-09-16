@@ -1,35 +1,9 @@
 (require 'dired)
+(require 'dired-x) ;; require immediately to provide C-x C-j
 
-;; Load Dired-x when Dired is loaded to enable some extra commands.
-(add-hook 'dired-load-hook '(lambda () (require 'dired-x)))
-
-;; Use human sizes
-(setq dired-listing-switches "-lAh")
-
-;; If non-nil, Dired tries to guess a default target directory.
-(setq dired-dwim-target t)
-
-;; Search filenames only
-(setq dired-isearch-filenames 'dwim)
-
-;;; openwith.el -- open files using external helpers
-(require 'openwith)
-(openwith-mode t)
-(setq my-video-types '(".asf" ".avi" ".f4v"
-                       ".flv" ".m4a" ".m4v"
-                       ".mkv" ".mov" ".mp4"
-                       ".mpeg" ".mpg" ".ogv"
-                       ".wmv"))
-(setq my-video-types-regexp (regexp-opt my-video-types))
-
-(setq openwith-associations
-      (let ((video-types (concat my-video-types-regexp "\\'")))
-        `((,video-types "mplayer" ("-idx" file))
-          ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
-          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
-          ;; ("\\.mp3\\'" "mplayer" (file))
-          ;; ("\\.pdf\\'" "evince" (file))
-          )))
+(setq dired-listing-switches "-lAh"  ;; Use human sizes
+      dired-dwim-target t            ;; Try to guess a default target directory
+      dired-isearch-filenames 'dwim) ;; Search filenames only
 
 ;;; Toggle showing dot-files using "."
 (define-minor-mode dired-hide-dotfiles-mode
@@ -45,13 +19,8 @@
       (setq dired-actual-switches "-lAh"))
     (revert-buffer)))
 
-(eval-after-load "dired"
-  '(progn
-     (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
-
-     (add-hook 'dired-mode-hook (lambda () (dired-hide-dotfiles-mode 1)))))
-
-
+(define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
+(add-hook 'dired-mode-hook (lambda () (dired-hide-dotfiles-mode 1)))
 
 (provide 'my-dired)
 
