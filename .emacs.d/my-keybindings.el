@@ -76,6 +76,7 @@
   (with-current-buffer reb-target-buffer
     (query-replace-regexp (reb-target-binding reb-regexp) to-string)))
 
+;; FIXME: Make this into a toggle...
 (defun my-use-swedish-dictionary ()
   (interactive)
   (ispell-change-dictionary "swedish")
@@ -99,6 +100,23 @@
   (select-frame (make-frame '((name . "EMMS"))))
   (emms-player-mpd-connect)
   (emms-browser))
+
+;; open recent files using ido
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 100
+      recentf-save-file "~/.emacs.d/cache/recentf")
+(defun my-ido-recentf-open ()
+  "Use ido to select a recently opened file from the `recentf-list'"
+  (interactive)
+  (find-file (ido-completing-read "Open file: " recentf-list nil t)))
+
+;; occur-mode
+(defun my-occur-mode-keybinding ()
+  (define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
+  (define-key occur-mode-map (kbd "n") 'next-logical-line)
+  (define-key occur-mode-map (kbd "p") 'previous-logical-line))
+(add-hook 'occur-mode-hook 'my-occur-mode-keybindings)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -124,6 +142,7 @@
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
+(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open) ;; replace `find-file-read-only'
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Page down/up move the point, not the screen.;; (from snarfed.org) This
