@@ -14,6 +14,19 @@
     (beginning-of-line)
     (delete-region (point) (point-max))))
 
+(defun sk-clean-html ()
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (let ((ignored-tags (regexp-opt '("div" "span")))
+            (clean-tags (regexp-opt '("p" "strong" "h1" "h2" "h3"))))
+        (goto-char (point-min))
+        (while (re-search-forward (concat "</?" ignored-tags "[^>]*>") nil t)
+          (replace-match ""))
+        (goto-char (point-min))
+        (while (re-search-forward (concat "<\\(/?" clean-tags "\\)[^>]*>") nil t)
+          (replace-match "<\\1>"))))))
+
 (defun sk-replace-in-literal-string (regexp to-string)
   "Search and replace only in literal string"
   (interactive
