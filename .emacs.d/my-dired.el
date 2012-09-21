@@ -18,6 +18,7 @@
 	(setq dired-actual-switches "-lh")
       (setq dired-actual-switches "-lAh"))
     (revert-buffer)))
+
 (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
 (add-hook 'dired-mode-hook (lambda () (dired-hide-dotfiles-mode 1)))
 
