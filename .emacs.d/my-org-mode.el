@@ -8,6 +8,11 @@
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; MobileOrg
+     (setq org-mobile-directory "~/Dropbox/mobileorg")
+     ;(setq org-mobile-files "~/org/todo.org")
+
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; org-mode hooks
      (defun my-org-mode-hook-defun ()
        ;; make sure cua-mode is disabled
@@ -98,22 +103,22 @@
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; reftex
-     (defun org-mode-reftex-setup ()
-       (load-library "reftex")
-       (and (buffer-file-name) (file-exists-p (buffer-file-name))
-            (progn
-              (reftex-parse-all))))
-     (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+     ;; (defun org-mode-reftex-setup ()
+     ;;   (load-library "reftex")
+     ;;   (and (buffer-file-name) (file-exists-p (buffer-file-name))
+     ;;        (progn
+     ;;          (reftex-parse-all))))
+     ;; (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
-     ;;;; use latexmk to generate pdf (needed for bibtex to work)
-     ;; sudo apt-get install latexmk
-     (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
+     ;; ;;;; use latexmk to generate pdf (needed for bibtex to work)
+     ;; ;; sudo apt-get install latexmk
+     ;; (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
 
-     (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-     (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
+     ;; (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
+     ;; (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
 
-     (setq reftex-default-bibliography
-           '("default.bib" "referenser.bib"))
+     ;; (setq reftex-default-bibliography
+     ;;       '("default.bib" "referenser.bib"))
 
      ;; (setq org-latex-to-pdf-process
      ;;       '("pdflatex -interaction nonstopmode -output-directory %o %f"
@@ -147,8 +152,8 @@
      (setq org-default-notes-file (concat org-directory "notes.org"))
 
      (setq org-remember-templates
-           `(("Todo" ?t "* TODO %?\n%U" "~/org/refile.org")
-             ("Länk" ?l "* TODO %?\n%U\n%a\n  %i" "~/org/refile.org")
+           `(("Todo" ?t "* NEXT %?\n%U" "~/org/refile.org")
+             ("Länk" ?l "* NEXT %?\n%U\n%a\n  %i" "~/org/refile.org")
              ("Note" ?n "* %? :NOTE:\n%U" "~/org/refile.org")             
              ;; default for org-protocol://remember://
              (?w ,(concat "* %c\n%U\n%i"
