@@ -10,7 +10,7 @@
 (setq auto-insert-alist
       '((("\\.h\\(pp\\)?$" "C/C++ Header") . ["c-header-template" my-auto-update-source-file])
         ((cperl-mode . "Perl Program") . ["perl-template"  my-auto-update-source-file])
-        ((org-mode . "Org-mode File") . ["org-mode-template"  my-auto-update-source-file])
+;        ((org-mode . "Org-mode File") . ["org-mode-template"  my-auto-update-source-file])
         ((shell-mode . "Shell Script") . ["shell-template" my-auto-update-source-file])))
 
 (defun my-auto-update-source-file ()

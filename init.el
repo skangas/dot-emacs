@@ -7,8 +7,15 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
-;; Do not enter the debugger when an error is found...
-(setq debug-on-error nil)
+;; various stuff 
+(setq message-log-max 1024) ;; do this first
+(setq max-specpdl-size 15600)
+(setq max-lisp-eval-depth 9000)
+
+;; Hack to get my configuration running at work (Windows)
+(when (eq system-type 'windows-nt)
+  (when load-file-name
+    (setenv "HOME" (file-name-directory load-file-name))))
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
@@ -18,11 +25,17 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
-(require 'warnings) ;; work-around until Emacs > 23.2 is released
+;; Create necessary directories
+(dolist (dir '("~/.emacs.d/cache"))
+  (unless (file-directory-p dir)
+    (make-directory dir)))
+
+;; work-around for Emacs < 23.2
+(when (< emacs-major-version 24)
+  (require 'warnings))
 
 ;; Require my configuration files
 (require 'my-color-theme)
-
 (require 'my-general)
 (require 'my-emacs-server)
 (require 'my-keybindings)
@@ -32,13 +45,12 @@
 (require 'my-bbdb)
 (require 'my-buffers)
 (require 'my-dired)
-(require 'my-ediff)
 ;; (require 'my-emms)
 (require 'my-org-mode)
 (require 'my-outline)
-(require 'my-rcirc)
+;; (require 'my-rcirc)
 (require 'my-tramp)
-(require 'my-w3m)
+;; (require 'my-w3m)
 
 (require 'my-coding)
 (require 'my-cedet)
@@ -47,10 +59,9 @@
 (require 'my-coding-cpp)
 (require 'my-coding-elisp)
 ;; (require 'my-coding-haskell)
-(require 'my-coding-html-css)
 (require 'my-coding-java)
 (require 'my-coding-perl)
-(require 'my-coding-php)
+;;(require 'my-coding-php)
 (require 'my-coding-scheme)
 
 (require 'my-desktop)
@@ -58,15 +69,12 @@
 ;; Various packages
 (autoload 'boxquote "boxquote" "boxquote" t)
 (autoload 'mentor "mentor" "mentor" t)
-(autoload 'sunrise "sunrise-commander" "sunrise-commander" t)
 
 (let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
       (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))
   (if (file-exists-p byte-compiled)
      (load byte-compiled)
    (load-file in-place)))
-
-(require 'my-z-end)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 
@@ -82,6 +90,13 @@
 (setq custom-file "~/.emacs.d/my-custom-file.el")
 (load custom-file 'noerror)
 
+;; Show current version (this needs to be last to be on top)
+(defun my-welcome-message ()
+  (insert (concat ";; " (substring (emacs-version) 0 16) "."))
+  (newline-and-indent)  (newline-and-indent))
+(add-hook 'after-init-hook 'my-welcome-message)
+
 ;; Time .emacs load time
 (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+
