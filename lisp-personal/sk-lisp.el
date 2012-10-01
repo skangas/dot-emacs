@@ -12,12 +12,15 @@
            (shell-quote-argument (buffer-file-name))))
   (revert-buffer nil t nil))
 
-(defun sk-word-wrapped-to-longlines
+(defun sk-word-wrapped-to-longlines ()
   (interactive)
   (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "\\([^[:space:]]\\)\n\\([^[:space:]]\\)")
-      (replace-match "\\1 \\1" nil))))
+    (save-restriction
+      (when (and mark-active transient-mark-mode)
+        (narrow-to-region (region-beginning) (region-end))
+        (goto-char (region-beginning))
+        (while (re-search-forward "\\([^[:space:]]\\)\n\\([^[:space:]]\\)" nil t)
+          (replace-match "\\1 \\1" nil))))))
 
 (defun sk-fix-org-html-export-for-web ()
   (interactive)
