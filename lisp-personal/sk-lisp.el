@@ -19,8 +19,18 @@
       (when (and mark-active transient-mark-mode)
         (narrow-to-region (region-beginning) (region-end))
         (goto-char (region-beginning))
-        (while (re-search-forward "\\([^[:space:]]\\)\n\\([^[:space:]]\\)" nil t)
-          (replace-match "\\1 \\1" nil))))))
+        (while (re-search-forward "\\(.\\) *\n *\\(.\\)" nil t)
+          (replace-match "\\1 \\2" nil))))))
+
+(defun sk-longlines-to-word-wrapped ()
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (when (and mark-active transient-mark-mode)
+        (narrow-to-region (region-beginning) (region-end))
+        (goto-char (region-beginning))
+        (while (re-search-forward "\\(.\\) *\n *\\(.\\)" nil t)
+          (replace-match "\\1 \\2" nil))))))
 
 (defun sk-fix-org-html-export-for-web ()
   (interactive)
