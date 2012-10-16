@@ -19,7 +19,7 @@
   (save-excursion
     (save-restriction
       (let ((ignored-tags (regexp-opt '("div" "span")))
-            (clean-tags (regexp-opt '("p" "strong" "h1" "h2" "h3"))))
+            (clean-tags (regexp-opt '("p" "strong" "b" "em" "i" "h1" "h2" "h3"))))
         (goto-char (point-min))
         (while (re-search-forward (concat "</?" ignored-tags "[^>]*>") nil t)
           (replace-match ""))
