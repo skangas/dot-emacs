@@ -1,9 +1,13 @@
-;;-*-coding: emacs-mule;-*-
+;;-*-coding: utf-8;-*-
 (define-abbrev-table 'Buffer-menu-mode-abbrev-table '())
 
 (define-abbrev-table 'Custom-mode-abbrev-table '())
 
 (define-abbrev-table 'awk-mode-abbrev-table '())
+
+(define-abbrev-table 'bbdb-mode-abbrev-table '())
+
+(define-abbrev-table 'bibtex-mode-abbrev-table '())
 
 (define-abbrev-table 'c++-mode-abbrev-table '())
 
@@ -29,6 +33,8 @@
 
 (define-abbrev-table 'docTeX-mode-abbrev-table '())
 
+(define-abbrev-table 'doctex-mode-abbrev-table '())
+
 (define-abbrev-table 'dsssl-mode-abbrev-table '())
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
@@ -47,13 +53,21 @@
 
 (define-abbrev-table 'haskell-mode-abbrev-table '())
 
+(define-abbrev-table 'help-mode-abbrev-table '())
+
 (define-abbrev-table 'html-mode-abbrev-table '())
 
 (define-abbrev-table 'idl-mode-abbrev-table '())
 
+(define-abbrev-table 'inferior-python-mode-abbrev-table '())
+
 (define-abbrev-table 'inferior-scheme-mode-abbrev-table '())
 
 (define-abbrev-table 'java-mode-abbrev-table '())
+
+(define-abbrev-table 'jython-mode-abbrev-table '())
+
+(define-abbrev-table 'latex-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -81,6 +95,10 @@
 
 (define-abbrev-table 'objc-mode-abbrev-table '())
 
+(define-abbrev-table 'occur-edit-mode-abbrev-table '())
+
+(define-abbrev-table 'occur-mode-abbrev-table '())
+
 (define-abbrev-table 'org-mode-abbrev-table '())
 
 (define-abbrev-table 'outline-mode-abbrev-table '())
@@ -93,6 +111,16 @@
 
 (define-abbrev-table 'pike-mode-abbrev-table '())
 
+(define-abbrev-table 'plain-tex-mode-abbrev-table '())
+
+(define-abbrev-table 'process-menu-mode-abbrev-table '())
+
+(define-abbrev-table 'prog-mode-abbrev-table '())
+
+(define-abbrev-table 'python-mode-abbrev-table '())
+
+(define-abbrev-table 'remember-mode-abbrev-table '())
+
 (define-abbrev-table 'scheme-mode-abbrev-table '())
 
 (define-abbrev-table 'select-tags-table-mode-abbrev-table '())
@@ -103,25 +131,37 @@
 
 (define-abbrev-table 'shell-mode-abbrev-table '())
 
+(define-abbrev-table 'slitex-mode-abbrev-table '())
+
+(define-abbrev-table 'smime-mode-abbrev-table '())
+
 (define-abbrev-table 'special-mode-abbrev-table '())
+
+(define-abbrev-table 'speedbar-mode-abbrev-table '())
 
 (define-abbrev-table 'sr-mode-abbrev-table '())
 
 (define-abbrev-table 'sr-virtual-mode-abbrev-table '())
 
+(define-abbrev-table 'tex-mode-abbrev-table '())
+
+(define-abbrev-table 'tex-shell-abbrev-table '())
+
 (define-abbrev-table 'text-mode-abbrev-table
   '(
-    ("h곦l" "H곦lsningar,
+    ("h채l" "H채lsningar,
 Stefan Kangas" nil 2)
-    ("mkh" "Med kamratliga h곦lsningar,
-Stefan Kangas" nil 3)
-    ("mkh2" "Kamratligen,
-Stefan" nil 2)
-    ("mvh" "Med v곦nliga h곦lsningar,
+    ("mkh" "Kamratligen,
+Stefan" nil 4)
+    ("mkh2" "Med kamratliga h채lsningar,
 Stefan Kangas" nil 2)
+    ("mvh" "Med v채nliga h채lsningar,
+Stefan Kangas" nil 11)
     ("sinc" "Sincerely,
 Stefan Kangas" nil 3)
    ))
 
 (define-abbrev-table 'vc-git-log-view-mode-abbrev-table '())
+
+(define-abbrev-table 'yaml-mode-abbrev-table '())
 
