@@ -3,17 +3,11 @@
 
 (define-abbrev-table 'Custom-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'awk-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c++-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c-mode-abbrev-table '())
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -59,9 +53,7 @@
 
 (define-abbrev-table 'inferior-scheme-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -87,9 +79,7 @@
 
 (define-abbrev-table 'message-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'objc-mode-abbrev-table '())
 
 (define-abbrev-table 'org-mode-abbrev-table '())
 
@@ -101,9 +91,7 @@
     ("while" "while" c-electric-continued-statement 0)
    ))
 
-(define-abbrev-table 'pike-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'pike-mode-abbrev-table '())
 
 (define-abbrev-table 'scheme-mode-abbrev-table '())
 
@@ -126,7 +114,9 @@
     ("hÅ‰l" "HÅ‰lsningar,
 Stefan Kangas" nil 2)
     ("mkh" "Med kamratliga hÅ‰lsningar,
-Stefan Kangas" nil 2)
+Stefan Kangas" nil 3)
+    ("mkh2" "Kamratligen,
+Stefan" nil 2)
     ("mvh" "Med vÅ‰nliga hÅ‰lsningar,
 Stefan Kangas" nil 2)
     ("sinc" "Sincerely,
