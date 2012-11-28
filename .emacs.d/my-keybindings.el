@@ -112,7 +112,7 @@
   (find-file (ido-completing-read "Open file: " recentf-list nil t)))
 
 ;; occur-mode
-(defun my-occur-mode-keybinding ()
+(defun my-occur-mode-keybindings ()
   (define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
   (define-key occur-mode-map (kbd "n") 'next-logical-line)
   (define-key occur-mode-map (kbd "p") 'previous-logical-line))
