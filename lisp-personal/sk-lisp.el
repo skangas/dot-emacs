@@ -1,3 +1,17 @@
+(defun sk-cc-file-co ()
+  (interactive)
+  (shell-command 
+   (format "ct co -nc %s" 
+           (shell-quote-argument (buffer-file-name))))
+  (revert-buffer nil t nil))
+
+(defun sk-cc-file-ci ()
+  (interactive)
+  (shell-command 
+   (format "ct ci -nc %s" 
+           (shell-quote-argument (buffer-file-name))))
+  (revert-buffer nil t nil))
+
 (defun sk-fix-org-html-export-for-web ()
   (interactive)
   (save-excursion
