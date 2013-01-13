@@ -66,6 +66,8 @@
 
 (require 'my-desktop)
 
+(require 'sk-lisp)
+
 ;; Various packages
 (autoload 'boxquote "boxquote" "boxquote" t)
 (autoload 'mentor "mentor" "mentor" t)

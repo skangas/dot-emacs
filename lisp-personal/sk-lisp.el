@@ -67,3 +67,5 @@
       (narrow-to-region start end)
       (goto-char (point-min))
       (message (format "%d" (count-matches "\\sw+"))))))
+
+(provide 'sk-lisp)

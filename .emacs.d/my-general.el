@@ -97,7 +97,9 @@
       ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
                               " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))) 
 
-(add-to-list 'ido-ignore-files ".os$")
+(dolist (file-ending '("os" "pyc"))
+  (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
+
 
 ;;;; WORKAROUND FOR GNUS BUG
 ;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
