@@ -11,42 +11,50 @@
    ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
    ;;   are enabled by default.
 
-(auto-compression-mode 1)                            ; Automatically read/write compressed files
-(auto-image-file-mode 1)                             ; View images in emacs
-(column-number-mode 1)                               ; Put column number into modeline
-;; FIXME: add visual line mode to all modes where it makes sense
-(setq user-full-name "Stefan Kangas")
-(global-font-lock-mode t)                            ; Syntax hi-lighting
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))     ; No menu
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; No scrollbar
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))     ; No toolbar
-(if (fboundp 'mwheel-install) (mwheel-install))      ; Enable mousewheel
-(if (fboundp 'column-number-mode) (column-number-mode -1)) ; No column number
-(if (fboundp 'line-number-mode) (line-number-mode -1))     ; No line number
-(setq bookmark-save-flag 1)                          ; Save bookmarks immediately when added
-(setq default-indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
-(setq frame-title-format '(buffer-file-name "%f" ("%b")))
-(setq default-indicate-empty-lines t)                ; Show empty lines at end of file
-(setq inhibit-startup-message t)                     ; No startup message
-(setq require-final-newline t)                       ; Make sure text files end in a newline
-(setq scroll-conservatively most-positive-fixnum)    ; Always scroll one line at a time
-(setq scroll-preserve-screen-position t)             ; Affects Page-up Page-down
-(setq cua-enable-cua-keys nil)                       ; No cua-keys
-(setq visible-bell t)                                ; No audible bell
-(setq-default fill-column 80)  ;; note to self: use M-q and C-u 78 C-x f
-(setq-default indent-tabs-mode nil)                  ; Always indent using spaces, never tabs
-(setq mouse-yank-at-point t)                         ; Yank to cursor, even in X
-(setq fortune-file "~/dokument/quotes")              ; Why do I set this? Nvm, I guess it doesn't hurt...
-;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
-(when window-system (global-unset-key "\C-z"))       ; Disable keyboard iconfying
-(setq Man-width 80)                                  ; Limit man to 80 character width
-(setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
-(setq message-send-mail-partially-limit nil)         ; Never split emails
-(setq lazy-highlight-initial-delay 0.1)              ; Seconds to wait before isearch highlights matches
+(defmacro run-if-fboundp (arg)
+  (if (fboundp (car arg)) arg))
 
+;; FIXME: add visual line mode to all modes where it makes sense
+
+(run-if-fboundp (menu-bar-mode -1))        ; No menu
+(run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
+(run-if-fboundp (tool-bar-mode -1))        ; No toolbar
+(run-if-fboundp (mwheel-install))          ; Enable mousewheel
+
+(run-if-fboundp (global-font-lock-mode t)) ; Syntax hi-lighting
+(run-if-fboundp (column-number-mode 1))    ; Show column number
+(run-if-fboundp (line-number-mode 1))      ; Show line number
+
+(run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
+(run-if-fboundp (auto-compression-mode 1)) ; Automatically read/write compressed files
+
+(setq user-full-name "Stefan Kangas")
+
+(setq inhibit-startup-message t)                     ; No startup message
 (setq frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
                            (:eval (format " [%s]" mode-name))))
+
+(setq scroll-conservatively most-positive-fixnum)    ; Always scroll one line at a time
+(setq scroll-preserve-screen-position t)             ; Affects Page-up Page-down
+(setq visible-bell t)                                ; No audible bell
+(setq mouse-yank-at-point t)                         ; Yank at point, even in X
+(setq lazy-highlight-initial-delay 0.1)              ; Seconds to wait before isearch highlights
+
+(setq-default fill-column 80)  ;; note to self: use M-q and C-u 78 C-x f
+(setq-default indent-tabs-mode nil)                  ; Always indent using spaces, never tabs
+
+(setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
+(setq bookmark-save-flag 1)                          ; Save bookmarks immediately when added
+(setq require-final-newline t)                       ; Make sure text files end in a newline
+(setq Man-width 80)                                  ; Limit man to 80 character width
+(setq message-send-mail-partially-limit nil)         ; Never split emails
+
+;; FIXME: These are obsolete now...
+(setq default-indicate-empty-lines t)                ; Show empty lines at end of file
+(setq default-indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+
+;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
 
 (add-hook 'before-save-hook 'time-stamp)
 
@@ -57,6 +65,7 @@
 ;; Used only by certain modes.
 (setq sentence-end "\\.  ?")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backup files
 (setq version-control t         ; use versioned backups
       kept-old-versions 255
@@ -120,12 +129,7 @@
 (window-numbering-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; cua-mode
-(cua-mode t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; cursor
-;; (blink-cursor-mode 0) ; stop cursor from blinking
 ;; cursor-chg
 ;(require 'cursor-chg)  ; Load the library
 ;; (toggle-cursor-type-when-idle 0) ; Turn on cursor change when Emacs is idle
@@ -153,8 +157,12 @@
       (setq hcz-set-cursor-color-buffer (buffer-name)))))
 (add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
 
-(autoload 'insert-x-resources "pjb-xresources"
-  "Insert current theme as XResources in current buffer" t)
+;; center cursor in info-mode
+(when (and (require 'info)
+           (require 'centered-cursor-mode))
+  (defun my-info-mode-hook-center-cursor ()
+    (centered-cursor-mode))
+  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 ;; Save position in file
 (require 'saveplace) ; has to be a require
@@ -190,7 +198,7 @@
             (setq matching-text (blink-matching-open)))
         (if (not (null matching-text))
             (message matching-text)))))
-    
+
 ;; Spell checking
 
 (setq flyspell-use-meta-tab nil)
@@ -208,13 +216,6 @@
 ;; 	    ispell-silently-savep t)))
 
 ;; (setq-default ispell-program-name "hunspell")
-
-;; center cursor in info-mode
-(when (and (require 'info)
-           (require 'centered-cursor-mode))
-  (defun my-info-mode-hook-center-cursor ()
-    (centered-cursor-mode))
-  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 ;; hexcolour
 (defvar hexcolour-keywords
@@ -265,6 +266,12 @@
   (lambda()
     (setq mode-name "el")))
 
+;;; Recent files
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 100
+      recentf-save-file "~/.emacs.d/cache/recentf")
+
 ;;; openwith.el -- open files using external helpers
 (require 'openwith)
 (openwith-mode t)
@@ -278,11 +285,34 @@
 (setq openwith-associations
       (let ((video-types (concat my-video-types-regexp "\\'")))
         `((,video-types "mplayer" ("-idx" file))
-          ("\\.img\\'" "mplayer" ("dvd://" "-dvd-device" file))
+          ("\\(?:\\.img\\|\\.iso\\)\\'" "mplayer" ("dvd://" "-dvd-device" file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
           ;; ("\\.mp3\\'" "mplayer" (file))
           ;; ("\\.pdf\\'" "evince" (file))
           )))
+
+;; Do not warn about big files for openwith files
+(defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
+                                           (size op-type filename))
+  (if (and openwith-mode
+           (equal op-type "open")
+           (or (mapcar (lambda (oa)
+                         (save-match-data (string-match (car oa) filename)))
+                       openwith-associations)))
+      (let ((large-file-warning-threshold nil))
+        ad-do-it)
+    ad-do-it))
+(ad-activate 'abort-if-file-too-large) 
+
+(defun my-find-file-check-make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 10 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)
+    ; (message "Buffer is set to read-only because it is large.  Undo also disabled.")
+    ))
+(add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
 ;;; ediff
 (setq ediff-split-window-function (lambda (&optional arg)
@@ -290,9 +320,19 @@
 					(split-window-horizontally arg)
 				      (split-window-vertically arg))))
 
+;;; EPA
 (require 'epa-file)
 (epa-file-enable)
 ;(setq epa-armor t)
+
+;; Disable gpg agent when runing in terminal
+(defadvice epg--start (around advice-epg-disable-agent activate)
+  (let ((agent (getenv "GPG_AGENT_INFO")))
+    (when (not (display-graphic-p))
+      (setenv "GPG_AGENT_INFO" nil))
+    ad-do-it
+    (when (not (display-graphic-p))
+      (setenv "GPG_AGENT_INFO" agent))))
 
 (provide 'my-general)
 

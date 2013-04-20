@@ -70,7 +70,11 @@
 
 ;; Various packages
 (autoload 'boxquote "boxquote" "boxquote" t)
-(autoload 'mentor "mentor" "mentor" t)
+(require 'mentor)
+(setq mentor-highlight-enable t)
+
+(autoload 'insert-x-resources "pjb-xresources"
+  "Insert current theme as XResources in current buffer" t)
 
 (let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
       (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))

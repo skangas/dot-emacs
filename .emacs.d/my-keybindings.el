@@ -1,5 +1,6 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; global keybindings
+;;; my-keybindings.el
+
+(setq cua-enable-cua-keys nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; copy current line without selecting it (courtesy of emacs-fu)
@@ -102,10 +103,6 @@
   (emms-browser))
 
 ;; open recent files using ido
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-saved-items 100
-      recentf-save-file "~/.emacs.d/cache/recentf")
 (defun my-ido-recentf-open ()
   "Use ido to select a recently opened file from the `recentf-list'"
   (interactive)
@@ -117,6 +114,23 @@
   (define-key occur-mode-map (kbd "n") 'next-logical-line)
   (define-key occur-mode-map (kbd "p") 'previous-logical-line))
 (add-hook 'occur-mode-hook 'my-occur-mode-keybindings)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Page down/up move the point, not the screen.;; (from snarfed.org) This
+;; means that pgup/pgdn can move the point to the beginning or end of the
+;; buffer.
+(defun my-scroll-down ()
+  (interactive)
+  (condition-case nil (scroll-down)
+    (beginning-of-buffer (goto-char (point-min)))))
+
+(defun my-scroll-up ()
+  (interactive)
+  (condition-case nil (scroll-up)
+    (end-of-buffer (goto-char (point-max)))))
+
+(global-set-key [next] 'my-scroll-up)
+(global-set-key [prior] 'my-scroll-down)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -144,22 +158,7 @@
 (global-set-key "\C-c\C-k" 'kill-region)
 (global-set-key (kbd "C-x C-r") 'my-ido-recentf-open) ;; replace `find-file-read-only'
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Page down/up move the point, not the screen.;; (from snarfed.org) This
-;; means that pgup/pgdn can move the point to the beginning or end of the
-;; buffer.
-(defun my-scroll-down ()
-  (interactive)
-  (condition-case nil (scroll-down)
-    (beginning-of-buffer (goto-char (point-min)))))
-
-(defun my-scroll-up ()
-  (interactive)
-  (condition-case nil (scroll-up)
-    (end-of-buffer (goto-char (point-max)))))
-
-(global-set-key [next] 'my-scroll-up)
-(global-set-key [prior] 'my-scroll-down)
+(when window-system (global-unset-key "\C-z"))       ; Disable keyboard iconfying
 
 (provide 'my-keybindings)
 
