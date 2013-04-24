@@ -22,7 +22,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/jdee-2.4.0.1/lisp/"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 ;; Create necessary directories
