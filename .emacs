@@ -32,7 +32,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/jdee-2.4.0.1/lisp/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 ;; Create necessary directories
@@ -75,18 +74,11 @@
 (require 'sk-lisp)
 
 ;; Various packages
-(autoload 'boxquote "boxquote" "boxquote" t)
 (when (require 'mentor nil t)
   (setq mentor-highlight-enable t))
 
 (autoload 'insert-x-resources "pjb-xresources"
   "Insert current theme as XResources in current buffer" t)
-
-(let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
-      (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))
-  (if (file-exists-p byte-compiled)
-     (load byte-compiled)
-   (load-file in-place)))
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 
@@ -111,4 +103,3 @@
 ;; FIXME: Time .emacs load time
 ;; (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
 ;;                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
-
