@@ -3,10 +3,10 @@
 \#*
 auto-save-list/
 bbdb
-cache
+cache/
 ede-projects.el
-elpa
 emms
 news
 saveplace
 tramp
+url/cookies
