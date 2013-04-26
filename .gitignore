@@ -1,9 +1,12 @@
+*.elc
+.emacs.desktop*
 \#*
 auto-save-list/
 bbdb
-cache
+cache/
+ede-projects.el
 emms
 news
 saveplace
 tramp
-*.elc
+url/cookies

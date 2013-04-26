@@ -1,9 +1,8 @@
 (desktop-save-mode 1)
 
 (setq desktop-save 'if-exists)
-;; (setq desktop-base-file-name "emacs.desktop")
-;; (setq desktop-dirname (expand-file-name "~/.emacs.d/cache"))
-;; (setq desktop-path (list desktop-dirname))
+(setq desktop-dirname (expand-file-name "~/.emacs.d/cache"))
+(add-to-list 'desktop-path desktop-dirname)
 
 (setq history-length 250)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -35,7 +34,7 @@
                 register-alist)))
 
 ;; Automatically save desktop when idle
-(add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
+;; (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
 
 ;;; desktop-override-stale-locks.el begins here
 ;; (defun emacs-process-p (pid)

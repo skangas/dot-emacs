@@ -12,27 +12,32 @@
 (setq max-specpdl-size 15600)
 (setq max-lisp-eval-depth 9000)
 
+;; work-around for Emacs < 23.2
+(when (< emacs-major-version 24)
+  (require 'warnings))
+
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
   (when load-file-name
     (setenv "HOME" (file-name-directory load-file-name))))
 
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list 'package-archives 
+               '("marmalade" .
+                 "http://marmalade-repo.org/packages/"))
+  (package-initialize))
+
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/jdee-2.4.0.1/lisp/"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/magit/"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 ;; Create necessary directories
-(dolist (dir '("~/.emacs.d/cache"))
+(dolist (dir '("~/.emacs.d/cache" "~/.emacs.d/cache/semanticdb"))
   (unless (file-directory-p dir)
     (make-directory dir)))
-
-;; work-around for Emacs < 23.2
-(when (< emacs-major-version 24)
-  (require 'warnings))
 
 ;; Require my configuration files
 (require 'my-color-theme)
@@ -69,18 +74,11 @@
 (require 'sk-lisp)
 
 ;; Various packages
-(autoload 'boxquote "boxquote" "boxquote" t)
-(require 'mentor)
-(setq mentor-highlight-enable t)
+(when (require 'mentor nil t)
+  (setq mentor-highlight-enable t))
 
 (autoload 'insert-x-resources "pjb-xresources"
   "Insert current theme as XResources in current buffer" t)
-
-(let ((byte-compiled "~/.emacs.d/lisp/geiser/build/elisp/geiser-load")
-      (in-place "~/.emacs.d/lisp/geiser/elisp/geiser.el"))
-  (if (file-exists-p byte-compiled)
-     (load byte-compiled)
-   (load-file in-place)))
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 
@@ -102,7 +100,6 @@
   (newline-and-indent)  (newline-and-indent))
 (add-hook 'after-init-hook 'my-welcome-message)
 
-;; Time .emacs load time
-(message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
-                           (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
-
+;; FIXME: Time .emacs load time
+;; (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
+;;                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
