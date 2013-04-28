@@ -75,7 +75,17 @@
 
 ;; Various packages
 (when (require 'mentor nil t)
-  (setq mentor-highlight-enable t))
+  (setq mentor-highlight-enable t)
+  (setq mentor-view-columns
+    '(((mentor-torrent-get-state) -3 "State")
+      ((mentor-torrent-get-progress) -3 "Cmp")
+      (name -40 "Name")
+      ((mentor-torrent-get-speed-up) -6 "Up")
+      ((mentor-torrent-get-speed-down) -6 "Down")
+      ((mentor-torrent-get-size) -15 "     Size")
+      (message -40 "Message")
+      (directory -100 "Directory")
+      (tied_to_file -80 "Tied file name"))))
 
 (autoload 'insert-x-resources "pjb-xresources"
   "Insert current theme as XResources in current buffer" t)
