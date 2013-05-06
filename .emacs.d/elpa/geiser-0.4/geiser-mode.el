@@ -1,6 +1,6 @@
 ;; geiser-mode.el -- minor mode for scheme buffers
 
-;; Copyright (C) 2009, 2010, 2011, 2012 Jose Antonio Ortega Ruiz
+;; Copyright (C) 2009, 2010, 2011, 2012, 2013 Jose Antonio Ortega Ruiz
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the Modified BSD License. You should
@@ -41,6 +41,12 @@ scheme buffers."
   :group 'geiser-mode
   :type 'boolean)
 
+(geiser-custom--defcustom geiser-mode-start-repl-p nil
+  "Whether a REPL should be automatically started if one is not
+active when `geiser-mode' is activated in a buffer."
+  :group 'geiser-mode
+  :type 'boolean)
+
 (geiser-custom--defcustom geiser-mode-autodoc-p t
   "Whether `geiser-autodoc-mode' gets enabled by default in Scheme buffers."
   :group 'geiser-mode
@@ -66,8 +72,9 @@ scheme buffers."
   (push-mark)
   (goto-char (point-max)))
 
-(defun geiser-eval-region (start end &optional and-go raw)
+(defun geiser-eval-region (start end &optional and-go raw nomsg)
   "Eval the current region in the Geiser REPL.
+
 With prefix, goes to the REPL buffer afterwards (as
 `geiser-eval-region-and-go')"
   (interactive "rP")
@@ -78,7 +85,8 @@ With prefix, goes to the REPL buffer afterwards (as
                              start
                              end
                              (and and-go 'geiser--go-to-repl)
-                             (not raw)))
+                             (not raw)
+                             nomsg))
 
 (defun geiser-eval-region-and-go (start end)
   "Eval the current region in the Geiser REPL and visit it afterwads."
@@ -87,6 +95,7 @@ With prefix, goes to the REPL buffer afterwards (as
 
 (defun geiser-eval-definition (&optional and-go)
   "Eval the current definition in the Geiser REPL.
+
 With prefix, goes to the REPL buffer afterwards (as
 `geiser-eval-definition-and-go')"
   (interactive "P")
@@ -101,16 +110,24 @@ With prefix, goes to the REPL buffer afterwards (as
   (interactive)
   (geiser-eval-definition t))
 
-(defun geiser-eval-last-sexp ()
-  "Eval the previous sexp in the Geiser REPL."
-  (interactive)
-  (geiser-eval-region (save-excursion (backward-sexp) (point))
-                      (point)
-                      nil
-                      t))
+(defun geiser-eval-last-sexp (print-to-buffer-p)
+  "Eval the previous sexp in the Geiser REPL.
+
+With a prefix, print the result of the evaluation to the buffer."
+  (interactive "P")
+  (let* ((ret (geiser-eval-region (save-excursion (backward-sexp) (point))
+                                  (point)
+                                  nil
+                                  t
+                                  print-to-buffer-p))
+         (str (geiser-eval--retort-result-str ret (when print-to-buffer-p ""))))
+    (when (and print-to-buffer-p (not (string= "" str)))
+      (push-mark)
+      (insert str))))
 
 (defun geiser-compile-definition (&optional and-go)
   "Compile the current definition in the Geiser REPL.
+
 With prefix, goes to the REPL buffer afterwards (as
 `geiser-eval-definition-and-go')"
   (interactive "P")
@@ -137,6 +154,7 @@ With prefix, recursively macro-expand the resulting expression."
 
 (defun geiser-expand-definition (&optional all)
   "Macro-expand the current definition.
+
 With prefix, recursively macro-expand the resulting expression."
   (interactive "P")
   (save-excursion
@@ -147,6 +165,7 @@ With prefix, recursively macro-expand the resulting expression."
 
 (defun geiser-expand-last-sexp (&optional all)
   "Macro-expand the previous sexp.
+
 With prefix, recursively macro-expand the resulting expression."
   (interactive "P")
   (geiser-expand-region (save-excursion (backward-sexp) (point))
@@ -163,6 +182,7 @@ With prefix, recursively macro-expand the resulting expression."
 
 (defun geiser-mode-switch-to-repl (arg)
   "Switches to Geiser REPL.
+
 With prefix, try to enter the current buffer's module."
   (interactive "P")
   (if arg
@@ -188,6 +208,7 @@ With prefix, try to enter the current buffer's module."
 
 (defun geiser-squarify (n)
   "Toggle between () and [] for current form.
+
 With numeric prefix, perform that many toggles, forward for
 positive values and backward for negative."
   (interactive "p")
@@ -215,6 +236,14 @@ positive values and backward for negative."
                 (error (setq steps 0))))))
       (when (and pared (fboundp 'paredit-mode)) (paredit-mode 1)))))
 
+(defun geiser-insert-lambda (&optional full)
+  "Insert λ at point.  With prefix, inserts (λ ())."
+  (interactive "P")
+  (if (not full)
+      (insert (make-char 'greek-iso8859-7 107))
+    (insert "(" (make-char 'greek-iso8859-7 107) " ())")
+    (backward-char 2)))
+
 
 ;;; Geiser mode:
 
@@ -230,6 +259,7 @@ positive values and backward for negative."
 
 (define-minor-mode geiser-mode
   "Toggle Geiser's mode.
+
 With no argument, this command toggles the mode.
 Non-null prefix argument turns on the mode.
 Null prefix argument turns off the mode.
@@ -250,7 +280,11 @@ interacting with the Geiser REPL is at your disposal.
     (geiser-autodoc-mode (if geiser-mode 1 -1)))
   (when geiser-mode-smart-tab-p
     (geiser-smart-tab-mode (if geiser-mode 1 -1)))
-  (geiser-syntax--add-kws))
+  (geiser-syntax--add-kws)
+  (when (and geiser-mode
+             geiser-mode-start-repl-p
+             (not (geiser-repl--connection*)))
+    (save-window-excursion (run-geiser geiser-impl--implementation))))
 
 (defun turn-on-geiser-mode ()
   "Enable `geiser-mode' (in a Scheme buffer)."
@@ -308,6 +342,7 @@ interacting with the Geiser REPL is at your disposal.
   ("Edit module" ("\C-c\C-e\C-m" "\C-c\C-em") geiser-edit-module)
   ("Add to load path..." ("\C-c\C-e\C-l" "\C-c\C-el") geiser-add-to-load-path)
   ("Toggle ()/[]" ("\C-c\C-e\C-[" "\C-c\C-e[") geiser-squarify)
+  ("Insert λ" ("\C-c\\" "\C-c\C-\\") geiser-insert-lambda)
   --
   ("Callers" ((kbd "C-c <")) geiser-xref-callers
    :enable (and (geiser-eval--supported-p 'callers)

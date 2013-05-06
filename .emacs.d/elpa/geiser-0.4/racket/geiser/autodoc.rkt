@@ -1,6 +1,6 @@
 ;;; autodoc.rkt -- suport for autodoc echo
 
-;; Copyright (C) 2009, 2010, 2011, 2012 Jose Antonio Ortega Ruiz
+;; Copyright (C) 2009, 2010, 2011, 2012, 2013 Jose Antonio Ortega Ruiz
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the Modified BSD License. You should
@@ -15,6 +15,7 @@
          symbol-documentation
          module-exports
          update-signature-cache
+         preload-help
          get-help)
 
 (require racket/help
@@ -22,12 +23,24 @@
          geiser/modules
          geiser/locations)
 
+(define loader-thread #f)
+
+(define (preload-help)
+  (set! loader-thread
+        (thread (lambda ()
+                  (with-output-to-string (lambda ()
+                                           (help meh-i-dont-exist)))))))
+
+(define here (current-namespace))
+
 (define (get-help symbol mod)
+  (when loader-thread
+    (thread-wait loader-thread)
+    (set! loader-thread #f))
   (if (eq? symbol mod)
       (get-mod-help mod)
-      (with-handlers ([exn? (lambda (_)
-                              (eval `(help ,symbol)))])
-        (eval `(help ,symbol #:from ,(ensure-module-spec mod))))))
+      (with-handlers ([exn? (lambda (_) (eval `(help ,symbol) here))])
+        (eval `(help ,symbol #:from ,(ensure-module-spec mod)) here))))
 
 (define (get-mod-help mod)
   (let-values ([(ids syns) (module-identifiers mod)])

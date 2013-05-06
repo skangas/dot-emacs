@@ -3,7 +3,7 @@ This is ../../doc/geiser.info, produced by makeinfo version 4.13 from
 
 This manual documents Geiser, an Emacs environment to hack in Scheme.
 
-   Copyright (C) 2010, 2011, 2012  Jose Antonio Ortega Ruiz
+   Copyright (C) 2010, 2011, 2012, 2013  Jose Antonio Ortega Ruiz
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -29,7 +29,7 @@ Geiser
 
 This manual documents Geiser, an Emacs environment to hack in Scheme.
 
-   Copyright (C) 2010, 2011, 2012  Jose Antonio Ortega Ruiz
+   Copyright (C) 2010, 2011, 2012, 2013  Jose Antonio Ortega Ruiz
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -269,7 +269,7 @@ Emacs that a repo exists, you add it to `package-archives':
      M-x install-package RET geiser RET
 
    Alternatively, you can manually download the package file
-(http://download.savannah.gnu.org/releases/geiser/packages/geiser-0.3.tar),
+(http://download.savannah.gnu.org/releases/geiser/packages/geiser-0.4.tar),
 and install from your local disk with `M-x package-install-file'
 
    With that, you are pretty much all set up.  See *note The REPL:: to
@@ -285,9 +285,9 @@ Downloading Geiser
 ..................
 
 The latest release tarball can be found here
-(http://download.savannah.gnu.org/releases/geiser/0.3/).  Just download
-geiser-0.3.tar.gz
-(http://download.savannah.gnu.org/releases/geiser/0.3/geiser-0.3.tar.gz)
+(http://download.savannah.gnu.org/releases/geiser/0.4/).  Just download
+geiser-0.4.tar.gz
+(http://download.savannah.gnu.org/releases/geiser/0.4/geiser-0.4.tar.gz)
 and untar it in a directory of your choice.
 
    If you feel like living on the bleeding edge, just grab Geiser from
@@ -387,11 +387,10 @@ by) the following Emacs packages:
      dialect without the aid of Taylor Campbell's structured editing
      mode.
 
-   * Company (http://nschum.de/src/emacs/company-mode/).  Nikolaj
-     Schumacher's `company-mode' provides a generic front-end for
-     completion engines (such as Geiser's).  Very nice if you like that
-     kind of thing: judge by yourself with the help of this screencast
-     (http://www.screentoaster.com/watch/stU0lSRERIR1pYRFVdXVlRVFFV/company_mode_for_gnu_emacs).
+   * Company (http://company-mode.github.io/).  Nikolaj Schumacher's
+     and Dmitry Gutov's `company-mode' provides a generic front-end for
+     completion engines (such as Geiser's), with pretty and automatic
+     completion lists.
 
    * Quack (http://www.neilvandyke.org/quack/).  You can still use the
      many goodies provided by Neil van Dyke's `quack-mode', since most
@@ -794,6 +793,18 @@ you'll be prompted for a host and a port, defaulting to "localhost" and
 37146.  You can change those defaults customizing
 `geiser-repl-default-host' and `geiser-repl-default-port', respectively.
 
+Killing REPLs
+.............
+
+If you don't want Emacs to ask for confirmation when you're about to
+kill a live REPL buffer (as will happen, for instance, if you're exiting
+Emacs before closing all your REPLs), you can set the flag
+`geiser-repl-query-on-kill-p' to `nil'.  On a related note, the
+customizable variable `geiser-repl-query-on-exit-p' controls whether
+Geiser should ask for confirmation when you exit the REPL explicitly
+(via, say, `C-c C-q', as opposed to killing the buffer), and is set to
+`nil' by default.
+
 
 File: geiser.info,  Node: Between the parens,  Next: Cheat sheet,  Prev: The REPL,  Up: Top
 
@@ -956,6 +967,10 @@ will add a new rule that says that any file inside my
 is to be assigned to Guile.  Since rules are first matched, first
 served, this new rule will take precedence over the default ones.
 
+   A final tip: if you want Geiser to start automatically a REPL for
+you if it notices that there's no one active when it enters geiser-mode,
+you can customize `geiser-mode-start-repl-p' to `t'.
+
 Switching between source files and the REPL
 ...........................................
 
@@ -1113,7 +1128,10 @@ a button named source: pressing it you'll jump to the symbol's
 definition.  The second button, dubbed manual, will open the Scheme
 implementation's manual page for the symbol at hand.  For Racket, that
 will open your web browser displaying the corresponding reference's page
-(using Emacs' `browser-url' command), while in Guile a lookup will be
+(using the HTML browser in Racket's configuration, which you can edit in
+DrRacket's preferences dialog, or by setting
+`plt:framework-pref:external-browser' directly in
+`~/.racket/racket-prefs.rktd'), while in Guile a lookup will be
 performed in the texinfo manual.
 
    For Guile, the manual lookup uses the info indexes in the standard
@@ -1166,7 +1184,9 @@ as you see fit.
 the commands performing incremental evaluation in Geiser.
 
    `geiser-eval-last-sexp', bound to `C-x C-e', will eval the
-s-expression just before point.
+s-expression just before point.  If you use a prefix, as in `C-u C-x
+C-e', besides evaluating it the expression is inserted in the the
+buffer.
 
    `geiser-eval-definition', bound to `C-M-x', finds the topmost
 definition containing point and sends it for evaluation.  The variant
@@ -1354,6 +1374,8 @@ C-c C-e C-l    `geiser-add-to-load-path'     Ask for a directory and add
                                              to Scheme load path
 C-c C-e C-[    `geiser-squarify'             Toggle between () and [] for
                                              current form
+C-c C-\        `geiser-insert-lambda'        Insert greek lambda or, with
+                                             prefix, a lambda form
 
 C-M-x          `geiser-eval-definition'      Eval definition around point
 C-c M-e        `geiser-eval-definition-and-go'Eval definition around point
@@ -1475,6 +1497,13 @@ only fun, but easy, with the best argument: actual code!
    Daniel Hackney and Grant Rettke created the first ELPA packages for
 Geiser and taught me to fish.
 
+   Diogo F. S. Ramos is Geiser's most indefatigable user and bug
+reporter, and the mailing list has been a far less lonely place since
+he came.
+
+   Aleix Conchillo has been my favourite spammer, beta tester and patch
+sender during more years and for more projects than i can remember.
+
    Eduardo Cavazos' contagious enthusiasm has helped in many ways to
 keep Geiser alive, and he's become its best evangelist in R6RS circles.
 
@@ -1495,7 +1524,8 @@ Joining the fun
 
    * For questions, praise, critique and anything else Geiser, do not
      hesitate to drop an email to our list, (@ geiser-users (. nongnu
-     org)): no subscription required.  Check the list page
+     org)) (mailto:geiser-users@nongnu.org): no subscription required.
+     Check the list page
      (http://lists.nongnu.org/mailman/listinfo/geiser-users) for more
      information or browse the archives
      (http://lists.nongnu.org/archive/html/geiser-users/).  The list is
@@ -1504,8 +1534,7 @@ Joining the fun
      (http://dir.gmane.org/gmane.lisp.scheme.geiser).
 
    * You can submit bug reports either to the mailing list or to our
-     bug tracker (http://savannah.nongnu.org/bugs/?group=geiser) over
-     at Savannah.
+     bug tracker (https://github.com/jaor/geiser/issues) over at Github.
 
    * If you only need to hear about Geiser on new releases, the News
      page (http://savannah.nongnu.org/news/?group=geiser) and its Atom
@@ -1525,6 +1554,8 @@ Index
 * Menu:
 
 * ,enter vs. enter!:                     Switching context.   (line   6)
+* ask on kill, don't:                    Customization and tips.
+                                                              (line 102)
 * autodoc customized:                    Documentation helpers.
                                                               (line  66)
 * autodoc explained:                     Documentation helpers.
@@ -1536,10 +1567,12 @@ Index
 * autodoc, in scheme buffers:            Documentation helpers.
                                                               (line   9)
 * autodoc, in the REPL:                  Autodoc and friends. (line  11)
+* autostart REPL:                        The source and the REPL.
+                                                              (line  85)
 * backtraces:                            To err perchance to debug.
                                                               (line   6)
 * bug tracker:                           No hacker is an island.
-                                                              (line  52)
+                                                              (line  60)
 * byte-compilation:                      From the source's mouth.
                                                               (line  49)
 * company:                               Friends.             (line   9)
@@ -1566,7 +1599,7 @@ Index
 * error buffer:                          To err perchance to debug.
                                                               (line   9)
 * evaluating images:                     To eval or not to eval.
-                                                              (line  49)
+                                                              (line  51)
 * evaluation:                            To eval or not to eval.
                                                               (line  34)
 * external image viewer:                 Seeing is believing. (line  10)
@@ -1574,9 +1607,9 @@ Index
 * geiser-mode:                           Activating Geiser.   (line   6)
 * geiser-mode commands:                  Activating Geiser.   (line  21)
 * gmane:                                 No hacker is an island.
-                                                              (line  42)
+                                                              (line  49)
 * Guile info nodes:                      Documentation helpers.
-                                                              (line 120)
+                                                              (line 123)
 * Guile's REPL server:                   Starting the REPL.   (line  50)
 * GUILE_LOAD_PATH:                       Customization and tips.
                                                               (line  38)
@@ -1585,7 +1618,7 @@ Index
                                                               (line  94)
 * image cache:                           Seeing is believing. (line  16)
 * image display:                         To eval or not to eval.
-                                                              (line  49)
+                                                              (line  51)
 * image support:                         Seeing is believing. (line   6)
 * image viewer:                          Seeing is believing. (line  10)
 * incremental development:               To eval or not to eval.
@@ -1595,20 +1628,20 @@ Index
 * incremental development, not evil:     To eval or not to eval.
                                                               (line  34)
 * IRC channel:                           No hacker is an island.
-                                                              (line  61)
+                                                              (line  68)
 * jump, at the REPL:                     Autodoc and friends. (line  51)
 * jumping customized:                    Jumping around.      (line  22)
 * jumping in scheme buffers:             Jumping around.      (line   6)
 * mailing list:                          No hacker is an island.
-                                                              (line  42)
+                                                              (line  49)
 * manual autodoc:                        Documentation helpers.
                                                               (line  23)
 * module exports:                        Autodoc and friends. (line  39)
 * modus operandi:                        Modus operandi.      (line   6)
 * news feed:                             No hacker is an island.
-                                                              (line  56)
+                                                              (line  63)
 * opening manual pages:                  Documentation helpers.
-                                                              (line 128)
+                                                              (line 131)
 * paredit:                               Friends.             (line   9)
 * partial completion:                    Geiser writes for you.
                                                               (line  18)
@@ -1648,18 +1681,20 @@ Index
                                                               (line  38)
 * smart tabs:                            Geiser writes for you.
                                                               (line  27)
+* start REPL, automatically:             The source and the REPL.
+                                                              (line  85)
 * startup timeout:                       Customization and tips.
                                                               (line  56)
 * supported versions:                    Must needs.          (line   6)
 * swanking:                              Showing off.         (line   6)
 * switching schemes:                     The source and the REPL.
-                                                              (line 106)
+                                                              (line 110)
 * switching to module:                   The source and the REPL.
-                                                              (line  92)
+                                                              (line  96)
 * switching to REPL:                     The source and the REPL.
-                                                              (line  88)
+                                                              (line  92)
 * switching to source:                   The source and the REPL.
-                                                              (line  88)
+                                                              (line  92)
 * thanks:                                No hacker is an island.
                                                               (line   6)
 * timeout:                               Customization and tips.
@@ -1674,46 +1709,46 @@ Index
 
 
 Tag Table:
-Node: Top866
-Node: Introduction3285
-Node: Modus operandi3619
-Ref: current-module4274
-Node: Showing off5653
-Node: Installation6942
-Node: Must needs7155
-Node: The easy and quick way7928
-Node: From the source's mouth9419
-Node: Friends13087
-Ref: paredit13363
-Node: The REPL14514
-Ref: quick-start14633
-Node: Starting the REPL15024
-Node: First aids19369
-Node: Switching context21202
-Node: Completion and error handling23101
-Node: Autodoc and friends24739
-Ref: repl-mod26796
-Node: Seeing is believing27802
-Node: Customization and tips28814
-Ref: choosing-impl29543
-Ref: active-implementations29673
-Ref: impl-binary30052
-Node: Between the parens32966
-Node: Activating Geiser34028
-Node: The source and the REPL36638
-Ref: repl-association37680
-Ref: switching-repl-buff40756
-Node: Documentation helpers42443
-Ref: doc-browser46711
-Node: To eval or not to eval49277
-Node: To err perchance to debug52806
-Node: Jumping around54884
-Node: Geiser writes for you56160
-Node: Cheat sheet58321
-Node: Scheme buffers58705
-Node: REPL62139
-Node: Documentation browser64116
-Node: No hacker is an island65185
-Node: Index67759
+Node: Top872
+Node: Introduction3297
+Node: Modus operandi3631
+Ref: current-module4286
+Node: Showing off5665
+Node: Installation6954
+Node: Must needs7167
+Node: The easy and quick way7940
+Node: From the source's mouth9431
+Node: Friends13099
+Ref: paredit13375
+Node: The REPL14388
+Ref: quick-start14507
+Node: Starting the REPL14898
+Node: First aids19243
+Node: Switching context21076
+Node: Completion and error handling22975
+Node: Autodoc and friends24613
+Ref: repl-mod26670
+Node: Seeing is believing27676
+Node: Customization and tips28688
+Ref: choosing-impl29417
+Ref: active-implementations29547
+Ref: impl-binary29926
+Node: Between the parens33362
+Node: Activating Geiser34424
+Node: The source and the REPL37034
+Ref: repl-association38076
+Ref: switching-repl-buff41348
+Node: Documentation helpers43035
+Ref: doc-browser47303
+Node: To eval or not to eval50031
+Node: To err perchance to debug53671
+Node: Jumping around55749
+Node: Geiser writes for you57025
+Node: Cheat sheet59186
+Node: Scheme buffers59570
+Node: REPL63145
+Node: Documentation browser65122
+Node: No hacker is an island66191
+Node: Index69073
 
 End Tag Table

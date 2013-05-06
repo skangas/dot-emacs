@@ -1,6 +1,6 @@
 ;;; geiser-repl.el --- Geiser's REPL
 
-;; Copyright (C) 2009, 2010, 2011, 2012 Jose Antonio Ortega Ruiz
+;; Copyright (C) 2009, 2010, 2011, 2012, 2013 Jose Antonio Ortega Ruiz
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the Modified BSD License. You should
@@ -62,9 +62,9 @@ implementation name gets appended to it."
   :group 'geiser-repl)
 
 (geiser-custom--defcustom geiser-repl-history-no-dups-p t
-   "Whether to skip duplicates when recording history."
-   :type 'boolean
-   :group 'geiser-repl)
+  "Whether to skip duplicates when recording history."
+  :type 'boolean
+  :group 'geiser-repl)
 
 (geiser-custom--defcustom geiser-repl-save-debugging-history-p nil
   "Whether to skip debugging input in REPL history.
@@ -107,6 +107,12 @@ expression, if any."
 
 (geiser-custom--defcustom geiser-repl-query-on-exit-p nil
   "Whether to prompt for confirmation on \\[geiser-repl-exit]."
+  :type 'boolean
+  :group 'geiser-repl)
+
+(geiser-custom--defcustom geiser-repl-query-on-kill-p t
+  "Whether to prompt for confirmation when killing a REPL buffer with
+a life process."
   :type 'boolean
   :group 'geiser-repl)
 
@@ -328,6 +334,8 @@ module command as a string")
               'geiser-repl--output-filter
               nil
               t)
+    (set-process-query-on-exit-flag (get-buffer-process (current-buffer))
+                                    geiser-repl-query-on-kill-p)
     (message "%s up and running!" (geiser-repl--repl-name impl))))
 
 (defun geiser-repl--start-scheme (impl address prompt)
@@ -368,12 +376,15 @@ module command as a string")
                               (overlay-end comint-last-prompt-overlay)
                               t)))))
 
-(defun geiser-repl--connection ()
+(defun geiser-repl--connection* ()
   (let ((buffer (geiser-repl--set-up-repl geiser-impl--implementation)))
-    (or (and (buffer-live-p buffer)
-             (get-buffer-process buffer)
-             (with-current-buffer buffer geiser-repl--connection))
-        (error "No Geiser REPL for this buffer (try M-x run-geiser)"))))
+   (and (buffer-live-p buffer)
+        (get-buffer-process buffer)
+        (with-current-buffer buffer geiser-repl--connection))))
+
+(defun geiser-repl--connection ()
+  (or (geiser-repl--connection*)
+      (error "No Geiser REPL for this buffer (try M-x run-geiser)")))
 
 (setq geiser-eval--default-connection-function 'geiser-repl--connection)
 
@@ -583,6 +594,7 @@ buffer."
   (geiser-completion--setup t)
   (setq geiser-smart-tab-mode-string "")
   (geiser-smart-tab-mode t)
+  (geiser-syntax--add-kws)
   ;; enabling compilation-shell-minor-mode without the annoying highlighter
   (compilation-setup t))
 
@@ -668,6 +680,7 @@ buffer."
 
 (defun switch-to-geiser (&optional ask impl buffer)
   "Switch to running Geiser REPL.
+
 With prefix argument, ask for which one if more than one is running.
 If no REPL is running, execute `run-geiser' to start a fresh one."
   (interactive "P")
