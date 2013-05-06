@@ -132,6 +132,16 @@
 (global-set-key [next] 'my-scroll-up)
 (global-set-key [prior] 'my-scroll-down)
 
+(defun djcb-find-file-as-root ()
+  "Like `ido-find-file, but automatically edit the file with
+root-privileges (using tramp/sudo), if the file is not writable by
+user."
+  (interactive)
+  (let ((file (ido-read-file-name "Edit as root: ")))
+    (unless (file-writable-p file)
+      (setq file (concat "/sudo:root@localhost:" file)))
+    (find-file file)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
@@ -151,6 +161,7 @@
 (global-set-key (kbd "C-c r") 'org-remember)
 (global-set-key (kbd "C-c t") 'my-translate-using-tyda)
 ;; (global-set-key (kbd "C-x C-b") 'bs-show)
+;; (global-set-key (kbd "C-x f") 'djcb-find-file-as-root)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
 ;; OK, Steve Yegge, I'll give it a try

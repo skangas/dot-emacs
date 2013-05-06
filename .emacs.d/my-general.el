@@ -294,17 +294,20 @@
           ;; ("\\.pdf\\'" "evince" (file))
           )))
 
+
+
 ;; Do not warn about big files for openwith files
 (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
                                            (size op-type filename))
   (if (and openwith-mode
            (equal op-type "open")
-           (or (mapcar (lambda (oa)
-                         (save-match-data (string-match (car oa) filename)))
-                       openwith-associations)))
+           (some (lambda (oa)
+                   (save-match-data (string-match (car oa) filename)))
+                 openwith-associations))
       (let ((large-file-warning-threshold nil))
         ad-do-it)
     ad-do-it))
+(ad-deactivate 'abort-if-file-too-large) 
 (ad-activate 'abort-if-file-too-large) 
 
 (defun my-find-file-check-make-large-file-read-only-hook ()
