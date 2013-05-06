@@ -150,6 +150,7 @@
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c r") 'org-remember)
 (global-set-key (kbd "C-c t") 'my-translate-using-tyda)
+;; (global-set-key (kbd "C-x C-b") 'bs-show)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
 ;; OK, Steve Yegge, I'll give it a try
