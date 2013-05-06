@@ -52,7 +52,6 @@
 (require 'my-dired)
 ;; (require 'my-emms)
 (require 'my-org-mode)
-(require 'my-outline)
 ;; (require 'my-rcirc)
 (require 'my-tramp)
 ;; (require 'my-w3m)
