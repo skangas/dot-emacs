@@ -1,6 +1,6 @@
 ;; geiser-guile.el -- guile's implementation of the geiser protocols
 
-;; Copyright (C) 2009, 2010, 2011, 2012 Jose Antonio Ortega Ruiz
+;; Copyright (C) 2009, 2010, 2011, 2012, 2013 Jose Antonio Ortega Ruiz
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the Modified BSD License. You should
@@ -102,6 +102,11 @@ effect on new REPLs. For existing ones, use the command
 (geiser-custom--defcustom geiser-guile-extra-keywords nil
   "Extra keywords highlighted in Guile scheme buffers."
   :type '(repeat string)
+  :group 'geiser-guile)
+
+(geiser-custom--defcustom geiser-guile-case-sensitive-p t
+  "Non-nil means keyword highlighting is case-sensitive."
+  :type 'boolean
   :group 'geiser-guile)
 
 (geiser-custom--defcustom geiser-guile-manual-lookup-other-window-p nil
@@ -323,11 +328,13 @@ it spawn a server thread."
 (defun geiser-guile--info-spec (&optional nodes)
   (let* ((nrx "^[ 	]+-+ [^:]+:[ 	]*")
          (drx "\\b")
-         (res (when (Info-find-file "r5rs" t) `(("(r5rs)Index" nil ,nrx ,drx)))))
+         (res (when (Info-find-file "r5rs" t)
+                `(("(r5rs)Index" nil ,nrx ,drx)))))
     (dolist (node (or nodes geiser-guile-manual-lookup-nodes) res)
       (when (Info-find-file node t)
         (mapc (lambda (idx)
-                (add-to-list 'res (list (format "(%s)%s" node idx) nil nrx drx)))
+                (add-to-list 'res
+                             (list (format "(%s)%s" node idx) nil nrx drx)))
               '("Variable Index" "Procedure Index" "R5RS Index"))))))
 
 
@@ -364,7 +371,8 @@ it spawn a server thread."
   (display-error geiser-guile--display-error)
   (external-help guile--manual-look-up)
   (check-buffer geiser-guile--guess)
-  (keywords geiser-guile--keywords))
+  (keywords geiser-guile--keywords)
+  (case-sensitive geiser-guile-case-sensitive-p))
 
 (geiser-impl--add-to-alist 'regexp "\\.scm$" 'guile t)
 

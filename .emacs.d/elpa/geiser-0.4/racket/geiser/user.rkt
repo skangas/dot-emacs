@@ -1,6 +1,6 @@
 ;;; user.rkt -- global bindings visible to geiser users
 
-;; Copyright (C) 2010, 2011, 2012 Jose Antonio Ortega Ruiz
+;; Copyright (C) 2010, 2011, 2012, 2013 Jose Antonio Ortega Ruiz
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the Modified BSD License. You should
@@ -9,14 +9,16 @@
 
 ;; Start date: Wed Mar 31, 2010 22:24
 
-#lang racket/base
+#lang racket
 
 (provide init-geiser-repl run-geiser-server start-geiser)
 
 (require (for-syntax racket/base)
          mzlib/thread
          racket/tcp
+         racket/help
          geiser
+         geiser/autodoc
          geiser/images
          geiser/enter
          geiser/eval
@@ -79,6 +81,7 @@
          [(geiser-no-values) (datum->syntax #f (void))]
          [(add-to-load-path) (add-to-load-path (read))]
          [(set-image-cache) (image-cache (read))]
+         [(help) (get-help (read) (read))]
          [(image-cache) (image-cache)]
          [(gcd) (current-directory)]
          [(cd) (current-directory (read))]
@@ -87,8 +90,8 @@
 
 (define geiser-prompt
   (lambda ()
-    (printf "racket@~a> "
-            (namespace->module-name (current-namespace) (last-entered)))))
+    (let ([m (namespace->module-name (current-namespace) (last-entered))])
+      (printf "racket@~a> " (regexp-replace* " " m "_")))))
 
 (define (geiser-prompt-read prompt)
   (make-repl-reader (geiser-read prompt)))
@@ -96,6 +99,7 @@
 (define (init-geiser-repl)
   (compile-enforce-module-constants #f)
   (current-load/use-compiled geiser-loader)
+  (preload-help)
   (current-prompt-read (geiser-prompt-read geiser-prompt))
   (current-print maybe-print-image))
 
@@ -107,6 +111,7 @@
                  (current-load/use-compiled geiser-loader)
                  (current-prompt-read (geiser-prompt-read geiser-prompt))
                  (current-print maybe-print-image)]
+    (preload-help)
     (read-eval-print-loop)))
 
 (define server-channel (make-channel))
@@ -124,5 +129,6 @@
                     lsner)))))
 
 (define (start-geiser (port 0) (hostname #f) (enforce-module-constants #f))
-  (thread (lambda () (run-geiser-server port enforce-module-constants hostname)))
+  (thread (lambda ()
+            (run-geiser-server port enforce-module-constants hostname)))
   (channel-get server-channel))

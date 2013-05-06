@@ -1,6 +1,6 @@
 ;;; geiser-edit.el -- scheme edit locations
 
-;; Copyright (C) 2009, 2010, 2012 Jose Antonio Ortega Ruiz
+;; Copyright (C) 2009, 2010, 2012, 2013 Jose Antonio Ortega Ruiz
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the Modified BSD License. You should
@@ -234,6 +234,6 @@ With prefix, asks for the symbol to edit."
                             (geiser-completion--read-module)))
     (when marker (ring-insert find-tag-marker-ring marker))))
 
-
 
+
 (provide 'geiser-edit)
