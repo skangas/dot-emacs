@@ -52,7 +52,6 @@
 (require 'my-dired)
 ;; (require 'my-emms)
 (require 'my-org-mode)
-(require 'my-outline)
 ;; (require 'my-rcirc)
 (require 'my-tramp)
 ;; (require 'my-w3m)
@@ -67,6 +66,7 @@
 (require 'my-coding-java)
 (require 'my-coding-perl)
 ;;(require 'my-coding-php)
+(require 'my-coding-python)
 (require 'my-coding-scheme)
 
 (require 'my-desktop)
