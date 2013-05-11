@@ -1,5 +1,8 @@
 ;;; General settings
 
+(setq split-width-threshold 160)
+(setq split-height-threshold 0)
+
 (require 'ffap)
 (require 'ansi-color)
 
@@ -336,6 +339,50 @@
     ad-do-it
     (when (not (display-graphic-p))
       (setenv "GPG_AGENT_INFO" agent))))
+
+;;; moved here from buffer.el
+
+(setq ibuffer-saved-filter-groups
+  '(("default"      
+            ("Org"
+             (mode . org-mode))  
+            ("Mail"
+              (or
+               (mode . message-mode)
+               (mode . mail-mode)
+               (mode . gnus-group-mode)
+               (mode . gnus-summary-mode)
+               (mode . gnus-article-mode)
+               ))
+            ("JFS Accounting"
+              (filename . "src/jfsaccounting/"))
+            ("Programming"
+             (or
+              (mode . c-mode)
+              (mode . perl-mode)
+              (mode . python-mode)
+              (mode . java-mode)
+              (mode . emacs-lisp-mode)
+              ))
+            ("IRC"
+             (mode . rcirc-mode)))))
+
+(add-hook 'ibuffer-mode-hook
+  (lambda ()
+    (ibuffer-switch-to-saved-filter-groups "default")))
+
+(setq ibuffer-show-empty-filter-groups nil)
+
+
+;; Unique buffer names
+(require 'uniquify) ;; has to be a require
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;; winner-mode
+(setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
+(global-set-key (kbd "<C-s-left>") 'winner-undo)
+(global-set-key (kbd "<C-s-right>") 'winner-redo)
+(winner-mode t) ;; turn on the global minor mode
 
 (provide 'my-general)
 
