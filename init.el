@@ -66,7 +66,7 @@
 (require 'my-coding-java)
 (require 'my-coding-perl)
 ;;(require 'my-coding-php)
-(require 'my-coding-python)
+;;(require 'my-coding-python)
 (require 'my-coding-scheme)
 
 (require 'my-desktop)
