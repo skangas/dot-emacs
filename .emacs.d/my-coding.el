@@ -90,7 +90,7 @@
 (autoload 'flymake-mode "flymake" "flymake mode" t nil)
 (eval-after-load "flymake"
   '(progn
-     (defun my-flymake-show-next-error()
+     (defun my-flymake-show-next-error ()
        (interactive)
        (flymake-goto-next-error)
        (flymake-display-err-menu-for-current-line))

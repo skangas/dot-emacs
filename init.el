@@ -24,9 +24,9 @@
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives 
                '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
 
 ;; Add local elisp directories
@@ -71,6 +71,8 @@
 (require 'my-coding-scheme)
 
 (require 'my-desktop)
+
+(require 'init-google-translate)
 
 (require 'sk-lisp)
 
