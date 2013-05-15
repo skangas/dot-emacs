@@ -144,6 +144,26 @@ user."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+(global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
+(global-set-key (kbd "C-c e b") 'eval-buffer)
+(global-set-key (kbd "C-c e e") 'toggle-debug-on-error)
+;; (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
+(global-set-key (kbd "C-c e i") 'my-eval-and-replace)
+(global-set-key (kbd "C-c e r") 'eval-region)
+;; (global-set-key (kbd "C-c e s") 'scratch)
+(global-set-key (kbd "C-c e f") 'my-eval-and-replace)
+(global-set-key (kbd "C-c e m") 'macrostep-expand)
+
+(global-unset-key (kbd "C-h e"))
+(global-set-key (kbd "C-h e e") 'view-echo-area-messages)
+(global-set-key (kbd "C-h e f") 'find-function)
+(global-set-key (kbd "C-h e k") 'find-function-on-key)
+(global-set-key (kbd "C-h e l") 'find-library)
+(global-set-key (kbd "C-h e v") 'find-variable)
+(global-set-key (kbd "C-h e V") 'apropos-value)
+
 (global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
 (global-set-key (kbd "<f6>") 'mentor)
@@ -156,7 +176,6 @@ user."
 (global-set-key (kbd "C-c S") 'my-use-swedish-dictionary)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'bbdb)
-(global-set-key (kbd "C-c e") 'my-eval-and-replace)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c r") 'org-remember)
 (global-set-key (kbd "C-c t") 'my-translate-using-tyda)

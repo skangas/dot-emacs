@@ -4,8 +4,13 @@
 ;; make all scripts executable when saving
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
+(add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-lambda-mode)
+
+(when (require 'eval-expr)
+  (eval-expr-install))
+
 ;; auto-complete-mode
-(require 'auto-complete-config)
+;; (require 'auto-complete-config)
 (ac-config-default)
 
 ;; Shared bindings
