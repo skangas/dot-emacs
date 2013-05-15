@@ -293,8 +293,8 @@
           ;; ("\\.mp3\\'" "mplayer" (file))
           ;; ("\\.pdf\\'" "evince" (file))
           )))
-
-
+;;; FIXME: Do not do this for messages
+;;; ("\\.odt\\'" "libreoffice" (file))
 
 ;; Do not warn about big files for openwith files
 (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
