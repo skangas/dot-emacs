@@ -1,10 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General coding
 
-(autoload 'magit-status "magit" "magit" t nil)
-
 ;; make all scripts executable when saving
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+;; auto-complete-mode
+(require 'auto-complete-config)
+(ac-config-default)
 
 ;; Shared bindings
 (defun my-coding-keys (map)
@@ -90,6 +92,8 @@
      
      (add-hook 'flymake-mode-hook
                (local-set-key (kbd "C-c C-e") 'my-flymake-show-next-error))))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; speedbar
