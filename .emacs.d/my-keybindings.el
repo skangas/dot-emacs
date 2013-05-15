@@ -181,7 +181,7 @@ user."
 (global-set-key (kbd "C-c b") 'bbdb)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c r") 'org-remember)
-(global-set-key (kbd "C-c t") 'my-translate-using-tyda)
+;;(global-set-key (kbd "C-c t") 'my-translate-using-tyda)
 (global-set-key (kbd "C-c t") 'google-translate-at-point)
 (global-set-key (kbd "C-c T") 'google-translate-query-translate)
 ;; (global-set-key (kbd "C-x C-b") 'bs-show)

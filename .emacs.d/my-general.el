@@ -382,8 +382,15 @@
 (setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
 (global-set-key (kbd "<C-s-left>") 'winner-undo)
 (global-set-key (kbd "<C-s-right>") 'winner-redo)
-(winner-mode t) ;; turn on the global minor mode
+(winner-mode +1) ;; turn on the global minor mode
+
+;; helm
+(require 'helm-config)
+(global-set-key (kbd "C-c h") 'helm-mini)
+(setq helm-idle-delay 0.05)
+(setq helm-input-idle-delay 0.05)
 
 (provide 'my-general)
 
 ;; my-general.el ends here
+
