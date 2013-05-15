@@ -155,7 +155,7 @@ If NOERROR is not nil, do not raise error when the module is not found."
                                nil nil default)))
      (list module prefix)))
   (message "Pymacs loading %s..." module)
-  (let ((lisp-code (pymacs-call "pymacs_load_helper" module prefix noerror)))
+  (let ((lisp-code (pymacs-call "pymacs_load_helper" module prefix)))
     (cond (lisp-code (let ((result (eval lisp-code)))
                        (add-to-list 'pymacs-load-history
                                     (list module prefix noerror)
