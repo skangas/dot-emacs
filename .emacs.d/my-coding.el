@@ -2,14 +2,13 @@
 ;; General coding
 
 (when (require 'auto-complete-config nil t)
-  (ac-config-default))
+  (ac-config-default)
+  (setq ac-quick-help-delay 1.0))
 
 (when (require 'eval-expr nil t)
   (eval-expr-install))
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-(add-hook 'emacs-lisp-mode-hook '(lambda () (pretty-lambda-mode 1)))
 
 ;; Shared bindings
 (defun my-coding-keys (map)
@@ -29,6 +28,12 @@
 (setq compile-command "make -k -j5 ")
 
 (setq glasses-separate-parentheses-p nil)
+
+;; pretty-lambdada
+(when (require 'pretty-lambdada)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-lambda-mode)
+  (add-hook 'lisp-interaction-mode-hook 'turn-on-pretty-lambda-mode)
+  (add-hook 'ielm-mode-hook 'turn-on-pretty-lambda-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; eldoc
@@ -88,7 +93,7 @@
 (autoload 'flymake-mode "flymake" "flymake mode" t nil)
 (eval-after-load "flymake"
   '(progn
-     (defun my-flymake-show-next-error ()
+     (defun my-flymake-show-next-error()
        (interactive)
        (flymake-goto-next-error)
        (flymake-display-err-menu-for-current-line))

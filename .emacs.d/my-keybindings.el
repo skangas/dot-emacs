@@ -153,7 +153,6 @@ user."
 (global-set-key (kbd "C-c e i") 'my-eval-and-replace)
 (global-set-key (kbd "C-c e r") 'eval-region)
 ;; (global-set-key (kbd "C-c e s") 'scratch)
-(global-set-key (kbd "C-c e f") 'my-eval-and-replace)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
 
 (global-unset-key (kbd "C-h e"))
