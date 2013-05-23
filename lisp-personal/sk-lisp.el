@@ -107,14 +107,4 @@
             (push line lines)
             (forward-line 1)))))))
 
-;; count words function
-(defun count-words (start end)
-  "Print number of words in the region."
-  (interactive "r")
-  (save-excursion
-    (save-restriction
-      (narrow-to-region start end)
-      (goto-char (point-min))
-      (message (format "%d" (count-matches "\\sw+"))))))
-
 (provide 'sk-lisp)
