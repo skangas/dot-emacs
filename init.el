@@ -49,7 +49,6 @@
 (require 'my-abbrev)
 (require 'my-auto-insert-mode)
 (require 'my-bbdb)
-(require 'my-buffers)
 (require 'my-dired)
 ;; (require 'my-emms)
 (require 'my-org-mode)
@@ -108,11 +107,11 @@
 (load custom-file 'noerror)
 
 ;; Show current version (this needs to be last to be on top)
-(defun my-welcome-message ()
-  (insert (concat ";; " (substring (emacs-version) 0 16) "."))
-  (newline-and-indent)  (newline-and-indent))
-(add-hook 'after-init-hook 'my-welcome-message)
+(add-hook 'after-init-hook
+          (lambda ()
+            (insert (concat ";; " (substring (emacs-version) 0 16) "."))
+            (newline-and-indent)  (newline-and-indent)))
 
 ;; FIXME: Time .emacs load time
-;; (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
+;; (message ".emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
 ;;                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))

@@ -13,6 +13,8 @@
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" flymake-pylint-init))
 
+(add-hook 'python-mode-hook 'projectile-on)
+
 (provide 'my-coding-python)
 
 ;; my-coding-python.el ends here

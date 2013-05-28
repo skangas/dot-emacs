@@ -1,36 +1,15 @@
-(defun sk-cc-file-co ()
-  (interactive)
-  (shell-command 
-   (format "ct co -nc %s" 
-           (shell-quote-argument (buffer-file-name))))
-  (revert-buffer nil t nil))
-
-(defun sk-cc-file-ci ()
-  (interactive)
-  (shell-command 
-   (format "ct ci -nc %s" 
-           (shell-quote-argument (buffer-file-name))))
-  (revert-buffer nil t nil))
-
-(defun sk-word-wrapped-to-longlines ()
+(defun sk-clean-html ()
   (interactive)
   (save-excursion
     (save-restriction
-      (when (and mark-active transient-mark-mode)
-        (narrow-to-region (region-beginning) (region-end))
-        (goto-char (region-beginning))
-        (while (re-search-forward "\\(.\\) *\n *\\(.\\)" nil t)
-          (replace-match "\\1 \\2" nil))))))
-
-(defun sk-longlines-to-word-wrapped ()
-  (interactive)
-  (save-excursion
-    (save-restriction
-      (when (and mark-active transient-mark-mode)
-        (narrow-to-region (region-beginning) (region-end))
-        (goto-char (region-beginning))
-        (while (re-search-forward "\\(.\\) *\n *\\(.\\)" nil t)
-          (replace-match "\\1 \\2" nil))))))
+      (let ((ignored-tags (regexp-opt '("div" "span")))
+            (clean-tags (regexp-opt '("p" "strong" "b" "em" "i" "h1" "h2" "h3"))))
+        (goto-char (point-min))
+        (while (re-search-forward (concat "</?" ignored-tags "[^>]*>") nil t)
+          (replace-match ""))
+        (goto-char (point-min))
+        (while (re-search-forward (concat "<\\(/?" clean-tags "\\)[^>]*>") nil t)
+          (replace-match "<\\1>"))))))
 
 (defun sk-fix-org-html-export-for-web ()
   (interactive)
@@ -62,19 +41,6 @@
     (re-search-forward "^<p class=\"date\">")
     (beginning-of-line)
     (delete-region (point) (point-max))))
-
-(defun sk-clean-html ()
-  (interactive)
-  (save-excursion
-    (save-restriction
-      (let ((ignored-tags (regexp-opt '("div" "span")))
-            (clean-tags (regexp-opt '("p" "strong" "b" "em" "i" "h1" "h2" "h3"))))
-        (goto-char (point-min))
-        (while (re-search-forward (concat "</?" ignored-tags "[^>]*>") nil t)
-          (replace-match ""))
-        (goto-char (point-min))
-        (while (re-search-forward (concat "<\\(/?" clean-tags "\\)[^>]*>") nil t)
-          (replace-match "<\\1>"))))))
 
 (defun sk-replace-in-literal-string (regexp to-string)
   "Search and replace only in literal string"

@@ -1,17 +1,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General coding
 
-;; make all scripts executable when saving
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+(when (require 'auto-complete-config nil t)
+  (ac-config-default))
 
-(add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-lambda-mode)
-
-(when (require 'eval-expr)
+(when (require 'eval-expr nil t)
   (eval-expr-install))
 
-;; auto-complete-mode
-;; (require 'auto-complete-config)
-(ac-config-default)
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+(add-hook 'emacs-lisp-mode-hook '(lambda () (pretty-lambda-mode 1)))
 
 ;; Shared bindings
 (defun my-coding-keys (map)
