@@ -17,6 +17,12 @@
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 
+(defmacro after (mode &rest body)
+  "`eval-after-load' MODE evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,mode
+     '(progn ,@body)))
+
 ;; FIXME: add visual line mode to all modes where it makes sense
 
 (run-if-fboundp (menu-bar-mode -1))        ; No menu
@@ -257,13 +263,13 @@
 
 ;;; abbreviate mode names
 (when (require 'diminish nil 'noerror)
-  (eval-after-load "abbrev"
+  (after 'abbrev
     '(diminish 'abbrev-mode "Ab"))
-  (eval-after-load "company"
+  (after 'company
     '(diminish 'company-mode "Cmp"))
-  (eval-after-load "paredit"
+  (after 'paredit
     '(diminish 'paredit-mode "ParEd"))
-  (eval-after-load "yasnippet"
+  (after 'yasnippet
     '(diminish 'yas/minor-mode "Y")))
 (add-hook 'emacs-lisp-mode-hook 
   (lambda()
@@ -354,8 +360,6 @@
                (mode . gnus-summary-mode)
                (mode . gnus-article-mode)
                ))
-            ("JFS Accounting"
-              (filename . "src/jfsaccounting/"))
             ("Programming"
              (or
               (mode . c-mode)
@@ -373,22 +377,16 @@
 
 (setq ibuffer-show-empty-filter-groups nil)
 
-
 ;; Unique buffer names
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
 ;; winner-mode
+(require 'winner)
 (setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
 (global-set-key (kbd "<C-s-left>") 'winner-undo)
 (global-set-key (kbd "<C-s-right>") 'winner-redo)
 (winner-mode +1) ;; turn on the global minor mode
-
-;; helm
-(require 'helm-config)
-(global-set-key (kbd "C-c h") 'helm-mini)
-(setq helm-idle-delay 0.05)
-(setq helm-input-idle-delay 0.05)
 
 (provide 'my-general)
 

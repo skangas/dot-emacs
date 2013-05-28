@@ -1,4 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PERL
 
 ;; use cperl-mode instead of perl-mode
@@ -7,43 +6,30 @@
 ;; go to the correct file when using ffap on a perl module
 (eval-after-load "ffap" '(require 'ffap-perl-module))
 
-;; template-toolkit-mode
-(autoload 'tt-mode "tt-mode" "TT Mode." t)
-(add-to-list 'auto-mode-alist '("\\.tt$" . tt-mode))
-
-;; yaml-mode
-(autoload 'yaml-mode "yaml-mode" "YAML Mode." t)
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (require 'sk-macros)
-(eval-after-load "cperl-mode"
-  '(progn
-     (setq cperl-clobber-lisp-bindings t)
-     (setq cperl-highlight-variables-indiscriminately t) ;; hilight all scalars
-     (setq cperl-lazy-help-time 1) ;; show help after x seconds
-     (setq cperl-invalid-face nil) ;; don't show trailing whitespace with _
-     (setq cperl-highlight-variables-indiscriminately nil)
+(after 'cperl-mode
+  (setq cperl-clobber-lisp-bindings t)
+  (setq cperl-highlight-variables-indiscriminately t) ;; hilight all scalars
+  (setq cperl-lazy-help-time 1) ;; show help after x seconds
+  (setq cperl-invalid-face nil) ;; don't show trailing whitespace with _
+  (setq cperl-highlight-variables-indiscriminately nil)
 
-     (setq cperl-electric-linefeed t)
-     (setq cperl-electric-keywords t)
-     (setq cperl-electric-parens nil)
+  (setq cperl-electric-linefeed t)
+  (setq cperl-electric-keywords t)
+  (setq cperl-electric-parens nil)
 
-     ;; indentation settings
-     (setq cperl-tab-always-indent t)            ;; TAB always indents line
-     (setq cperl-indent-left-aligned-comments t) ;; indent left aligned comments
-     (setq cperl-auto-newline nil)               ;; No automatic newline
-     (setq cperl-auto-newline-after-colon)       ;; automatic newline after colon when above setting enabled
-     (setq cperl-indent-level 4)
-     (setq cperl-continued-statement-offset 4)
-     (setq cperl-continued-brace-offset 0)
-     (setq cperl-indent-parens-as-block t)       ;; indent parenthetic expressions sanely
-     (setq cperl-close-paren-offset -4)          ;; needed for parens-as-block
-     (setq cperl-label-offset 0)                 ;; extra indentation for line that is a label
-     (setq cperl-brace-offset 0)                 ;; braces should only get default indentation
-
-     (add-hook 'cperl-mode-hook 'my-cperl-customizations t)))
+  ;; indentation settings
+  (setq cperl-tab-always-indent t)            ;; TAB always indents line
+  (setq cperl-indent-left-aligned-comments t) ;; indent left aligned comments
+  (setq cperl-auto-newline nil)               ;; No automatic newline
+  (setq cperl-auto-newline-after-colon) ;; automatic newline after colon when above setting enabled
+  (setq cperl-indent-level 4)
+  (setq cperl-continued-statement-offset 4)
+  (setq cperl-continued-brace-offset 0)
+  (setq cperl-indent-parens-as-block t) ;; indent parenthetic expressions sanely
+  (setq cperl-close-paren-offset -4)    ;; needed for parens-as-block
+  (setq cperl-label-offset 0) ;; extra indentation for line that is a label
+  (setq cperl-brace-offset 0) ;; braces should only get default indentation
 
 (defun my-cperl-customizations ()
   "cperl-mode customizations that must be done after cperl-mode loads"
@@ -61,7 +47,7 @@
   ;; turn on auto-completion of keywords
   (abbrev-mode 1)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; outline-minor-mode
 
   ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
@@ -88,11 +74,11 @@
          "[ \\t]*"                      ; Skip leading whitespace
          "\\("                          ; begin capture group \1
          (sk-join "\\|"
-                  '("=head[12]"              ; POD header
-                    "package"                ; package
-                    "=item"                  ; POD item
-                    "sub"                    ; subroutine definition
-                    "class" "has"            ; use Moose;
+                  '("=head[12]"         ; POD header
+                    "package"           ; package
+                    "=item"             ; POD item
+                    "sub"               ; subroutine definition
+                    "class" "has"       ; use Moose;
                     ))
          "\\)"                          ; end capture group \1
          "\\b"                          ; Word boundary
@@ -101,6 +87,9 @@
   (setq cperl-outline-regexp  my-cperl-outline-regexp)
   (setq outline-regexp        cperl-outline-regexp)
   (setq outline-level        'cperl-outline-level))
+  (add-hook 'cperl-mode-hook 'my-cperl-customizations t))
+
+
 
 ;;; perltidy
 (defun perltidy-region ()
