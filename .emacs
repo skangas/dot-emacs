@@ -4,6 +4,16 @@
 
 (defvar *emacs-load-start* (current-time))
 
+(let ((d1 "~/.emacs.d/elpa/auto-compile-20130612.152/")
+      (d2 ".emacs.d/elpa/packed-20130502.2340/"))
+  (when (and (file-directory-p d1)
+	     (file-directory-p d2))
+    (add-to-list 'load-path d1)
+    (add-to-list 'load-path d2)
+    (require 'auto-compile)
+    (auto-compile-on-load-mode 1)
+    (auto-compile-on-save-mode 1)))
+
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
