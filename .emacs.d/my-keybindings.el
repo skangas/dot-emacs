@@ -89,9 +89,10 @@
   (let* ((ord (thing-at-point 'word))
          (url (concat "http://tyda.se/search?form=1&w=" ord)))
     (if ord
-        (browse-url-generic url (if arg
-                                    (not browse-url-new-window-flag)
-                                  browse-url-new-window-flag))
+        (browse-url-default-browser url
+                                    (if arg
+                                        (not browse-url-new-window-flag)
+                                      browse-url-new-window-flag))
       (error "No word at point"))))
 
 (defun my-emms-browser ()
@@ -180,7 +181,7 @@ user."
 (global-set-key (kbd "C-c b") 'bbdb)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c r") 'org-remember)
-;;(global-set-key (kbd "C-c t") 'my-translate-using-tyda)
+(global-set-key (kbd "C-c t") 'my-translate-using-tyda)
 (global-set-key (kbd "C-c t") 'google-translate-at-point)
 (global-set-key (kbd "C-c T") 'google-translate-query-translate)
 ;; (global-set-key (kbd "C-x C-b") 'bs-show)
