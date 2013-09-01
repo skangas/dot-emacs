@@ -1,7 +1,7 @@
 (require 'bbdb-loaddefs nil t)
 (require 'bbdb nil t)
 
-(after 'bbdb
+(eval-after-load 'bbdb
   (when (> (string-to-number bbdb-version) 3)
     (when (fboundp 'bbdb-initialize)
       (bbdb-initialize 'gnus 'message))

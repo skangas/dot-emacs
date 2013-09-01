@@ -50,6 +50,12 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
+(defmacro after (mode &rest body)
+  "`eval-after-load' MODE evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,mode
+     '(progn ,@body)))
+
 ;; Require my configuration files
 (require 'my-color-theme)
 (require 'my-general)
