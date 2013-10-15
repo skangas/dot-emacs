@@ -1,5 +1,12 @@
 ;; pymacs
-(pymacs-load "ropemacs" "rope-")
+
+(require 'python)
+(require 'projectile)
+(require 'pymacs)
+
+(eval-after-load 'projectile
+  (progn
+    (add-hook 'python-mode-hook 'projectile-on)))
 
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
@@ -12,8 +19,6 @@
 
 (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" flymake-pylint-init))
-
-(add-hook 'python-mode-hook 'projectile-on)
 
 (provide 'my-coding-python)
 
