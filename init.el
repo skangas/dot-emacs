@@ -82,7 +82,7 @@
 (require 'my-coding-java)
 (require 'my-coding-perl)
 ;;(require 'my-coding-php)
-;;(require 'my-coding-python)
+(require 'my-coding-python)
 (require 'my-coding-scheme)
 
 (require 'my-desktop)
@@ -133,3 +133,5 @@
 ;; FIXME: Time .emacs load time
 ;; (message ".emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
 ;;                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+
+(pymacs-load "ropemacs" "rope-")
