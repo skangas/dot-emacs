@@ -29,6 +29,8 @@
 
 (setq glasses-separate-parentheses-p nil)
 
+;; (projectile ido-flx)
+
 ;; pretty-lambdada
 (when (require 'pretty-lambdada)
   (add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-lambda-mode)
