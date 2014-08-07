@@ -1,3 +1,4 @@
+;; -*- no-byte-compile: t -*-
 ;;
 ;; ~skangas/.emacs
 ;;
