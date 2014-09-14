@@ -13,7 +13,7 @@
 
 (eval-after-load 'projectile
   (progn
-    (add-hook 'python-mode-hook 'projectile-on)))
+    (add-hook 'python-mode-hook 'projectile-mode)))
 
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
@@ -28,7 +28,7 @@
              '("\\.py\\'" flymake-pylint-init))
 
 (defun my-load-pymacs ()
- (pymacs-load "ropemacs" "rope-"))
+  (pymacs-load "ropemacs" "rope-"))
 
 (provide 'my-coding-python)
 
