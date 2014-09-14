@@ -24,17 +24,17 @@
     (setq c-basic-offset 4
           tab-width 4
           indent-tabs-mode nil))
-  (add-hook 'jde-mode-hook 'my-java-mode-customizations)
+  (add-hook 'jde-mode-hook 'my-java-mode-customizations))
 
-  (after 'jde-javadoc
-  (jde-javadoc-define-template 'jde-javadoc-author-tag-template "\" * @author \" user-full-name")
-  (jde-javadoc-define-template 'jde-javadoc-version-tag-template "\"* @version $Id$\"")
-  (jde-javadoc-define-template 'jde-javadoc-describe-class-template nil)
-  (jde-javadoc-define-template 'jde-javadoc-describe-constructor-template "\"Constructs a new \" name \" object.\"")
-  (jde-javadoc-define-template 'jde-javadoc-describe-method-template nil)
-  (jde-javadoc-define-template 'jde-javadoc-describe-field-template "\"* \"")
-  (jde-javadoc-define-template 'jde-javadoc-param-tag-template "\"* @param \" name")
-  (jde-javadoc-define-template 'jde-javadoc-return-tag-template "\"* @return \"")))
+(after 'jde-javadoc
+    (jde-javadoc-define-template 'jde-javadoc-author-tag-template "\" * @author \" user-full-name")
+    (jde-javadoc-define-template 'jde-javadoc-version-tag-template "\"* @version $Id$\"")
+    (jde-javadoc-define-template 'jde-javadoc-describe-class-template nil)
+    (jde-javadoc-define-template 'jde-javadoc-describe-constructor-template "\"Constructs a new \" name \" object.\"")
+    (jde-javadoc-define-template 'jde-javadoc-describe-method-template nil)
+    (jde-javadoc-define-template 'jde-javadoc-describe-field-template "\"* \"")
+    (jde-javadoc-define-template 'jde-javadoc-param-tag-template "\"* @param \" name")
+    (jde-javadoc-define-template 'jde-javadoc-return-tag-template "\"* @return \""))
 
 (provide 'my-coding-java)
 
