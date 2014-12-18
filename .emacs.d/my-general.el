@@ -17,12 +17,6 @@
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
-
 ;; FIXME: add visual line mode to all modes where it makes sense
 
 (run-if-fboundp (menu-bar-mode -1))        ; No menu

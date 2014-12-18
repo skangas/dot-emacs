@@ -5,6 +5,12 @@
 
 (defvar *emacs-load-start* (current-time))
 
+(defmacro after (mode &rest body)
+  "`eval-after-load' MODE evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,mode
+     '(progn ,@body)))
+
 (let ((d1 "~/.emacs.d/elpa/auto-compile-20130612.152/")
       (d2 ".emacs.d/elpa/packed-20130502.2340/"))
   (when (and (file-directory-p d1)
@@ -51,12 +57,6 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
-
 ;; Require my configuration files
 (require 'my-color-theme)
 (require 'my-general)
@@ -84,7 +84,7 @@
 (require 'my-coding-perl)
 ;;(require 'my-coding-php)
 (require 'my-coding-python)
-(require 'my-coding-scheme)
+;; (require 'my-coding-scheme)
 
 (require 'my-desktop)
 
