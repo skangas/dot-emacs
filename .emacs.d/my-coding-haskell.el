@@ -33,11 +33,11 @@ This will run newline-and-indent, and then indent once more."
     	      (concat "-i"base-dir)  ;;; can be expanded for additional -i options as in the Perl script
     	      source)))
 
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-ghci)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'haskell-refac-mode)
-(add-hook 'haskell-mode-hook 'hs-lint-mode-hook)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-ghci)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;; (add-hook 'haskell-mode-hook 'haskell-refac-mode)
+;; (add-hook 'haskell-mode-hook 'hs-lint-mode-hook)
 
 ;; show error below
 (when (fboundp 'resize-minibuffer-mode) ; for old emacs
@@ -98,6 +98,8 @@ This will run newline-and-indent, and then indent once more."
  '(lambda ()
     (define-key haskell-mode-map "\C-cd"
       'credmp/flymake-display-err-minibuf)))
+
+(add-hook 'haskell-mode-hook 'haskell-simple-indent-mode)
 
 (provide 'my-coding-haskell)
 
