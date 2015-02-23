@@ -71,7 +71,7 @@
 (require 'my-org-mode)
 ;; (require 'my-rcirc)
 (require 'my-tramp)
-;; (require 'my-w3m)
+(require 'my-w3m)
 
 (require 'my-coding)
 (require 'my-cedet)
