@@ -1,6 +1,9 @@
 (require 'dired)
 (require 'dired-x) ;; require immediately to provide C-x C-j
 
+(when (require 'dired-aux)
+  (require 'dired-async))
+
 (setq dired-listing-switches "-lAh"  ;; Use human sizes
       dired-dwim-target t            ;; Try to guess a default target directory
       dired-isearch-filenames 'dwim) ;; Search filenames only
