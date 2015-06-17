@@ -145,6 +145,12 @@ user."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Switch C-h and C-s for ergonomic reasons
+(global-set-key (kbd "C-h") 'isearch-forward)
+(global-set-key (kbd "C-s") 'help-command)
+(define-key isearch-mode-map "\C-h" 'isearch-repeat-forward)
+(define-key isearch-mode-map "\C-s" 'help-command)
+
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 (global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
@@ -156,13 +162,13 @@ user."
 ;; (global-set-key (kbd "C-c e s") 'scratch)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
 
-(global-unset-key (kbd "C-h e"))
-(global-set-key (kbd "C-h e e") 'view-echo-area-messages)
-(global-set-key (kbd "C-h e f") 'find-function)
-(global-set-key (kbd "C-h e k") 'find-function-on-key)
-(global-set-key (kbd "C-h e l") 'find-library)
-(global-set-key (kbd "C-h e v") 'find-variable)
-(global-set-key (kbd "C-h e V") 'apropos-value)
+(global-unset-key (kbd "C-s e"))
+(global-set-key (kbd "C-s e e") 'view-echo-area-messages)
+(global-set-key (kbd "C-s e f") 'find-function)
+(global-set-key (kbd "C-s e k") 'find-function-on-key)
+(global-set-key (kbd "C-s e l") 'find-library)
+(global-set-key (kbd "C-s e v") 'find-variable)
+(global-set-key (kbd "C-s e V") 'apropos-value)
 
 (global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
