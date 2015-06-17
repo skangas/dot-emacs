@@ -5,7 +5,13 @@
 
 (defvar *emacs-load-start* (current-time))
 
-(let ((d1 "~/.emacs.d/elpa/auto-compile-20130612.152/")
+(defmacro after (mode &rest body)
+  "`eval-after-load' MODE evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,mode
+     '(progn ,@body)))
+
+(let ((d1 (car  (last (file-expand-wildcards "~/.emacs.d/elpa/auto-compile-20*"))))
       (d2 ".emacs.d/elpa/packed-20130502.2340/"))
   (when (and (file-directory-p d1)
 	     (file-directory-p d2))
@@ -51,12 +57,6 @@
   (unless (file-directory-p dir)
     (make-directory dir)))
 
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
-
 ;; Require my configuration files
 (require 'my-color-theme)
 (require 'my-general)
@@ -71,7 +71,7 @@
 (require 'my-org-mode)
 ;; (require 'my-rcirc)
 (require 'my-tramp)
-;; (require 'my-w3m)
+(require 'my-w3m)
 
 (require 'my-coding)
 (require 'my-cedet)
@@ -79,12 +79,12 @@
 ;; (require 'my-coding-common-lisp)
 (require 'my-coding-cpp)
 (require 'my-coding-elisp)
-;; (require 'my-coding-haskell)
+(require 'my-coding-haskell)
 (require 'my-coding-java)
 (require 'my-coding-perl)
 ;;(require 'my-coding-php)
 (require 'my-coding-python)
-(require 'my-coding-scheme)
+;; (require 'my-coding-scheme)
 
 (require 'my-desktop)
 
@@ -131,6 +131,6 @@
             (insert (concat ";; " (substring (emacs-version) 0 16) "."))
             (newline-and-indent)  (newline-and-indent)))
 
-;; FIXME: Time .emacs load time
-;; (message ".emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
-;;                            (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+;; Time .emacs load time
+(message ".emacs loaded in %ds" (destructuring-bind (hi lo ms ps) (current-time)
+                           (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))

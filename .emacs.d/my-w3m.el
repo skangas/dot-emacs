@@ -1,7 +1,7 @@
+(require 'w3m-load)
 (if (= emacs-major-version 23)
     (progn
-      (require 'w3m-load))
-      (require 'w3m))
+      (require 'w3m)))
 
 ;(setq w3m-profile-directory "~/.w3m")
 
@@ -18,25 +18,32 @@
 
 (eval-after-load "w3m"
   '(progn
+     (setq w3m-home-page "http://www.duckduckgo.com/")
      (setq w3m-key-binding 'info)
-     (setq w3m-fill-column 80) ;; fill columns
+     (setq w3m-fill-column 80)
+     ;; enable cookies
+     (setq w3m-use-cookies t)
+     (setq w3m-cookie-accept-bad-cookies t)
 
-     ;; key bindings
-     (add-hook 'w3m-mode-hook
-               '(lambda ()
-                  (define-key w3m-mode-map [?f] 'w3m-isearch-links)
-                  (define-key w3m-mode-map "B" 'w3m-view-previous-page)
-                  (define-key w3m-mode-map "o" 'w3m-history)
-                  (define-key w3m-mode-map "O" 'w3m-db-history)
-                  (define-key w3m-mode-map "h" nil)
-                  (define-key w3m-mode-map "j" nil)
-                  (define-key w3m-mode-map "k" nil)
-                  (define-key w3m-mode-map "l" nil)
-                  (define-key w3m-mode-map "W" nil)))
+     (defun skangas-w3m-bindings ()
+       (define-key w3m-mode-map [?f] 'w3m-isearch-links)
+       ;; (define-key w3m-mode-map "B" 'w3m-view-previous-page)
+       ;; (define-key w3m-mode-map "o" 'w3m-history)
+       ;; (define-key w3m-mode-map "O" 'w3m-db-history)
+       (define-key w3m-mode-map [up] 'previous-line)
+       (define-key w3m-mode-map [down] 'next-line)
+       (define-key w3m-mode-map [left] 'left-char)
+       (define-key w3m-mode-map [right] 'right-char)
+       (define-key w3m-mode-map "h" nil)
+       (define-key w3m-mode-map "j" nil)
+       (define-key w3m-mode-map "k" nil)
+       (define-key w3m-mode-map "l" nil)
+       (define-key w3m-mode-map "W" nil))
+     (add-hook 'w3m-mode-hook 'skangas-w3m-bindings)
 
-     ;; don't enable cookies
-     (setq w3m-use-cookies nil)
-     (setq w3m-cookie-accept-bad-cookies nil)
+     (when (require 'w3m-search)
+       (add-to-list 'w3m-search-engine-alist '("DuckDuckGo" "https://duckduckgo.com/lite/?q=%s&kp=1"))
+       (setq w3m-search-default-engine "DuckDuckGo"))
 
      ;; descriptive buffer names
      (add-hook 'w3m-display-hook
@@ -44,27 +51,13 @@
                  (rename-buffer
                   (format "*w3m: %s*" (or w3m-current-title
                                           w3m-current-url)) t)))
-
      ;; remove trailing whitespace
      (add-hook 'w3m-display-hook
                (lambda (url)
                  (let ((buffer-read-only nil))
                    (delete-trailing-whitespace))))
 
-     ;; bookmark to delicious
-     ;; (defun ted-delicious-url ()
-     ;;   "Bookmark this page with del.icio.us."
-     ;;   (interactive)
-     ;;   (w3m-goto-url
-     ;;    (concat "http://del.icio.us/skangas?"
-     ;;            "url="    (w3m-url-encode-string w3m-current-url)
-     ;;            "&title=" (w3m-url-encode-string w3m-current-title))))
-
-     ;; (eval-after-load "w3m"
-     ;;   '(define-key w3m-info-like-map "a" 'ted-delicious-url))
-
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; isearch only for links -- NECESSARY ADDITION
+     ;; isearch only for links -- prefix arg to search all text
      (defvar w3m-isearch-links-do-wrap nil
        "Used internally for fast search wrapping.")
      (defun w3m-isearch-links (&optional regexp)
