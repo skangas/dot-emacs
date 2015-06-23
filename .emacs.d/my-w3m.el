@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; choose browser
-(setq browse-url-generic-program "/usr/bin/conkeror")
+(setq browse-url-generic-program "firefox")
 (defun choose-browser (url &rest args)
   (interactive "sURL: ")
   (if (y-or-n-p "Use external browser? ")
