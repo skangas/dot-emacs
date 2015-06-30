@@ -1,7 +1,7 @@
 ;;(require 'org-install)
 
 (require 'org-protocol)
-(require 'org-exp-blocks)
+;; (require 'org-exp-blocks)
 
 (eval-after-load "org"
   '(progn
@@ -145,20 +145,22 @@
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; remember.el
 
-     (org-remember-insinuate)
+     ;; FIXME -- for org-capture
 
-     (setq org-directory "~/org/")
+     ;; (org-remember-insinuate)
+
+     ;; (setq org-directory "~/org/")
      
-     (setq org-default-notes-file (concat org-directory "notes.org"))
+     ;; (setq org-default-notes-file (concat org-directory "notes.org"))
 
-     (setq org-remember-templates
-           `(("Todo" ?t "* NEXT %?\n%U" "~/org/refile.org")
-             ("Länk" ?l "* NEXT %?\n%U\n%a\n  %i" "~/org/refile.org")
-             ("Note" ?n "* %? :NOTE:\n%U" "~/org/refile.org")             
-             ;; default for org-protocol://remember://
-             (?w ,(concat "* %c\n%U\n%i"
-                          "%^{content_tags}p")
-                 "~/org/notes/bookmarks.org" "Bookmarks")))
+     ;; (setq org-remember-templates
+     ;;       `(("Todo" ?t "* NEXT %?\n%U" "~/org/refile.org")
+     ;;         ("Länk" ?l "* NEXT %?\n%U\n%a\n  %i" "~/org/refile.org")
+     ;;         ("Note" ?n "* %? :NOTE:\n%U" "~/org/refile.org")             
+     ;;         ;; default for org-protocol://remember://
+     ;;         (?w ,(concat "* %c\n%U\n%i"
+     ;;                      "%^{content_tags}p")
+     ;;             "~/org/notes/bookmarks.org" "Bookmarks")))
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; refile
@@ -278,15 +280,15 @@
                                       (latex . t)))
 
 
-     ;; Load necessary packages for latex
-     (require 'org-latex)
+     ;; ;; Load necessary packages for latex
+     ;; (require 'org-latex)
 
-     ;; export listings
-     (setq org-export-latex-listings t)
+     ;; ;; export listings
+     ;; (setq org-export-latex-listings t)
 
-     ;; export listings
-     (add-to-list 'org-export-latex-packages-alist '("" "listings"))
-     (add-to-list 'org-export-latex-packages-alist '("" "color"))
+     ;; ;; export listings
+     ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
+     ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
      ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; ;; iimage -- display images in your org-mode-file
