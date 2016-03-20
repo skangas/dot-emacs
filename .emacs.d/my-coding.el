@@ -18,24 +18,21 @@
   (define-key map (kbd "M-?")                 'indent-region))
 
 ;; Mark special words
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-              '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+(defun my-highlight-special-words ()
+  (font-lock-add-keywords nil
+                          '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
 
-;(set-face-underline 'font-lock-warning-face "yellow")
-
-(setq compile-command "make -k -j5 ")
-
-(setq glasses-separate-parentheses-p nil)
-
-;; (projectile ido-flx)
+(add-hook 'c-mode-common-hook 'my-highlight-special-words)
+(set-face-underline 'font-lock-warning-face "yellow")
 
 ;; pretty-lambdada
 (when (require 'pretty-lambdada)
   (add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-lambda-mode)
   (add-hook 'lisp-interaction-mode-hook 'turn-on-pretty-lambda-mode)
   (add-hook 'ielm-mode-hook 'turn-on-pretty-lambda-mode))
+
+(setq glasses-separate-parentheses-p nil)
+;; (projectile ido-flx)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; eldoc
@@ -103,31 +100,12 @@
      (add-hook 'flymake-mode-hook
                (local-set-key (kbd "C-c C-e") 'my-flymake-show-next-error))))
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; speedbar
-
-;; (require 'sr-speedbar)
-
-;; TODO: go to correct window
-;; (defun my-close-speedbar-fun ()
-;;   (interactive)
-;;   (when (string-equal major-mode "speedbar-mode")
-;;     ;; (let ((sb-frame (speedbar-current-frame)))
-;;     ;;   (dframe-select-attached-frame sb-frame)
-;;       (delete-window)))
-;;       ;; (select-frame back-frame))))
-
-;; (setq speedbar-mode-hook
-;;       (lambda ()
-;;         (define-key speedbar-key-map (kbd "q") 'my-close-speedbar-fun)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; compile command
 
-;; this function is used to set up compile command in both c and c++ conf
+(setq compile-command "make -k -j5 ")
 
+;; this function is used to set up compile command in both c and c++ conf
 (defun my-compile-runs-makefile-or-compiler (create-compiler-command)
   "Configure compile command to run Makefile if it exists, or
 otherwise use the compiler command given by passed in
@@ -137,6 +115,20 @@ compiler-command."
          (when (buffer-file-name)
            (let ((file (file-name-nondirectory buffer-file-name)))
              (funcall create-compiler-command file))))))
+
+(add-hook 'c-mode-hook
+   (lambda ()
+     (my-compile-runs-makefile-or-compiler
+      (lambda (file)
+        (concat "gcc -O2 -Wall -o " (file-name-sans-extension file)
+                " " file)))))
+
+(add-hook 'c++-mode-hook
+   (lambda ()
+     (my-compile-runs-makefile-or-compiler
+      (lambda (file)
+        (concat "g++ -O2 -Wall -o " (file-name-sans-extension file)
+                " " file)))))
 
 (provide 'my-coding)
 
