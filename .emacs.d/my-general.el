@@ -375,6 +375,16 @@
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+;; choose browser
+(setq browse-url-generic-program "firefox")
+(defun choose-browser (url &rest args)
+  (interactive "sURL: ")
+  (if (y-or-n-p "Use external browser? ")
+      (browse-url-generic url)
+    (w3m-browse-url url)))
+;;(setq browse-url-browser-function 'browse-url-generic)
+(setq browse-url-browser-function 'choose-browser)
+
 ;; winner-mode
 (require 'winner)
 (setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode

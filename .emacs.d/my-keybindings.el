@@ -150,6 +150,8 @@ user."
 (global-set-key (kbd "C-s") 'help-command)
 (define-key isearch-mode-map "\C-h" 'isearch-repeat-forward)
 (define-key isearch-mode-map "\C-s" 'help-command)
+(define-key ido-common-completion-map "\C-h" 'ido-next-match)
+(define-key ido-common-completion-map "\C-s" 'help-command)
 
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 (global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
