@@ -7,13 +7,13 @@
   '(progn
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; MobileOrg
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; MobileOrg
      (setq org-mobile-directory "~/Dropbox/mobileorg")
      ;(setq org-mobile-files "~/org/todo.org")
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; org-mode hooks
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; org-mode hooks
      (defun my-org-mode-hook-defun ()
        ;; make sure cua-mode is disabled
        (cua-mode -1)
@@ -40,8 +40,8 @@
      ;; Save all org-mode buffers every hour
      (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; options
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; options
 
      ;; Disable priority commands
      (setq org-enable-priority-commands nil)
@@ -101,69 +101,22 @@
      ;; disable the default org-mode stuck projects agenda view
      (setq org-stuck-projects (quote ("" nil nil "")))
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; reftex
-     ;; (defun org-mode-reftex-setup ()
-     ;;   (load-library "reftex")
-     ;;   (and (buffer-file-name) (file-exists-p (buffer-file-name))
-     ;;        (progn
-     ;;          (reftex-parse-all))))
-     ;; (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; org-capture
 
-     ;; ;;;; use latexmk to generate pdf (needed for bibtex to work)
-     ;; ;; sudo apt-get install latexmk
-     ;; (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
+     (setq org-directory "~/org/")
+     (setq org-default-notes-file (concat org-directory "notes.org"))
 
-     ;; (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-     ;; (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
+     (setq org-capture-templates
+      '(("t" "Todo" entry (file "~/org/refile.org")
+         "* NEXT %?\n%U  %i")
+        ("l" "Todo with link" entry (file "~/org/refile.org")
+         "* NEXT %?\n%U  %i\n  %a")
+        ("n" "Note" entry (file "~/org/refile.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
 
-     ;; (setq reftex-default-bibliography
-     ;;       '("default.bib" "referenser.bib"))
-
-     ;; (setq org-latex-to-pdf-process
-     ;;       '("pdflatex -interaction nonstopmode -output-directory %o %f"
-     ;;         "bibtex %f"
-     ;;         "pdflatex -interaction nonstopmode -output-directory %o %f"
-     ;;         "pdflatex -interaction nonstopmode -output-directory %o %f"))
-
-     ;; http://www-public.it-sudparis.eu/~berger_o/weblog/2012/03/23/how-to-manage-and-export-bibliographic-notesrefs-in-org-mode/
-     ;; (defun my-rtcite-export-handler (path desc format)
-     ;;   (message "my-rtcite-export-handler is called : path = %s, desc = %s, format = %s" path desc format)
-     ;;   (let* ((search (when (string-match "::#?\\(.+\\)\\'" path)
-     ;;                    (match-string 1 path)))
-     ;;          (path (substring path 0 (match-beginning 0))))
-     ;;     (cond ((eq format 'latex)
-     ;;            (if (or (not desc)
-     ;;                    (equal 0 (search "rtcite:" desc)))
-     ;;                (format "\\cite{%s}" search)
-     ;;              (format "\\cite[%s]{%s}" desc search))))))
-
-     ;; (org-add-link-type "rtcite"
-     ;;                    'org-bibtex-open
-     ;;                    'my-rtcite-export-handler)
-
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; remember.el
-
-     ;; FIXME -- for org-capture
-
-     ;; (org-remember-insinuate)
-
-     ;; (setq org-directory "~/org/")
-     
-     ;; (setq org-default-notes-file (concat org-directory "notes.org"))
-
-     ;; (setq org-remember-templates
-     ;;       `(("Todo" ?t "* NEXT %?\n%U" "~/org/refile.org")
-     ;;         ("Länk" ?l "* NEXT %?\n%U\n%a\n  %i" "~/org/refile.org")
-     ;;         ("Note" ?n "* %? :NOTE:\n%U" "~/org/refile.org")             
-     ;;         ;; default for org-protocol://remember://
-     ;;         (?w ,(concat "* %c\n%U\n%i"
-     ;;                      "%^{content_tags}p")
-     ;;             "~/org/notes/bookmarks.org" "Bookmarks")))
-
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; refile
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; refile
 
      ;; Provide refile targets as paths
      (setq org-refile-use-outline-path t)
@@ -185,8 +138,8 @@
 
      (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; agenda
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; agenda
 
      (setq org-agenda-files '("~/org/"))
      
@@ -271,8 +224,8 @@
                     ((org-agenda-overriding-header "Tasks to Archive")
                      (org-agenda-skip-function 'bh/skip-non-archivable-tasks))))))
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; babel
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; babel
 
      ;; languages to load
      (setq org-babel-load-languages '((emacs-lisp . t)
@@ -290,8 +243,8 @@
      ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
      ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; iimage -- display images in your org-mode-file
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; iimage -- display images in your org-mode-file
      (require 'iimage)
      (add-to-list 'iimage-mode-image-regex-alist
                   (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex
@@ -304,9 +257,9 @@
          (set-face-underline-p 'org-link t))
        (iimage-mode))
 
-     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;; ;; Org ad hoc code, quick hacks and workarounds
-     ;; ;; http://orgmode.org/worg/org-hacks.html
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; Org ad hoc code, quick hacks and workarounds
+     ;; http://orgmode.org/worg/org-hacks.html
      
      ;; Fix a problem with saveplace.el putting you back in a folded position.
      (add-hook 'org-mode-hook
@@ -508,10 +461,47 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 
 (provide 'my-org-mode)
 
+     ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; ;; reftex
+     ;; (defun org-mode-reftex-setup ()
+     ;;   (load-library "reftex")
+     ;;   (and (buffer-file-name) (file-exists-p (buffer-file-name))
+     ;;        (progn
+     ;;          (reftex-parse-all))))
+     ;; (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+
+     ;; ;;;; use latexmk to generate pdf (needed for bibtex to work)
+     ;; ;; sudo apt-get install latexmk
+     ;; (setq org-latex-to-pdf-process (list "latexmk -f -pdf %f"))
+
+     ;; (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
+     ;; (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
+
+     ;; (setq reftex-default-bibliography
+     ;;       '("default.bib" "referenser.bib"))
+
+     ;; (setq org-latex-to-pdf-process
+     ;;       '("pdflatex -interaction nonstopmode -output-directory %o %f"
+     ;;         "bibtex %f"
+     ;;         "pdflatex -interaction nonstopmode -output-directory %o %f"
+     ;;         "pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+     ;; http://www-public.it-sudparis.eu/~berger_o/weblog/2012/03/23/how-to-manage-and-export-bibliographic-notesrefs-in-org-mode/
+     ;; (defun my-rtcite-export-handler (path desc format)
+     ;;   (message "my-rtcite-export-handler is called : path = %s, desc = %s, format = %s" path desc format)
+     ;;   (let* ((search (when (string-match "::#?\\(.+\\)\\'" path)
+     ;;                    (match-string 1 path)))
+     ;;          (path (substring path 0 (match-beginning 0))))
+     ;;     (cond ((eq format 'latex)
+     ;;            (if (or (not desc)
+     ;;                    (equal 0 (search "rtcite:" desc)))
+     ;;                (format "\\cite{%s}" search)
+     ;;              (format "\\cite[%s]{%s}" desc search))))))
+
+     ;; (org-add-link-type "rtcite"
+     ;;                    'org-bibtex-open
+     ;;                    'my-rtcite-export-handler)
+
 ;; my-org-mode.el ends here
-
-
-
-
 
 
