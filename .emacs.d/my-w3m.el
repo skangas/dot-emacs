@@ -28,9 +28,10 @@
     (define-key w3m-mode-map "W" nil))
   (add-hook 'w3m-mode-hook 'skangas-w3m-bindings)
 
-  (when (require 'w3m-search)
-    (add-to-list 'w3m-search-engine-alist '("DuckDuckGo" "https://duckduckgo.com/lite/?q=%s&kp=1"))
-    (setq w3m-search-default-engine "DuckDuckGo"))
+  ;; NOT FOUND - STILL SUPPORTED OR WHAT?
+  ;; (when (require 'w3m-search)
+  ;;   (add-to-list 'w3m-search-engine-alist '("DuckDuckGo" "https://duckduckgo.com/lite/?q=%s&kp=1"))
+  ;;   (setq w3m-search-default-engine "DuckDuckGo"))
 
   ;; descriptive buffer names
   (add-hook 'w3m-display-hook
