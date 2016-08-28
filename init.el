@@ -70,8 +70,8 @@ of an error, just add the package to a list of missing packages."
   (package-initialize))
 
 ;; Add local elisp directories
-(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
