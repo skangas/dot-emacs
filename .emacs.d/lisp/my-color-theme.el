@@ -16,9 +16,6 @@
 ;; (set-face-background 'hl-line "#393939")
 ;; (set-face-underline-p 'hl-line nil)
 
-;; Show parenthesis
-(show-paren-mode 1)
-
 (provide 'my-color-theme)
 
 ;; my-color-theme.el ends here
