@@ -46,8 +46,6 @@ rcirc-late-fix.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-late-fix.el
 rcirc-notify.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-notify.el
-sr-speedbar.el:
-	curl -O $(EMACSWIKI_DOWNLOAD)/sr-speedbar.el # $
 zenburn-theme.el:
 	curl -O https://github.com/djcb/elisp/raw/master/themes/zenburn-theme.el
 window-numbering.el:
