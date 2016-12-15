@@ -56,6 +56,14 @@ of an error, just add the package to a list of missing packages."
 (when (< emacs-major-version 24)
   (require 'warnings))
 
+;; Workaround for broken visual bell on OSX El Capitain 
+(when (eq system-type 'darwin)
+  (setq visible-bell nil)
+  (setq ring-bell-function
+        (lambda ()
+          (invert-face 'mode-line)
+          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
+
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
   (when load-file-name
