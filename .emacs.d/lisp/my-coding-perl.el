@@ -3,9 +3,6 @@
 ;; use cperl-mode instead of perl-mode
 (defalias 'perl-mode 'cperl-mode)
 
-;; go to the correct file when using ffap on a perl module
-(eval-after-load "ffap" '(require 'ffap-perl-module))
-
 (require 'sk-macros)
 (after 'cperl-mode
   (setq cperl-clobber-lisp-bindings t)
