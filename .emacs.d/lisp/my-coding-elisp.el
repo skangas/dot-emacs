@@ -1,6 +1,9 @@
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
 
+  ;; Use nameless mode
+  (nameless-mode)
+
   ;; automatically compile all .el files on save
   (add-hook 'after-save-hook 'my-recompile-el)
   (defun my-recompile-el ()
