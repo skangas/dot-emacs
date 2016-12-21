@@ -81,7 +81,6 @@ of an error, just add the package to a list of missing packages."
     (make-directory dir)))
 
 ;; Require my configuration files
-(require 'my-color-theme)
 (require 'my-general)
 (require 'my-emacs-server)
 (require 'my-keybindings)
