@@ -145,6 +145,8 @@ user."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(global-set-key (kbd "C-x g") 'magit-status)
+
 ;; Switch C-h and C-s for ergonomic reasons
 (global-set-key (kbd "C-h") 'isearch-forward)
 (global-set-key (kbd "C-s") 'help-command)
