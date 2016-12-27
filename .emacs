@@ -3,7 +3,10 @@
 ;; ~skangas/.emacs
 ;;
 
-(defvar *emacs-load-start* (current-time))
+(defconst *emacs-start-time* (current-time))
+
+;; Get this over with. Has to be a require.
+(require 'cl)
 
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
@@ -34,18 +37,15 @@ of an error, just add the package to a list of missing packages."
        (add-to-list 'missing-packages-list feature 'append))
      nil)))
 
-(let ((d1 (car  (last (file-expand-wildcards "~/.emacs.d/elpa/auto-compile-20*"))))
-      (d2 ".emacs.d/elpa/packed-20130502.2340/"))
-  (when (and (file-directory-p d1)
-	     (file-directory-p d2))
-    (add-to-list 'load-path d1)
-    (add-to-list 'load-path d2)
-    (require 'auto-compile)
-    (auto-compile-on-load-mode 1)
-    (auto-compile-on-save-mode 1)))
-
-;; Get this over with. Has to be a require.
-(require 'cl)
+;; (let ((d1 (car  (last (file-expand-wildcards "~/.emacs.d/elpa/auto-compile-20*"))))
+;;       (d2 ".emacs.d/elpa/packed-20130502.2340/"))
+;;   (when (and (file-directory-p d1)
+;; 	     (file-directory-p d2))
+;;     (add-to-list 'load-path d1)
+;;     (add-to-list 'load-path d2)
+;;     (require 'auto-compile)
+;;     (auto-compile-on-load-mode 1)
+;;     (auto-compile-on-save-mode 1)))
 
 ;; various stuff 
 (setq message-log-max 1024) ;; do this first
@@ -147,12 +147,15 @@ of an error, just add the package to a list of missing packages."
 (setq custom-file "~/.emacs.d/my-custom-file.el")
 (load custom-file 'noerror)
 
-;; Show current version (this needs to be last to be on top)
+;; Show current version in scratch (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
             (insert (concat ";; " (substring (emacs-version) 0 16) "."))
             (newline-and-indent)  (newline-and-indent)))
 
-;; Time .emacs load time
-(message ".emacs loaded in %ds" (destructuring-bind (hi lo ms ps) (current-time)
-                           (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+;; Echo .emacs load time
+(when (not noninteractive)
+  (message ".emacs loaded in %ds"
+           (destructuring-bind (hi lo ms ps) (current-time)
+             (- (+ hi lo) (+ (first *emacs-start-time*)
+                             (second *emacs-start-time*))))))
