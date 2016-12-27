@@ -329,33 +329,50 @@
 ;;; moved here from buffer.el
 
 (setq ibuffer-saved-filter-groups
-  '(("default"      
-            ("Org"
-             (mode . org-mode))  
-            ("Mail"
-              (or
-               (mode . message-mode)
-               (mode . mail-mode)
-               (mode . gnus-group-mode)
-               (mode . gnus-summary-mode)
-               (mode . gnus-article-mode)
-               ))
-            ("Programming"
-             (or
-              (mode . c-mode)
-              (mode . perl-mode)
-              (mode . python-mode)
-              (mode . java-mode)
-              (mode . emacs-lisp-mode)
-              ))
-            ("IRC"
-             (mode . rcirc-mode)))))
+      '(("default"
+         ("Emacs Configuration"
+          (or (filename . ".emacs.d")))
+         ("Org"
+          (mode . org-mode))  
+         ("mentor"
+          (filename . "wip/mentor"))
+         ("Mail"
+          (or
+           (mode . message-mode)
+           (mode . mail-mode)
+           (mode . gnus-group-mode)
+           (mode . gnus-summary-mode)
+           (mode . gnus-article-mode)
+           ))
+         ("Magit"
+          (name . "\*magit:"))
+         ("Emacs Lisp"
+          (mode . emacs-lisp-mode))
+         ("Programming"
+          (or
+           (mode . c-mode)
+           (mode . perl-mode)
+           (mode . cperl-mode)
+           (mode . python-mode)
+           (mode . java-mode)
+           (mode . sh-mode)
+           (mode . haskell-mode)))
+         ("Configuration"
+          (or
+           (mode . conf-unix-mode)))
+         ("Dired"
+          (or
+           (mode . dired-mode)))
+         ("IRC"
+          (mode . rcirc-mode)))))
 
 (add-hook 'ibuffer-mode-hook
-  (lambda ()
-    (ibuffer-switch-to-saved-filter-groups "default")))
+          (lambda ()
+            (ibuffer-auto-mode 1)
+            (ibuffer-switch-to-saved-filter-groups "default")))
 
 (setq ibuffer-show-empty-filter-groups nil)
+(setq ibuffer-expert t)
 
 ;; Unique buffer names
 (require 'uniquify) ;; has to be a require

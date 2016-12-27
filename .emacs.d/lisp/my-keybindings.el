@@ -1,10 +1,31 @@
 ;;; my-keybindings.el
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; GENERAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq cua-enable-cua-keys nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; copy current line without selecting it (courtesy of emacs-fu)
+;; Disable keyboard iconfying
+(when window-system (global-unset-key "\C-z"))
 
+;; Page down/up move the point, not the screen. (from snarfed.org) This means
+;; that pgup/pgdn can move the point to the beginning or end of the buffer.
+(defun my-scroll-down ()
+  (interactive)
+  (condition-case nil (scroll-down)
+    (beginning-of-buffer (goto-char (point-min)))))
+
+(defun my-scroll-up ()
+  (interactive)
+  (condition-case nil (scroll-up)
+    (end-of-buffer (goto-char (point-max)))))
+
+(global-set-key [next] 'my-scroll-up)
+(global-set-key [prior] 'my-scroll-down)
+
+;; copy current line without selecting it (courtesy of emacs-fu)
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive (if mark-active (list (region-beginning) (region-end))
@@ -18,7 +39,6 @@
      (list (line-beginning-position)
            (line-beginning-position 2)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-switch-to-gnus (&optional arg)
   (interactive)
   "Switch to a Gnus related buffer, or start gnus if it's not running.
@@ -54,13 +74,9 @@
           (candidate
            (switch-to-buffer candidate)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; http://emacs.wordpress.com/2007/01/17/eval-and-replace-anywhere/
-
 (defun my-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
-  
   (backward-kill-sexp)
   (condition-case err
       (prin1 (eval (read (current-kill 0)))
@@ -109,30 +125,6 @@
   (interactive)
   (find-file (ido-completing-read "Open file: " recentf-list nil t)))
 
-;; occur-mode
-(defun my-occur-mode-keybindings ()
-  (define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
-  (define-key occur-mode-map (kbd "n") 'next-logical-line)
-  (define-key occur-mode-map (kbd "p") 'previous-logical-line))
-(add-hook 'occur-mode-hook 'my-occur-mode-keybindings)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Page down/up move the point, not the screen.;; (from snarfed.org) This
-;; means that pgup/pgdn can move the point to the beginning or end of the
-;; buffer.
-(defun my-scroll-down ()
-  (interactive)
-  (condition-case nil (scroll-down)
-    (beginning-of-buffer (goto-char (point-min)))))
-
-(defun my-scroll-up ()
-  (interactive)
-  (condition-case nil (scroll-up)
-    (end-of-buffer (goto-char (point-max)))))
-
-(global-set-key [next] 'my-scroll-up)
-(global-set-key [prior] 'my-scroll-down)
-
 (defun djcb-find-file-as-root ()
   "Like `ido-find-file, but automatically edit the file with
 root-privileges (using tramp/sudo), if the file is not writable by
@@ -146,14 +138,8 @@ user."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-å") 'isearch-forward) ; more ergonomic alias
 
-;; Switch C-h and C-s for ergonomic reasons
-(global-set-key (kbd "C-h") 'isearch-forward)
-(global-set-key (kbd "C-s") 'help-command)
-(define-key isearch-mode-map "\C-h" 'isearch-repeat-forward)
-(define-key isearch-mode-map "\C-s" 'help-command)
-(define-key ido-common-completion-map "\C-h" 'ido-next-match)
-(define-key ido-common-completion-map "\C-s" 'help-command)
 
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 (global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
@@ -165,14 +151,6 @@ user."
 (global-set-key (kbd "C-c e r") 'eval-region)
 ;; (global-set-key (kbd "C-c e s") 'scratch)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
-
-(global-unset-key (kbd "C-s e"))
-(global-set-key (kbd "C-s e e") 'view-echo-area-messages)
-(global-set-key (kbd "C-s e f") 'find-function)
-(global-set-key (kbd "C-s e k") 'find-function-on-key)
-(global-set-key (kbd "C-s e l") 'find-library)
-(global-set-key (kbd "C-s e v") 'find-variable)
-(global-set-key (kbd "C-s e V") 'apropos-value)
 
 (global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
@@ -204,7 +182,32 @@ user."
 (global-set-key "\C-c\C-k" 'kill-region)
 (global-set-key (kbd "C-x C-r") 'my-ido-recentf-open) ;; replace `find-file-read-only'
 
-(when window-system (global-unset-key "\C-z"))       ; Disable keyboard iconfying
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MODES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;
+;; dired
+(eval-after-load 'dired
+  '(progn (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
+          (define-key dired-mode-map "," 'dired-hide-details-mode)))
+
+;;;;;;;;;;
+;; occur-mode
+(defun my-occur-mode-keybindings ()
+  (define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
+  (define-key occur-mode-map (kbd "n") 'next-logical-line)
+  (define-key occur-mode-map (kbd "p") 'previous-logical-line))
+(add-hook 'occur-mode-hook 'my-occur-mode-keybindings)
+
+;;;;;;;;;;
+;; wgrep
+(eval-after-load 'grep
+  '(define-key grep-mode-map
+    (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
+(eval-after-load 'wgrep
+  '(define-key grep-mode-map
+    (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (provide 'my-keybindings)
 

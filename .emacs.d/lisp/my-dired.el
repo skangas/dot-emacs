@@ -1,5 +1,5 @@
 (require 'dired)
-(require 'dired-x) ;; require immediately to provide C-x C-j
+(require 'dired-x) ; require immediately to provide C-x C-j
 
 (when (require 'dired-aux)
   (require 'dired-async))
@@ -7,6 +7,8 @@
 (setq dired-listing-switches "-lAh"  ;; Use human sizes
       dired-dwim-target t            ;; Try to guess a default target directory
       dired-isearch-filenames 'dwim) ;; Search filenames only
+
+(setq dired-auto-revert-buffer t)
 
 ;;; Toggle showing dot-files using "."
 (define-minor-mode dired-hide-dotfiles-mode
@@ -21,8 +23,6 @@
 	(setq dired-actual-switches "-lh")
       (setq dired-actual-switches "-lAh"))
     (revert-buffer)))
-(define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
-(add-hook 'dired-mode-hook (lambda () (dired-hide-dotfiles-mode 1)))
 
 (provide 'my-dired)
 
