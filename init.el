@@ -122,6 +122,7 @@ of an error, just add the package to a list of missing packages."
 (require 'sk-idom-article-length)
 
 ;; Various packages
+(setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
 (defun my-mentor ()
   (interactive)
   (when (require 'mentor nil t)
