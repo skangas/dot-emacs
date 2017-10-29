@@ -71,8 +71,9 @@ of an error, just add the package to a list of missing packages."
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+(when (memq window-system '(mac ns))
+  (when (fboundp 'exec-path-from-shell-initialize)
+   (exec-path-from-shell-initialize)))
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
