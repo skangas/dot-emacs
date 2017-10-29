@@ -1,0 +1,28 @@
+(defun sk-idom-echo-article-length (url)
+  (let ((beg nil)
+        (end nil))
+    (goto-char (point-min))
+    (re-search-forward "^+1$")
+    (next-logical-line)
+    (setq beg (point))
+    (re-search-forward "^ *\\* Sitemap$")
+    (previous-logical-line)
+    (setq end (point))
+    (let ((kill-read-only-ok t))
+      (kill-region beg end)))
+  (let ((title (w3m-current-title)))
+   (with-temp-buffer
+     (yank)
+     (message "Article has %d characters: %s" (1- (point-max)) title)))
+  (kill-buffer)
+  (remove-hook 'w3m-display-hook 'sk-idom-echo-article-length))
+
+(defun sk-idom-article-length ()
+  (interactive)
+  (with-temp-buffer
+    (clipboard-yank)
+    (kill-region (point-min) (point-max)))
+  (w3m-goto-url-new-session (car kill-ring))
+  (add-hook 'w3m-display-hook 'sk-idom-echo-article-length))
+
+(provide 'sk-idom-article-length)
