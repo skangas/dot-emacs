@@ -380,13 +380,15 @@
 
 ;; choose browser
 (setq browse-url-generic-program "firefox")
+(when (eq system-type 'darwin)
+  (setq browse-url-generic-program "open"))
 (defun choose-browser (url &rest args)
   (interactive "sURL: ")
   (if (y-or-n-p "Use external browser? ")
       (browse-url-generic url)
     (w3m-browse-url url)))
-;;(setq browse-url-browser-function 'browse-url-generic)
-(setq browse-url-browser-function 'choose-browser)
+;; (setq browse-url-browser-function 'choose-browser)
+(setq browse-url-browser-function 'browse-url-generic)
 
 ;; winner-mode
 (require 'winner)
@@ -394,6 +396,9 @@
 (global-set-key (kbd "<C-s-left>") 'winner-undo)
 (global-set-key (kbd "<C-s-right>") 'winner-redo)
 (winner-mode +1) ;; turn on the global minor mode
+
+;; calendar-mode
+(setq calendar-week-start-day 1)
 
 (provide 'my-general)
 

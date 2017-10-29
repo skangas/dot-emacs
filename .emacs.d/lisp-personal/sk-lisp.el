@@ -79,6 +79,79 @@
     (beginning-of-line)
     (delete-region (point) (point-max))))
 
+(defun sk-fix-indesign-html-export-for-web ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward "^		<div id=\"")
+    (beginning-of-line)
+    (next-logical-line)
+    (delete-region (point) (point-min))
+    (goto-char (point-min))
+
+    ;; ITALICS
+    (while (re-search-forward "<span class=\"Character-Style-1\">" nil t)
+      (replace-match "<em>")
+      (re-search-forward "</span>")
+      (replace-match "</em>"))
+    (while (re-search-forward "<span class=\"Italic[^\"]*\">" nil t)
+      (replace-match "<em>")
+      (re-search-forward "</span>")
+      (replace-match "</em>"))
+
+    ;; Old style digits
+    (goto-char (point-min))
+    (while (re-search-forward "<span class=\"Old-style-digits[^\"]*\">" nil t)
+      (replace-match "")
+      (re-search-forward "</span>")
+      (replace-match ""))
+    (goto-char (point-min))
+    (while (re-search-forward "<span class=\"Small-caps[^\"]*\">" nil t)
+      (replace-match "")
+      (re-search-forward "</span>")
+      (replace-match ""))
+    (goto-char (point-min))
+    (while (re-search-forward "<span class=\"CharOverride-[0-9]\">" nil t)
+      (replace-match "")
+      (re-search-forward "</span>")
+      (replace-match ""))
+
+    ;; Fix headers
+    (goto-char (point-min))
+    (while (re-search-forward "<p class=\"Rubrik-2\">" nil t)
+      (replace-match "<h3>")
+      (re-search-forward "</p>")
+      (replace-match "</h3>"))
+    (while (re-search-forward "<p class=\"Rubrik-3\">" nil t)
+      (replace-match "<h3>")
+      (re-search-forward "</p>")
+      (replace-match "</h3>"))
+    (goto-char (point-min))
+    (while (re-search-forward "<span class=\"Kapitelnamn\">" nil t)
+      (replace-match "<h1>")
+      (re-search-forward "</span>")
+      (replace-match "</h1>"))
+
+    ;; Fix footnotes
+    (goto-char (point-min))
+    (while (re-search-forward " href=\"[^#]+\.html#" nil t)
+      (replace-match " href=\"#"))
+    (goto-char (point-min))
+    (while (re-search-forward "<span class=\"endnote_marker[^\"]*\">" nil t)
+      (replace-match "<sup>[")
+      (re-search-forward "</span>")
+      (replace-match "]</sup>"))
+
+    ;; Remove any remaining classes
+    (sk-search-and-replace
+     '((" class=\"Rubrik-1[^\"]*\"" "")
+       (" class=\"Författare[^\"]*\"" "")
+       (" class=\"Brödtext-First-Paragraph[^\"]*\"" "")
+       (" class=\"Brödtext[^\"]*\"" "")
+       (" class=\"Fotnot-numbered[^\"]*\"" "")
+       (" class=\"Rubrik-2[^\"]*\"" "")
+       ))))
+
 (defun sk-replace-in-literal-string (regexp to-string)
   "Search and replace only in literal string"
   (interactive
