@@ -8,6 +8,12 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
+;; various stuff 
+(setq message-log-max 1024) ;; do this first
+(setq max-specpdl-size 15600)
+(setq max-lisp-eval-depth 9000)
+
+;;; Loading packages
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))
@@ -47,22 +53,10 @@ of an error, just add the package to a list of missing packages."
 ;;     (auto-compile-on-load-mode 1)
 ;;     (auto-compile-on-save-mode 1)))
 
-;; various stuff 
-(setq message-log-max 1024) ;; do this first
-(setq max-specpdl-size 15600)
-(setq max-lisp-eval-depth 9000)
 
 ;; work-around for Emacs < 23.2
 (when (< emacs-major-version 24)
   (require 'warnings))
-
-;; Workaround for broken visual bell on OSX El Capitain 
-(when (eq system-type 'darwin)
-  (setq visible-bell nil)
-  (setq ring-bell-function
-        (lambda ()
-          (invert-face 'mode-line)
-          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
 
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
@@ -76,6 +70,9 @@ of an error, just add the package to a list of missing packages."
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
@@ -120,7 +117,9 @@ of an error, just add the package to a list of missing packages."
 
 (require 'init-google-translate)
 
+;; My code
 (require 'sk-lisp)
+(require 'sk-idom-article-length)
 
 ;; Various packages
 (defun my-mentor ()
@@ -151,11 +150,23 @@ of an error, just add the package to a list of missing packages."
        (define-key c-mode-map [?\M-\t] 'complete-semantic)
        (define-key c++-mode-map [?\M-\t] 'complete-semantic))))
 
-;; don't clutter .emacs with M-x customize stuff
+;; Don't clutter .emacs with M-x customize stuff
 (setq custom-file "~/.emacs.d/my-custom-file.el")
 (load custom-file 'noerror)
 
-;; Show current version in scratch (this needs to be last to be on top)
+;; Settings for MacOS
+(setq ns-command-modifier 'meta)
+(setq ns-option-modifier 'super)
+(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
+;; Workaround for broken visual bell on OSX El Capitain 
+(when (eq system-type 'darwin)
+  (setq visible-bell nil)
+  (setq ring-bell-function
+        (lambda ()
+          (invert-face 'mode-line)
+          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
+
+;; Show current version in *scratch* buffer (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
             (insert (concat ";; " (substring (emacs-version) 0 16) "."))
