@@ -42,6 +42,8 @@ filladapt.el:
 	curl -O http://www.wonderworks.com/download/filladapt.el
 haskell-ghci.el:
 	curl -O http://home.arachsys.com/~chris/haskell-ghci.el
+iimage.el:
+	curl -O https://raw.githubusercontent.com/typester/emacs/master/lisp/iimage.el
 rcirc-late-fix.el:
 	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-late-fix.el
 rcirc-notify.el:
