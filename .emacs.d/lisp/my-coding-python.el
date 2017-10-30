@@ -1,7 +1,7 @@
 ;; pymacs
 
 (require 'python)
-(require 'projectile)
+;; (require 'projectile)
 (require 'pymacs)
 
 (autoload 'pymacs-apply "pymacs")

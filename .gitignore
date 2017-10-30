@@ -1,4 +1,5 @@
 !*
+%*
 *.elc
 .emacs.desktop*
 \#*
@@ -7,7 +8,13 @@ bbdb
 cache/
 ede-projects.el
 emms
+mentor
 news
 saveplace
 tramp
+tutorial
 url/cookies
+.org-id-locations
+.secrets.el
+ac-comphist.dat
+projectile-bookmarks.eld
