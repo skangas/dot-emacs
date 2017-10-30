@@ -71,9 +71,6 @@ of an error, just add the package to a list of missing packages."
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize))
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
@@ -141,6 +138,9 @@ of an error, just add the package to a list of missing packages."
 (autoload 'insert-x-resources "pjb-xresources"
   "Insert current theme as XResources in current buffer" t)
 
+(when (>= emacs-major-version 24)
+  (require 'zenburn-theme))
+
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 
 (when (condition-case nil
@@ -159,6 +159,12 @@ of an error, just add the package to a list of missing packages."
 (setq ns-command-modifier 'meta)
 (setq ns-option-modifier 'super)
 (setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
+
+;; Fix path for MacOSX
+(when (and (memq window-system '(mac ns))
+           (fboundp 'exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize))
+
 ;; Workaround for broken visual bell on OSX El Capitain 
 (when (eq system-type 'darwin)
   (setq visible-bell nil)
