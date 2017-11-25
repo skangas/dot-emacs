@@ -190,9 +190,15 @@ user."
 
 ;;;;;;;;;;
 ;; dired
+(defun image-dired-here ()
+  "Make a preview buffer for all images in current directory and display it."
+  (interactive)
+  (image-dired default-directory))
+
 (eval-after-load 'dired
   '(progn (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
-          (define-key dired-mode-map "," 'dired-hide-details-mode)))
+          (define-key dired-mode-map "," 'dired-hide-details-mode)
+          (define-key dired-mode-map (kbd "C-i") 'image-dired)))
 
 ;;;;;;;;;;
 ;; occur-mode

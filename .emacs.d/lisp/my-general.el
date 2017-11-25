@@ -1,7 +1,11 @@
 ;;; General settings
 
-(setq split-width-threshold 160)
-(setq split-height-threshold 0)
+(cond ((equal system-name  "joffe.skangas.se")
+       (setq split-width-threshold 160)
+       (setq split-height-threshold 0))
+      (t
+       (setq split-width-threshold 160)
+       (setq split-height-threshold 0)))
 
 (require 'ffap)
 (require 'ansi-color)
@@ -389,6 +393,46 @@
 
 (when (fboundp 'powerline-default-theme)
   (powerline-default-theme))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;; image-mode
+
+;; https://emacs.stackexchange.com/questions/2433/shrink-zoom-scale-images-in-image-mode
+(defun image-transform-fit-to-window ()
+  "Resize the image to fit the width or height based on the image and
+window ratios.  Imagemagick is required to run this function."
+  (interactive)
+  (let* ( (img-size (image-display-size (image-get-display-property) t))
+          (img-width (car img-size))
+          (img-height (cdr img-size))
+          (img-h/w-ratio (/ (float img-height) (float img-width)))
+          (win-width (- (nth 2 (window-inside-pixel-edges))
+                        (nth 0 (window-inside-pixel-edges))))
+          (win-height (- (nth 3 (window-inside-pixel-edges))
+                         (nth 1 (window-inside-pixel-edges))))
+          (win-h/w-ratio (/ (float win-height) (float win-width))))
+    ;; Fit image by width if the h/w ratio of window is > h/w ratio of the image
+    (if (> win-h/w-ratio img-h/w-ratio)
+        (image-transform-fit-to-width)
+      ;; Else fit by height
+      (image-transform-fit-to-height))))
+
+(defvar sk/image-mode-resized t)
+(make-variable-buffer-local 'sk/image-mode-resized)
+
+(defun sk/image-mode-resize-maybe-hook ()
+  (when sk/image-mode-resized
+    (image-transform-fit-to-window)))
+(add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
+
+(defun sk/image-mode-toggle-resized ()
+  (interactive)
+  (if sk/image-mode-resized
+      nil
+    (image-transform-fit-to-window))
+  (setq sk/image-mode-resized (not sk/image-mode-resized)))
+(define-key image-mode-map " " 'image-next-file)
+(define-key image-mode-map "V" 'sk/image-mode-toggle-resized)
 
 ;; winner-mode
 (require 'winner)
