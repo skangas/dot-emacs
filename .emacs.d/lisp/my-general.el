@@ -393,6 +393,9 @@
 ;; (setq browse-url-browser-function 'choose-browser)
 (setq browse-url-browser-function 'browse-url-generic)
 
+(when (fboundp 'powerline-default-theme)
+  (powerline-default-theme))
+
 ;; winner-mode
 (require 'winner)
 (setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
