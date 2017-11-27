@@ -1,8 +1,8 @@
 ;;; General settings
 
 (cond ((equal system-name  "joffe.skangas.se")
-       (setq split-width-threshold 160)
-       (setq split-height-threshold 0))
+       (setq split-width-threshold 80)
+       (setq split-height-threshold nil))
       (t
        (setq split-width-threshold 160)
        (setq split-height-threshold 0)))
@@ -439,6 +439,10 @@ window ratios.  Imagemagick is required to run this function."
   (setq sk/image-mode-resized (not sk/image-mode-resized)))
 (define-key image-mode-map " " 'image-next-file)
 (define-key image-mode-map "V" 'sk/image-mode-toggle-resized)
+
+(setq image-animate-loop t)
+(add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
+
 
 ;; winner-mode
 (require 'winner)

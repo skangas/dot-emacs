@@ -179,6 +179,7 @@ user."
 ;; OK, Steve Yegge, I'll give it a try
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-t" 'shell-pop)
 (global-set-key "\C-c\C-k" 'kill-region)
 (global-set-key (kbd "C-x C-r") 'my-ido-recentf-open) ;; replace `find-file-read-only'
 
@@ -198,7 +199,7 @@ user."
 (eval-after-load 'dired
   '(progn (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
           (define-key dired-mode-map "," 'dired-hide-details-mode)
-          (define-key dired-mode-map (kbd "C-i") 'image-dired)))
+          (define-key dired-mode-map (kbd "C-i") 'image-dired-here)))
 
 ;;;;;;;;;;
 ;; occur-mode
