@@ -3,7 +3,7 @@
 (setq split-width-threshold 160)
 (setq split-height-threshold 0)
 
-(require 'ffap)
+;; (require 'ffap)
 (require 'ansi-color)
 
 ;; Change all yes or no prompt to y or n prompts:
@@ -327,10 +327,11 @@
 
 (setq ibuffer-saved-filter-groups
       '(("default"
-         ("Emacs Configuration"
-          (or (filename . ".emacs.d")))
-         ("Org"
-          (mode . org-mode))  
+         ("Text Files"
+          (or
+           (mode . org-mode)
+           (mode . text-mode)
+           ))
          ("mentor"
           (filename . "wip/mentor"))
          ("Mail"
@@ -343,6 +344,8 @@
            ))
          ("Magit"
           (name . "\*magit:"))
+         ("Emacs Configuration"
+          (or (filename . ".emacs.d")))
          ("Emacs Lisp"
           (mode . emacs-lisp-mode))
          ("Programming"
@@ -360,6 +363,9 @@
          ("Dired"
           (or
            (mode . dired-mode)))
+         ("Images"
+          (or
+           (mode . image-mode)))
          ("IRC"
           (mode . rcirc-mode)))))
 

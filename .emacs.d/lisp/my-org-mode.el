@@ -1,8 +1,8 @@
-;;(require 'org-install)
+;;; my-org-mode.el
 
 (require 'org-protocol)
-;; TODO: 18.4 Checklist handling
-;;       (require 'org-checklist)
+;; contrib
+(require 'org-checklist nil t)
 ;; (require 'org-exp-blocks)
 
 (eval-after-load "org"
@@ -76,6 +76,9 @@
      (custom-set-faces
       '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold)))))
 
+     ;;  Remove clocked tasks with 0:00 duration
+     (setq org-clock-out-remove-zero-time-clocks t)
+
      ;; My todo levels
      (setq org-todo-keywords
            '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c)")
@@ -124,6 +127,12 @@
      (setq org-directory "~/org/")
      (setq org-default-notes-file (concat org-directory "notes.org"))
 
+     (defun sk-org-capture-prepare-finalize-hook ()
+       (save-excursion
+         (goto-char (point-min))
+         (sk-search-and-replace '(("https://mail.google.com/mail/u/0/#inbox/" "https://mail.google.com/mail/u/0/#all/")))))
+     (add-hook 'org-capture-prepare-finalize-hook 'sk-org-capture-prepare-finalize-hook)
+
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; refile
 
@@ -137,7 +146,8 @@
      (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
      ;; Targets include current file and any file contributing to the agenda - up to 5 levels deep
-     (setq org-refile-targets '((org-agenda-files :maxlevel . 5)
+     (setq org-refile-targets '((nil :maxlevel . 9)
+                                (org-agenda-files :maxlevel . 5)
                                 ("~/org/later.org" :maxlevel . 5)))
 
      ;; Exclude DONE state tasks from refile targets
@@ -234,9 +244,15 @@
 
      ;; languages to load
 
-     (setq org-babel-load-languages '((emacs-lisp . t)
-                                      (haskell . t)
-                                      (latex . t)))
+     (org-babel-do-load-languages
+      'org-babel-load-languages '((emacs-lisp . t)
+                                  (shell . t)))
+
+     ;; OLD:
+     ;; (setq org-babel-load-languages '((emacs-lisp . t)
+     ;;                                  (haskell . t)
+     ;;                                  (shell . t)
+     ;;                                  (latex . t)))
 
 
      ;; ;; Load necessary packages for latex
@@ -544,10 +560,10 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
       next-headline)))
 
 ;;;;; FIXME: This should be removed with an upgraded org-mode
-(when (string= org-version "TAG=7.01g") 
- (defun org-is-habit-p (&optional pom)
-   "Is the task at POM or point a habit?"
-   (string= "habit" (org-entry-get (or pom (point)) "STYLE"))))
+;; (when (string= org-version "TAG=7.01g") 
+;;  (defun org-is-habit-p (&optional pom)
+;;    "Is the task at POM or point a habit?"
+;;    (string= "habit" (org-entry-get (or pom (point)) "STYLE"))))
 
 (provide 'my-org-mode)
 

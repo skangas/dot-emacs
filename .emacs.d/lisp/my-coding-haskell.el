@@ -50,8 +50,8 @@ This will run newline-and-indent, and then indent once more."
 
 
 ;; TODO what does this do?
-;; (defvar multiline-flymake-mode nil)
-;; (defvar flymake-split-output-multiline nil)
+(defvar multiline-flymake-mode nil)
+(defvar flymake-split-output-multiline nil)
 
 ;; this needs to be advised as flymake-split-string is used in other places and
 ;; I don't know of a better way to get at the caller's details
