@@ -437,8 +437,10 @@ window ratios.  Imagemagick is required to run this function."
       nil
     (image-transform-fit-to-window))
   (setq sk/image-mode-resized (not sk/image-mode-resized)))
-(define-key image-mode-map " " 'image-next-file)
-(define-key image-mode-map "V" 'sk/image-mode-toggle-resized)
+(eval-after-load 'image-mode
+  '(progn
+     (define-key image-mode-map " " 'image-next-file)
+     (define-key image-mode-map "V" 'sk/image-mode-toggle-resized)))
 
 (setq image-animate-loop t)
 (add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
