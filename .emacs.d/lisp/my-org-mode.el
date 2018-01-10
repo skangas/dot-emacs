@@ -119,6 +119,22 @@
      ;; disable the default org-mode stuck projects agenda view
      (setq org-stuck-projects (quote ("" nil nil "")))
 
+     ;; Better keybindings for changing section
+     (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
+     (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)
+
+     ;; After moving to next section, recenter screen
+     (defun sk/advice-recenter-top-bottom (&rest args)
+       (recenter-top-bottom 0))
+     (advice-add 'org-agenda-forward-block :after #'sk/advice-recenter-top-bottom)
+
+     ;; Negate annoying behaviour of org-agenda-forward-block to move to end of buffer
+     (defun sk/advice-never-go-to-end-of-buffer (&rest args)
+         (let ((e (save-excursion (move-end-of-line 1) (point))))
+           (when (equal e (point-max))
+             (org-agenda-backward-block))))
+     (advice-add 'org-agenda-forward-block :after #'sk/advice-never-go-to-end-of-buffer)
+
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; org-capture
 
@@ -235,7 +251,7 @@
                                  (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
                      (tags "-REFILE/"
                            ((org-agenda-overriding-header "Tasks to Archive")
-                            (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
+                            (org-agenda-skip-function 'sk/skip-non-archivable-tasks)
                             (org-tags-match-list-sublevels nil))))
                     nil))))
 
@@ -568,7 +584,9 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (setq org-archive-mark-done nil)
 (setq org-archive-location "%s_archive::* Archived Tasks")
 
-(defun bh/skip-non-archivable-tasks ()
+(defvar sk/archive-older-than 21
+  "Archive done subtasks older than this")
+(defun sk/skip-non-archivable-tasks ()
   "Skip trees that are not available for archiving"
   (save-restriction
     (widen)
@@ -577,16 +595,15 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
           (subtree-end (save-excursion (org-end-of-subtree t))))
       (if (member (org-get-todo-state) org-todo-keywords-1)
           (if (member (org-get-todo-state) org-done-keywords)
-              (let* ((daynr (string-to-int (format-time-string "%d" (current-time))))
-                     (a-month-ago (* 60 60 24 (+ daynr 1)))
-                     (last-month (format-time-string "%Y-%m-" (time-subtract (current-time) (seconds-to-time a-month-ago))))
-                     (this-month (format-time-string "%Y-%m-" (current-time)))
-                     (subtree-is-current (save-excursion
-                                           (forward-line 1)
-                                           (and (< (point) subtree-end)
-                                                (re-search-forward (concat last-month "\\|" this-month) subtree-end t)))))
-                (if subtree-is-current
-                    subtree-end ; Has a date in this month or last month, skip it
+              (let* ((closed-day
+                      (apply 'encode-time (org-parse-time-string 
+                                           (save-excursion
+                                             (re-search-forward "\\(20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]\\)" subtree-end t)
+                                             (match-string 1)))))
+                     (seconds-ago (float-time (time-subtract (current-time) closed-day)))
+                     (days-ago (/ seconds-ago 60 60 24)))
+                (if (< days-ago sk/archive-older-than)
+                    subtree-end ; Not due for archiving, skip it
                   nil))  ; available to archive
             (or subtree-end (point-max)))
         next-headline))))
