@@ -51,12 +51,14 @@
 (defun sk-fix-org-html-export-for-web ()
   (interactive)
   (save-excursion
+    ;; Remove part before content
     (goto-char (point-min))
     (re-search-forward "^<div id=\"content\">$")
     (beginning-of-line)
     (next-logical-line)
     (delete-region (point) (point-min))
     (goto-char (point-min))
+    
     (while (re-search-forward "</?div[^>]*>" nil t)
       (replace-match ""))
     (goto-char (point-min))
@@ -72,9 +74,15 @@
       (replace-match "\\1em>"))
     ;; b -> strong
     (goto-char (point-min))
-    (while (re-search-forward "\\(</?\\)b[^>]*>" nil t)
+    (while (re-search-forward "\\(</?\\)b>" nil t)
       (replace-match "\\1strong>"))
     (goto-char (point-min))
+    ;; remove class
+    (goto-char (point-min))
+    (while (re-search-forward " class=\"(footref\\|footnum\\|org-ol)\"" nil t)
+      (replace-match ""))
+    (goto-char (point-min))
+    ;; Remove part after content
     (re-search-forward "^<p class=\"date\">")
     (beginning-of-line)
     (delete-region (point) (point-max))))
