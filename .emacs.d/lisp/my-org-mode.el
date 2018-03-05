@@ -120,8 +120,8 @@
      (setq org-stuck-projects (quote ("" nil nil "")))
 
      ;; Better keybindings for changing section
-     (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
-     (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)
+     ;; (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
+     ;; (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)
 
      ;; After moving to next section, recenter screen
      (defun sk/advice-recenter-top-bottom (&rest args)
