@@ -1,8 +1,8 @@
 ;;; General settings
 
 (cond ((equal system-name  "joffe.skangas.se")
-       (setq split-width-threshold 80)
-       (setq split-height-threshold nil))
+       (setq split-width-threshold 160)
+       (setq split-height-threshold 0))
       (t
        (setq split-width-threshold 160)
        (setq split-height-threshold 0)))
@@ -274,7 +274,7 @@
 
 (setq openwith-associations
       (let ((video-types (concat my-video-types-regexp "\\'")))
-        `((,video-types "mplayer" ("-idx" file))
+        `((,video-types "mpv" (file))
           ("\\(?:\\.img\\|\\.iso\\)\\'" "mplayer" ("dvd://" "-dvd-device" file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
           ;; ("\\.mp3\\'" "mplayer" (file))
