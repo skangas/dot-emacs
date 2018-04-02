@@ -120,6 +120,10 @@
 (dolist (file-ending '("os" "pyc"))
   (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
 
+;;; ido-completing-read+
+(eval-after-load 'ido-completing-read+
+  '(progn (ido-ubiquitous-mode 1)))
+(require 'ido-completing-read+ nil t)
 
 ;;;; WORKAROUND FOR GNUS BUG
 ;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
@@ -400,6 +404,11 @@
 (when (fboundp 'powerline-default-theme)
   (powerline-default-theme))
 
+;; elfeed
+(require 'elfeed)
+(require 'elfeed-org)
+(elfeed-org)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;; image-mode
 
@@ -437,8 +446,10 @@ window ratios.  Imagemagick is required to run this function."
       nil
     (image-transform-fit-to-window))
   (setq sk/image-mode-resized (not sk/image-mode-resized)))
-(define-key image-mode-map " " 'image-next-file)
-(define-key image-mode-map "V" 'sk/image-mode-toggle-resized)
+(eval-after-load 'image-mode
+  '(progn
+     (define-key image-mode-map " " 'image-next-file)
+     (define-key image-mode-map "V" 'sk/image-mode-toggle-resized)))
 
 (setq image-animate-loop t)
 (add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)

@@ -135,6 +135,24 @@ user."
       (setq file (concat "/sudo:root@localhost:" file)))
     (find-file file)))
 
+;; Fast buffer switching
+;; http://mbork.pl/2014-04-04_Fast_buffer_switching_and_friends
+
+(define-prefix-command 'ctl-z-map)
+(global-set-key (kbd "C-z") 'ctl-z-map)
+(global-set-key (kbd "C-z C-c") 'compile)
+(global-set-key (kbd "C-z C-b") 'switch-bury-or-kill-buffer)
+
+(defun switch-bury-or-kill-buffer (&optional aggr)
+  "With no argument, switch (but unlike C-x b, without the need
+to confirm).  With C-u, bury current buffer.  With double C-u,
+kill it (unless it's modified)."
+  (interactive "P")
+  (cond
+   ((eq aggr nil) (switch-to-buffer (other-buffer)))
+   ((equal aggr '(4)) (bury-buffer))
+   ((equal aggr '(16)) (kill-buffer-if-not-modified (current-buffer)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "C-x g") 'magit-status)

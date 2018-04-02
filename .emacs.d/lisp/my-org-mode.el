@@ -1,13 +1,15 @@
 ;;; my-org-mode.el
 
 (require 'org-protocol)
+(require 'org-checklist)
 ;; contrib
 (require 'org-checklist nil t)
+(require 'org-habit-plus)
 ;; (require 'org-exp-blocks)
 
 (eval-after-load "org"
   '(progn
-     (add-to-list 'org-modules 'org-habit)
+     (add-to-list 'org-modules 'org-habit 'org-habit-plus)
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
      ;; MobileOrg
@@ -29,7 +31,7 @@
        ;; (unless (string-equal (buffer-name) "secrets.org.gpg")
        ;;   (flyspell-mode 1))
 
-       ;; Use IDO for target completion
+       ;; Use IDO for target completion -- DEPRECATED. install "ido-completing-read+" from MELPA
        (setq org-completion-use-ido t)
 
        ;; read-only if this is my password file
@@ -82,7 +84,7 @@
      ;; My todo levels
      (setq org-todo-keywords
            '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c)")
-             (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
+             (sequence "WAITING(w@/!)" "HOLD(h@/!)" "ONGOING(o)" "|" "CANCELLED(c@/!)")))
 
      ;; Tags with fast selection keys
      (setq org-tag-alist (quote ((:startgroup)
@@ -116,12 +118,17 @@
      ;; Use sticky agenda's so they persist
      (setq org-agenda-sticky t)
 
+     ;; Warn three weeks before deadline
+     (setq org-deadline-warning-days 14)
+
      ;; disable the default org-mode stuck projects agenda view
      (setq org-stuck-projects (quote ("" nil nil "")))
 
      ;; Better keybindings for changing section
-     (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
-     (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)
+     (eval-after-load "org-agenda"
+       '(progn
+          (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
+          (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)))
 
      ;; After moving to next section, recenter screen
      (defun sk/advice-recenter-top-bottom (&rest args)
@@ -164,7 +171,8 @@
      ;; Targets include current file and any file contributing to the agenda - up to 5 levels deep
      (setq org-refile-targets '((nil :maxlevel . 9)
                                 (org-agenda-files :maxlevel . 5)
-                                ("~/org/later.org" :maxlevel . 5)))
+                                ("~/org/later.org" :maxlevel . 5)
+                                ("~/org/spanska.org" :maxlevel . 5)))
 
      ;; Exclude DONE state tasks from refile targets
      (defun bh/verify-refile-target ()
@@ -177,7 +185,9 @@
 
      (setq org-agenda-files '("~/org/todo.org"
                               "~/org/personal.org"
-                              "~/org/refile.org"))
+                              "~/org/refile.org"
+                              "~/org/.cache/revolution-imt.org"
+                              "~/org/.cache/google-calendar.org"))
      
      (setq org-agenda-dim-blocked-tasks t)
      (setq org-agenda-tags-todo-honor-ignore-options t)

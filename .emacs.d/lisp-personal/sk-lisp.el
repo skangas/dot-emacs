@@ -158,6 +158,10 @@
        (" class=\"Brödtext[^\"]*\"" "")
        (" class=\"Fotnot-numbered[^\"]*\"" "")
        (" class=\"Rubrik-2[^\"]*\"" "")
+       ;;; OLD
+       (" class=\"Body_BF-Body-First-Paragraph[^\"]*\"" "")
+       (" class=\"Body_BT-BodyText[^\"]*\"" "")
+       (" class=\"Body_BF-Body-First-Paragraph[^\"]*\"" "")
        ))))
 
 (defun sk-replace-in-literal-string (regexp to-string)
