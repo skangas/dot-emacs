@@ -120,7 +120,7 @@
   (emms-browser))
 
 ;; open recent files using ido
-(defun my-ido-recentf-open ()
+nnn(defun my-ido-recentf-open ()
   "Use ido to select a recently opened file from the `recentf-list'"
   (interactive)
   (find-file (ido-completing-read "Open file: " recentf-list nil t)))
@@ -207,10 +207,18 @@ user."
   (interactive)
   (image-dired default-directory))
 
+(defun dired-open-feh ()
+  "Make a preview buffer for all images in current directory and display it."
+  (interactive)
+  (let ((cmd (concat "feh -F -Z " (dired-get-file-for-visit)  " &")))
+    (message cmd)
+    (dired-do-shell-command cmd)))
+
 (eval-after-load 'dired
   '(progn (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
           (define-key dired-mode-map "," 'dired-hide-details-mode)
-          (define-key dired-mode-map (kbd "C-i") 'image-dired-here)))
+          (define-key dired-mode-map (kbd "C-i") 'image-dired-here)
+          (define-key dired-mode-map (kbd "C-M-i") 'image-dired-here)))
 
 ;;;;;;;;;;
 ;; occur-mode
