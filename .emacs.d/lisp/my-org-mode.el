@@ -125,15 +125,10 @@
      (setq org-stuck-projects (quote ("" nil nil "")))
 
      ;; Better keybindings for changing section
-<<<<<<< HEAD
      (eval-after-load "org-agenda"
        '(progn
           (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
           (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)))
-=======
-     ;; (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
-     ;; (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)
->>>>>>> 507bc336b542e7d485631da21f8e910553cb6814
 
      ;; After moving to next section, recenter screen
      (defun sk/advice-recenter-top-bottom (&rest args)
@@ -221,6 +216,17 @@
                                  (org-tags-match-list-sublevels 'indented)
                                  (org-agenda-sorting-strategy
                                   '(category-keep))))
+                     (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                                ((org-agenda-overriding-header (concat "Standalone Tasks"
+                                                                       (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                           ""
+                                                                         " (including WAITING and SCHEDULED tasks)")))
+                                 (org-agenda-skip-function 'bh/skip-project-tasks)
+                                 (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                                 (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                                 (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                                 (org-agenda-sorting-strategy
+                                  '(category-keep))))
                      (tags-todo "-CANCELLED/!NEXT"
                                 ((org-agenda-overriding-header (concat "Project Next Tasks"
                                                                        (if bh/hide-scheduled-and-waiting-next-tasks
@@ -239,17 +245,6 @@
                                                                            ""
                                                                          " (including WAITING and SCHEDULED tasks)")))
                                  (org-agenda-skip-function 'bh/skip-non-project-tasks)
-                                 (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                 (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                 (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                 (org-agenda-sorting-strategy
-                                  '(category-keep))))
-                     (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                                ((org-agenda-overriding-header (concat "Standalone Tasks"
-                                                                       (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                           ""
-                                                                         " (including WAITING and SCHEDULED tasks)")))
-                                 (org-agenda-skip-function 'bh/skip-project-tasks)
                                  (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
                                  (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
                                  (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
