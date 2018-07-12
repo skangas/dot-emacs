@@ -14,7 +14,7 @@
 
      ;; MobileOrg
      (setq org-mobile-directory "~/Dropbox/mobileorg")
-     ;(setq org-mobile-files "~/org/todo.org")
+                                        ;(setq org-mobile-files "~/org/todo.org")
 
      ;; org-mode hooks
      (defun my-org-mode-hook-defun ()
@@ -43,7 +43,7 @@
      ;; Save all org-mode buffers every hour
      (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; options
 
      ;; Disable priority commands
@@ -137,12 +137,12 @@
 
      ;; Negate annoying behaviour of org-agenda-forward-block to move to end of buffer
      (defun sk/advice-never-go-to-end-of-buffer (&rest args)
-         (let ((e (save-excursion (move-end-of-line 1) (point))))
-           (when (equal e (point-max))
-             (org-agenda-backward-block))))
+       (let ((e (save-excursion (move-end-of-line 1) (point))))
+         (when (equal e (point-max))
+           (org-agenda-backward-block))))
      (advice-add 'org-agenda-forward-block :after #'sk/advice-never-go-to-end-of-buffer)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; org-capture
 
      (load "~/org/.org-capture.el")
@@ -156,7 +156,7 @@
          (sk-search-and-replace '(("https://mail.google.com/mail/u/0/#inbox/" "https://mail.google.com/mail/u/0/#all/")))))
      (add-hook 'org-capture-prepare-finalize-hook 'sk-org-capture-prepare-finalize-hook)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; refile
 
      ;; Provide refile targets as paths
@@ -179,6 +179,33 @@
        "Exclude todo keywords with a done state from refile targets"
        (not (member (nth 2 (org-heading-components)) org-done-keywords)))
      (setq org-refile-target-verify-function 'bh/verify-refile-target)
+
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; screenshot
+
+     ;; Only works for OSX
+     ;; From https://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it
+     (defun my-org-screenshot ()
+       "Take a screenshot into a time stamped unique-named file in the
+same directory as the org-buffer and insert a link to this file."
+       (interactive)
+       (org-display-inline-images)
+       (setq filename
+             (concat
+              (make-temp-name
+               (concat (file-name-nondirectory (buffer-file-name))
+                       "_imgs/"
+                       (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+       (unless (file-exists-p (file-name-directory filename))
+         (make-directory (file-name-directory filename)))
+                                        ; take screenshot
+       (if (eq system-type 'darwin)
+           (call-process "screencapture" nil nil nil "-i" filename))
+       (if (eq system-type 'gnu/linux)
+           (call-process "import" nil nil nil filename))
+                                        ; insert into file if correctly taken
+       (if (file-exists-p filename)
+           (insert (concat "[[file:" filename "]]"))))
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; agenda
@@ -265,7 +292,7 @@
                             (org-tags-match-list-sublevels nil))))
                     nil))))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; babel
 
      ;; languages to load
@@ -291,7 +318,7 @@
      ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
      ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; iimage -- display images in your org-mode-file
 
      (require 'iimage)
@@ -306,7 +333,7 @@
          (set-face-underline-p 'org-link t))
        (iimage-mode))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; Org ad hoc code, quick hacks and workarounds
      ;; http://orgmode.org/worg/org-hacks.html
      
