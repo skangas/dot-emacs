@@ -212,6 +212,7 @@ same directory as the org-buffer and insert a link to this file."
 
      (setq org-agenda-files '("~/org/todo.org"
                               "~/org/personal.org"
+                              "~/org/agenda.org"
                               "~/org/refile.org"
                               "~/org/.cache/revolution-imt.org"
                               "~/org/.cache/google-calendar.org"))
