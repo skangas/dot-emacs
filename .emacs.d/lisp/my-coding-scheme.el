@@ -9,8 +9,7 @@
 
 ;; Geiser
 (after 'geiser
-  (setq geiser-default-implementation 'guile)
-  (setq geiser-active-implementations '(guile)))
+  (setq geiser-default-implementation 'racket))
 
 (provide 'my-coding-scheme)
 

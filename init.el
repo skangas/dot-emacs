@@ -112,7 +112,7 @@ of an error, just add the package to a list of missing packages."
 (require 'my-coding-perl)
 ;;(require 'my-coding-php)
 (require 'my-coding-python)
-;; (require 'my-coding-scheme)
+(require 'my-coding-scheme)
 
 (require 'my-desktop)
 
