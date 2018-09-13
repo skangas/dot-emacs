@@ -465,6 +465,9 @@ window ratios.  Imagemagick is required to run this function."
 ;; calendar-mode
 (setq calendar-week-start-day 1)
 
+;; show character count in modeline string
+(add-to-list 'global-mode-string '(" %i"))
+
 (provide 'my-general)
 
 ;; my-general.el ends here
