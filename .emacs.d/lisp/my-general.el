@@ -120,6 +120,10 @@
 (dolist (file-ending '("os" "pyc"))
   (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
 
+;;; ido-completing-read+
+(eval-after-load 'ido-completing-read+
+  '(progn (ido-ubiquitous-mode 1)))
+(require 'ido-completing-read+ nil t)
 
 ;;;; WORKAROUND FOR GNUS BUG
 ;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
@@ -400,6 +404,11 @@
 (when (fboundp 'powerline-default-theme)
   (powerline-default-theme))
 
+;; elfeed
+(require 'elfeed)
+(require 'elfeed-org)
+(elfeed-org)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;; image-mode
 
@@ -455,6 +464,9 @@ window ratios.  Imagemagick is required to run this function."
 
 ;; calendar-mode
 (setq calendar-week-start-day 1)
+
+;; show character count in modeline string
+(add-to-list 'global-mode-string '(" %i"))
 
 (provide 'my-general)
 
