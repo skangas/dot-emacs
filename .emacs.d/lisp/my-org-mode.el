@@ -1,18 +1,20 @@
 ;;; my-org-mode.el
 
 (require 'org-protocol)
+(require 'org-checklist)
 ;; contrib
 (require 'org-checklist nil t)
+(require 'org-habit-plus)
 ;; (require 'org-exp-blocks)
 
 (eval-after-load "org"
   '(progn
-     (add-to-list 'org-modules 'org-habit)
+     (add-to-list 'org-modules 'org-habit 'org-habit-plus)
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
      ;; MobileOrg
      (setq org-mobile-directory "~/Dropbox/mobileorg")
-     ;(setq org-mobile-files "~/org/todo.org")
+                                        ;(setq org-mobile-files "~/org/todo.org")
 
      ;; org-mode hooks
      (defun my-org-mode-hook-defun ()
@@ -29,7 +31,7 @@
        ;; (unless (string-equal (buffer-name) "secrets.org.gpg")
        ;;   (flyspell-mode 1))
 
-       ;; Use IDO for target completion
+       ;; Use IDO for target completion -- DEPRECATED. install "ido-completing-read+" from MELPA
        (setq org-completion-use-ido t)
 
        ;; read-only if this is my password file
@@ -41,7 +43,7 @@
      ;; Save all org-mode buffers every hour
      (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; options
 
      ;; Disable priority commands
@@ -82,7 +84,7 @@
      ;; My todo levels
      (setq org-todo-keywords
            '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c)")
-             (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
+             (sequence "WAITING(w@/!)" "HOLD(h@/!)" "ONGOING(o)" "|" "CANCELLED(c@/!)")))
 
      ;; Tags with fast selection keys
      (setq org-tag-alist (quote ((:startgroup)
@@ -116,12 +118,17 @@
      ;; Use sticky agenda's so they persist
      (setq org-agenda-sticky t)
 
+     ;; Warn three weeks before deadline
+     (setq org-deadline-warning-days 14)
+
      ;; disable the default org-mode stuck projects agenda view
      (setq org-stuck-projects (quote ("" nil nil "")))
 
      ;; Better keybindings for changing section
-     ;; (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
-     ;; (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)
+     (eval-after-load "org-agenda"
+       '(progn
+          (org-defkey org-agenda-mode-map "N"    'org-agenda-forward-block)
+          (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)))
 
      ;; After moving to next section, recenter screen
      (defun sk/advice-recenter-top-bottom (&rest args)
@@ -130,12 +137,12 @@
 
      ;; Negate annoying behaviour of org-agenda-forward-block to move to end of buffer
      (defun sk/advice-never-go-to-end-of-buffer (&rest args)
-         (let ((e (save-excursion (move-end-of-line 1) (point))))
-           (when (equal e (point-max))
-             (org-agenda-backward-block))))
+       (let ((e (save-excursion (move-end-of-line 1) (point))))
+         (when (equal e (point-max))
+           (org-agenda-backward-block))))
      (advice-add 'org-agenda-forward-block :after #'sk/advice-never-go-to-end-of-buffer)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; org-capture
 
      (load "~/org/.org-capture.el")
@@ -149,7 +156,7 @@
          (sk-search-and-replace '(("https://mail.google.com/mail/u/0/#inbox/" "https://mail.google.com/mail/u/0/#all/")))))
      (add-hook 'org-capture-prepare-finalize-hook 'sk-org-capture-prepare-finalize-hook)
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; refile
 
      ;; Provide refile targets as paths
@@ -164,7 +171,9 @@
      ;; Targets include current file and any file contributing to the agenda - up to 5 levels deep
      (setq org-refile-targets '((nil :maxlevel . 9)
                                 (org-agenda-files :maxlevel . 5)
-                                ("~/org/later.org" :maxlevel . 5)))
+                                ("~/org/later.org" :maxlevel . 5)
+                                ("~/org/agenda.org" :maxlevel . 5)
+                                ("~/org/spanska.org" :maxlevel . 5)))
 
      ;; Exclude DONE state tasks from refile targets
      (defun bh/verify-refile-target ()
@@ -173,11 +182,41 @@
      (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;; screenshot
+
+     ;; Only works for OSX
+     ;; From https://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it
+     (defun my-org-screenshot ()
+       "Take a screenshot into a time stamped unique-named file in the
+same directory as the org-buffer and insert a link to this file."
+       (interactive)
+       (org-display-inline-images)
+       (setq filename
+             (concat
+              (make-temp-name
+               (concat (file-name-nondirectory (buffer-file-name))
+                       "_imgs/"
+                       (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+       (unless (file-exists-p (file-name-directory filename))
+         (make-directory (file-name-directory filename)))
+                                        ; take screenshot
+       (if (eq system-type 'darwin)
+           (call-process "screencapture" nil nil nil "-i" filename))
+       (if (eq system-type 'gnu/linux)
+           (call-process "import" nil nil nil filename))
+                                        ; insert into file if correctly taken
+       (if (file-exists-p filename)
+           (insert (concat "[[file:" filename "]]"))))
+
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; agenda
 
      (setq org-agenda-files '("~/org/todo.org"
                               "~/org/personal.org"
-                              "~/org/refile.org"))
+                              "~/org/agenda.org"
+                              "~/org/refile.org"
+                              "~/org/.cache/revolution-imt.org"
+                              "~/org/.cache/google-calendar.org"))
      
      (setq org-agenda-dim-blocked-tasks t)
      (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -255,7 +294,7 @@
                             (org-tags-match-list-sublevels nil))))
                     nil))))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; babel
 
      ;; languages to load
@@ -281,7 +320,7 @@
      ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
      ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; iimage -- display images in your org-mode-file
 
      (require 'iimage)
@@ -296,7 +335,7 @@
          (set-face-underline-p 'org-link t))
        (iimage-mode))
 
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ;; Org ad hoc code, quick hacks and workarounds
      ;; http://orgmode.org/worg/org-hacks.html
      
@@ -607,6 +646,165 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                   nil))  ; available to archive
             (or subtree-end (point-max)))
         next-headline))))
+
+;;; (global-set-key (kbd "<f5>") 'bh/org-todo)
+
+(defun bh/org-todo (arg)
+  (interactive "p")
+  (if (equal arg 4)
+      (save-restriction
+        (bh/narrow-to-org-subtree)
+        (org-show-todo-tree nil))
+    (bh/narrow-to-org-subtree)
+    (org-show-todo-tree nil)))
+
+(global-set-key (kbd "<S-f5>") 'bh/widen)
+
+(defun bh/widen ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-agenda-remove-restriction-lock)
+        (when org-agenda-sticky
+          (org-agenda-redo)))
+    (widen)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
+          'append)
+
+(defun bh/restrict-to-file-or-follow (arg)
+  "Set agenda restriction to 'file or with argument invoke follow mode.
+I don't use follow mode very often but I restrict to file all the time
+so change the default 'F' binding in the agenda to allow both"
+  (interactive "p")
+  (if (equal arg 4)
+      (org-agenda-follow-mode)
+    (widen)
+    (bh/set-agenda-restriction-lock 4)
+    (org-agenda-redo)
+    (beginning-of-buffer)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "F" 'bh/restrict-to-file-or-follow))
+          'append)
+
+(defun bh/narrow-to-org-subtree ()
+  (widen)
+  (org-narrow-to-subtree)
+  (save-restriction
+    (org-agenda-set-restriction-lock)))
+
+(defun bh/narrow-to-subtree ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (org-get-at-bol 'org-hd-marker)
+          (bh/narrow-to-org-subtree))
+        (when org-agenda-sticky
+          (org-agenda-redo)))
+    (bh/narrow-to-org-subtree)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
+          'append)
+
+(defun bh/narrow-up-one-org-level ()
+  (widen)
+  (save-excursion
+    (outline-up-heading 1 'invisible-ok)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/get-pom-from-agenda-restriction-or-point ()
+  (or (and (marker-position org-agenda-restrict-begin) org-agenda-restrict-begin)
+      (org-get-at-bol 'org-hd-marker)
+      (and (equal major-mode 'org-mode) (point))
+      org-clock-marker))
+
+(defun bh/narrow-up-one-level ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
+          (bh/narrow-up-one-org-level))
+        (org-agenda-redo))
+    (bh/narrow-up-one-org-level)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
+          'append)
+
+(defun bh/narrow-to-org-project ()
+  (widen)
+  (save-excursion
+    (bh/find-project-task)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-to-project ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
+          (bh/narrow-to-org-project)
+          (save-excursion
+            (bh/find-project-task)
+            (org-agenda-set-restriction-lock)))
+        (org-agenda-redo)
+        (beginning-of-buffer))
+    (bh/narrow-to-org-project)
+    (save-restriction
+      (org-agenda-set-restriction-lock))))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
+          'append)
+
+(defvar bh/project-list nil)
+
+(defun bh/view-next-project ()
+  (interactive)
+  (let (num-project-left current-project)
+    (unless (marker-position org-agenda-restrict-begin)
+      (goto-char (point-min))
+      ; Clear all of the existing markers on the list
+      (while bh/project-list
+        (set-marker (pop bh/project-list) nil))
+      (re-search-forward "Tasks to Refile")
+      (forward-visible-line 1))
+
+    ; Build a new project marker list
+    (unless bh/project-list
+      (while (< (point) (point-max))
+        (while (and (< (point) (point-max))
+                    (or (not (org-get-at-bol 'org-hd-marker))
+                        (org-with-point-at (org-get-at-bol 'org-hd-marker)
+                          (or (not (bh/is-project-p))
+                              (bh/is-project-subtree-p)))))
+          (forward-visible-line 1))
+        (when (< (point) (point-max))
+          (add-to-list 'bh/project-list (copy-marker (org-get-at-bol 'org-hd-marker)) 'append))
+        (forward-visible-line 1)))
+
+    ; Pop off the first marker on the list and display
+    (setq current-project (pop bh/project-list))
+    (when current-project
+      (org-with-point-at current-project
+        (setq bh/hide-scheduled-and-waiting-next-tasks nil)
+        (bh/narrow-to-project))
+      ; Remove the marker
+      (setq current-project nil)
+      (org-agenda-redo)
+      (beginning-of-buffer)
+      (setq num-projects-left (length bh/project-list))
+      (if (> num-projects-left 0)
+          (message "%s projects left to view" num-projects-left)
+        (beginning-of-buffer)
+        (setq bh/hide-scheduled-and-waiting-next-tasks t)
+        (error "All projects viewed.")))))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
+          'append)
 
 (provide 'my-org-mode)
 
