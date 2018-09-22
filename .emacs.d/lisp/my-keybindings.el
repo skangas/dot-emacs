@@ -135,7 +135,6 @@ user."
       (setq file (concat "/sudo:root@localhost:" file)))
     (find-file file)))
 
-<<<<<<< HEAD
 ;; Fast buffer switching
 ;; http://mbork.pl/2014-04-04_Fast_buffer_switching_and_friends
 
@@ -153,7 +152,7 @@ kill it (unless it's modified)."
    ((eq aggr nil) (switch-to-buffer (other-buffer)))
    ((equal aggr '(4)) (bury-buffer))
    ((equal aggr '(16)) (kill-buffer-if-not-modified (current-buffer)))))
-=======
+
 ;;; Copy line
 (defun copy-line (arg)
   "Copy lines (as many as prefix argument) in the kill ring"
@@ -164,7 +163,6 @@ kill it (unless it's modified)."
 
 ; optional key binding
 (global-set-key "\C-c\C-k" 'copy-line)
->>>>>>> 507bc336b542e7d485631da21f8e910553cb6814
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
