@@ -4,12 +4,12 @@
 (require 'org-checklist)
 ;; contrib
 (require 'org-checklist nil t)
-(require 'org-habit-plus)
+;; (require 'org-habit-plus)
 ;; (require 'org-exp-blocks)
 
 (eval-after-load "org"
   '(progn
-     (add-to-list 'org-modules 'org-habit 'org-habit-plus)
+     ;; (add-to-list 'org-modules 'org-habit 'org-habit-plus)
      (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
      ;; MobileOrg
