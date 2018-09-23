@@ -174,7 +174,7 @@ kill it (unless it's modified)."
 (global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
 (global-set-key (kbd "C-c e b") 'eval-buffer)
-(global-set-key (kbd "C-c e e") 'toggle-debug-on-error)
+(global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
 ;; (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
 (global-set-key (kbd "C-c e i") 'my-eval-and-replace)
 (global-set-key (kbd "C-c e r") 'eval-region)
