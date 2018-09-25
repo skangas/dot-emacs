@@ -57,6 +57,7 @@
 (setq Man-width 80)                                  ; Limit man to 80 character width
 (setq message-send-mail-partially-limit nil)         ; Never split emails
 (setq messages-buffer-max-lines (* 16 1024))         ; From 1024
+(setq kill-ring-max 120)                             ; Default is 60
 
 ;; FIXME: These are obsolete now...
 (setq default-indicate-empty-lines t)                ; Show empty lines at end of file
