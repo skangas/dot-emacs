@@ -12,6 +12,10 @@
 (auto-compile-on-load-mode)
 (auto-compile-on-save-mode)
 
+;; Get this over with. Has to be a require.
+(require 'cl)
+(require 'zenburn-theme)
+
 ;; Configure ELPA
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -23,12 +27,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
-
-;; Get this over with. Has to be a require.
-(require 'cl)
-
-;; theme
-(require 'zenburn-theme)
 
 ;; various stuff 
 (setq message-log-max 1024) ;; do this first
