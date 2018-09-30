@@ -3,10 +3,32 @@
 ;; ~skangas/.emacs
 ;;
 
+;; Log start time
 (defconst *emacs-start-time* (current-time))
+
+(package-initialize)
+(setq load-prefer-newer t)
+(require 'auto-compile)
+(auto-compile-on-load-mode)
+(auto-compile-on-save-mode)
+
+;; Configure ELPA
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+;; Add local elisp directories
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
+(add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 ;; Get this over with. Has to be a require.
 (require 'cl)
+
+;; theme
+(require 'zenburn-theme)
 
 ;; various stuff 
 (setq message-log-max 1024) ;; do this first
@@ -43,43 +65,10 @@ of an error, just add the package to a list of missing packages."
        (add-to-list 'missing-packages-list feature 'append))
      nil)))
 
-;; (let ((d1 (car  (last (file-expand-wildcards "~/.emacs.d/elpa/auto-compile-20*"))))
-;;       (d2 ".emacs.d/elpa/packed-20130502.2340/"))
-;;   (when (and (file-directory-p d1)
-;; 	     (file-directory-p d2))
-;;     (add-to-list 'load-path d1)
-;;     (add-to-list 'load-path d2)
-;;     (require 'auto-compile)
-;;     (auto-compile-on-load-mode 1)
-;;     (auto-compile-on-save-mode 1)))
-
-
-;; work-around for Emacs < 23.2
-(when (< emacs-major-version 24)
-  (require 'warnings))
-
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
   (when load-file-name
     (setenv "HOME" (file-name-directory load-file-name))))
-
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-  (package-initialize))
-
-;;; Just use temporarily:
-;; (add-to-list 'package-archives '("SC" . "http://joseito.republika.pl/sunrise-commander/") t)
-;;; More information:
-;;; http://pragmaticemacs.com/emacs/double-dired-with-sunrise-commander/
-
-;; Add local elisp directories
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
-(add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
 ;; Create necessary directories
 (dolist (dir '("~/.emacs.d/cache" "~/.emacs.d/cache/semanticdb"))
@@ -143,11 +132,6 @@ of an error, just add the package to a list of missing packages."
 (autoload 'insert-x-resources "pjb-xresources"
   "Insert current theme as XResources in current buffer" t)
 
-(when (>= emacs-major-version 24)
-  (require 'zenburn-theme))
-
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
-
 (when (condition-case nil
           (require 'completion-ui)
         (error nil))
@@ -181,7 +165,7 @@ of an error, just add the package to a list of missing packages."
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; " (substring (emacs-version) 0 16) "."))
+            (insert (concat ";; " (substring (emacs-version) 0 14) "."))
             (newline-and-indent)  (newline-and-indent)))
 
 ;; Echo .emacs load time
