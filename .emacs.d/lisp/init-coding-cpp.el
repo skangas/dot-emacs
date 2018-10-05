@@ -1,5 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; C++
+;;; C++
 
 (defun my-c++-mode-customizations ()
   (my-coding-keys c++-mode-map)
@@ -23,4 +22,4 @@
 
 (provide 'init-coding-cpp)
 
-;; my-coding-c.el ends here
+;; init-coding-c.el ends here

@@ -83,7 +83,7 @@
 (require 'init-org-mode)
 ;; (require 'init-rcirc)
 (require 'init-tramp)
-(require 'init-w3m)
+;; (require 'init-w3m)
 
 ;; Coding
 (require 'init-coding-common)

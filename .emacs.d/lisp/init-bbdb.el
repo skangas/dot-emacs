@@ -43,4 +43,4 @@
 
 (provide 'init-bbdb)
 
-;; my-bbdb.el ends here
+;; init-bbdb.el ends here

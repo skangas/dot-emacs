@@ -1,4 +1,4 @@
-;;; my-org-mode.el
+;;; init-org-mode.el
 
 (require 'org-protocol)
 ;; (require 'org-checklist)
@@ -795,4 +795,4 @@ so change the default 'F' binding in the agenda to allow both"
 
 (provide 'init-org-mode)
 
-;; my-org-mode.el ends here
+;; init-org-mode.el ends here

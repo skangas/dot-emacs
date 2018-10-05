@@ -39,4 +39,4 @@
 
 (provide 'init-emms)
 
-;; my-emms.el ends here
+;; init-emms.el ends here

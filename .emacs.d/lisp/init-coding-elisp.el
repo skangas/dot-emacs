@@ -1,5 +1,14 @@
+;; Emacs Lisp
+
+(require 'eval-expr)
+(eval-expr-install)
+
 (use-package nameless
   :ensure t)
+
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
@@ -28,4 +37,4 @@
 
 (provide 'init-coding-elisp)
 
-;; my-coding-elisp.el ends here
+;; init-coding-elisp.el ends here

@@ -1,4 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Haskell
 
 (use-package haskell-mode
@@ -105,4 +104,4 @@ This will run newline-and-indent, and then indent once more."
 
 (provide 'init-coding-haskell)
 
-;; my-coding-haskell.el ends here
+;; init-coding-haskell.el ends here
