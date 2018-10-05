@@ -79,6 +79,6 @@
 ;; (setq semanticdb-project-roots '("~/src/jfsaccounting"))
 ;;                                  "~/research"))
 
-(provide 'my-cedet)
+(provide 'init-coding-cedet)
 
 ;; my-cedet.el ends here

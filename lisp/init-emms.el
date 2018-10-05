@@ -37,6 +37,6 @@
      ;;       emms-info-asynchronously t)
      ))
 
-(provide 'my-emms)
+(provide 'init-emms)
 
 ;; my-emms.el ends here

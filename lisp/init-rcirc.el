@@ -261,6 +261,6 @@
 ;;                               (buffer-name))
 ;;                 (rcirc-reconnect-mode 1))))
 
-(provide 'my-rcirc)
+(provide 'init-rcirc)
 
 ;; my-rcirc.el ends here

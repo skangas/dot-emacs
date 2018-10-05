@@ -4,7 +4,7 @@
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.php[s34]?\\'" . php-mode))
 
-(after 'php-mode
+(use-package php-mode
   (defun my-php-mode-customizations ()
 
     (set (make-local-variable 'compile-command)
@@ -18,6 +18,6 @@
           ))
   (add-hook 'php-mode-hook 'my-php-mode-customizations))
 
-(provide 'my-coding-php)
+(provide 'init-coding-php)
 
 ;; my-coding-php.el ends here

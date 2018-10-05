@@ -1,8 +1,14 @@
+(use-package nameless
+  :ensure t)
+
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
 
   ;; Use nameless mode
   (nameless-mode)
+
+  ;; Abbreviate Emacs Lisp
+  (setq mode-name "el")
 
   ;; automatically compile all .el files on save
   (add-hook 'after-save-hook 'my-recompile-el)
@@ -20,6 +26,6 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
-(provide 'my-coding-elisp)
+(provide 'init-coding-elisp)
 
 ;; my-coding-elisp.el ends here
