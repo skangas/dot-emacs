@@ -163,7 +163,7 @@ of an error, just add the package to a list of missing packages."
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; " (substring (emacs-version) 0 14) "."))
+            (insert (concat ";; Emacs version " (emacs-version) "."))
             (newline-and-indent)  (newline-and-indent)))
 
 ;; Echo .emacs load time
