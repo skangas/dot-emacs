@@ -5,6 +5,7 @@
 (add-to-list 'auto-mode-alist '("\\.php[s34]?\\'" . php-mode))
 
 (use-package php-mode
+  :config
   (defun my-php-mode-customizations ()
 
     (set (make-local-variable 'compile-command)
@@ -20,4 +21,4 @@
 
 (provide 'init-coding-php)
 
-;; my-coding-php.el ends here
+;; init-coding-php.el ends here

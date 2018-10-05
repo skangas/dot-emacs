@@ -1,4 +1,4 @@
-;; pymacs
+;;; Python
 
 (use-package pymacs
   :init
@@ -31,4 +31,4 @@
 
 (provide 'init-coding-python)
 
-;; my-coding-python.el ends here
+;; init-coding-python.el ends here

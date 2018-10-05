@@ -1,10 +1,11 @@
-;; PERL
+;; Perl
 
 ;; use cperl-mode instead of perl-mode
 (defalias 'perl-mode 'cperl-mode)
 
 (require 'sk-macros)
-(after 'cperl-mode
+(use-package cperl-mode
+  :config
   (setq cperl-clobber-lisp-bindings t)
   (setq cperl-highlight-variables-indiscriminately t) ;; hilight all scalars
   (setq cperl-lazy-help-time 1) ;; show help after x seconds
@@ -28,78 +29,74 @@
   (setq cperl-label-offset 0) ;; extra indentation for line that is a label
   (setq cperl-brace-offset 0) ;; braces should only get default indentation
 
-(defun my-cperl-customizations ()
-  "cperl-mode customizations that must be done after cperl-mode loads"
-  (my-coding-keys cperl-mode-map)
-  (define-key cperl-mode-map (kbd "C-M-<") 'cperl-lineup) ;; TODO: translate to other languages
-  (define-key cperl-mode-map (kbd "C-h f") 'cperl-perldoc) ;; TODO: translate to other languages
+  (defun my-cperl-customizations ()
+    "cperl-mode customizations that must be done after cperl-mode loads"
+    (my-coding-keys cperl-mode-map)
+    (define-key cperl-mode-map (kbd "C-M-<") 'cperl-lineup) ;; TODO: translate to other languages
+    (define-key cperl-mode-map (kbd "C-h f") 'cperl-perldoc) ;; TODO: translate to other languages
 
-  ;; flyspell in comments
-  (flyspell-prog-mode)
+    ;; flyspell in comments
+    (flyspell-prog-mode)
 
-  ;; use perl to compile
-  (set (make-local-variable 'compile-command) (concat "perl -w -c " buffer-file-name))
-  ;; don't ask for confirmation
-  (set (make-local-variable 'compilation-read-command) nil)
-  ;; turn on auto-completion of keywords
-  (abbrev-mode 1)
+    ;; use perl to compile
+    (set (make-local-variable 'compile-command) (concat "perl -w -c " buffer-file-name))
+    ;; don't ask for confirmation
+    (set (make-local-variable 'compilation-read-command) nil)
+    ;; turn on auto-completion of keywords
+    (abbrev-mode 1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; outline-minor-mode
+    ;; outline-minor-mode
+    ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
 
-  ;; http://www.emacswiki.org/emacs/CPerlModeOutlineMode
+    (outline-minor-mode)
 
-  (outline-minor-mode)
+    (defun cperl-outline-level ()
+      (looking-at outline-regexp)
+      (let ((match (match-string 1)))
+        (cond
+         ((eq match "=head1" ) 1)
+         ((eq match "package") 2)
+         ((eq match "class"  ) 3)
+         ((eq match "=head2" ) 4)
+         ((eq match "=item"  ) 5)
+         ((eq match "sub"    ) 6)
+         ((eq match "has"    ) 7)
+         (t 8)
+         )))
 
-  (defun cperl-outline-level ()
-    (looking-at outline-regexp)
-    (let ((match (match-string 1)))
-      (cond
-       ((eq match "=head1" ) 1)
-       ((eq match "package") 2)
-       ((eq match "class"  ) 3)
-       ((eq match "=head2" ) 4)
-       ((eq match "=item"  ) 5)
-       ((eq match "sub"    ) 6)
-       ((eq match "has"    ) 7)
-       (t 8)
-       )))
+    (setq my-cperl-outline-regexp
+          (concat
+           "^"                            ; Start of line
+           "[ \\t]*"                      ; Skip leading whitespace
+           "\\("                          ; begin capture group \1
+           (sk-join "\\|"
+                    '("=head[12]"         ; POD header
+                      "package"           ; package
+                      "=item"             ; POD item
+                      "sub"               ; subroutine definition
+                      "class" "has"       ; use Moose;
+                      ))
+           "\\)"                          ; end capture group \1
+           "\\b"                          ; Word boundary
+           ))
 
-  (setq my-cperl-outline-regexp
-        (concat
-         "^"                            ; Start of line
-         "[ \\t]*"                      ; Skip leading whitespace
-         "\\("                          ; begin capture group \1
-         (sk-join "\\|"
-                  '("=head[12]"         ; POD header
-                    "package"           ; package
-                    "=item"             ; POD item
-                    "sub"               ; subroutine definition
-                    "class" "has"       ; use Moose;
-                    ))
-         "\\)"                          ; end capture group \1
-         "\\b"                          ; Word boundary
-         ))
+    (setq cperl-outline-regexp  my-cperl-outline-regexp)
+    (setq outline-regexp        cperl-outline-regexp)
+    (setq outline-level        'cperl-outline-level))
+  (add-hook 'cperl-mode-hook 'my-cperl-customizations t)
 
-  (setq cperl-outline-regexp  my-cperl-outline-regexp)
-  (setq outline-regexp        cperl-outline-regexp)
-  (setq outline-level        'cperl-outline-level))
-  (add-hook 'cperl-mode-hook 'my-cperl-customizations t))
+  ;; perltidy
+  (defun perltidy-region ()
+    "Run perltidy on the current region."
+    (interactive)
+    (save-excursion
+      (shell-command-on-region (point) (mark) "perltidy -q" nil t)))
+  (defun perltidy-defun ()
+    "Run perltidy on the current defun."
+    (interactive)
+    (save-excursion (mark-defun)
+                    (perltidy-region)))
 
+  (provide 'init-coding-perl))
 
-
-;;; perltidy
-(defun perltidy-region ()
-  "Run perltidy on the current region."
-  (interactive)
-  (save-excursion
-    (shell-command-on-region (point) (mark) "perltidy -q" nil t)))
-(defun perltidy-defun ()
-  "Run perltidy on the current defun."
-  (interactive)
-  (save-excursion (mark-defun)
-		  (perltidy-region)))
-
-(provide 'init-coding-perl)
-
-;; my-coding-perl.el ends here
+;; init-coding-perl.el ends here

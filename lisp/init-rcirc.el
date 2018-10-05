@@ -263,4 +263,4 @@
 
 (provide 'init-rcirc)
 
-;; my-rcirc.el ends here
+;; init-rcirc.el ends here

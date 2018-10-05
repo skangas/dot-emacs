@@ -1,4 +1,4 @@
-;;; my-keybindings.el
+;;; init-keybindings.el
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -232,4 +232,4 @@ kill it (unless it's modified)."
 
 (provide 'init-keybindings)
 
-;; my-keybindings.el ends here
+;; init-keybindings.el ends here

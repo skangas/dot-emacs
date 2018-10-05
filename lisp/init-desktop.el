@@ -38,4 +38,4 @@
 
 (provide 'init-desktop)
 
-;; my-desktop.el ends here
+;; init-desktop.el ends here

@@ -81,4 +81,4 @@
 
 (provide 'init-coding-cedet)
 
-;; my-cedet.el ends here
+;; init-cedet.el ends here

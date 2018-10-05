@@ -31,4 +31,4 @@
 
 (provide 'init-emacs-server)
 
-;; my-emacs-server.el ends here
+;; init-emacs-server.el ends here

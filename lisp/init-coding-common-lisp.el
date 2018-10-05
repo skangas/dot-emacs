@@ -7,4 +7,4 @@
 
 (provide 'init-coding-common-lisp)
 
-;; my-coding-common-lisp.el ends here
+;; init-coding-common-lisp.el ends here

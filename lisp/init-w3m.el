@@ -99,4 +99,4 @@
 
 (provide 'init-w3m)
 
-;; my-w3m.el ends here
+;; init-w3m.el ends here

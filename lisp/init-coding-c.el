@@ -22,4 +22,4 @@
 
 (provide 'init-coding-c)
 
-;; my-coding-c.el ends here
+;; init-coding-c.el ends here

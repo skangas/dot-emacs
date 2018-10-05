@@ -229,26 +229,32 @@
       (quietly-read-abbrev-file))
 
   ;; Enable abbrev-mode in text and derived modes
-  (add-hook emacs-lisp-mode-hook (lambda () (abbrev-mode 1)))
-  (add-hook text-mode-hook (lambda () (abbrev-mode 1)))
-  (eval-after-load "erc"
-    (add-hook erc-mode-hook (lambda () (abbrev-mode 1)))))
+  (add-hook 'text-mode-hook (lambda () (abbrev-mode 1)))
+  ;; (add-hook 'emacs-lisp-mode-hook (lambda () (abbrev-mode 1)))
+  ;; (add-hook 'erc-mode-hook (lambda () (abbrev-mode 1)))
+  )
 
 (use-package async
   :ensure t
   :config
   (dired-async-mode 1))
 
-(use-package centered-cursor-mode
-  :ensure t
-  :config
-  ;; center cursor in info-mode
-  (defun my-info-mode-hook-center-cursor ()
-    (centered-cursor-mode))
-  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
+;;;;;;;;;; Not working right now?
+;; (use-package centered-cursor-mode
+;;   :ensure t
+;;   :config
+;;   ;; center cursor in info-mode
+;;   (defun my-info-mode-hook-center-cursor ()
+;;     (centered-cursor-mode))
+;;   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 (use-package dash
   :ensure t)
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
 
 (use-package diminish
   :ensure t
@@ -301,6 +307,7 @@
 
 (use-package elfeed-org
   :ensure t
+  :pin "melpa"
   :config
   (elfeed-org))
 
@@ -459,6 +466,7 @@
 
 (use-package window-numbering
   :ensure t
+  :config
   (window-numbering-mode 1))
 
 (use-package winner
@@ -515,4 +523,4 @@ window ratios.  Imagemagick is required to run this function."
 
 (provide 'init-general)
 
-;; my-general.el ends here
+;; init-general.el ends here
