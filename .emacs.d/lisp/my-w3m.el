@@ -1,7 +1,4 @@
 (try-require 'w3m-load)
-(if (= emacs-major-version 23)
-    (progn
-      (try-require 'w3m)))
 
 (after 'w3m
   (setq w3m-home-page "http://www.duckduckgo.com/")

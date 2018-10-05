@@ -3,18 +3,15 @@
 ;; ~skangas/.emacs
 ;;
 
-;; Log start time
+;; Log .emacs start time
 (defconst *emacs-start-time* (current-time))
-
-(package-initialize)
-(setq load-prefer-newer t)
-(require 'auto-compile)
-(auto-compile-on-load-mode)
-(auto-compile-on-save-mode)
 
 ;; Get this over with. Has to be a require.
 (require 'cl)
-(require 'zenburn-theme)
+
+;; Package
+(package-initialize)
+(setq load-prefer-newer t)
 
 ;; Configure ELPA
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -28,7 +25,27 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
-;; various stuff 
+;; Configure use-package
+(eval-when-compile
+  ;; Following line is not needed if use-package.el is in ~/.emacs.d
+  ;; (add-to-list 'load-path "<path where use-package is installed>")
+  (require 'use-package))
+
+;; Enable auto-compile
+(use-package auto-compile
+  :ensure t
+  :init
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode)
+  :config
+  (setq auto-compile-display-buffer nil)
+  (setq auto-compile-mode-line-counter t))
+
+;; Enable theme (do this early)
+(use-package zenburn-theme
+  :ensure t)
+
+;; Various configuration
 (setq message-log-max 1024) ;; do this first
 (setq max-specpdl-size 15600)
 (setq max-lisp-eval-depth 9000)
@@ -88,6 +105,7 @@ of an error, just add the package to a list of missing packages."
 (require 'my-tramp)
 (require 'my-w3m)
 
+;; Coding
 (require 'my-coding)
 (require 'my-cedet)
 (require 'my-coding-c)
@@ -103,7 +121,7 @@ of an error, just add the package to a list of missing packages."
 
 (require 'my-desktop)
 
-(require 'init-google-translate)
+;; (require 'init-google-translate)
 
 ;; My code
 (require 'sk-lisp)
@@ -152,7 +170,7 @@ of an error, just add the package to a list of missing packages."
            (fboundp 'exec-path-from-shell-initialize))
   (exec-path-from-shell-initialize))
 
-;; Workaround for broken visual bell on OSX El Capitain 
+;; Workaround for broken visual bell on OSX El Capitain
 (when (eq system-type 'darwin)
   (setq visible-bell nil)
   (setq ring-bell-function
@@ -163,7 +181,7 @@ of an error, just add the package to a list of missing packages."
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; Emacs version " (emacs-version) "."))
+            (insert (concat ";; " (substring (emacs-version) 0 14) "."))
             (newline-and-indent)  (newline-and-indent)))
 
 ;; Echo .emacs load time
