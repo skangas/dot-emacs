@@ -19,7 +19,7 @@
   (setq cperl-tab-always-indent t)            ;; TAB always indents line
   (setq cperl-indent-left-aligned-comments t) ;; indent left aligned comments
   (setq cperl-auto-newline nil)               ;; No automatic newline
-  (setq cperl-auto-newline-after-colon) ;; automatic newline after colon when above setting enabled
+  ;; (setq cperl-auto-newline-after-colon) ;; automatic newline after colon when above setting enabled
   (setq cperl-indent-level 4)
   (setq cperl-continued-statement-offset 4)
   (setq cperl-continued-brace-offset 0)
