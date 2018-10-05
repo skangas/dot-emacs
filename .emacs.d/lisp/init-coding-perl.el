@@ -100,6 +100,6 @@
   (save-excursion (mark-defun)
 		  (perltidy-region)))
 
-(provide 'my-coding-perl)
+(provide 'init-coding-perl)
 
 ;; my-coding-perl.el ends here

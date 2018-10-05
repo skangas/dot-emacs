@@ -9,6 +9,16 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
+;; Settings for MacOS
+(setq ns-command-modifier 'meta)
+(setq ns-option-modifier 'super)
+(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
+
+;; Fix path for MacOSX
+(when (and (memq window-system '(mac ns))
+           (fboundp 'exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize))
+
 ;; Package
 (package-initialize)
 (setq load-prefer-newer t)
@@ -16,6 +26,7 @@
 ;; Configure ELPA
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 ;; Add local elisp directories
@@ -25,13 +36,19 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
-;; Configure use-package
 (eval-when-compile
-  ;; Following line is not needed if use-package.el is in ~/.emacs.d
-  ;; (add-to-list 'load-path "<path where use-package is installed>")
   (require 'use-package))
+(setq use-package-always-pin "melpa-stable")
 
-;; Enable auto-compile
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+(use-package zenburn-theme        ; enable theme early
+  :ensure t)
+
 (use-package auto-compile
   :ensure t
   :config
@@ -39,10 +56,6 @@
   (auto-compile-on-save-mode)
   (setq auto-compile-display-buffer nil)
   (setq auto-compile-mode-line-counter t))
-
-;; Enable theme (do this early)
-(use-package zenburn-theme
-  :ensure t)
 
 ;; Various configuration
 (setq message-log-max 1024) ;; do this first
@@ -64,10 +77,8 @@
 (require 'init-emacs-server)
 (require 'init-keybindings)
 
-(require 'init-abbrev)
 (require 'init-auto-insert-mode)
-(require 'init-bbdb)
-(require 'init-dired)
+;; (require 'init-bbdb)
 ;; (require 'init-emms)
 (require 'init-org-mode)
 ;; (require 'init-rcirc)
@@ -75,16 +86,16 @@
 (require 'init-w3m)
 
 ;; Coding
-(require 'init-coding)
-(require 'init-cedet)
+(require 'init-coding-common)
 (require 'init-coding-c)
-;; (require 'init-coding-common-lisp)
+(require 'init-coding-cedet)
+(require 'init-coding-common-lisp)
 (require 'init-coding-cpp)
 (require 'init-coding-elisp)
 (require 'init-coding-haskell)
 (require 'init-coding-java)
 (require 'init-coding-perl)
-;;(require 'init-coding-php)
+(require 'init-coding-php)
 (require 'init-coding-python)
 (require 'init-coding-scheme)
 
@@ -129,16 +140,6 @@
 (setq custom-file "~/.emacs.d/my-custom-file.el")
 (load custom-file 'noerror)
 
-;; Settings for MacOS
-(setq ns-command-modifier 'meta)
-(setq ns-option-modifier 'super)
-(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
-
-;; Fix path for MacOSX
-(when (and (memq window-system '(mac ns))
-           (fboundp 'exec-path-from-shell-initialize))
-  (exec-path-from-shell-initialize))
-
 ;; Workaround for broken visual bell on OSX El Capitain
 (when (eq system-type 'darwin)
   (setq visible-bell nil)
@@ -150,12 +151,14 @@
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; " (substring (emacs-version) 0 14) "."))
+            (insert (concat ";; " (substring (emacs-version) 0 14) ".    "))
+            (when (not noninteractive)
+              (insert (format
+                       " -- .emacs loaded in %d.2s\n"
+                       (destructuring-bind (hi lo ms ps) (current-time)
+                         (- (+ hi lo) (+ (first *emacs-start-time*)
+                                         (second *emacs-start-time*)))))))
             (newline-and-indent)  (newline-and-indent)))
 
 ;; Echo .emacs load time
-(when (not noninteractive)
-  (message ".emacs loaded in %ds"
-           (destructuring-bind (hi lo ms ps) (current-time)
-             (- (+ hi lo) (+ (first *emacs-start-time*)
-                             (second *emacs-start-time*))))))
+

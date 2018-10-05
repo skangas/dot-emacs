@@ -1,6 +1,7 @@
-(try-require 'w3m-load)
-
-(after 'w3m
+(use-package w3m
+  :ensure t
+  :pin "melpa"
+  :config
   (setq w3m-home-page "http://www.duckduckgo.com/")
   (setq w3m-key-binding 'info)
   (setq w3m-fill-column 80)
@@ -96,6 +97,6 @@
               (signal (car error) (cadr error)))
         (point)))))
 
-(provide 'my-w3m)
+(provide 'init-w3m)
 
 ;; my-w3m.el ends here

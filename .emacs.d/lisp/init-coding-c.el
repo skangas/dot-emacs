@@ -20,6 +20,6 @@
 
 (add-hook 'c-mode-hook 'my-c-mode-customizations)
 
-(provide 'my-coding-c)
+(provide 'init-coding-c)
 
 ;; my-coding-c.el ends here

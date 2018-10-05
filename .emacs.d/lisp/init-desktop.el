@@ -36,6 +36,6 @@
 ;; Automatically save desktop when idle
 ;; (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
 
-(provide 'my-desktop)
+(provide 'init-desktop)
 
 ;; my-desktop.el ends here

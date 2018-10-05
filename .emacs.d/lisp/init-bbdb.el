@@ -1,7 +1,9 @@
-(require 'bbdb-loaddefs nil t)
-(require 'bbdb nil t)
-
-(eval-after-load 'bbdb
+(use-package bbdb
+  :ensure t
+  :pin "gnu"
+  :config
+  (require 'bbdb-loaddefs nil t)
+  (require 'bbdb nil t)
   (when (> (string-to-number bbdb-version) 3)
     (when (fboundp 'bbdb-initialize)
       (bbdb-initialize 'gnus 'message))
@@ -19,25 +21,26 @@
           ;; cycle through matches (this only works partially (??? still correct?))
           bbdb-complete-mail-allow-cycling t 
 
-          bbdb-use-alternate-names t ;; use AKA
+          ;; bbdb-use-alternate-names t ;; use AKA
 
           ;;bbdb-elided-display t                    ;; single-line addresses
 
           bbdb-default-area-code "070"
           bbdb-phone-style nil
           bbdb-check-postcode nil
-          bbdb-user-mail-names (regexp-opt '("skangas@skangas.se"
-                                             "stefan@fripost.org"
-                                             "skangas@fripost.org"
-                                             "skangas@fsfe.org"
-                                             "stefan@marxist.se"
-                                             "stefankangas@gmail.com"
-                                             "skangas@cpan.org"
-                                             "stekan01@student.hgo.se"
-                                             "stefan.kangas@vansterpartiet.se"
-                                             "stefan.kangas@ungvanster.se"
-                                             "kangass@student.chalmers.se")))))
+          ;; bbdb-user-mail-names (regexp-opt '("skangas@skangas.se"
+          ;;                                    "stefan@fripost.org"
+          ;;                                    "skangas@fripost.org"
+          ;;                                    "skangas@fsfe.org"
+          ;;                                    "stefan@marxist.se"
+          ;;                                    "stefankangas@gmail.com"
+          ;;                                    "skangas@cpan.org"
+          ;;                                    "stekan01@student.hgo.se"
+          ;;                                    "stefan.kangas@vansterpartiet.se"
+          ;;                                    "stefan.kangas@ungvanster.se"
+          ;;                                    "kangass@student.chalmers.se"))
+          )))
 
-(provide 'my-bbdb)
+(provide 'init-bbdb)
 
 ;; my-bbdb.el ends here

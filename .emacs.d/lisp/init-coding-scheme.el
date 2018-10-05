@@ -11,6 +11,6 @@
 (after 'geiser
   (setq geiser-default-implementation 'racket))
 
-(provide 'my-coding-scheme)
+(provide 'init-coding-scheme)
 
 ;; my-coding-scheme.el ends here

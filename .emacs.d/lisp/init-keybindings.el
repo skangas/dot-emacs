@@ -188,8 +188,6 @@ kill it (unless it's modified)."
 (global-set-key (kbd "<f8>") 'w3m)
 (global-set-key (kbd "<f11>") 'compile)
 (global-set-key (kbd "<C-tab>") 'hippie-expand)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c C-b") 'org-iswitchb)
@@ -215,31 +213,6 @@ kill it (unless it's modified)."
 
 (global-set-key (kbd "C-M-y") 'iedit-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; MODES
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;
-;; dired
-(defun image-dired-here ()
-  "Make a preview buffer for all images in current directory and display it."
-  (interactive)
-  (image-dired default-directory))
-
-(defun dired-open-feh ()
-  "Make a preview buffer for all images in current directory and display it."
-  (interactive)
-  (let ((cmd "feh -F -Z * &" ))
-    (message cmd)
-    (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))
-    ))
-
-(eval-after-load 'dired
-  '(progn (define-key dired-mode-map "." 'dired-hide-dotfiles-mode)
-          (define-key dired-mode-map "," 'dired-hide-details-mode)
-          (define-key dired-mode-map (kbd "C-i") 'image-dired-here)
-          (define-key dired-mode-map (kbd "å") 'dired-open-feh)))
-
 ;;;;;;;;;;
 ;; occur-mode
 (defun my-occur-mode-keybindings ()
@@ -257,6 +230,6 @@ kill it (unless it's modified)."
   '(define-key grep-mode-map
     (kbd "C-c C-c") 'wgrep-finish-edit))
 
-(provide 'my-keybindings)
+(provide 'init-keybindings)
 
 ;; my-keybindings.el ends here
