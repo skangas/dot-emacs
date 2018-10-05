@@ -36,4 +36,4 @@
                    (erase-buffer)
                    (insert content))))))))))
   
-(provide 'my-tramp)
+(provide 'init-tramp)

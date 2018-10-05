@@ -21,6 +21,6 @@
 
 (add-hook 'c++-mode-hook 'my-c++-mode-customizations)
 
-(provide 'my-coding-cpp)
+(provide 'init-coding-cpp)
 
 ;; my-coding-c.el ends here

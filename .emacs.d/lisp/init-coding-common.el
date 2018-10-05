@@ -26,7 +26,7 @@
 (set-face-underline 'font-lock-warning-face "yellow")
 
 ;; pretty-lambdada
-(when (require 'pretty-lambdada)
+(use-package 'pretty-lambdada
   (add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-lambda-mode)
   (add-hook 'lisp-interaction-mode-hook 'turn-on-pretty-lambda-mode)
   (add-hook 'ielm-mode-hook 'turn-on-pretty-lambda-mode))
@@ -130,6 +130,6 @@ compiler-command."
         (concat "g++ -O2 -Wall -o " (file-name-sans-extension file)
                 " " file)))))
 
-(provide 'my-coding)
+(provide 'init-coding-common)
 
 ;; my-coding.el ends here
