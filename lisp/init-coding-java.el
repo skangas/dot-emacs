@@ -38,6 +38,6 @@
       (jde-javadoc-define-template 'jde-javadoc-param-tag-template "\"* @param \" name")
       (jde-javadoc-define-template 'jde-javadoc-return-tag-template "\"* @return \""))))
 
-(provide 'my-coding-java)
+(provide 'init-coding-java)
 
 ;; my-coding-java.el ends here

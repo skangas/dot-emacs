@@ -29,6 +29,6 @@
               (use-local-map (copy-keymap (current-local-map))))
             (local-set-key (kbd "C-x k") 'server-edit)))
 
-(provide 'my-emacs-server)
+(provide 'init-emacs-server)
 
 ;; my-emacs-server.el ends here

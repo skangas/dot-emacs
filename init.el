@@ -9,6 +9,16 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
+;; Settings for MacOS
+(setq ns-command-modifier 'meta)
+(setq ns-option-modifier 'super)
+(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
+
+;; Fix path for MacOSX
+(when (and (memq window-system '(mac ns))
+           (fboundp 'exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize))
+
 ;; Package
 (package-initialize)
 (setq load-prefer-newer t)
@@ -16,6 +26,7 @@
 ;; Configure ELPA
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 ;; Add local elisp directories
@@ -25,60 +36,31 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
-;; Configure use-package
 (eval-when-compile
-  ;; Following line is not needed if use-package.el is in ~/.emacs.d
-  ;; (add-to-list 'load-path "<path where use-package is installed>")
   (require 'use-package))
+(setq use-package-always-pin "melpa-stable")
 
-;; Enable auto-compile
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+(use-package zenburn-theme        ; enable theme early
+  :ensure t)
+
 (use-package auto-compile
   :ensure t
-  :init
+  :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode)
-  :config
   (setq auto-compile-display-buffer nil)
   (setq auto-compile-mode-line-counter t))
-
-;; Enable theme (do this early)
-(use-package zenburn-theme
-  :ensure t)
 
 ;; Various configuration
 (setq message-log-max 1024) ;; do this first
 (setq max-specpdl-size 15600)
 (setq max-lisp-eval-depth 9000)
-
-;;; Loading packages
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
-
-(defvar missing-packages-list nil
-  "List of packages that `try-require' can't find.")
-
-;; attempt to load a feature/library, failing silently
-(defun try-require (feature)
-  "Attempt to load a library or module. Return true if the
-library given as argument is successfully loaded. If not, instead
-of an error, just add the package to a list of missing packages."
-  (condition-case err
-      ;; protected form
-      (progn
-        (message "Checking for library `%s'..." feature)
-        (if (stringp feature)
-            (load-library feature)
-          (require feature))
-        (message "Checking for library `%s'... Found" feature))
-    ;; error handler
-    (file-error  ; condition
-     (progn
-       (message "Checking for library `%s'... Missing" feature)
-       (add-to-list 'missing-packages-list feature 'append))
-     nil)))
 
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
@@ -91,35 +73,33 @@ of an error, just add the package to a list of missing packages."
     (make-directory dir)))
 
 ;; Require my configuration files
-(require 'my-general)
-(require 'my-emacs-server)
-(require 'my-keybindings)
+(require 'init-general)
+(require 'init-emacs-server)
+(require 'init-keybindings)
 
-(require 'my-abbrev)
-(require 'my-auto-insert-mode)
-(require 'my-bbdb)
-(require 'my-dired)
-;; (require 'my-emms)
-(require 'my-org-mode)
-;; (require 'my-rcirc)
-(require 'my-tramp)
-(require 'my-w3m)
+(require 'init-auto-insert-mode)
+;; (require 'init-bbdb)
+;; (require 'init-emms)
+(require 'init-org-mode)
+;; (require 'init-rcirc)
+(require 'init-tramp)
+(require 'init-w3m)
 
 ;; Coding
-(require 'my-coding)
-(require 'my-cedet)
-(require 'my-coding-c)
-;; (require 'my-coding-common-lisp)
-(require 'my-coding-cpp)
-(require 'my-coding-elisp)
-(require 'my-coding-haskell)
-(require 'my-coding-java)
-(require 'my-coding-perl)
-;;(require 'my-coding-php)
-(require 'my-coding-python)
-(require 'my-coding-scheme)
+(require 'init-coding-common)
+(require 'init-coding-c)
+(require 'init-coding-cedet)
+(require 'init-coding-common-lisp)
+(require 'init-coding-cpp)
+(require 'init-coding-elisp)
+(require 'init-coding-haskell)
+(require 'init-coding-java)
+(require 'init-coding-perl)
+(require 'init-coding-php)
+(require 'init-coding-python)
+(require 'init-coding-scheme)
 
-(require 'my-desktop)
+(require 'init-desktop)
 
 ;; (require 'init-google-translate)
 
@@ -160,16 +140,6 @@ of an error, just add the package to a list of missing packages."
 (setq custom-file "~/.emacs.d/my-custom-file.el")
 (load custom-file 'noerror)
 
-;; Settings for MacOS
-(setq ns-command-modifier 'meta)
-(setq ns-option-modifier 'super)
-(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
-
-;; Fix path for MacOSX
-(when (and (memq window-system '(mac ns))
-           (fboundp 'exec-path-from-shell-initialize))
-  (exec-path-from-shell-initialize))
-
 ;; Workaround for broken visual bell on OSX El Capitain
 (when (eq system-type 'darwin)
   (setq visible-bell nil)
@@ -181,12 +151,14 @@ of an error, just add the package to a list of missing packages."
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; " (substring (emacs-version) 0 14) "."))
+            (insert (concat ";; " (substring (emacs-version) 0 14) ".    "))
+            (when (not noninteractive)
+              (insert (format
+                       " -- .emacs loaded in %d.2s\n"
+                       (destructuring-bind (hi lo ms ps) (current-time)
+                         (- (+ hi lo) (+ (first *emacs-start-time*)
+                                         (second *emacs-start-time*)))))))
             (newline-and-indent)  (newline-and-indent)))
 
 ;; Echo .emacs load time
-(when (not noninteractive)
-  (message ".emacs loaded in %ds"
-           (destructuring-bind (hi lo ms ps) (current-time)
-             (- (+ hi lo) (+ (first *emacs-start-time*)
-                             (second *emacs-start-time*))))))
+

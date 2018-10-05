@@ -1,13 +1,5 @@
 ;;; General settings
 
-(cond ((equal system-name  "joffe.skangas.se")
-       (setq split-width-threshold 160)
-       (setq split-height-threshold 0))
-      (t
-       (setq split-width-threshold 160)
-       (setq split-height-threshold 0)))
-
-;; (require 'ffap)
 (require 'ansi-color)
 
 ;; Change all yes or no prompt to y or n prompts:
@@ -15,8 +7,8 @@
 
 ;; Various configuration settings
 
-   ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
-   ;;   are enabled by default.
+;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
+;;   are enabled by default.
 
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
@@ -35,9 +27,9 @@
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
 (run-if-fboundp (auto-compression-mode 1)) ; Automatically read/write compressed files
 
-(setq user-full-name "Stefan Kangas")
-
-(setq inhibit-startup-message t)                     ; No startup message
+(setq user-full-name "Stefan Kangas"
+      inhibit-startup-message t      ; No startup message
+      )
 (setq frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
                            (:eval (format " [%s]" mode-name))))
@@ -58,6 +50,7 @@
 (setq message-send-mail-partially-limit nil)         ; Never split emails
 (setq messages-buffer-max-lines (* 16 1024))         ; From 1024
 (setq kill-ring-max 120)                             ; Default is 60
+(setq calendar-week-start-day 1)                     ; Start week on Monday
 
 ;; FIXME: These are obsolete now...
 (setq default-indicate-empty-lines t)                ; Show empty lines at end of file
@@ -92,56 +85,6 @@
                    "*Messages*" "find" bak-dir "-size" "+1M" "-mtime" "+90" "-delete")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; midnight-mode - close inactive buffers
-(require 'midnight)
-(midnight-delay-set 'midnight-delay "06:00")
-(timer-activate midnight-timer)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; ido-mode
-
-(require 'ido)
-(ido-mode t)
-(ido-everywhere 1)
-
-(setq ido-enable-flex-matching t
-      ido-use-filename-at-point 'guess
-      ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-
-      ido-default-file-method 'selected-window
-      ido-default-buffer-method 'selected-window
-
-      ido-work-directory-list '("~/" "~/org" "~/src")
-      ido-case-fold t                   ; Be case-insensitive
-      ido-max-directory-size 100000     ; Avoid [Too Big] messages
-      ;; display matches vertically
-      ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
-                              " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))) 
-
-(dolist (file-ending '("os" "pyc"))
-  (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
-
-;;; ido-completing-read+
-(eval-after-load 'ido-completing-read+
-  '(progn (ido-ubiquitous-mode 1)))
-(require 'ido-completing-read+ nil t)
-
-;;;; WORKAROUND FOR GNUS BUG
-;;;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
-(add-hook 'ido-before-fallback-functions
-        (lambda (fn)
-            (and (eq fn 'read-file-name)
-                 (> (length ido-text) 0)
-                 (boundp 'initial)
-                 (setq initial nil))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; window numbering
-
-(require 'window-numbering)
-(window-numbering-mode 1)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; cursor
 ;; cursor-chg
 ;(require 'cursor-chg)  ; Load the library
@@ -169,13 +112,6 @@
       (set-cursor-color (setq hcz-set-cursor-color-color color))
       (setq hcz-set-cursor-color-buffer (buffer-name)))))
 (add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
-
-;; center cursor in info-mode
-(when (and (require 'info)
-           (require 'centered-cursor-mode))
-  (defun my-info-mode-hook-center-cursor ()
-    (centered-cursor-mode))
-  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 ;; Save position in file
 (require 'saveplace) ; has to be a require
@@ -227,8 +163,7 @@
 (add-hook 'conf-xdefaults-mode-hook 'hexcolour-add-to-font-lock)
 
 ;; If the *scratch* buffer is killed, recreate it automatically
-(save-excursion
-  (set-buffer (get-buffer-create "*scratch*"))
+(with-current-buffer (get-buffer-create "*scratch*")
   (lisp-interaction-mode)
   (make-local-variable 'kill-buffer-query-functions)
   (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer))
@@ -247,61 +182,6 @@
   ;; Since we killed it, don't let caller do that.
   nil)
 
-;;; abbreviate mode names
-(when (require 'diminish nil 'noerror)
-  (after 'abbrev
-    '(diminish 'abbrev-mode "Ab"))
-  (after 'company
-    '(diminish 'company-mode "Cmp"))
-  (after 'paredit
-    '(diminish 'paredit-mode "ParEd"))
-  (after 'yasnippet
-    '(diminish 'yas/minor-mode "Y")))
-(add-hook 'emacs-lisp-mode-hook 
-  (lambda()
-    (setq mode-name "el")))
-
-;;; Recent files
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-saved-items 100
-      recentf-save-file "~/.emacs.d/cache/recentf")
-
-;;; openwith.el -- open files using external helpers
-(require 'openwith)
-(openwith-mode t)
-(setq my-video-types '(".asf" ".avi" ".f4v"
-                       ".flv" ".m4a" ".m4v"
-                       ".mkv" ".mov" ".mp4"
-                       ".mpeg" ".mpg" ".ogv"
-                       ".wmv"))
-(setq my-video-types-regexp (regexp-opt my-video-types))
-
-(setq openwith-associations
-      (let ((video-types (concat my-video-types-regexp "\\'")))
-        `((,video-types "mpv" (file))
-          ("\\(?:\\.img\\|\\.iso\\)\\'" "mplayer" ("dvd://" "-dvd-device" file))
-          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
-          ;; ("\\.mp3\\'" "mplayer" (file))
-          ;; ("\\.pdf\\'" "evince" (file))
-          )))
-;;; FIXME: Do not do this for messages
-;;; ("\\.odt\\'" "libreoffice" (file))
-
-;; Do not warn about big files for openwith files
-(defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
-                                           (size op-type filename))
-  (if (and openwith-mode
-           (equal op-type "open")
-           (some (lambda (oa)
-                   (save-match-data (string-match (car oa) filename)))
-                 openwith-associations))
-      (let ((large-file-warning-threshold nil))
-        ad-do-it)
-    ad-do-it))
-(ad-deactivate 'abort-if-file-too-large) 
-(ad-activate 'abort-if-file-too-large) 
-
 (defun my-find-file-check-make-large-file-read-only-hook ()
   "If a file is over a given size, make the buffer read only."
   (when (> (buffer-size) (* 10 1024 1024))
@@ -317,74 +197,6 @@
 				    (if (> (frame-width) 150)
 					(split-window-horizontally arg)
 				      (split-window-vertically arg))))
-
-;;; EPA
-(require 'epa-file)
-(epa-file-enable)
-;(setq epa-armor t)
-
-;; Disable gpg agent when runing in terminal
-(defadvice epg--start (around advice-epg-disable-agent activate)
-  (let ((agent (getenv "GPG_AGENT_INFO")))
-    (when (not (display-graphic-p))
-      (setenv "GPG_AGENT_INFO" nil))
-    ad-do-it
-    (when (not (display-graphic-p))
-      (setenv "GPG_AGENT_INFO" agent))))
-
-;;; moved here from buffer.el
-
-(setq ibuffer-saved-filter-groups
-      '(("default"
-         ("Text Files"
-          (or
-           (mode . org-mode)
-           (mode . text-mode)
-           ))
-         ("mentor"
-          (filename . "wip/mentor"))
-         ("Mail"
-          (or
-           (mode . message-mode)
-           (mode . mail-mode)
-           (mode . gnus-group-mode)
-           (mode . gnus-summary-mode)
-           (mode . gnus-article-mode)
-           ))
-         ("Magit"
-          (name . "\*magit:"))
-         ("Emacs Configuration"
-          (or (filename . ".emacs.d")))
-         ("Emacs Lisp"
-          (mode . emacs-lisp-mode))
-         ("Programming"
-          (or
-           (mode . c-mode)
-           (mode . perl-mode)
-           (mode . cperl-mode)
-           (mode . python-mode)
-           (mode . java-mode)
-           (mode . sh-mode)
-           (mode . haskell-mode)))
-         ("Configuration"
-          (or
-           (mode . conf-unix-mode)))
-         ("Dired"
-          (or
-           (mode . dired-mode)))
-         ("Images"
-          (or
-           (mode . image-mode)))
-         ("IRC"
-          (mode . rcirc-mode)))))
-
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-auto-mode 1)
-            (ibuffer-switch-to-saved-filter-groups "default")))
-
-(setq ibuffer-show-empty-filter-groups nil)
-(setq ibuffer-expert t)
 
 ;; Unique buffer names
 (require 'uniquify) ;; has to be a require
@@ -405,10 +217,256 @@
 (when (fboundp 'powerline-default-theme)
   (powerline-default-theme))
 
-;; elfeed
-(require 'elfeed)
-(require 'elfeed-org)
-(elfeed-org)
+;; packages
+
+(use-package abbrev
+  :config
+  (setq save-abbrevs t
+        abbrev-file-name "~/org/.abbrev_defs")
+
+  ;; reads the abbreviations file on startup
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file))
+
+  ;; Enable abbrev-mode in text and derived modes
+  (add-hook emacs-lisp-mode-hook (lambda () (abbrev-mode 1)))
+  (add-hook text-mode-hook (lambda () (abbrev-mode 1)))
+  (eval-after-load "erc"
+    (add-hook erc-mode-hook (lambda () (abbrev-mode 1)))))
+
+(use-package async
+  :ensure t
+  :config
+  (dired-async-mode 1))
+
+(use-package centered-cursor-mode
+  :ensure t
+  :config
+  ;; center cursor in info-mode
+  (defun my-info-mode-hook-center-cursor ()
+    (centered-cursor-mode))
+  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
+
+(use-package dash
+  :ensure t)
+
+(use-package diminish
+  :ensure t
+  :config
+  (diminish 'abbrev-mode "Ab")
+  (diminish 'company-mode "Cmp")
+  (diminish 'paredit-mode "ParEd")
+  (diminish 'yas/minor-mode "Y"))
+
+(use-package dired
+  :bind (:map dired-mode-map
+         ("." . dired-hide-dotfiles-mode)
+         ("," . dired-hide-details-mode)
+         ("å" . dired-open-feh)
+         ("C-i" . image-dired-here))
+  :config
+  (require 'dired-x) ; require immediately to provide C-x C-j
+  (setq dired-listing-switches "-lAh"  ; Use human sizes
+        dired-dwim-target t            ; Try to guess a default target directory
+        dired-isearch-filenames 'dwim  ; Search filenames only
+        dired-auto-revert-buffer t)    ; Revert dired on visit
+  ;; Toggle showing dot-files using "."
+  (define-minor-mode dired-hide-dotfiles-mode
+    ""
+    :lighter " Hide"
+    :init-value nil
+    (if (not (eq major-mode 'dired-mode))
+        (progn 
+	  (error "Doesn't seem to be a Dired buffer")
+	  (setq dired-hide-dotfiles-mode nil))
+      (if dired-hide-dotfiles-mode
+	  (setq dired-actual-switches "-lh")
+        (setq dired-actual-switches "-lAh"))
+      (revert-buffer)))
+
+  (defun image-dired-here ()
+    "Make a preview buffer for all images in current directory and display it."
+    (interactive)
+    (image-dired default-directory))
+  
+  (defun dired-open-feh ()
+    "Make a preview buffer for all images in current directory and display it."
+    (interactive)
+    (let ((cmd "feh -F -Z * &" ))
+      (message cmd)
+      (dired-do-shell-command cmd nil (list (dired-get-file-for-visit))))))
+
+(use-package elfeed
+  :ensure t)
+
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org))
+
+(use-package epa-file
+  :config
+  (epa-file-enable)
+  ;;(setq epa-armor t)
+
+  ;; Disable gpg agent when runing in terminal
+  (defadvice epg--start (around advice-epg-disable-agent activate)
+    (let ((agent (getenv "GPG_AGENT_INFO")))
+      (when (not (display-graphic-p))
+        (setenv "GPG_AGENT_INFO" nil))
+      ad-do-it
+      (when (not (display-graphic-p))
+        (setenv "GPG_AGENT_INFO" agent)))))
+
+(use-package ibuffer
+  :config
+  (setq ibuffer-saved-filter-groups
+        '(("default"
+           ("Text Files"
+            (or
+             (mode . org-mode)
+             (mode . text-mode)
+             ))
+           ("mentor"
+            (filename . "wip/mentor"))
+           ("Mail"
+            (or
+             (mode . message-mode)
+             (mode . mail-mode)
+             (mode . gnus-group-mode)
+             (mode . gnus-summary-mode)
+             (mode . gnus-article-mode)
+             ))
+           ("Magit"
+            (name . "\*magit:"))
+           ("Emacs Configuration"
+            (or (filename . ".emacs.d")))
+           ("Emacs Lisp"
+            (mode . emacs-lisp-mode))
+           ("Programming"
+            (or
+             (mode . c-mode)
+             (mode . perl-mode)
+             (mode . cperl-mode)
+             (mode . python-mode)
+             (mode . java-mode)
+             (mode . sh-mode)
+             (mode . haskell-mode)))
+           ("Configuration"
+            (or
+             (mode . conf-unix-mode)))
+           ("Dired"
+            (or
+             (mode . dired-mode)))
+           ("Images"
+            (or
+             (mode . image-mode)))
+           ("IRC"
+            (mode . rcirc-mode)))))
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-auto-mode 1)
+              (ibuffer-switch-to-saved-filter-groups "default")))
+  (setq ibuffer-show-empty-filter-groups nil)
+  (setq ibuffer-expert t))
+
+(use-package ido
+  :config
+  (ido-mode t)
+  (ido-everywhere 1)
+
+  (setq ido-enable-flex-matching t
+        ido-use-filename-at-point 'guess
+        ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
+
+        ido-default-file-method 'selected-window
+        ido-default-buffer-method 'selected-window
+
+        ido-work-directory-list '("~/" "~/org" "~/src")
+        ido-case-fold t                   ; Be case-insensitive
+        ido-max-directory-size 100000     ; Avoid [Too Big] messages
+        ;; display matches vertically
+        ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
+                                " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))) 
+
+  (dolist (file-ending '("os" "pyc"))
+    (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
+
+  ;; ido-completing-read+
+  (eval-after-load 'ido-completing-read+
+    '(progn (ido-ubiquitous-mode 1)))
+  (require 'ido-completing-read+ nil t)
+
+  ;; WORKAROUND FOR GNUS BUG
+  ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
+  (add-hook 'ido-before-fallback-functions
+            (lambda (fn)
+              (and (eq fn 'read-file-name)
+                   (> (length ido-text) 0)
+                   (boundp 'initial)
+                   (setq initial nil)))))
+
+(use-package midnight ; close inactive buffers
+  :config
+  (midnight-delay-set 'midnight-delay "06:00")
+  (timer-activate midnight-timer))
+
+;; (use-package open-with ; open files using external helpers
+;;   :ensure t
+;;   :pin "melpa"
+;;   :config
+;;   (openwith-mode t)
+;;   (setq my-video-types '(".asf" ".avi" ".f4v"
+;;                          ".flv" ".m4a" ".m4v"
+;;                          ".mkv" ".mov" ".mp4"
+;;                          ".mpeg" ".mpg" ".ogv"
+;;                          ".wmv"))
+;;   (setq my-video-types-regexp (regexp-opt my-video-types))
+  
+;;   (setq openwith-associations
+;;         (let ((video-types (concat my-video-types-regexp "\\'")))
+;;           `((,video-types "mpv" (file))
+;;             ("\\(?:\\.img\\|\\.iso\\)\\'" "mplayer" ("dvd://" "-dvd-device" file))
+;;             ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+;;             ;; ("\\.mp3\\'" "mplayer" (file))
+;;             ;; ("\\.pdf\\'" "evince" (file))
+;;             )))
+
+;;   ;; Do not warn about big files for openwith files
+;;   (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
+;;                                              (size op-type filename))
+;;     (if (and openwith-mode
+;;              (equal op-type "open")
+;;              (some (lambda (oa)
+;;                      (save-match-data (string-match (car oa) filename)))
+;;                    openwith-associations))
+;;         (let ((large-file-warning-threshold nil))
+;;           ad-do-it)
+;;       ad-do-it))
+;;   (ad-deactivate 'abort-if-file-too-large) 
+;;   (ad-activate 'abort-if-file-too-large))
+
+(use-package recentf
+  :config
+  (recentf-mode 1)
+  (setq recentf-max-saved-items 100
+        recentf-save-file "~/.emacs.d/cache/recentf"))
+
+(use-package smex
+  :ensure t
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands)))
+
+(use-package window-numbering
+  :ensure t
+  (window-numbering-mode 1))
+
+(use-package winner
+  :bind (("<C-s-left>" . winner-undo)
+         ("<C-s-right>" . winner-redo))
+  :config
+  (setq winner-dont-bind-my-keys t) ; default bindings conflict with org-mode
+  (winner-mode +1))                 ; turn on the global minor mode
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;; image-mode
@@ -455,21 +513,6 @@ window ratios.  Imagemagick is required to run this function."
 (setq image-animate-loop t)
 (add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
 
-
-;; winner-mode
-(require 'winner)
-(setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
-(global-set-key (kbd "<C-s-left>") 'winner-undo)
-(global-set-key (kbd "<C-s-right>") 'winner-redo)
-(winner-mode +1) ;; turn on the global minor mode
-
-;; calendar-mode
-(setq calendar-week-start-day 1)
-
-;; show character count in modeline string
-(add-to-list 'global-mode-string '(" %i"))
-
-(provide 'my-general)
+(provide 'init-general)
 
 ;; my-general.el ends here
-

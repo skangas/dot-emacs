@@ -34,4 +34,4 @@
 	(narrow-to-region (match-beginning 0) (match-end 0))
 	(replace-match (format-time-string "%Y" (current-time)))))))
 
-(provide 'my-auto-insert-mode)
+(provide 'init-auto-insert-mode)
