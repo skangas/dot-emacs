@@ -43,15 +43,30 @@
 (use-package projectile
   :ensure t
   :config
-  (setq projectile-enable-caching t))
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-enable-caching t
+        projectile-globally-ignored-file-suffixes '(".elc")))
 
 (use-package smartscan
   :ensure t
   :config
-  (smartscan-mode 1))
+  (add-hook 'enh-ruby-mode-hook 'smartscan-mode))
+
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
 
 (use-package yasnippet
-  :ensure t)
+  :ensure t
+  :config
+  (yas-global-mode 1))
 
 (use-package yasnippet-snippets
   :ensure t)

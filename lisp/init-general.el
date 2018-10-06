@@ -251,13 +251,13 @@
   :config
   (dired-async-mode 1))
 
-(use-package centered-cursor-mode
-  :ensure t
-  :config
-  ;; center cursor in info-mode
-  (defun my-info-mode-hook-center-cursor ()
-    (centered-cursor-mode))
-  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
+;; (use-package centered-cursor-mode
+;;   :ensure t
+;;   :config
+;;   ;; center cursor in info-mode
+;;   (defun my-info-mode-hook-center-cursor ()
+;;     (centered-cursor-mode))
+;;   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 (use-package auto-dim-other-buffers
   :pin "melpa"
@@ -284,7 +284,8 @@
   :ensure t
   :config
   (diminish 'abbrev-mode "Ab")
-  (diminish 'company-mode "Cmp")
+  (eval-after-load "company"
+    (diminish 'company-mode "Cmp"))
   (diminish 'auto-dim-other-buffers-mode "")
   (diminish 'paredit-mode "ParEd")
   (diminish 'yas/minor-mode "Y"))
@@ -547,7 +548,11 @@
 (use-package which-key
   :ensure t
   :config
-  (which-key-mode))
+  (which-key-mode)
+  (which-key-add-major-mode-key-based-replacements 'enh-ruby-mode
+    "C-c r !" "Run rails"
+    "C-c r T" "Go to test/toggle"
+    "C-c r t" "Go to test/search"))
 
 (use-package window-numbering
   :ensure t

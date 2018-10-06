@@ -9,22 +9,11 @@
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
-;; Settings for MacOS
-(setq ns-command-modifier 'meta)
-(setq ns-option-modifier 'super)
-(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
-
-;; Fix path for MacOSX
-(when (memq window-system '(mac ns))  
-  (use-package exec-path-from-shell
-    :ensure t
-    :config
-    (exec-path-from-shell-initialize)))
-
 ;; Package
 (require 'package)
 (package-initialize)
-(package-refresh-contents)
+;; Uncomment this if we have any problems with not finding packages:
+;; (package-refresh-contents)
 (setq load-prefer-newer t)
 
 ;; Configure ELPA
@@ -40,19 +29,22 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
+;; Bootstrap use-package
+(dolist (package '(use-package))
+  (unless (package-installed-p package)
+    (package-refresh-contents)
+    (package-install 'use-package)))
+
+;; Configure use-package
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-pin "melpa-stable")
 
-(use-package auto-package-update
-  :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
-  (auto-package-update-maybe))
-
-(use-package zenburn-theme        ; enable theme early
+;; Enable theme early
+(use-package zenburn-theme
   :ensure t)
 
+;; Enable auto-compile
 (use-package auto-compile
   :ensure t
   :config
@@ -65,6 +57,18 @@
 (setq message-log-max 1024) ;; do this first
 (setq max-specpdl-size 15600)
 (setq max-lisp-eval-depth 9000)
+
+;; Settings for MacOS
+(setq ns-command-modifier 'meta)
+(setq ns-option-modifier 'super)
+(setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
+
+;; Fix path for MacOSX
+(when (memq window-system '(mac ns))  
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize)))
 
 ;; Hack to get my configuration running at work (Windows)
 (when (eq system-type 'windows-nt)
@@ -101,11 +105,10 @@
 (require 'init-coding-perl)
 (require 'init-coding-php)
 (require 'init-coding-python)
+(require 'init-coding-ruby)
 (require 'init-coding-scheme)
 
 (require 'init-desktop)
-
-;; (require 'init-google-translate)
 
 ;; My code
 (require 'sk-lisp)
