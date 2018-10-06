@@ -10,7 +10,9 @@
 (eval-expr-install)
 
 (use-package nameless
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'nameless-mode))
 
 (use-package macrostep
   :ensure t)
@@ -21,9 +23,6 @@
 
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
-
-  ;; Use nameless mode
-  (nameless-mode)
 
   ;; Abbreviate Emacs Lisp
   (setq mode-name "el")
