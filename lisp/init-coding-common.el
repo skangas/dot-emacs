@@ -42,10 +42,16 @@
 
 (use-package projectile
   :ensure t
+  :pin "melpa"
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-enable-caching t
         projectile-globally-ignored-file-suffixes '(".elc")))
+
+(use-package smartparens
+  :ensure t
+  :config
+  (add-hook 'enh-ruby-mode-hook 'smartparens-mode))
 
 (use-package smartscan
   :ensure t
