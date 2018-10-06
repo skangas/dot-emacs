@@ -11,6 +11,9 @@
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-w3m)))
+ '(package-selected-packages
+   (quote
+    (auto-complete openwith open-with ido-completing-read+ inf-ruby elisp-slime-nav minitest eruby-mode centered-window xml-rpc haskell-mode google-translate f exec-path-from-shell discover cursor-chg centered-cursor-mode boxquote auto-dim-other-buffers magit dashboard geiser zenburn-theme yaml-mode window-numbering use-package smex paredit nameless elfeed-org auto-compile async)))
  '(safe-local-variable-values
    (quote
     ((system-time-locale . "sv_SE.UTF-8")
@@ -24,4 +27,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-dim-other-buffers-face ((t (:background "#3a3a3a"))))
+ '(org-headline-done ((t (:strike-through "#222"))))
+ '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
  '(variable-pitch ((t (:weight normal :family "edges.se")))))

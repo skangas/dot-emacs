@@ -143,7 +143,7 @@
        (define-key c++-mode-map [?\M-\t] 'complete-semantic))))
 
 ;; Don't clutter .emacs with M-x customize stuff
-(setq custom-file "~/.emacs.d/my-custom-file.el")
+(setq custom-file "~/.emacs.d/lisp/init-custom-file.el")
 (load custom-file 'noerror)
 
 ;; Workaround for broken visual bell on OSX El Capitain

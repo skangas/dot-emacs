@@ -2,7 +2,7 @@
 
 (require 'ansi-color)
 
-;; Change all yes or no prompt to y or n prompts:
+;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Various configuration settings
@@ -50,13 +50,30 @@
 (setq message-send-mail-partially-limit nil)         ; Never split emails
 (setq messages-buffer-max-lines (* 16 1024))         ; From 1024
 (setq kill-ring-max 120)                             ; Default is 60
-(setq calendar-week-start-day 1                     ; Start week on Monday
-      holiday-
-      )
+(setq calendar-week-start-day 1                      ; Start week on Monday
+      calendar-mark-holidays-flag t
+      calendar-holidays nil
+      holiday-bahai-holidays nil
+      holiday-christian-holidays nil
+      holiday-dragon-holidays nil
+      holiday-general-holidays nil
+      holiday-hebrew-holidays nil
+      holiday-islamic-holidays nil
+      holiday-solar-holidays nil)
 
-;; FIXME: These are obsolete now...
-(setq default-indicate-empty-lines t)                ; Show empty lines at end of file
-(setq default-indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+(setq holiday-swedish-holidays
+      '((holiday-fixed 1 1 "Nyårsdagen")
+        (holiday-fixed 1 6 "Trettondedag jul")
+        (holiday-fixed 5 1 "Första maj")
+        (holiday-fixed 6 1 "Sveriges nationaldag")
+        (holiday-fixed 1 25 "Juldagen")
+        (holiday-fixed 1 26 "Annandag jul")
+        (holiday-fixed 1 31 "Nyårsafton")))
+
+(setq calendar-holidays holiday-swedish-holidays)
+
+(setq indicate-empty-lines t)                ; Show empty lines at end of file
+(setq indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
 
 ;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
 
@@ -224,6 +241,11 @@
   ;; (add-hook 'erc-mode-hook (lambda () (abbrev-mode 1)))
   )
 
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-," . ace-jump-mode)
+         ("C-x SPC" . ace-jump-mode-pop-mark)))
+
 (use-package async
   :ensure t
   :config
@@ -239,7 +261,9 @@
 
 (use-package auto-dim-other-buffers
   :pin "melpa"
-  :ensure t)
+  :ensure t
+  :config
+  (auto-dim-other-buffers-mode t))
 
 (use-package boxquote
   :ensure t)
@@ -261,6 +285,7 @@
   :config
   (diminish 'abbrev-mode "Ab")
   (diminish 'company-mode "Cmp")
+  (diminish 'auto-dim-other-buffers-mode "")
   (diminish 'paredit-mode "ParEd")
   (diminish 'yas/minor-mode "Y"))
 
@@ -300,7 +325,8 @@
     (interactive)
     (let ((cmd "feh -F -Z * &" ))
       (message cmd)
-      (dired-do-shell-command cmd nil (list (dired-get-file-for-visit))))))
+      (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))))
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
 
 (use-package discover
   :ensure t
@@ -407,14 +433,26 @@
         ido-default-buffer-method 'selected-window
 
         ido-work-directory-list '("~/" "~/org" "~/src")
-        ido-case-fold t                   ; Be case-insensitive
-        ido-max-directory-size 100000     ; Avoid [Too Big] messages
+        ido-case-fold t                 ; Be case-insensitive
+        ido-max-directory-size 100000   ; Avoid [Too Big] messages
         ;; display matches vertically
         ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
                                 " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))) 
 
   (dolist (file-ending '("os" "pyc"))
     (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
+
+  ;; http://whattheemacsd.com/setup-ido.el-02.html
+  (defun my-ido-go-straight-home ()
+    ;; Go straight home
+    (define-key ido-file-completion-map
+      (kbd "~")
+      (lambda ()
+        (interactive)
+        (if (looking-back "/")
+            (insert "~/")
+          (call-interactively 'self-insert-command)))))
+  (add-hook 'ido-setup-hook 'my-ido-go-straight-home)
 
   ;; WORKAROUND FOR GNUS BUG
   ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
@@ -483,6 +521,11 @@
   :ensure t
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
 (use-package window-numbering
   :ensure t
