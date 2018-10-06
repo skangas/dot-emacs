@@ -50,7 +50,9 @@
 (setq message-send-mail-partially-limit nil)         ; Never split emails
 (setq messages-buffer-max-lines (* 16 1024))         ; From 1024
 (setq kill-ring-max 120)                             ; Default is 60
-(setq calendar-week-start-day 1)                     ; Start week on Monday
+(setq calendar-week-start-day 1                     ; Start week on Monday
+      holiday-
+      )
 
 ;; FIXME: These are obsolete now...
 (setq default-indicate-empty-lines t)                ; Show empty lines at end of file
@@ -83,18 +85,6 @@
              (file-directory-p bak-dir))
     (start-process (concat "delete old backup files in " bak-dir)
                    "*Messages*" "find" bak-dir "-size" "+1M" "-mtime" "+90" "-delete")))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; cursor
-;; cursor-chg
-;(require 'cursor-chg)  ; Load the library
-;; (toggle-cursor-type-when-idle 0) ; Turn on cursor change when Emacs is idle
-;; (change-cursor-mode 0) ; Turn on change for overwrite, read-only, and input mode
-
-;; (setq curchg-default-cursor-color "white") ;; FIXME: add flag to stop cursor-chg
-                                           ;; from changing color, or make it
-                                           ;; aware of buffer-read-only and
-                                           ;; overwrite-mode
 
 ;; Change cursor color depending on context (EmacsNiftyTricks)
 (setq hcz-set-cursor-color-color "")
@@ -129,7 +119,7 @@
 
 ;; Show paren mode
 (show-paren-mode 1)
-(setq show-paren-delay 0)
+(setq show-paren-delay 0.1)
 
 ;; Spell checking
 (setq flyspell-use-meta-tab nil)
@@ -239,14 +229,24 @@
   :config
   (dired-async-mode 1))
 
-;;;;;;;;;; Not working right now?
-;; (use-package centered-cursor-mode
-;;   :ensure t
-;;   :config
-;;   ;; center cursor in info-mode
-;;   (defun my-info-mode-hook-center-cursor ()
-;;     (centered-cursor-mode))
-;;   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
+(use-package centered-cursor-mode
+  :ensure t
+  :config
+  ;; center cursor in info-mode
+  (defun my-info-mode-hook-center-cursor ()
+    (centered-cursor-mode))
+  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
+
+(use-package auto-dim-other-buffers
+  :pin "melpa"
+  :ensure t)
+
+(use-package boxquote
+  :ensure t)
+
+(use-package centered-window
+  :pin "melpa"
+  :ensure t)
 
 (use-package dash
   :ensure t)
@@ -302,6 +302,11 @@
       (message cmd)
       (dired-do-shell-command cmd nil (list (dired-get-file-for-visit))))))
 
+(use-package discover
+  :ensure t
+  :config
+  (global-discover-mode 1))
+
 (use-package elfeed
   :ensure t)
 
@@ -324,6 +329,14 @@
       ad-do-it
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
+
+(use-package f
+  :ensure t)
+
+(use-package google-translate
+  :ensure t
+  :bind (("C-c t" . google-translate-at-point)
+         ("C-c T" . google-translate-query-translate)))
 
 (use-package ibuffer
   :config
@@ -377,9 +390,13 @@
   (setq ibuffer-show-empty-filter-groups nil)
   (setq ibuffer-expert t))
 
+(use-package icomplete
+  :config
+  (icomplete-mode 1))
+
 (use-package ido
   :config
-  (ido-mode t)
+  (ido-mode 1)
   (ido-everywhere 1)
 
   (setq ido-enable-flex-matching t
@@ -399,11 +416,6 @@
   (dolist (file-ending '("os" "pyc"))
     (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
 
-  ;; ido-completing-read+
-  (eval-after-load 'ido-completing-read+
-    '(progn (ido-ubiquitous-mode 1)))
-  (require 'ido-completing-read+ nil t)
-
   ;; WORKAROUND FOR GNUS BUG
   ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
   (add-hook 'ido-before-fallback-functions
@@ -413,51 +425,59 @@
                    (boundp 'initial)
                    (setq initial nil)))))
 
+(use-package ido-completing-read+
+  :ensure t
+  :config
+  (ido-ubiquitous-mode 1))
+
 (use-package midnight ; close inactive buffers
   :config
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
 
-;; (use-package open-with ; open files using external helpers
-;;   :ensure t
-;;   :pin "melpa"
-;;   :config
-;;   (openwith-mode t)
-;;   (setq my-video-types '(".asf" ".avi" ".f4v"
-;;                          ".flv" ".m4a" ".m4v"
-;;                          ".mkv" ".mov" ".mp4"
-;;                          ".mpeg" ".mpg" ".ogv"
-;;                          ".wmv"))
-;;   (setq my-video-types-regexp (regexp-opt my-video-types))
+(use-package openwith ; open files using external helpers
+  :ensure t
+  :pin "melpa"
+  :config
+  (openwith-mode t)
+  (setq my-video-types '(".asf" ".avi" ".f4v"
+                         ".flv" ".m4a" ".m4v"
+                         ".mkv" ".mov" ".mp4"
+                         ".mpeg" ".mpg" ".ogv"
+                         ".wmv"))
+  (setq my-video-types-regexp (regexp-opt my-video-types))
   
-;;   (setq openwith-associations
-;;         (let ((video-types (concat my-video-types-regexp "\\'")))
-;;           `((,video-types "mpv" (file))
-;;             ("\\(?:\\.img\\|\\.iso\\)\\'" "mplayer" ("dvd://" "-dvd-device" file))
-;;             ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
-;;             ;; ("\\.mp3\\'" "mplayer" (file))
-;;             ;; ("\\.pdf\\'" "evince" (file))
-;;             )))
+  (setq openwith-associations
+        (let ((video-types (concat my-video-types-regexp "\\'")))
+          `((,video-types "mpv" (file))
+            ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
+            ("\\.azw3\\'" "calibre" (file))
+            ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+            ;; ("\\.mp3\\'" "mplayer" (file))
+            ("\\.pdf\\'" "evince" (file))
+            )))
 
-;;   ;; Do not warn about big files for openwith files
-;;   (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
-;;                                              (size op-type filename))
-;;     (if (and openwith-mode
-;;              (equal op-type "open")
-;;              (some (lambda (oa)
-;;                      (save-match-data (string-match (car oa) filename)))
-;;                    openwith-associations))
-;;         (let ((large-file-warning-threshold nil))
-;;           ad-do-it)
-;;       ad-do-it))
-;;   (ad-deactivate 'abort-if-file-too-large) 
-;;   (ad-activate 'abort-if-file-too-large))
+  ;; Do not warn about big files for openwith files
+  (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
+                                             (size op-type filename))
+    (if (and openwith-mode
+             (equal op-type "open")
+             (some (lambda (oa)
+                     (save-match-data (string-match (car oa) filename)))
+                   openwith-associations))
+        (let ((large-file-warning-threshold nil))
+          ad-do-it)
+      ad-do-it))
+  (ad-deactivate 'abort-if-file-too-large) 
+  (ad-activate 'abort-if-file-too-large))
 
 (use-package recentf
   :config
   (recentf-mode 1)
   (setq recentf-max-saved-items 100
-        recentf-save-file "~/.emacs.d/cache/recentf"))
+        recentf-save-file "~/.emacs.d/cache/recentf"
+        recentf-exclude '("^/home/skangas/org/.*"
+                          "^/home/skangas/.emacs.bmk$")))
 
 (use-package smex
   :ensure t

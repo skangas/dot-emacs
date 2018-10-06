@@ -166,7 +166,6 @@ kill it (unless it's modified)."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-å") 'isearch-forward) ; more ergonomic alias
 
 
@@ -197,8 +196,6 @@ kill it (unless it's modified)."
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c t") 'my-translate-using-tyda)
-(global-set-key (kbd "C-c t") 'google-translate-at-point)
-(global-set-key (kbd "C-c T") 'google-translate-query-translate)
 (global-set-key "\C-cy" '(lambda () (interactive) (popup-menu 'yank-menu)))
 ;; (global-set-key (kbd "C-x C-b") 'bs-show)
 ;; (global-set-key (kbd "C-x f") 'djcb-find-file-as-root)
