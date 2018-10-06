@@ -1,10 +1,5 @@
 ;;; init-keybindings.el
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; GENERAL
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (setq cua-enable-cua-keys nil)
 
 ;; Disable keyboard iconfying
@@ -168,16 +163,13 @@ kill it (unless it's modified)."
 
 (global-set-key (kbd "C-å") 'isearch-forward) ; more ergonomic alias
 
-
-(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-(global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
-;; (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
+(global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
 (global-set-key (kbd "C-c e i") 'my-eval-and-replace)
+(global-set-key (kbd "C-c e l") 'my-goto-buffer-messages)
 (global-set-key (kbd "C-c e r") 'eval-region)
-;; (global-set-key (kbd "C-c e s") 'scratch)
+(global-set-key (kbd "C-c e s") 'scratch)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
 
 (global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
