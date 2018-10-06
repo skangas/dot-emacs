@@ -15,12 +15,16 @@
 (setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
 
 ;; Fix path for MacOSX
-(when (and (memq window-system '(mac ns))
-           (fboundp 'exec-path-from-shell-initialize))
-  (exec-path-from-shell-initialize))
+(when (memq window-system '(mac ns))  
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize)))
 
 ;; Package
+(require 'package)
 (package-initialize)
+(package-refresh-contents)
 (setq load-prefer-newer t)
 
 ;; Configure ELPA
@@ -91,7 +95,7 @@
 (require 'init-coding-cedet)
 (require 'init-coding-common-lisp)
 (require 'init-coding-cpp)
-(require 'init-coding-elisp)
+(require 'init-coding-emacs-lisp)
 (require 'init-coding-haskell)
 (require 'init-coding-java)
 (require 'init-coding-perl)
@@ -108,6 +112,8 @@
 (require 'sk-idom-article-length)
 
 ;; Various packages
+(use-package xml-rpc
+  :ensure t)
 (setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
 (defun my-mentor ()
   (interactive)

@@ -1,6 +1,7 @@
 ;;; General coding
 
 (use-package auto-complete
+  :ensure t
   :config
   (ac-config-default)
   (setq ac-quick-help-delay 1.0))
@@ -13,6 +14,10 @@
      (flymake-display-err-menu-for-current-line))
   (add-hook 'flymake-mode-hook
             (local-set-key (kbd "C-c C-e") 'my-flymake-show-next-error)))
+
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
 
 (use-package paredit
   :ensure t

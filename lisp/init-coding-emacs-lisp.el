@@ -6,6 +6,12 @@
 (use-package nameless
   :ensure t)
 
+(use-package elisp-slime-nav
+  :ensure t
+  :config
+  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+    (add-hook hook 'elisp-slime-nav-mode)))
+
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
@@ -35,6 +41,6 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
-(provide 'init-coding-elisp)
+(provide 'init-coding-emacs-lisp)
 
-;; init-coding-elisp.el ends here
+;; init-coding-emacs-lisp.el ends here
