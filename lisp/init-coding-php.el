@@ -5,6 +5,7 @@
 (add-to-list 'auto-mode-alist '("\\.php[s34]?\\'" . php-mode))
 
 (use-package php-mode
+  :ensure t
   :config
   (defun my-php-mode-customizations ()
 

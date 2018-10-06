@@ -221,9 +221,6 @@
 ;; (setq browse-url-browser-function 'choose-browser)
 (setq browse-url-browser-function 'browse-url-generic)
 
-(when (fboundp 'powerline-default-theme)
-  (powerline-default-theme))
-
 ;; packages
 
 (use-package abbrev
@@ -245,6 +242,9 @@
   :ensure t
   :bind (("C-," . ace-jump-mode)
          ("C-x SPC" . ace-jump-mode-pop-mark)))
+
+(use-package ag
+  :ensure t)
 
 (use-package async
   :ensure t
@@ -468,6 +468,10 @@
   :config
   (ido-ubiquitous-mode 1))
 
+(use-package ioccur
+  :pin "melpa"
+  :ensure t)
+
 (use-package midnight ; close inactive buffers
   :config
   (midnight-delay-set 'midnight-delay "06:00")
@@ -509,6 +513,11 @@
   (ad-deactivate 'abort-if-file-too-large) 
   (ad-activate 'abort-if-file-too-large))
 
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
 (use-package recentf
   :config
   (recentf-mode 1)
@@ -517,10 +526,23 @@
         recentf-exclude '("^/home/skangas/org/.*"
                           "^/home/skangas/.emacs.bmk$")))
 
+(use-package seq
+  :ensure t)
+
 (use-package smex
   :ensure t
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)))
+
+(use-package undo-tree
+  :pin "gnu"
+  :ensure t)
+
+(use-package visual-fill-column
+  :ensure t)
+
+(use-package wgrep
+  :ensure t)
 
 (use-package which-key
   :ensure t

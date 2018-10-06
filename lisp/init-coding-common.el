@@ -19,6 +19,9 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
+(use-package markdown-mode
+  :ensure t)
+
 (use-package paredit
   :ensure t
   :config
@@ -36,6 +39,22 @@
     '(progn (eldoc-add-command
              'paredit-backward-delete
              'paredit-close-round))))
+
+(use-package projectile
+  :ensure t
+  :config
+  (setq projectile-enable-caching t))
+
+(use-package smartscan
+  :ensure t
+  :config
+  (smartscan-mode 1))
+
+(use-package yasnippet
+  :ensure t)
+
+(use-package yasnippet-snippets
+  :ensure t)
 
 (defun my-pretty-lambda ()
   "make some word or string show as pretty Unicode symbols"
