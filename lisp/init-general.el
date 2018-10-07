@@ -40,18 +40,19 @@
 (setq mouse-yank-at-point t)                         ; Yank at point, even in X
 (setq lazy-highlight-initial-delay 0.1)              ; Seconds to wait before isearch highlights
 
-(setq-default fill-column 80)  ;; note to self: use M-q and C-u 78 C-x f
-(setq-default indent-tabs-mode nil)                  ; Always indent using spaces, never tabs
-
-(setq display-time-24hr-format t)                    ; Show 24hr clock when it's shown
-(setq bookmark-save-flag 1)                          ; Save bookmarks immediately when added
-(setq require-final-newline t)                       ; Make sure text files end in a newline
-(setq Man-width 80)                                  ; Limit man to 80 character width
-(setq message-send-mail-partially-limit nil)         ; Never split emails
-(setq messages-buffer-max-lines (* 16 1024))         ; From 1024
-(setq kill-ring-max 120)                             ; Default is 60
-(setq calendar-week-start-day 1                      ; Start week on Monday
-      calendar-mark-holidays-flag t
+(setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
+              indent-tabs-mode nil                   ; Always indent using spaces, never tabs
+              indicate-empty-lines t                 ; Show empty lines at end of file
+              indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+(setq display-time-24hr-format t                     ; Show 24hr clock when it's shown
+      bookmark-save-flag 1                           ; Save bookmarks immediately when added
+      require-final-newline t                        ; Make sure text files end in a newline
+      Man-width 80                                   ; Limit man to 80 character width
+      message-send-mail-partially-limit nil          ; Never split emails
+      messages-buffer-max-lines (* 16 1024)          ; From 1024
+      kill-ring-max 120                              ; Default is 60
+      calendar-week-start-day 1)                     ; Start week on Monday
+(setq calendar-mark-holidays-flag t
       calendar-holidays nil
       holiday-bahai-holidays nil
       holiday-christian-holidays nil
@@ -59,21 +60,15 @@
       holiday-general-holidays nil
       holiday-hebrew-holidays nil
       holiday-islamic-holidays nil
-      holiday-solar-holidays nil)
-
-(setq holiday-swedish-holidays
-      '((holiday-fixed 1 1 "Nyårsdagen")
-        (holiday-fixed 1 6 "Trettondedag jul")
-        (holiday-fixed 5 1 "Första maj")
-        (holiday-fixed 6 1 "Sveriges nationaldag")
-        (holiday-fixed 1 25 "Juldagen")
-        (holiday-fixed 1 26 "Annandag jul")
-        (holiday-fixed 1 31 "Nyårsafton")))
-
-(setq calendar-holidays holiday-swedish-holidays)
-
-(setq indicate-empty-lines t)                ; Show empty lines at end of file
-(setq indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+      holiday-solar-holidays nil
+      holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
+                                 (holiday-fixed 1 6 "Trettondedag jul")
+                                 (holiday-fixed 5 1 "Första maj")
+                                 (holiday-fixed 6 1 "Sveriges nationaldag")
+                                 (holiday-fixed 1 25 "Juldagen")
+                                 (holiday-fixed 1 26 "Annandag jul")
+                                 (holiday-fixed 1 31 "Nyårsafton"))
+      calendar-holidays holiday-swedish-holidays)
 
 ;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
 
@@ -292,11 +287,14 @@
 
 (use-package dired
   :bind (:map dired-mode-map
-         ("." . dired-hide-dotfiles-mode)
-         ("," . dired-hide-details-mode)
-         ("å" . dired-open-feh)
-         ("C-i" . image-dired-here))
+              ("." . dired-hide-dotfiles-mode)
+              ("," . dired-hide-details-mode)
+              ("å" . dired-open-feh)
+              ("C-i" . image-dired-here)
+              ("C-c r" . my-move-to-red))
   :config
+  (defun my-move-to-red (from)
+    (dired-do-rename "/home/skangas/foo" "/home/skangas/bar" ))
   (require 'dired-x) ; require immediately to provide C-x C-j
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
