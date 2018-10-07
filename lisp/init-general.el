@@ -467,6 +467,9 @@
   :config
   (ido-ubiquitous-mode 1))
 
+(use-package iedit
+  :ensure t)
+
 (use-package ioccur
   :pin "melpa"
   :ensure t)
@@ -475,6 +478,9 @@
   :config
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
+
+(use-package multiple-cursors
+  :ensure t)
 
 (use-package openwith ; open files using external helpers
   :ensure t

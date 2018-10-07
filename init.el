@@ -109,6 +109,7 @@
 (require 'init-coding-scheme)
 
 (require 'init-desktop)
+(require 'init-hydra)
 
 ;; My code
 (require 'sk-lisp)
