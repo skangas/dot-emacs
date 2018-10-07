@@ -74,6 +74,13 @@
 
 (add-hook 'before-save-hook 'time-stamp)
 
+;; Zap up to char
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR.
+\(fn arg char)"
+  'interactive)
+(global-set-key "\M-z" 'zap-up-to-char)
+
 ;; Enable some features
 (put 'narrow-to-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -291,10 +298,13 @@
               ("," . dired-hide-details-mode)
               ("å" . dired-open-feh)
               ("C-i" . image-dired-here)
-              ("C-c r" . my-move-to-red))
+              ("C-c r" . my-dired-move-to-red))
   :config
-  (defun my-move-to-red (from)
-    (dired-do-rename "/home/skangas/foo" "/home/skangas/bar" ))
+  (defun my-dired-move-to-red ()
+    (interactive)
+    (dolist (from (dired-get-marked-files))
+      (copy-file from "/home/skangas/red"))
+    (revert-buffer))
   (require 'dired-x) ; require immediately to provide C-x C-j
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
