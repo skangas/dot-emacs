@@ -285,15 +285,18 @@
 (use-package diminish
   :ensure t
   :config
+  (eval-after-load 'auto-dim-other-buffers
+    '(diminish 'auto-dim-other-buffers-mode ""))
   (diminish 'abbrev-mode "Ab")
+  (diminish 'eldoc-mode " Doc")
   (eval-after-load "company"
     (diminish 'company-mode "Cmp"))
-  (eval-after-load 'projectile
-    '(diminish 'projectile-mode "Proj"))
   (eval-after-load 'paredit
     '(diminish 'paredit-mode "ParEd"))
-  (diminish 'auto-dim-other-buffers-mode "")
-  (diminish 'yas/minor-mode "Y"))
+  (eval-after-load 'projectile
+    '(diminish 'projectile-mode " P"))
+  (eval-after-load 'yasnippet
+    '(diminish 'yas-minor-mode " Y")))
 
 (use-package dired
   :bind (:map dired-mode-map
