@@ -288,8 +288,11 @@
   (diminish 'abbrev-mode "Ab")
   (eval-after-load "company"
     (diminish 'company-mode "Cmp"))
+  (eval-after-load 'projectile
+    '(diminish 'projectile-mode "Proj"))
+  (eval-after-load 'paredit
+    '(diminish 'paredit-mode "ParEd"))
   (diminish 'auto-dim-other-buffers-mode "")
-  (diminish 'paredit-mode "ParEd")
   (diminish 'yas/minor-mode "Y"))
 
 (use-package dired
