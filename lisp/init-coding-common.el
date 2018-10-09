@@ -43,6 +43,7 @@
 (use-package projectile
   :ensure t
   :pin "melpa"
+  :diminish projectile-mode
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-enable-caching t
@@ -71,6 +72,7 @@
 
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 

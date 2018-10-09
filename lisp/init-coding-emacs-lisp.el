@@ -11,6 +11,7 @@
 
 (use-package nameless
   :ensure t
+  :diminish nameless-mode
   :config
   (add-hook 'emacs-lisp-mode-hook #'nameless-mode))
 
