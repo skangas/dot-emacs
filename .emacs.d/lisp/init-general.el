@@ -291,13 +291,17 @@
   (diminish 'abbrev-mode "Ab")
   (diminish 'eldoc-mode " Doc")
   (eval-after-load "company"
-    (diminish 'company-mode "Cmp"))
+    '(diminish 'company-mode "Cmp"))
+  (eval-after-load 'enh-ruby-mode
+    '(diminish 'enh-ruby-mode "Ruby"))
   (eval-after-load 'paredit
     '(diminish 'paredit-mode "ParEd"))
-  (eval-after-load 'projectile
-    '(diminish 'projectile-mode " P"))
-  (eval-after-load 'yasnippet
-    '(diminish 'yas-minor-mode " Y")))
+  (eval-after-load 'minitest
+    '(diminish 'minitest-mode "MT"))
+  (eval-after-load 'robe
+    '(diminish 'robe-mode "Ro"))
+  (eval-after-load 'ruby-test-mode
+    '(diminish 'ruby-test-mode "RT")))
 
 (use-package dired
   :bind (:map dired-mode-map
@@ -566,6 +570,7 @@
 
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :config
   (which-key-mode)
   (which-key-add-major-mode-key-based-replacements 'enh-ruby-mode
