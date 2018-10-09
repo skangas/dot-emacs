@@ -26,6 +26,7 @@
 
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
 (run-if-fboundp (auto-compression-mode 1)) ; Automatically read/write compressed files
+(run-if-fboundp (display-time-mode 1))
 
 (setq user-full-name "Stefan Kangas"
       inhibit-startup-message t      ; No startup message
