@@ -120,6 +120,7 @@
 ;; Various packages
 (use-package xml-rpc
   :ensure t)
+(setq mentor-rtorrent-external-rpc nil)
 (setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
 (defun my-mentor ()
   (interactive)
