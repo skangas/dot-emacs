@@ -2,6 +2,7 @@
 
 (use-package auto-complete
   :ensure t
+  :defer 30
   :config
   (ac-config-default)
   (setq ac-quick-help-delay 1.0))
@@ -11,7 +12,7 @@
   (defun my-flymake-show-next-error ()
      (interactive)
      (flymake-goto-next-error)
-     (flymake-display-err-menu-for-current-line))
+     (flymake-popup-current-error-menu))
   (add-hook 'flymake-mode-hook
             (local-set-key (kbd "C-c C-e") 'my-flymake-show-next-error)))
 
@@ -20,7 +21,8 @@
   :bind (("C-x g" . magit-status)))
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.md\\'" . gfm-mode))
 
 (use-package paredit
   :ensure t
@@ -54,30 +56,32 @@
   :config
   (add-hook 'enh-ruby-mode-hook 'smartparens-mode))
 
-(use-package smartscan
-  :ensure t
-  :config
-  (add-hook 'enh-ruby-mode-hook 'smartscan-mode))
-
 (use-package web-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+  :mode (("\\.js\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode)
+         ("\\.ts\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
+         ("\\.vue\\'" . web-mode)
+         ("\\.phtml\\'" . web-mode)
+         ("\\.tpl\\.php\\'" . web-mode)
+         ("\\.[agj]sp\\'" . web-mode)
+         ("\\.as[cp]x\\'" . web-mode)
+         ("\\.erb\\'" . web-mode)
+         ("\\.mustache\\'" . web-mode)
+         ("\\.djhtml\\'" . web-mode))
+  :interpreter ("node" . web-mode)
+  :ensure t)
 
 (use-package yasnippet
   :ensure t
+  :defer 20
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets
-  :ensure t)
+  :ensure t
+  :defer 30)
 
 (defun my-pretty-lambda ()
   "make some word or string show as pretty Unicode symbols"
@@ -93,7 +97,8 @@
 (global-prettify-symbols-mode 1)
 
 (use-package yaml-mode
-  :ensure t)
+  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)))
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 

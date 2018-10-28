@@ -1,7 +1,10 @@
 ;;; Python
 
 (use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
   :config
+
   ;; flymake
   (when (load "flymake" t)
     (defun flymake-pylint-init ()

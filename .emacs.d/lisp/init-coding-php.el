@@ -1,14 +1,10 @@
 ;; PHP
 
-(add-to-list 'auto-mode-alist '("\\.inc\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.php[s34]?\\'" . php-mode))
-
 (use-package php-mode
   :ensure t
+  :mode ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'")
   :config
   (defun my-php-mode-customizations ()
-
     (set (make-local-variable 'compile-command)
          (let ((file (file-name-nondirectory buffer-file-name)))
            (concat "php -l " file)))
