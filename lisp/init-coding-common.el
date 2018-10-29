@@ -7,6 +7,13 @@
   (ac-config-default)
   (setq ac-quick-help-delay 1.0))
 
+(use-package diff-hl
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+  (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
+  (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+
 (use-package flymake
   :config
   (defun my-flymake-show-next-error ()
