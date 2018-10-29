@@ -28,6 +28,10 @@
 (run-if-fboundp (auto-compression-mode 1)) ; Automatically read/write compressed files
 (run-if-fboundp (display-time-mode 1))
 
+;; Increase min bits to 2048
+;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
+(setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
+
 (setq user-full-name "Stefan Kangas"
       inhibit-startup-message t      ; No startup message
       )
