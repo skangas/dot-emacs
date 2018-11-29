@@ -552,7 +552,8 @@
   (setq recentf-max-saved-items 100
         recentf-save-file "~/.emacs.d/cache/recentf"
         recentf-exclude '("^/home/skangas/org/.*"
-                          "^/home/skangas/.emacs.bmk$")))
+                          "^/home/skangas/.emacs.bmk$"
+                          "^/Users/skangas/org/.*")))
 
 (use-package seq
   :ensure t)
