@@ -92,6 +92,7 @@
                               ("@hemma" . ?h)
                               ("@telefon" . ?t)
                               ("@ärende" . ?ä)
+                              ("@ek" . ?e)
                               (:endgroup)
                               ("EK" . ?E)
                               ("PERSONAL" . ?P)
