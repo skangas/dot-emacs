@@ -93,6 +93,8 @@
                               ("@telefon" . ?t)
                               ("@ärende" . ?ä)
                               ("@ek" . ?e)
+                              ("@ck" . ?k)
+                              ("@spanska" . ?k)
                               (:endgroup)
                               ("EK" . ?E)
                               ("PERSONAL" . ?P)
