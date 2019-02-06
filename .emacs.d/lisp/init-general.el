@@ -287,6 +287,11 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package diff-hl
+  :ensure t
+  :config
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
+
 (use-package diminish
   :ensure t
   :config
