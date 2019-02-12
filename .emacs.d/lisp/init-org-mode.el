@@ -69,6 +69,9 @@
   ;; Return activates link
   (setq org-return-follows-link t)
 
+  ;; automatically adjust footnotes after insert/delete
+  (setq org-footnote-auto-adjust t)
+
   ;; Strike out done headlines
   (setq org-fontify-done-headline t)
   (custom-set-faces
