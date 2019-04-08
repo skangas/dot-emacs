@@ -15,7 +15,7 @@
 (add-hook 'after-init-hook
           (lambda ()
             (run-with-idle-timer
-             60
+             1
              nil
              #'my-lower-gc-cons-threshold)
             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
