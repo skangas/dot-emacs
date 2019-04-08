@@ -6,6 +6,20 @@
 ;; Log .emacs start time
 (defconst *emacs-start-time* (current-time))
 
+;; Temporarily raise garbage collection limit for initialization
+(setq gc-cons-threshold (* 1024 1024 1024))
+(defun my-lower-gc-cons-threshold ()
+  ;; Revert back to something slightly bigger than the default
+  (setq gc-cons-threshold 1000000)
+  (remove-hook 'focus-out-hook #'my-lower-gc-cons-threshold)) 
+(add-hook 'after-init-hook
+          (lambda ()
+            (run-with-idle-timer
+             60
+             nil
+             #'my-lower-gc-cons-threshold)
+            (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
+
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
