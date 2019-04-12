@@ -79,6 +79,11 @@
   :interpreter ("node" . web-mode)
   :ensure t)
 
+(use-package ws-butler ; Automatically trim whitespace on save.
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook #'ws-butler-mode))
+
 (use-package yasnippet
   :ensure t
   :defer 20
