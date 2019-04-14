@@ -400,7 +400,8 @@
            ("Magit"
             (name . "\*magit:"))
            ("Emacs Configuration"
-            (or (filename . ".emacs.d")))
+            (or (filename . "~/.emacs.d")
+                (filename . "~/.emacs")))
            ("Emacs Lisp"
             (mode . emacs-lisp-mode))
            ("Programming"
