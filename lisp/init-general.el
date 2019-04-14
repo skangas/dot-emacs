@@ -382,28 +382,26 @@
   :config
   (setq ibuffer-saved-filter-groups
         '(("default"
+           ("Main"
+            (or
+             (name . "\*mentor\*")
+             (name . "\*scratch\*")
+             (name . "\*Backtrace\*")
+             (name . "\*Messages\*")
+             (name . "magit:")
+             (mode . ag-mode)
+             (mode . grep-mode)
+             (mode . compilation-mode)))
+           ("Mentor"
+            (filename . "wip/mentor"))
            ("Text Files"
             (or
              (mode . org-mode)
              (mode . text-mode)
              ))
-           ("mentor"
-            (filename . "wip/mentor"))
-           ("Mail"
+           ("Dired"
             (or
-             (mode . message-mode)
-             (mode . mail-mode)
-             (mode . gnus-group-mode)
-             (mode . gnus-summary-mode)
-             (mode . gnus-article-mode)
-             ))
-           ("Magit"
-            (name . "\*magit:"))
-           ("Emacs Configuration"
-            (or (filename . "~/.emacs.d")
-                (filename . "~/.emacs")))
-           ("Emacs Lisp"
-            (mode . emacs-lisp-mode))
+             (mode . dired-mode)))
            ("Programming"
             (or
              (mode . c-mode)
@@ -413,12 +411,22 @@
              (mode . java-mode)
              (mode . sh-mode)
              (mode . haskell-mode)))
+           ("Mail"
+            (or
+             (mode . message-mode)
+             (mode . mail-mode)
+             (mode . gnus-group-mode)
+             (mode . gnus-summary-mode)
+             (mode . gnus-article-mode)
+             ))
+           ("Emacs Configuration"
+            (or (filename . ".emacs.d")
+                (filename . ".emacs")))
+           ("Emacs Lisp"
+            (mode . emacs-lisp-mode))
            ("Configuration"
             (or
              (mode . conf-unix-mode)))
-           ("Dired"
-            (or
-             (mode . dired-mode)))
            ("Images"
             (or
              (mode . image-mode)))
