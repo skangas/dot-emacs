@@ -3,9 +3,18 @@
 ;; use cperl-mode instead of perl-mode
 (defalias 'perl-mode 'cperl-mode)
 
-(require 'sk-macros)
 (use-package cperl-mode
+  :mode (("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
+         ("\\.plx\\'" . cperl-mode)
+         ("\\.cgi\\'" . cperl-mode)
+         ("\\.pod\\'" . cperl-mode)
+         (".*/perl/.*" . cperl-mode))
+  :interpreter (("perl" . cperl-mode)
+                ("perl5" . cperl-mode)
+                ("miniperl" . cperl-mode))
   :config
+  (require 'sk-macros)
+
   (setq cperl-clobber-lisp-bindings t)
   (setq cperl-highlight-variables-indiscriminately t) ;; hilight all scalars
   (setq cperl-lazy-help-time 1) ;; show help after x seconds
@@ -95,8 +104,8 @@
     "Run perltidy on the current defun."
     (interactive)
     (save-excursion (mark-defun)
-                    (perltidy-region)))
+                    (perltidy-region))))
 
-  (provide 'init-coding-perl))
+(provide 'init-coding-perl)
 
 ;; init-coding-perl.el ends here

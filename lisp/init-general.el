@@ -33,30 +33,34 @@
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
 (setq user-full-name "Stefan Kangas"
-      inhibit-startup-message t      ; No startup message
-      )
-(setq frame-title-format '((buffer-file-name "%f" "%b")
-                           " -- %F"
-                           (:eval (format " [%s]" mode-name))))
-
-(setq scroll-conservatively most-positive-fixnum)    ; Always scroll one line at a time
-(setq scroll-preserve-screen-position t)             ; Affects Page-up Page-down
-(setq visible-bell t)                                ; No audible bell
-(setq mouse-yank-at-point t)                         ; Yank at point, even in X
-(setq lazy-highlight-initial-delay 0.1)              ; Seconds to wait before isearch highlights
-
-(setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
-              indent-tabs-mode nil                   ; Always indent using spaces, never tabs
-              indicate-empty-lines t                 ; Show empty lines at end of file
-              indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
-(setq display-time-24hr-format t                     ; Show 24hr clock when it's shown
+      inhibit-startup-message t                      ; No startup message
+      visible-bell t                                 ; No audible bell
+      display-time-24hr-format t                     ; Show 24hr clock when it's shown
       bookmark-save-flag 1                           ; Save bookmarks immediately when added
       require-final-newline t                        ; Make sure text files end in a newline
       Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails
       messages-buffer-max-lines (* 16 1024)          ; From 1024
       kill-ring-max 120                              ; Default is 60
-      calendar-week-start-day 1)                     ; Start week on Monday
+      calendar-week-start-day 1                      ; Start week on Monday
+      sentence-end "\\.  ?"                          ; Used only by certain modes.
+      scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
+      scroll-preserve-screen-position t              ; Affects Page-up Page-down
+      mouse-yank-at-point t                          ; Yank at point, even in X
+      lazy-highlight-initial-delay 0.1               ; Seconds to wait before isearch highlights
+
+      ;; choose browser
+      browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
+      frame-title-format '((buffer-file-name "%f" "%b")
+                           " -- %F"
+                           (:eval (format " [%s]" mode-name))))
+
+(setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
+              indent-tabs-mode nil                   ; Always indent using spaces, never tabs
+              indicate-empty-lines t                 ; Show empty lines at end of file
+              indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+
 (setq calendar-mark-holidays-flag t
       calendar-holidays nil
       holiday-bahai-holidays nil
@@ -89,9 +93,6 @@
 ;; Enable some features
 (put 'narrow-to-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
-
-;; Used only by certain modes.
-(setq sentence-end "\\.  ?")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backup files
@@ -147,7 +148,6 @@
 
 ;; Spell checking
 (setq flyspell-use-meta-tab nil)
-
 (setq ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
 
@@ -216,18 +216,6 @@
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; choose browser
-(setq browse-url-generic-program "firefox")
-(when (eq system-type 'darwin)
-  (setq browse-url-generic-program "open"))
-(defun choose-browser (url &rest args)
-  (interactive "sURL: ")
-  (if (y-or-n-p "Use external browser? ")
-      (browse-url-generic url)
-    (w3m-browse-url url)))
-;; (setq browse-url-browser-function 'choose-browser)
-(setq browse-url-browser-function 'browse-url-generic)
-
 ;; packages
 
 (use-package abbrev
@@ -252,6 +240,11 @@
 
 (use-package ag
   :ensure t)
+
+(use-package anzu
+  :ensure t
+  :config
+  (global-anzu-mode +1))
 
 (use-package async
   :ensure t
@@ -280,12 +273,13 @@
   :ensure t)
 
 (use-package dash
-  :ensure t)
-
-(use-package dashboard
   :ensure t
-  :config
-  (dashboard-setup-startup-hook))
+  :defer t)
+
+;; (use-package dashboard
+;;   :ensure t
+;;   :config
+;;   (dashboard-setup-startup-hook))
 
 (use-package diff-hl
   :ensure t
@@ -384,11 +378,13 @@
   (global-discover-mode 1))
 
 (use-package elfeed
+  :commands elfeed
   :ensure t)
 
 (use-package elfeed-org
   :ensure t
   :pin "melpa"
+  :commands elfeed
   :config
   (elfeed-org))
 
@@ -416,27 +412,26 @@
   :config
   (setq ibuffer-saved-filter-groups
         '(("default"
+           ("Main"
+            (or
+             (name . "\*mentor\*")
+             (name . "\*scratch\*")
+             (name . "\*Backtrace\*")
+             (name . "\*Messages\*")
+             (name . "magit:")
+             (mode . ag-mode)
+             (mode . grep-mode)
+             (mode . compilation-mode)))
+           ("Mentor"
+            (filename . "wip/mentor"))
            ("Text Files"
             (or
              (mode . org-mode)
              (mode . text-mode)
              ))
-           ("mentor"
-            (filename . "wip/mentor"))
-           ("Mail"
+           ("Dired"
             (or
-             (mode . message-mode)
-             (mode . mail-mode)
-             (mode . gnus-group-mode)
-             (mode . gnus-summary-mode)
-             (mode . gnus-article-mode)
-             ))
-           ("Magit"
-            (name . "\*magit:"))
-           ("Emacs Configuration"
-            (or (filename . ".emacs.d")))
-           ("Emacs Lisp"
-            (mode . emacs-lisp-mode))
+             (mode . dired-mode)))
            ("Programming"
             (or
              (mode . c-mode)
@@ -446,12 +441,22 @@
              (mode . java-mode)
              (mode . sh-mode)
              (mode . haskell-mode)))
+           ("Mail"
+            (or
+             (mode . message-mode)
+             (mode . mail-mode)
+             (mode . gnus-group-mode)
+             (mode . gnus-summary-mode)
+             (mode . gnus-article-mode)
+             ))
+           ("Emacs Configuration"
+            (or (filename . ".emacs.d")
+                (filename . ".emacs")))
+           ("Emacs Lisp"
+            (mode . emacs-lisp-mode))
            ("Configuration"
             (or
              (mode . conf-unix-mode)))
-           ("Dired"
-            (or
-             (mode . dired-mode)))
            ("Images"
             (or
              (mode . image-mode)))

@@ -84,6 +84,9 @@
   ;;  Remove clocked tasks with 0:00 duration
   (setq org-clock-out-remove-zero-time-clocks t)
 
+  ;; Don't include validation link in exported HTML
+  (setq org-html-validation-link nil)
+
   ;; My todo levels
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c)")
@@ -798,6 +801,12 @@ so change the default 'F' binding in the agenda to allow both"
 (add-hook 'org-agenda-mode-hook
           '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
           'append)
+
+(use-package org-bullets
+  :ensure t
+  :pin melpa
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (provide 'init-org-mode)
 

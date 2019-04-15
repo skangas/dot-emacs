@@ -1,6 +1,7 @@
 (use-package w3m
   :ensure t
   :pin "melpa"
+  :commands w3m-goto-url w3m-search
   :config
   (setq w3m-home-page "http://www.duckduckgo.com/")
   (setq w3m-key-binding 'info)

@@ -2,6 +2,8 @@
 
 (use-package haskell-mode
   :ensure t
+  :mode "\\.hs\\'"
+  :commands haskell-mode
   :config
   (require 'haskell-interactive-mode)
   (defun my-haskell-newline-and-indent ()
