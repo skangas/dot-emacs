@@ -808,6 +808,17 @@ so change the default 'F' binding in the agenda to allow both"
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+(use-package org-journal
+  :ensure t
+  :pin melpa
+  ;; :init ; this has to be done before loading org-journal
+  ;; (setq org-journal-file-format "%Y-%m-%d.org")
+  :config
+  (setq org-journal-dir "~/org/journal"
+        ;; org-extend-today-until 5
+        ;; org-journal-date-format "%A %Y-%m-%d"
+        ))
+
 (provide 'init-org-mode)
 
 ;; init-org-mode.el ends here
