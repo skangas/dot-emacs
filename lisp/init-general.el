@@ -414,10 +414,8 @@
         '(("default"
            ("Main"
             (or
+             (mode . org-agenda-mode)
              (name . "\*mentor\*")
-             (name . "\*scratch\*")
-             (name . "\*Backtrace\*")
-             (name . "\*Messages\*")
              (name . "magit:")
              (mode . ag-mode)
              (mode . grep-mode)
