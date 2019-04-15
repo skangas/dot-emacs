@@ -6,6 +6,20 @@
 ;; Log .emacs start time
 (defconst *emacs-start-time* (current-time))
 
+;; Temporarily raise garbage collection limit for initialization
+(setq gc-cons-threshold (* 1024 1024 1024))
+(defun my-lower-gc-cons-threshold ()
+  ;; Revert back to something slightly bigger than the default
+  (setq gc-cons-threshold 1000000)
+  (remove-hook 'focus-out-hook #'my-lower-gc-cons-threshold)) 
+(add-hook 'after-init-hook
+          (lambda ()
+            (run-with-idle-timer
+             1
+             nil
+             #'my-lower-gc-cons-threshold)
+            (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
+
 ;; Get this over with. Has to be a require.
 (require 'cl)
 
@@ -17,10 +31,9 @@
 (setq load-prefer-newer t)
 
 ;; Configure ELPA
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
@@ -38,6 +51,8 @@
 ;; Configure use-package
 (eval-when-compile
   (require 'use-package))
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
 (setq use-package-always-pin "melpa-stable")
 
 ;; Enable theme early
@@ -47,9 +62,10 @@
 ;; Enable auto-compile
 (use-package auto-compile
   :ensure t
-  :config
+  :init
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode)
+  (setq load-prefer-newer t)
   (setq auto-compile-display-buffer nil)
   (setq auto-compile-mode-line-counter t))
 
@@ -118,7 +134,9 @@
 ;; Various packages
 (use-package xml-rpc
   :ensure t)
-(setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
+(setq mentor-rtorrent-external-rpc "http://localhost/our-RPC2")
+;; (setq mentor-rtorrent-external-rpc "scgi:///~/.rtorrent-session/rpc.socket")
+;; (setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
 (defun my-mentor ()
   (interactive)
   (when (require 'mentor nil t)
@@ -138,14 +156,6 @@
 (autoload 'insert-x-resources "pjb-xresources"
   "Insert current theme as XResources in current buffer" t)
 
-(when (condition-case nil
-          (require 'completion-ui)
-        (error nil))
-  (eval-after-load "cc-mode"
-    '(progn
-       (define-key c-mode-map [?\M-\t] 'complete-semantic)
-       (define-key c++-mode-map [?\M-\t] 'complete-semantic))))
-
 ;; Don't clutter .emacs with M-x customize stuff
 (setq custom-file "~/.emacs.d/lisp/init-custom-file.el")
 (load custom-file 'noerror)
@@ -159,6 +169,7 @@
           (run-with-timer 0.1 nil 'invert-face 'mode-line))))
 
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
+;; and echo .emacs load time
 (add-hook 'after-init-hook
           (lambda ()
             (insert (concat ";; " (substring (emacs-version) 0 14) ".    "))
@@ -170,5 +181,4 @@
                                          (second *emacs-start-time*)))))))
             (newline-and-indent)  (newline-and-indent)))
 
-;; Echo .emacs load time
 

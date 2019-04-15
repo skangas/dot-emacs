@@ -1,5 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ANSI-C
+;; C
 
 (defun my-c-mode-hook-customizations ()
   (c-set-offset 'arglist-intro '+))

@@ -1,9 +1,12 @@
 (use-package bbdb
   :ensure t
   :pin "gnu"
+  :commands bbdb-initialize
+  :defer
+  :hook ((bbdb-notice-mail-hook . bbdb-auto-notes)
+         (bbdb-initialize-hook . user--bbdb-configialize-hook))
+
   :config
-  (require 'bbdb-loaddefs nil t)
-  (require 'bbdb nil t)
   (when (> (string-to-number bbdb-version) 3)
     (when (fboundp 'bbdb-initialize)
       (bbdb-initialize 'gnus 'message))
