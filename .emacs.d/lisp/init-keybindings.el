@@ -163,6 +163,12 @@ kill it (unless it's modified)."
 
 (global-set-key (kbd "C-å") 'isearch-forward) ; more ergonomic alias
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my-goto-buffer-messages ()
+  (interactive)
+  (switch-to-buffer "*Messages*"))
+
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
 (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
