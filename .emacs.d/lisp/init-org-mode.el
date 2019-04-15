@@ -100,6 +100,7 @@
                               ("@ärende" . ?ä)
                               ("@ek" . ?e)
                               ("@ck" . ?k)
+                              ("@moten" . ?k)
                               ("@spanska" . ?k)
                               (:endgroup)
                               ("EK" . ?E)
