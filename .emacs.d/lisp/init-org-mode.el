@@ -92,10 +92,6 @@
         '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c)")
           (sequence "WAITING(w@/!)" "HOLD(h@/!)" "ONGOING(o)" "|" "CANCELLED(c@/!)")))
 
-  ;; Add my odt styles
-  ;; From https://orgmode.org/manual/Advanced-topics-in-ODT-export.html#x_002dorgodtstyles_002dxml
-  (add-to-list 'org-odt-styles-dir "~/.emacs.d/odt-styles/")
-
   ;; Tags with fast selection keys
   (setq org-tag-alist (quote ((:startgroup)
                               ("@centret" . ?c)
