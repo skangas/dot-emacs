@@ -103,7 +103,6 @@
                               ("@moten" . ?m)
                               ("@spanska" . ?s)
                               (:endgroup)
-                              ("EK" . ?E)
                               ("PERSONAL" . ?P)
 
                               ("REFILE" . ?r)
@@ -128,7 +127,7 @@
   ;; Use sticky agenda's so they persist
   (setq org-agenda-sticky t)
 
-  ;; Warn three weeks before deadline
+  ;; Warn two weeks before deadline
   (setq org-deadline-warning-days 14)
 
   ;; disable the default org-mode stuck projects agenda view
@@ -814,16 +813,15 @@ so change the default 'F' binding in the agenda to allow both"
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-;; (use-package org-journal
-;;   :ensure t
-;;   :pin melpa
-;;   ;; :init ; this has to be done before loading org-journal
-;;   ;; (setq org-journal-file-format "%Y-%m-%d.org")
-;;   :config
-;;   (setq org-journal-dir "~/org/journal"
-;;         ;; org-extend-today-until 5
-;;         ;; org-journal-date-format "%A %Y-%m-%d"
-;;         ))
+(use-package org-journal
+  :ensure t
+  ;; :init ; this has to be done before loading org-journal
+  ;; (setq org-journal-file-format "%Y-%m-%d.org")
+  :config
+  (setq org-journal-dir "~/org/journal"
+        ;; org-extend-today-until 5
+        ;; org-journal-date-format "%A %Y-%m-%d"
+        ))
 
 (provide 'init-org-mode)
 
