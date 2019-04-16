@@ -408,6 +408,10 @@
   :bind (("C-c t" . google-translate-at-point)
          ("C-c T" . google-translate-query-translate)))
 
+(use-package hl-line
+  :config
+  (global-hl-line-mode 1))
+
 (use-package ibuffer
   :config
   (setq ibuffer-saved-filter-groups
@@ -416,10 +420,7 @@
             (or
              (mode . org-agenda-mode)
              (name . "\*mentor\*")
-             (name . "magit:")
-             (mode . ag-mode)
-             (mode . grep-mode)
-             (mode . compilation-mode)))
+             (name . "magit:")))
            ("Mentor"
             (filename . "wip/mentor"))
            ("Text Files"
@@ -432,6 +433,9 @@
              (mode . dired-mode)))
            ("Programming"
             (or
+             (mode . ag-mode)
+             (mode . grep-mode)
+             (mode . compilation-mode)
              (mode . c-mode)
              (mode . perl-mode)
              (mode . cperl-mode)
