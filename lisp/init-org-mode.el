@@ -100,8 +100,8 @@
                               ("@ärende" . ?ä)
                               ("@ek" . ?e)
                               ("@ck" . ?k)
-                              ("@moten" . ?k)
-                              ("@spanska" . ?k)
+                              ("@moten" . ?m)
+                              ("@spanska" . ?s)
                               (:endgroup)
                               ("EK" . ?E)
                               ("PERSONAL" . ?P)
@@ -802,6 +802,11 @@ so change the default 'F' binding in the agenda to allow both"
 (add-hook 'org-agenda-mode-hook
           '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
           'append)
+
+(use-package org-ac ; auto-complete sources for org-mode
+  :ensure t
+  :config
+  (org-ac/config-default))
 
 (use-package org-bullets
   :ensure t
