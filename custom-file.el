@@ -29,4 +29,4 @@
  '(auto-dim-other-buffers-face ((t (:background "#3a3a3a"))))
  '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
  '(org-headline-done ((t (:strike-through "#222"))))
- '(variable-pitch ((t (:weight normal :family "edges.se")))))
+ '(variable-pitch ((t (:family "Lucida Grande")))))
