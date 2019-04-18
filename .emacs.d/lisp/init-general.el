@@ -379,7 +379,9 @@
 
 (use-package elfeed
   :commands elfeed
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'elfeed-show-mode 'visual-line-mode))
 
 (use-package elfeed-org
   :ensure t
