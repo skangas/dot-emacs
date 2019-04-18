@@ -89,8 +89,8 @@
 
   ;; My todo levels
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c)")
-          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "ONGOING(o)" "|" "CANCELLED(c@/!)")))
+        '((sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "|" "DONE(d!/!)" "CANCELLED(c!)")
+          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "ONGOING(o)" "|" "CANCELLED(c!)")))
 
   ;; Tags with fast selection keys
   (setq org-tag-alist (quote ((:startgroup)
