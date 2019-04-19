@@ -17,7 +17,8 @@
 
 (run-if-fboundp (menu-bar-mode -1))        ; No menu
 (run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
-(run-if-fboundp (tool-bar-mode -1))        ; No toolbar
+(unless (eq window-system 'ns)
+  (run-if-fboundp (tool-bar-mode -1)))     ; No toolbar
 (run-if-fboundp (mwheel-install))          ; Enable mousewheel
 
 (run-if-fboundp (global-font-lock-mode t)) ; Syntax hi-lighting
@@ -79,6 +80,17 @@
                                  (holiday-fixed 1 31 "Nyårsafton"))
       calendar-holidays holiday-swedish-holidays)
 
+
+(require 'saveplace) ; has to be a require
+(setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
+(setq-default save-place t)                   ; activate it for all buffers
+
+(show-paren-mode 1)
+(setq show-paren-delay 0.1)
+
+(require 'uniquify) ;; has to be a require
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
 ;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
 
 (add-hook 'before-save-hook 'time-stamp)
@@ -128,11 +140,6 @@
       (setq hcz-set-cursor-color-buffer (buffer-name)))))
 (add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
 
-;; Save position in file
-(require 'saveplace) ; has to be a require
-(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-(setq-default save-place t)                   ;; activate it for all buffers
-
 ;; Confirm on exit
 (defun confirm-exit-emacs ()
         "ask for confirmation before exiting emacs"
@@ -142,13 +149,9 @@
 (global-unset-key "\C-x\C-c")
 (global-set-key "\C-x\C-c" 'confirm-exit-emacs)
 
-;; Show paren mode
-(show-paren-mode 1)
-(setq show-paren-delay 0.1)
-
 ;; Spell checking
-(setq flyspell-use-meta-tab nil)
-(setq ispell-program-name "aspell"
+(setq flyspell-use-meta-tab nil
+      ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
 
 ;; Wait for wheezy or install hunspell-sv-se from testing
@@ -212,11 +215,7 @@
 					(split-window-horizontally arg)
 				      (split-window-vertically arg))))
 
-;; Unique buffer names
-(require 'uniquify) ;; has to be a require
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-
-;; packages
+;;;; packages
 
 (use-package abbrev
   :config
