@@ -15,10 +15,10 @@
 
 ;; FIXME: add visual line mode to all modes where it makes sense
 
-(run-if-fboundp (menu-bar-mode -1))        ; No menu
-(run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
 (unless (eq window-system 'ns)
-  (run-if-fboundp (tool-bar-mode -1)))     ; No toolbar
+  (run-if-fboundp (menu-bar-mode -1)))     ; No menu
+(run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
+(run-if-fboundp (tool-bar-mode -1))        ; No toolbar
 (run-if-fboundp (mwheel-install))          ; Enable mousewheel
 
 (run-if-fboundp (global-font-lock-mode t)) ; Syntax hi-lighting
