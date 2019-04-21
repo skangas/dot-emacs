@@ -380,7 +380,42 @@
   :commands elfeed
   :ensure t
   :config
-  (add-hook 'elfeed-show-mode 'visual-line-mode))
+  (add-hook 'elfeed-show-mode 'visual-line-mode)
+
+  (defun skangas-score-elfeed-entry (entry)
+    (let ((title (elfeed-entry-title entry))
+          (categories (elfeed-meta entry :categories))
+          (content (elfeed-deref (elfeed-entry-content entry)))
+          (score 0))
+      ;; (loop for (pattern n) in '(("alloy" 1)
+      ;;                            ("machine learning\\|neural" 1)
+      ;;                            ("database" 1)
+      ;;                            ("reproducible" 1)
+      ;;                            ("carbon dioxide\\|CO2" 1)
+      ;;                            ("oxygen evolution\\|OER\\|electrolysis" 1)
+      ;;                            ("perovskite\\|polymorph\\|epitax" 1)
+      ;;                            ("kitchin" 2))
+      ;;       if (string-match pattern title)
+      ;;       do (incf score n)
+      ;;       if (string-match pattern content)
+      ;;       do (incf score n))
+
+      ;; Ban categories
+      (if (memq "Sport" categories) (incf score -1000))
+      (message "%s - %s (%s)" title score categories)
+
+      ;; store score for later
+      (setf (elfeed-meta entry :my/score) score)
+
+      (cond
+       ((<= score -1000)
+        (elfeed-untag-1 'unread))
+       ((= score 1)
+        (elfeed-tag entry 'relevant))
+       ((> score 1)
+        (elfeed-tag entry 'important)))
+      entry))
+  (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry))
 
 (use-package elfeed-org
   :ensure t
