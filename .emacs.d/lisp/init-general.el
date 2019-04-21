@@ -384,21 +384,23 @@
 
   (defun skangas-score-elfeed-entry (entry)
     (let ((title (elfeed-entry-title entry))
+          (link (elfeed-entry-link entry))
           (categories (elfeed-meta entry :categories))
           (content (elfeed-deref (elfeed-entry-content entry)))
           (score 0))
-      ;; (loop for (pattern n) in '(("alloy" 1)
-      ;;                            ("machine learning\\|neural" 1)
-      ;;                            ("database" 1)
-      ;;                            ("reproducible" 1)
-      ;;                            ("carbon dioxide\\|CO2" 1)
-      ;;                            ("oxygen evolution\\|OER\\|electrolysis" 1)
-      ;;                            ("perovskite\\|polymorph\\|epitax" 1)
-      ;;                            ("kitchin" 2))
-      ;;       if (string-match pattern title)
-      ;;       do (incf score n)
-      ;;       if (string-match pattern content)
-      ;;       do (incf score n))
+      ;;;; TITLE
+      (loop for (pattern n) in '(("trotsky" 1))
+            if (string-match pattern title)
+            do (incf score n)
+            if (string-match pattern content)
+            do (incf score n))
+
+      ;;;; LINK
+      (loop for (pattern n) in '(("^https://www.theguardian.com/(football\\|sport)/" -1000)
+                                 ("https://www.theguardian.com/lifeandstyle/" -1000)
+                                 ("^https://www.bbc.com/sport" -1000))
+            if (string-match pattern link)
+            do (incf score n))
 
       ;; Ban categories
       (if (memq "Sport" categories) (incf score -1000))
