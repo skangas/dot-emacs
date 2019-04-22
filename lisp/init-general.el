@@ -389,7 +389,8 @@
           (content (elfeed-deref (elfeed-entry-content entry)))
           (score 0))
       ;; TITLE
-      (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000))
+      (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
+                                    ("Nyheter från dagen:" -1000))
                if (string-match pattern title)
                do (incf score n)
                if (string-match pattern content)
