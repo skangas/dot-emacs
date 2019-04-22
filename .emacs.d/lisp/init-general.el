@@ -389,7 +389,7 @@
           (content (elfeed-deref (elfeed-entry-content entry)))
           (score 0))
       ;; TITLE
-      (cl-loop for (pattern n) in '(("IFK Mariehamn" -1000))
+      (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon" -1000))
                if (string-match pattern title)
                do (incf score n)
                if (string-match pattern content)
@@ -405,7 +405,9 @@
 
       ;; Ban categories
       (if (memq "Sport" categories) (incf score -1000))
-      (message "%s - %s (%s)" title score categories)
+
+      ;; Show result of scoring
+      (message "elfeed scoring: %s - %s (%s)" title score categories)
 
       ;; store score for later
       (setf (elfeed-meta entry :my/score) score)
