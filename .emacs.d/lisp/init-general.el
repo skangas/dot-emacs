@@ -389,7 +389,7 @@
           (content (elfeed-deref (elfeed-entry-content entry)))
           (score 0))
       ;; TITLE
-      (cl-loop for (pattern n) in '(("trotsky" 1))
+      (cl-loop for (pattern n) in '(("IFK Mariehamn" -1000))
                if (string-match pattern title)
                do (incf score n)
                if (string-match pattern content)
