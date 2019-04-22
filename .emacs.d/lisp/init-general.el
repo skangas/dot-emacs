@@ -396,8 +396,7 @@
                do (incf score n))
 
       ;; LINK
-      (cl-loop for (pattern n) in '(("^https://www.theguardian.com/(football\\|sport)/" -1000)
-                                    ("https://www.theguardian.com/lifeandstyle/" -1000)
+      (cl-loop for (pattern n) in '(("^https://www.theguardian.com/\\(football\\|sport\\|lifeandstyle\\)/" -1000)
                                     ("^https://www.bbc.com/sport" -1000))
                if (string-match pattern link)
                do (incf score n))
