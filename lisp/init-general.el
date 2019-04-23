@@ -390,6 +390,8 @@
           (score 0))
       ;; TITLE
       (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
+                                    ("World Championship" -1000)
+                                    ("Chicago Blackhawks" -1000)
                                     ("Nyheter från dagen:" -1000)
                                     ("Horoskop – " -1000))
                if (string-match pattern title)
