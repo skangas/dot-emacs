@@ -430,7 +430,6 @@
 (use-package elfeed-org
   :ensure t
   :pin "melpa"
-  :commands elfeed
   :config
   (elfeed-org))
 
