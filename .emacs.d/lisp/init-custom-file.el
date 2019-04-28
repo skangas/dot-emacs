@@ -7,6 +7,15 @@
  '(mairix-file-path "~/Maildir/")
  '(mairix-mail-program (quote gnus))
  '(mairix-search-file "mairix_search")
+ '(notmuch-saved-searches
+   (quote
+    ((:name "inbox" :query "tag:inbox" :key "i")
+     (:name "unread" :query "tag:unread" :key "u")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "t")
+     (:name "drafts" :query "tag:draft" :key "d")
+     (:name "all mail" :query "*" :key "a")
+     (:name "ek" :query "tag:ek"))))
  '(org-enforce-todo-dependencies t)
  '(org-modules
    (quote
