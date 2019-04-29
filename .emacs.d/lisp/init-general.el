@@ -393,6 +393,9 @@
                                     ("Smålejon" -1000) ; Finskt lag
                                     ("World Championship" -1000)
                                     ("finalserien" -1000)
+                                    ("lagkaptenen" -1000)
+                                    ("landslaget" -1000)
+                                    ("VM-kvaltruppen" -1000)
                                     ("Chicago Blackhawks" -1000)
                                     ("Nyheter från dagen:" -1000)
                                     ("Horoskop – " -1000))
@@ -400,12 +403,11 @@
                do (incf score n)
                if (string-match pattern content)
                do (incf score n))
-
       ;; LINK
       (cl-loop for (pattern n) in '(("^https://www.theguardian.com/\\(football\\|sport\\|lifeandstyle\\)/" -1000)
                                     ("^https://www.svt.se/nyheter/uutiset/" -1000)
                                     ("^https://www.svt.se/nyheter/lokalt/" -1000)
-                                    ("^Https://www.svt.se/nyheter/lokalt/\\(vast\\|norrbotten)" 1000)
+                                    ("^Https://www.svt.se/nyheter/lokalt/\\(vast\\|norrbotten\\)" 1000)
                                     ("^https://www.bbc.com/sport" -1000))
                if (string-match pattern link)
                do (incf score n))
