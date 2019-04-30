@@ -392,7 +392,9 @@
       (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
                                     ("Smålejon" -1000) ; Finskt lag
                                     ("World Championship" -1000)
+                                    ("Dallas Stars" -1000)
                                     ("World Cup" -1000)
+                                    ("Stanley Cup" -1000)
                                     ("finalserien" -1000)
                                     ("lagkaptenen" -1000)
                                     ("landslaget" -1000)
