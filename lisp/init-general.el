@@ -404,8 +404,8 @@
                                     ("VM-kvaltruppen" -1000)
                                     ("förbundskapten" -1000)
                                     ;; engelska sporttermer
-                                    ("World( Snooker)? Championship" -1000)
-                                    ("Premier League" -1000)
+                                    ("World\\( Snooker\\)? Championship" -1000)
+                                    ("\\(Premier|Champions\\) League" -1000)
                                     ("Dallas Stars" -1000)
                                     ("World Cup" -1000)
                                     ("Stanley Cup" -1000)
@@ -413,6 +413,7 @@
                                     ("New York Giants" -1000)
                                     ("Oakland Raiders" -1000)
                                     ;; diverse
+                                    ("Eurovision" -1000)
                                     ("Nyheter från dagen:" -1000)
                                     ("Horoskop – " -1000))
                if (string-match pattern title)
