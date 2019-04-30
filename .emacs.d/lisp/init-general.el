@@ -439,11 +439,12 @@
 
       (cond
        ((<= score -1000)
-        (elfeed-untag-1 'unread))
+        (elfeed-untag-1 entry 'unread))
        ((= score 1)
         (elfeed-tag entry 'relevant))
        ((> score 1)
         (elfeed-tag entry 'important)))
+      (message "reached end")
       entry))
   (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry))
 
