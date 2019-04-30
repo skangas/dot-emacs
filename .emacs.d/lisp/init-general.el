@@ -382,6 +382,9 @@
   :config
   (add-hook 'elfeed-show-mode 'visual-line-mode)
 
+  ;; more ergonomic keybinding
+  (define-key elfeed-search-mode-map (kbd "h") 'elfeed-search-untag-all-unread)
+
   (defun skangas-score-elfeed-entry (entry)
     (let ((title (elfeed-entry-title entry))
           (link (elfeed-entry-link entry))
@@ -391,15 +394,25 @@
       ;; TITLE
       (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
                                     ("Smålejon" -1000) ; Finskt lag
-                                    ("World Championship" -1000)
-                                    ("Dallas Stars" -1000)
-                                    ("World Cup" -1000)
-                                    ("Stanley Cup" -1000)
+                                    ("HIFK" -1000) ; Finskt lag
+                                    ("BK-46" -1000) ; Finskt lag
+                                    ("semifinallagen" -1000)
+                                    ("handbollsligan" -1000)
                                     ("finalserien" -1000)
                                     ("lagkaptenen" -1000)
                                     ("landslaget" -1000)
                                     ("VM-kvaltruppen" -1000)
+                                    ("förbundskapten" -1000)
+                                    ;; engelska sporttermer
+                                    ("World( Snooker)? Championship" -1000)
+                                    ("Premier League" -1000)
+                                    ("Dallas Stars" -1000)
+                                    ("World Cup" -1000)
+                                    ("Stanley Cup" -1000)
                                     ("Chicago Blackhawks" -1000)
+                                    ("New York Giants" -1000)
+                                    ("Oakland Raiders" -1000)
+                                    ;; diverse
                                     ("Nyheter från dagen:" -1000)
                                     ("Horoskop – " -1000))
                if (string-match pattern title)
