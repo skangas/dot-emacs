@@ -396,6 +396,8 @@
                                     ("Smålejon" -1000) ; Finskt lag
                                     ("HIFK" -1000) ; Finskt lag
                                     ("BK-46" -1000) ; Finskt lag
+                                    ("semifinal" -1000)
+                                    ("handbollsmästaren" -1000)
                                     ("semifinallagen" -1000)
                                     ("handbollsligan" -1000)
                                     ("finalserien" -1000)
