@@ -394,6 +394,7 @@
       ;; TITLE
       (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
                                     ("Smålejon" -1000) ; Finskt lag
+                                    ("Lejonen" -1000)
                                     ("HIFK" -1000) ; Finskt lag
                                     ("BK-46" -1000) ; Finskt lag
                                     ("SM-guld" -1000)
@@ -408,6 +409,7 @@
                                     ("damidrotten" -1000)
                                     ("finalserien" -1000)
                                     ("förbundskapten" -1000)
+                                    ("Allsvenskan" -1000)
                                     ("guldmålvakt" -1000)
                                     ("handbollsligan" -1000)
                                     ("handbollsmästaren" -1000)
@@ -431,6 +433,7 @@
                                     ("\\(Premier\\|Champions\\) League" -1000)
                                     ("Dallas Stars" -1000)
                                     ("World Cup" -1000)
+                                    ("Diamond League" -1000)
                                     ("Stanley Cup" -1000)
                                     ("Chicago Blackhawks" -1000)
                                     ("Columbus Blue Jackets" -1000)
