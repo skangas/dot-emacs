@@ -43,7 +43,6 @@
       message-send-mail-partially-limit nil          ; Never split emails
       messages-buffer-max-lines (* 16 1024)          ; From 1024
       kill-ring-max 120                              ; Default is 60
-      calendar-week-start-day 1                      ; Start week on Monday
       sentence-end "\\.  ?"                          ; Used only by certain modes.
       scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
@@ -62,6 +61,9 @@
               indicate-empty-lines t                 ; Show empty lines at end of file
               indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
 
+(setq calendar-week-start-day 1) ; Start week on Monday
+(setq calendar-date-style 'european)
+
 (setq calendar-mark-holidays-flag t
       calendar-holidays nil
       holiday-bahai-holidays nil
@@ -70,16 +72,19 @@
       holiday-general-holidays nil
       holiday-hebrew-holidays nil
       holiday-islamic-holidays nil
-      holiday-solar-holidays nil
-      holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
-                                 (holiday-fixed 1 6 "Trettondedag jul")
-                                 (holiday-fixed 5 1 "Första maj")
-                                 (holiday-fixed 6 1 "Sveriges nationaldag")
-                                 (holiday-fixed 1 25 "Juldagen")
-                                 (holiday-fixed 1 26 "Annandag jul")
-                                 (holiday-fixed 1 31 "Nyårsafton"))
-      calendar-holidays holiday-swedish-holidays)
+      holiday-solar-holidays nil)
 
+;; (setq holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
+;;                                  (holiday-fixed 1 6 "Trettondedag jul")
+;;                                  (holiday-fixed 5 1 "Första maj")
+;;                                  (holiday-fixed 6 1 "Sveriges nationaldag")
+;;                                  (holiday-fixed 1 25 "Juldagen")
+;;                                  (holiday-fixed 1 26 "Annandag jul")
+;;                                  (holiday-fixed 1 31 "Nyårsafton"))
+;;       calendar-holidays holiday-swedish-holidays)
+
+(setq sv-hide-some-holidays t)
+(require 'sv-kalender)
 
 (require 'saveplace) ; has to be a require
 (setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
