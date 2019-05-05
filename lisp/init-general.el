@@ -568,7 +568,8 @@
 (use-package ido-completing-read+
   :ensure t
   :config
-  (ido-ubiquitous-mode 1))
+  (ido-ubiquitous-mode 1)
+  (setq ido-cr+-auto-update-blacklist t))
 
 (use-package iedit
   :ensure t)
