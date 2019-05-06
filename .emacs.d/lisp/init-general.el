@@ -33,55 +33,52 @@
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
-(setq user-full-name "Stefan Kangas"
-      inhibit-startup-message t                      ; No startup message
-      visible-bell t                                 ; No audible bell
-      display-time-24hr-format t                     ; Show 24hr clock when it's shown
-      bookmark-save-flag 1                           ; Save bookmarks immediately when added
-      require-final-newline t                        ; Make sure text files end in a newline
-      Man-width 80                                   ; Limit man to 80 character width
-      message-send-mail-partially-limit nil          ; Never split emails
-      messages-buffer-max-lines (* 16 1024)          ; From 1024
-      kill-ring-max 120                              ; Default is 60
-      sentence-end "\\.  ?"                          ; Used only by certain modes.
-      scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
-      scroll-preserve-screen-position t              ; Affects Page-up Page-down
-      mouse-yank-at-point t                          ; Yank at point, even in X
-      lazy-highlight-initial-delay 0.1               ; Seconds to wait before isearch highlights
+(setq
+ user-full-name "Stefan Kangas"
+ inhibit-startup-message t              ; No startup message
+ visible-bell t                         ; No audible bell
+ display-time-24hr-format t             ; Show 24hr clock when it's shown
+ bookmark-save-flag 1                   ; Save bookmarks immediately when added
+ require-final-newline t                ; Make sure text files end in a newline
+ Man-width 80                           ; Limit man to 80 character width
+ message-send-mail-partially-limit nil  ; Never split emails
+ messages-buffer-max-lines (* 16 1024)  ; From 1024
+ kill-ring-max 120                      ; Default is 60
+ sentence-end "\\.  ?"                  ; Used only by certain modes.
+ scroll-conservatively most-positive-fixnum ; Always scroll one line at a time
+ scroll-preserve-screen-position t          ; Affects Page-up Page-down
+ mouse-yank-at-point t                      ; Yank at point, even in X
+ lazy-highlight-initial-delay 0.1    ; Seconds to wait before isearch highlights
 
-      ;; choose browser
-      browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
-      frame-title-format '((buffer-file-name "%f" "%b")
-                           " -- %F"
-                           (:eval (format " [%s]" mode-name))))
+ ;; choose browser
+ browse-url-browser-function 'browse-url-generic
+ browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
+ frame-title-format '((buffer-file-name "%f" "%b")
+                      " -- %F"
+                      (:eval (format " [%s]" mode-name)))
 
-(setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
-              indent-tabs-mode nil                   ; Always indent using spaces, never tabs
-              indicate-empty-lines t                 ; Show empty lines at end of file
-              indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+ ;; calendar
+ calendar-week-start-day 1              ; Start week on Monday
+ calendar-date-style 'european          ; Use European calendar
 
-(setq calendar-week-start-day 1) ; Start week on Monday
-(setq calendar-date-style 'european)
+ ;; holidays
+ calendar-mark-holidays-flag t
+ calendar-holidays nil
+ holiday-bahai-holidays nil
+ holiday-christian-holidays nil
+ holiday-dragon-holidays nil
+ holiday-general-holidays nil
+ holiday-hebrew-holidays nil
+ holiday-islamic-holidays nil
+ holiday-solar-holidays nil
+ )
 
-(setq calendar-mark-holidays-flag t
-      calendar-holidays nil
-      holiday-bahai-holidays nil
-      holiday-christian-holidays nil
-      holiday-dragon-holidays nil
-      holiday-general-holidays nil
-      holiday-hebrew-holidays nil
-      holiday-islamic-holidays nil
-      holiday-solar-holidays nil)
-
-;; (setq holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
-;;                                  (holiday-fixed 1 6 "Trettondedag jul")
-;;                                  (holiday-fixed 5 1 "Första maj")
-;;                                  (holiday-fixed 6 1 "Sveriges nationaldag")
-;;                                  (holiday-fixed 1 25 "Juldagen")
-;;                                  (holiday-fixed 1 26 "Annandag jul")
-;;                                  (holiday-fixed 1 31 "Nyårsafton"))
-;;       calendar-holidays holiday-swedish-holidays)
+(setq-default
+ fill-column 80                      ;; note to self: use M-q and C-u 78 C-x f
+ indent-tabs-mode nil                ; Always indent using spaces, never tabs
+ indicate-empty-lines t              ; Show empty lines at end of file
+ indicate-buffer-boundaries 'left    ; Show markers indicating buffer limits
+ )
 
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
@@ -129,9 +126,9 @@
                    "*Messages*" "find" bak-dir "-size" "+1M" "-mtime" "+90" "-delete")))
 
 ;; Change cursor color depending on context (EmacsNiftyTricks)
-(setq hcz-set-cursor-color-color "")
-(setq hcz-set-cursor-color-buffer "")
-(defun hcz-set-cursor-color-according-to-mode ()
+(setq my/set-cursor-color-color "")
+(setq my/set-cursor-color-buffer "")
+(defun my/set-cursor-color-according-to-mode ()
   "change cursor color according to some minor modes."
   ;; set-cursor-color is somewhat costly, so we only call it when needed:
   (let ((color
@@ -139,11 +136,11 @@
            (if overwrite-mode "#000000"
              "#FF0000"))))
     (unless (and
-             (string= color hcz-set-cursor-color-color)
-             (string= (buffer-name) hcz-set-cursor-color-buffer))
-      (set-cursor-color (setq hcz-set-cursor-color-color color))
-      (setq hcz-set-cursor-color-buffer (buffer-name)))))
-(add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
+             (string= color my/set-cursor-color-color)
+             (string= (buffer-name) my/set-cursor-color-buffer))
+      (set-cursor-color (setq my/set-cursor-color-color color))
+      (setq my/set-cursor-color-buffer (buffer-name)))))
+(add-hook 'post-command-hook 'my/set-cursor-color-according-to-mode)
 
 ;; Confirm on exit
 (defun confirm-exit-emacs ()
@@ -210,7 +207,7 @@
     (setq buffer-read-only t)
     (buffer-disable-undo)
     (fundamental-mode)
-    ; (message "Buffer is set to read-only because it is large.  Undo also disabled.")
+    (message "Buffer is set to read-only because it is large.  Undo also disabled.")
     ))
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
