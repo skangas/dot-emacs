@@ -3,9 +3,6 @@
 ;; ~skangas/.emacs
 ;;
 
-;; Log .emacs start time
-(defconst *emacs-start-time* (current-time))
-
 ;; Temporarily raise garbage collection limit for initialization
 (setq gc-cons-threshold (* 1024 1024 1024))
 (defun my-lower-gc-cons-threshold ()
@@ -174,11 +171,7 @@
 ;; and echo .emacs load time
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; " (substring (emacs-version) 0 14) ".    "))
+            (insert (concat ";; " (substring (emacs-version) 0 14)))
             (when (not noninteractive)
-              (insert (format
-                       " -- .emacs loaded in %d.2s\n"
-                       (destructuring-bind (hi lo ms ps) (current-time)
-                         (- (+ hi lo) (+ (first *emacs-start-time*)
-                                         (second *emacs-start-time*)))))))
+              (insert (format " loaded in %s\n" (emacs-init-time))))
             (newline-and-indent)  (newline-and-indent)))
