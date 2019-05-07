@@ -568,22 +568,15 @@
   (setq ibuffer-show-empty-filter-groups nil)
   (setq ibuffer-expert t))
 
-(use-package icomplete
-  :config
-  (icomplete-mode 1))
-
 (use-package ido
   :config
   (ido-mode 1)
   (ido-everywhere 1)
 
   (setq ido-enable-flex-matching t
-        ido-use-filename-at-point 'guess
         ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-
         ido-default-file-method 'selected-window
         ido-default-buffer-method 'selected-window
-
         ido-work-directory-list '("~/" "~/org" "~/src")
         ido-case-fold t                 ; Be case-insensitive
         ido-max-directory-size 100000   ; Avoid [Too Big] messages
