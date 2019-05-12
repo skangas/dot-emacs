@@ -2,6 +2,22 @@
   :ensure t
   :config
 
+  (defhydra sk/elfeed-jump ()
+    "filter"
+    ("b" (elfeed-search-set-filter "@6-months-ago +bloggar") "bloggar")
+    ("e" (elfeed-search-set-filter "@6-months-ago +engelska +nyheter") "engelska")
+    ("i" (elfeed-search-set-filter "@6-months-ago +imt") "imt")
+    ("n" (elfeed-search-set-filter "@6-months-ago +nyheter") "nyheter")
+    ("p" (elfeed-search-set-filter "@6-months-ago +nyheter") "spanska")
+    ("s" (elfeed-search-set-filter "@6-months-ago +svenska +nyheter") "svenska")
+    ("t" (elfeed-search-set-filter "@6-months-ago +tech") "tech")
+    ("y" (elfeed-search-set-filter "@6-months-ago +youtube") "youtube")
+    ;; ("M" elfeed-toggle-star "Mark")
+    ("A" (elfeed-search-set-filter "@6-months-ago") "All")
+    ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+    ("Q" bjm/elfeed-save-db-and-bury "Quit Elfeed" :color blue)
+    ("q" nil "quit" :color blue))
+
   ;; TODO
   ;; (defhydra hydra-clock-in (:exit t)
   ;;   ""
