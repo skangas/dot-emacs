@@ -483,7 +483,8 @@
   :ensure t
   :pin "melpa"
   :config
-  (elfeed-org))
+  (elfeed-org)
+  (setq rmh-elfeed-org-files '("~/org/misc/elfeed.org")))
 
 (use-package epa-file
   :config
