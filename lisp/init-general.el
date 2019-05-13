@@ -379,11 +379,11 @@
 (use-package elfeed
   :commands elfeed
   :ensure t
+  :bind (:map elfeed-search-mode-map
+              ("h" . elfeed-search-untag-all-unread) ; more ergonomic keybinding
+              ("j" . sk/elfeed-jump/body))
   :config
   (add-hook 'elfeed-show-mode 'visual-line-mode)
-
-  ;; more ergonomic keybinding
-  (define-key elfeed-search-mode-map (kbd "h") 'elfeed-search-untag-all-unread)
 
   (defun skangas-score-elfeed-entry (entry)
     (let ((title (elfeed-entry-title entry))
@@ -395,7 +395,7 @@
       (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
                                     ("Smålejon" -1000) ; Finskt lag
                                     ("Lejonen" -1000)
-                                    ("HIFK" -1000) ; Finskt lag
+                                    ("HIFK" -1000)  ; Finskt lag
                                     ("BK-46" -1000) ; Finskt lag
                                     ("SM-guld" -1000)
                                     ("SM-guldet" -1000)
