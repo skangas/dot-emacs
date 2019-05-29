@@ -44,7 +44,7 @@
  message-send-mail-partially-limit nil  ; Never split emails
  messages-buffer-max-lines (* 16 1024)  ; From 1024
  kill-ring-max 120                      ; Default is 60
- sentence-end "\\.  ?"                  ; Used only by certain modes.
+ ;; sentence-end "\\.  ?"                  ; Used only by certain modes.
  scroll-conservatively most-positive-fixnum ; Always scroll one line at a time
  scroll-preserve-screen-position t          ; Affects Page-up Page-down
  mouse-yank-at-point t                      ; Yank at point, even in X
