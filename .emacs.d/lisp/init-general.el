@@ -49,6 +49,7 @@
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
       lazy-highlight-initial-delay 0.1               ; Seconds to wait before isearch highlights
+      page-delimiter "^\C-l\n"                       ; Fix to give correct line count
 
       ;; choose browser
       browse-url-browser-function 'browse-url-generic
