@@ -86,6 +86,7 @@
                                 ("America/Toronto" "Toronto")
                                 ("Europe/London" "London")
                                 ("Europe/Paris" "Paris")
+                                ("Europe/Stockholm" "Göteborg")
                                 ("Europe/Rome" "Rome")
                                 ("Asia/Karachi" "Karachi")
                                 ("Asia/Shanghai" "Shanghai")
