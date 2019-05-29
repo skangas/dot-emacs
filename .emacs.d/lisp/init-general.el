@@ -81,6 +81,15 @@
                                  (holiday-fixed 1 31 "Nyårsafton"))
       calendar-holidays holiday-swedish-holidays)
 
+(setq display-time-world-list '(("America/Los_Angeles" "Seattle")
+                                ("America/New_York" "New York")
+                                ("America/Toronto" "Toronto")
+                                ("Europe/London" "London")
+                                ("Europe/Paris" "Paris")
+                                ("Europe/Rome" "Rome")
+                                ("Asia/Karachi" "Karachi")
+                                ("Asia/Shanghai" "Shanghai")
+                                ("Asia/Tokyo" "Tokyo")))
 
 (require 'saveplace) ; has to be a require
 (setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
