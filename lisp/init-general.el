@@ -415,6 +415,7 @@
                                     ("proffshockeyn" -1000)
                                     ("ishockeyspelare" -1000)
                                     ("VM-kvaltruppen" -1000)
+                                    ("VM-genrepet" -1000)
                                     ("fotbollsspelaren" -1000)
                                     ("bortaplan" -1000)
                                     ("bortaseger" -1000)
