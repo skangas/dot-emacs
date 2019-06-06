@@ -588,29 +588,28 @@
 (use-package multiple-cursors
   :ensure t)
 
-(use-package openwith ; open files using external helpers
+(use-package openwith                   ; open files using external helpers
   :ensure t
   :pin "melpa"
   :config
   (openwith-mode t)
-  (setq my-video-types '(".asf" ".avi" ".f4v"
-                         ".flv" ".m4a" ".m4v"
-                         ".mkv" ".mov" ".mp4"
-                         ".mpeg" ".mpg" ".ogv"
-                         ".wmv"))
-  (setq my-video-types-regexp (regexp-opt my-video-types))
-  
-  (setq openwith-associations
-        (let ((video-types (concat my-video-types-regexp "\\'")))
-          `((,video-types "mpv" (file))
-            ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
-            ("\\.azw3\\'" "calibre" (file))
-            ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
-            ;; ("\\.mp3\\'" "mplayer" (file))
-            ("\\.pdf\\'" "evince" (file))
-            )))
+  (setq my-video-types
+        (concat (regexp-opt '(".asf" ".avi" ".f4v"
+                              ".flv" ".m4a" ".m4v"
+                              ".mkv" ".mov" ".mp4"
+                              ".mpeg" ".mpg" ".ogv"
+                              ".wmv")) "\\'"))
 
-  ;; Do not warn about big files for openwith files
+  (setq openwith-associations
+        `((,my-video-types "mpv" (file))
+          ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
+          ("\\.azw3\\'" "calibre" (file))
+          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+          ;; ("\\.mp3\\'" "mplayer" (file))
+          ("\\.pdf\\'" "evince" (file))
+          ))
+
+  Do not warn about big files for openwith files
   (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
                                              (size op-type filename))
     (if (and openwith-mode
@@ -621,8 +620,9 @@
         (let ((large-file-warning-threshold nil))
           ad-do-it)
       ad-do-it))
-  (ad-deactivate 'abort-if-file-too-large) 
-  (ad-activate 'abort-if-file-too-large))
+  (ad-deactivate 'abort-if-file-too-large)
+  (ad-activate 'abort-if-file-too-large)
+  )
 
 (use-package powerline
   :ensure t
