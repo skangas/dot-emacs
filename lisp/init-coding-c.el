@@ -8,7 +8,7 @@
   (setq c-file-style "linux"
         c-basic-offset 4
         tab-width 4
-        indent-tabs-mode t
+        indent-tabs-mode nil
         backward-delete-function nil  ; do NOT expand tabs when deleting them
         )
   (setq paragraph-start "[      ]*\\(//+\\|\\**\\)[     ]*$\\|^\f")
