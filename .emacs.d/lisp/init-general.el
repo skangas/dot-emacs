@@ -397,19 +397,19 @@
   (add-hook 'elfeed-show-mode 'visual-line-mode)
 
   ;; Automatically update elfeed when Emacs is not active.
-  (defvar my-elfeed-timer nil)
-  (defun my-elfeed-update ()
-    "Run 'elfeed-update' iff Emacs is not idle."
-    (when (not (current-idle-time))
-      (elfeed-update)))
-  (defun my-elfeed-start-update-timer ()
-    (interactive)
-    (setq my-elfeed-timer (run-at-time (* 15 60) (* 15 60) 'my-elfeed-update)))
-  (defun my-elfeed-stop-update-timer ()
-    (interactive)
-    (when my-elfeed-timer
-      (cancel-timer my-elfeed-timer)))
-  (add-hook 'emacs-startup-hook 'my-elfeed-start-update-timer)
+  ;; (defvar my-elfeed-timer nil)
+  ;; (defun my-elfeed-update ()
+  ;;   "Run 'elfeed-update' iff Emacs is not idle."
+  ;;   (when (not (current-idle-time))
+  ;;     (elfeed-update)))
+  ;; (defun my-elfeed-start-update-timer ()
+  ;;   (interactive)
+  ;;   (setq my-elfeed-timer (run-at-time (* 15 60) (* 15 60) 'my-elfeed-update)))
+  ;; (defun my-elfeed-stop-update-timer ()
+  ;;   (interactive)
+  ;;   (when my-elfeed-timer
+  ;;     (cancel-timer my-elfeed-timer)))
+  ;; (add-hook 'emacs-startup-hook 'my-elfeed-start-update-timer)
 
   (defun skangas-score-elfeed-entry (entry)
     (let ((title (elfeed-entry-title entry))
