@@ -640,6 +640,7 @@
 (use-package ido-completing-read+
   :ensure t
   :config
+  (setq ido-cr+-auto-update-blacklist t) ; use default blacklist for broken commands
   (ido-ubiquitous-mode 1))
 
 (use-package iedit
