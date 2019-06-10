@@ -51,9 +51,15 @@
 ;; Configure use-package
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
 (setq use-package-always-pin "melpa-stable")
+(use-package diminish ; for use-package :diminish
+  :ensure t
+  :init
+  (require 'diminish))
+(use-package bind-key ; for use-package :bind
+  :ensure t
+  :init
+  (require 'bind-key))
 
 ;; Enable theme early
 (use-package zenburn-theme
