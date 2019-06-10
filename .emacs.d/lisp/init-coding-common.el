@@ -82,7 +82,7 @@
 (use-package ws-butler ; Automatically trim whitespace on save.
   :ensure t
   :config
-  (setq ws-butler-convert-leading-tabs-or-spaces t)
+  ;; (setq ws-butler-convert-leading-tabs-or-spaces t)
   (add-hook 'prog-mode-hook #'ws-butler-mode))
 
 (use-package yasnippet
