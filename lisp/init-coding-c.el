@@ -9,6 +9,7 @@
         c-basic-offset 4
         tab-width 4
         indent-tabs-mode t
+        ws-butler-convert-leading-tabs-or-spaces nil
         backward-delete-function nil  ; do NOT expand tabs when deleting them
         )
   (setq paragraph-start "[      ]*\\(//+\\|\\**\\)[     ]*$\\|^\f")
