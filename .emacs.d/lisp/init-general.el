@@ -526,6 +526,12 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
+(use-package eww
+  :config
+  (add-hook 'eww-mode-hook (visual-line-mode))
+  )
+;; eww-mode-hook
+
 (use-package f
   :ensure t)
 
