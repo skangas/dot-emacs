@@ -14,6 +14,10 @@
   (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
 
+(use-package elide-head
+  :config
+  (add-hook 'prog-mode-hook 'elide-head))
+
 (use-package flymake
   :config
   (defun my-flymake-show-next-error ()
