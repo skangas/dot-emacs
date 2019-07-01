@@ -104,6 +104,7 @@
 
 ;; Require my configuration files
 (require 'init-general)
+(require 'init-compat)
 (require 'init-emacs-server)
 (require 'init-keybindings)
 
