@@ -656,6 +656,10 @@
   :pin "melpa"
   :ensure t)
 
+(use-package isearch
+  :config
+  (setq isearch-allow-scroll t))
+
 (use-package midnight ; close inactive buffers
   :config
   (midnight-delay-set 'midnight-delay "06:00")
