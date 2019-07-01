@@ -7,13 +7,13 @@
 
 ;; Various configuration settings
 
-;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
-;;   are enabled by default.
-
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 
 ;; FIXME: add visual line mode to all modes where it makes sense
+
+;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
+;;   are enabled by default.
 
 (unless (eq window-system 'ns)
   (run-if-fboundp (menu-bar-mode -1)))     ; No menu
