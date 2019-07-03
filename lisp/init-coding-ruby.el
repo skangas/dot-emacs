@@ -37,7 +37,9 @@
   :pin "melpa"
   :config
   (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)
-  (global-rinari-mode))
+  ;; ;; Disabled for now to not clutter my minor-modes
+  ;; (global-rinari-mode)
+  )
 
 (use-package robe
   :ensure t
