@@ -556,16 +556,7 @@
         (if (looking-back "/")
             (insert "~/")
           (call-interactively 'self-insert-command)))))
-  (add-hook 'ido-setup-hook 'my-ido-go-straight-home)
-
-  ;; WORKAROUND FOR GNUS BUG
-  ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
-  (add-hook 'ido-before-fallback-functions
-            (lambda (fn)
-              (and (eq fn 'read-file-name)
-                   (> (length ido-text) 0)
-                   (boundp 'initial)
-                   (setq initial nil)))))
+  (add-hook 'ido-setup-hook 'my-ido-go-straight-home))
 
 (use-package ido-completing-read+
   :ensure t
