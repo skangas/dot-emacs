@@ -136,28 +136,6 @@
 ;; (projectile ido-flx)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; gud
-
-;Add color to the current GUD line
-(defvar my-gud-overlay
-  (let* ((ov (make-overlay (point-min) (point-min))))
-    (overlay-put ov 'face 'secondary-selection)
-    ov)
-  "Overlay variable for GUD highlighting.")
-(defadvice gud-display-line (after my-gud-highlight act)
-  "Highlight current line."
-  (let* ((ov my-gud-overlay)
-         (bf (gud-find-file (ad-get-arg 0))))
-    (save-excursion
-      (set-buffer bf)
-      (move-overlay ov (line-beginning-position) (line-beginning-position 2)
-                    (current-buffer)))))
-(defun my-gud-kill-buffer ()
-  (if (eq major-mode 'gud-mode)
-      (delete-overlay my-gud-overlay)))
-(add-hook 'kill-buffer-hook 'my-gud-kill-buffer)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; compile command
 
 (setq compile-command "make -k -j5 ")
