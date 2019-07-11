@@ -58,6 +58,10 @@
                            " -- %F"
                            (:eval (format " [%s]" mode-name))))
 
+;; Make Emacs less sluggish on long lines
+;; https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
+(setq-default bidi-display-reordering nil)
+
 (setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
               indent-tabs-mode nil                   ; Always indent using spaces, never tabs
               indicate-empty-lines t                 ; Show empty lines at end of file
