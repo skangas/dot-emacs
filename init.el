@@ -63,7 +63,10 @@
 
 ;; Enable theme early
 (use-package zenburn-theme
-  :ensure t)
+  :ensure t
+  :config
+  (when (version< "27" emacs-version)
+    (load-theme 'zenburn)))
 
 ;; Enable auto-compile
 (use-package auto-compile
