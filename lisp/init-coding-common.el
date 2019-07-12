@@ -1,11 +1,17 @@
 ;;; General coding
 
-(use-package auto-complete
+;; TRYING OUT COMPANY INSTEAD
+;; (use-package auto-complete
+;;   :ensure t
+;;   :defer 30
+;;   :config
+;;   (ac-config-default)
+;;   (setq ac-quick-help-delay 2.0))
+
+(use-package company
   :ensure t
-  :defer 30
-  :config
-  (ac-config-default)
-  (setq ac-quick-help-delay 1.0))
+  :pin "gnu"
+  )
 
 (use-package diff-hl
   :ensure t
@@ -29,10 +35,13 @@
 
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-c g" . magit-dispatch))
+  :config
+  (setq magit-diff-refine-hunk 'all))
 
 (use-package markdown-mode
   :ensure t
+  :defer 300 ; I rarely use this
   :mode ("\\.md\\'" . gfm-mode))
 
 (use-package paredit

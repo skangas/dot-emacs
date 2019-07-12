@@ -293,12 +293,14 @@
     '(diminish 'auto-dim-other-buffers-mode ""))
   (diminish 'abbrev-mode "Ab")
   (diminish 'eldoc-mode " Doc")
+  (eval-after-load "anzu"
+    '(diminish 'anzu-mode ""))
   (eval-after-load "company"
     '(diminish 'company-mode "Cmp"))
   (eval-after-load 'enh-ruby-mode
     '(diminish 'enh-ruby-mode "Ruby"))
   (eval-after-load 'paredit
-    '(diminish 'paredit-mode "ParEd"))
+    '(diminish 'paredit-mode "PE"))
   (eval-after-load 'minitest
     '(diminish 'minitest-mode "MT"))
   (eval-after-load 'robe
@@ -525,8 +527,8 @@
 
 (use-package ido
   :config
-  (ido-mode 1)
-  (ido-everywhere 1)
+  (ido-mode 0)
+  (ido-everywhere 0)
 
   (setq ido-enable-flex-matching t
         ido-use-filename-at-point 'guess
