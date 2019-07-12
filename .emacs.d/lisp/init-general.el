@@ -2,14 +2,7 @@
 
 (require 'ansi-color)
 
-;; Change all yes or no prompt to y or n prompts
-(fset 'yes-or-no-p 'y-or-n-p)
-
 ;; Various configuration settings
-
-;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
-;;   are enabled by default.
-
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 
@@ -19,15 +12,14 @@
   (run-if-fboundp (menu-bar-mode -1)))     ; No menu
 (run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
 (run-if-fboundp (tool-bar-mode -1))        ; No toolbar
-(run-if-fboundp (mwheel-install))          ; Enable mousewheel
-
-(run-if-fboundp (global-font-lock-mode t)) ; Syntax hi-lighting
+(run-if-fboundp (mouse-wheel-mode 1))      ; Enable mousewheel
 (run-if-fboundp (column-number-mode 1))    ; Show column number
 (run-if-fboundp (line-number-mode 1))      ; Show line number
-
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
-(run-if-fboundp (auto-compression-mode 1)) ; Automatically read/write compressed files
-(run-if-fboundp (display-time-mode 1))
+;; (run-if-fboundp (display-time-mode 1))
+
+;; Change all yes or no prompt to y or n prompts
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Increase min bits to 2048
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
@@ -35,20 +27,24 @@
 
 (setq
  user-full-name "Stefan Kangas"
+ user-mail-address "stefankangas@gmail.com"
  inhibit-startup-message t              ; No startup message
  visible-bell t                         ; No audible bell
- display-time-24hr-format t             ; Show 24hr clock when it's shown
- bookmark-save-flag 1                   ; Save bookmarks immediately when added
- require-final-newline t                ; Make sure text files end in a newline
- Man-width 80                           ; Limit man to 80 character width
- message-send-mail-partially-limit nil  ; Never split emails
- messages-buffer-max-lines (* 16 1024)  ; From 1024
  kill-ring-max 120                      ; Default is 60
- ;; sentence-end "\\.  ?"                  ; Used only by certain modes.
+ messages-buffer-max-lines (* 8 1024)   ; Default is 1024
+ Man-width 80                           ; Limit man to 80 character width
+ bookmark-save-flag 1                   ; Save bookmarks immediately when added
+ display-time-24hr-format t             ; Show 24hr clock when it's shown
+ mouse-yank-at-point t                  ; Yank at point, even in X
+ require-final-newline t                ; Make sure text files end in a newline
+ message-send-mail-partially-limit nil  ; Never split emails
+
  scroll-conservatively most-positive-fixnum ; Always scroll one line at a time
  scroll-preserve-screen-position t          ; Affects Page-up Page-down
- mouse-yank-at-point t                      ; Yank at point, even in X
- lazy-highlight-initial-delay 0.1    ; Seconds to wait before isearch highlights
+
+ ;; sentence-end "\\.  ?"                  ; Used only by certain modes.
+
+ lazy-highlight-initial-delay 0.15    ; Seconds to wait before isearch highlights
 
  ;; choose browser
  browse-url-browser-function 'browse-url-generic
@@ -74,7 +70,7 @@
  )
 
 (setq-default
- fill-column 80                      ;; note to self: use M-q and C-u 78 C-x f
+ fill-column 80                      ; note to self: use M-q and C-u 78 C-x f
  indent-tabs-mode nil                ; Always indent using spaces, never tabs
  indicate-empty-lines t              ; Show empty lines at end of file
  indicate-buffer-boundaries 'left    ; Show markers indicating buffer limits
@@ -115,8 +111,7 @@
       kept-new-versions 1024
       delete-old-versions t
       backup-by-copying t       ; don't clobber symlinks
-      backup-directory-alist
-      '(("." . "~/.emacs.d/cache/saves")))    ; don't litter my fs tree
+      backup-directory-alist '(("." . "~/.emacs.d/cache/saves")))    ; don't litter
 
 ;; Delete old and big backup files that just wastes space
 (let ((bak-dir (expand-file-name "~/.emacs.d/cache/saves")))
@@ -191,13 +186,11 @@
   ;; Kill the current (*scratch*) buffer
   (remove-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
   (kill-buffer (current-buffer))
-
   ;; Make a brand new *scratch* buffer
   (set-buffer (get-buffer-create "*scratch*"))
   (lisp-interaction-mode)
   (make-local-variable 'kill-buffer-query-functions)
   (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
-
   ;; Since we killed it, don't let caller do that.
   nil)
 
@@ -217,6 +210,12 @@
 					(split-window-horizontally arg)
 				      (split-window-vertically arg))))
 
+;; FIXME: Move this somewhere else.
+(progn
+  ;; I can never remember the correct name for this.  So whatever.
+  (defalias 'toolbar-mode 'tool-bar-mode))
+
+
 ;;;; packages
 
 (use-package abbrev
