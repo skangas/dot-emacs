@@ -66,7 +66,7 @@
   :ensure t
   :config
   (when (version< "27" emacs-version)
-    (load-theme 'zenburn)))
+    (load-theme 'zenburn t)))
 
 ;; Enable auto-compile
 (use-package auto-compile
