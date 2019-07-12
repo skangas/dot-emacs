@@ -17,15 +17,14 @@
              #'my-lower-gc-cons-threshold)
             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
 
-;; Get this over with. Has to be a require.
-(require 'cl)
+;; ‘load’ prefers the newest version of a file.
+(setq load-prefer-newer t)
 
 ;; Package
 (require 'package)
 (package-initialize)
 ;; Uncomment this if we have any problems with not finding packages:
 ;; (package-refresh-contents)
-(setq load-prefer-newer t)
 
 ;; Configure ELPA
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
