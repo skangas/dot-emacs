@@ -7,6 +7,11 @@
   (ac-config-default)
   (setq ac-quick-help-delay 1.0))
 
+(use-package debbugs
+  :ensure t
+  :config
+  (setq debbugs-gnu-trunk-directory "~/wip/emacs"))
+
 (use-package diff-hl
   :ensure t
   :config
