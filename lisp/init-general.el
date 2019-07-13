@@ -321,11 +321,11 @@
     (dolist (from (dired-get-marked-files))
       (copy-file from "/home/skangas/red"))
     (revert-buffer))
-  (require 'dired-x) ; require immediately to provide C-x C-j
+  (require 'dired-x)                   ; require immediately to provide C-x C-j
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
-        dired-isearch-filenames 'dwim  ; Search filenames only
-        dired-auto-revert-buffer t)    ; Revert dired on visit
+        dired-isearch-filenames 'dwim) ; Search filenames only
+  (setq dired-auto-revert-buffer t)    ; Revert dired buffer on visit
   ;; Toggle showing dot-files using "."
   (define-minor-mode dired-hide-dotfiles-mode
     ""
@@ -353,23 +353,23 @@
       (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))))
 
   ;; (defun diredext-exec-git-command-in-shell (command &optional arg file-list)
-;;   "Run a shell command 
-;; git COMMAND
-;; ' on the marked files.
-;; if no files marked, always operate on current line in dired-mode
-;; "
-;;   (interactive
-;;    (let ((files (dired-get-marked-files t current-prefix-arg)))
-;;      (list
-;;       ;; Want to give feedback whether this file or marked files are used:
-;;       (dired-read-shell-command "git command on %s: " current-prefix-arg files)
-;;       current-prefix-arg
-;;       files)))
-;;   (unless (string-match "[?][ \t]\'" command)
-;;     (setq command (concat command " *")))
-;;   (setq command (concat "git " command))
-;;   (dired-do-shell-command command arg file-list)
-;;   (message command))
+  ;;   "Run a shell command
+  ;; git COMMAND
+  ;; ' on the marked files.
+  ;; if no files marked, always operate on current line in dired-mode
+  ;; "
+  ;;   (interactive
+  ;;    (let ((files (dired-get-marked-files t current-prefix-arg)))
+  ;;      (list
+  ;;       ;; Want to give feedback whether this file or marked files are used:
+  ;;       (dired-read-shell-command "git command on %s: " current-prefix-arg files)
+  ;;       current-prefix-arg
+  ;;       files)))
+  ;;   (unless (string-match "[?][ \t]\'" command)
+  ;;     (setq command (concat command " *")))
+  ;;   (setq command (concat "git " command))
+  ;;   (dired-do-shell-command command arg file-list)
+  ;;   (message command))
   ;; (eval-after-load 'dired '(define-key dired-mode-map "/" 'diredext-exec-git-command-in-shell))
   
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
@@ -520,10 +520,6 @@
               (ibuffer-switch-to-saved-filter-groups "default")))
   (setq ibuffer-show-empty-filter-groups nil)
   (setq ibuffer-expert t))
-
-(use-package icomplete
-  :config
-  (icomplete-mode 1))
 
 (use-package ido
   :config
