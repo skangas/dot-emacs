@@ -555,11 +555,20 @@
           (call-interactively 'self-insert-command)))))
   (add-hook 'ido-setup-hook 'my-ido-go-straight-home))
 
-(use-package ido-completing-read+
+;; ;; Disabled.  It is slow and sometimes broken.
+;; (use-package ido-completing-read+
+;;   :ensure t
+;;   :config
+;;   (ido-ubiquitous-mode 1)
+;;   (setq ido-cr+-auto-update-blacklist t))
+
+(use-package ivy
   :ensure t
+  :pin "gnu"
   :config
-  (ido-ubiquitous-mode 1)
-  (setq ido-cr+-auto-update-blacklist t))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) "))
 
 (use-package iedit
   :ensure t)
