@@ -562,6 +562,11 @@
 ;;   (ido-ubiquitous-mode 1)
 ;;   (setq ido-cr+-auto-update-blacklist t))
 
+;; mostly for ivy
+(use-package flx
+  :ensure t
+  :pin "melpa-stable")
+
 (use-package ivy
   :ensure t
   :pin "gnu"
