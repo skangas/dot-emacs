@@ -648,6 +648,23 @@
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)))
 
+(use-package tramp
+  :config
+  ;; (setq tramp-default-method "ssh")
+
+  ;; (set-default 'tramp-default-proxies-alist
+  ;;              '((".*" "\\`root\\'" "/ssh:%h:")))
+
+  ;; don't backup files edited in tramp using sudo or su -- we don't want to
+  ;; spread secret root files around.
+  (setq backup-enable-predicate
+        (lambda (name)
+          (and (normal-backup-enable-predicate name)
+               (not
+                (let ((method (file-remote-p name 'method)))
+                  (when (stringp method)
+                    (member method '("su" "sudo")))))))))
+
 (use-package undo-tree
   :pin "gnu"
   :ensure t)
