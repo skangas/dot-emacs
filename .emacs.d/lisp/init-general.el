@@ -3,10 +3,6 @@
 (require 'ansi-color)
 
 ;; Various configuration settings
-<<<<<<< HEAD
-
-=======
->>>>>>> 4e855fd85ec33c4cc644489a09022ac9923009d2
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 
@@ -32,8 +28,8 @@
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
-<<<<<<< HEAD
 (setq user-full-name "Stefan Kangas"
+      user-mail-address "stefankangas@gmail.com"
       inhibit-startup-message t                      ; No startup message
       visible-bell t                                 ; No audible bell
       display-time-24hr-format t                     ; Show 24hr clock when it's shown
@@ -43,12 +39,11 @@
       message-send-mail-partially-limit nil          ; Never split emails
       messages-buffer-max-lines (* 16 1024)          ; From 1024
       kill-ring-max 120                              ; Default is 60
-      calendar-week-start-day 1                      ; Start week on Monday
       sentence-end "\\.  ?"                          ; Used only by certain modes.
       scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
-      lazy-highlight-initial-delay 0.1               ; Seconds to wait before isearch highlights
+      lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
       page-delimiter "^\C-l\n"                       ; Fix to give correct line count
 
       ;; choose browser
@@ -56,27 +51,33 @@
       browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
       frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
-                           (:eval (format " [%s]" mode-name))))
+                           (:eval (format " [%s]" mode-name)))
 
-;; Make Emacs less sluggish on long lines
-;; https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
-(setq-default bidi-display-reordering nil)
+      ;; calendar
+      calendar-week-start-day 1              ; Start week on Monday
+      calendar-date-style 'european          ; Use European calendar
+
+      ;; holidays
+      calendar-mark-holidays-flag t
+ calendar-holidays nil
+ holiday-bahai-holidays nil
+ holiday-christian-holidays nil
+ holiday-dragon-holidays nil
+ holiday-general-holidays nil
+ holiday-hebrew-holidays nil
+ holiday-islamic-holidays nil
+ holiday-solar-holidays nil
+
+      )
+
+;; (setq-default bidi-display-reordering nil)
 
 (setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
               indent-tabs-mode nil                   ; Always indent using spaces, never tabs
               indicate-empty-lines t                 ; Show empty lines at end of file
               indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
 
-(setq calendar-mark-holidays-flag t
-      calendar-holidays nil
-      holiday-bahai-holidays nil
-      holiday-christian-holidays nil
-      holiday-dragon-holidays nil
-      holiday-general-holidays nil
-      holiday-hebrew-holidays nil
-      holiday-islamic-holidays nil
-      holiday-solar-holidays nil
-      holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
+(setq holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
                                  (holiday-fixed 1 6 "Trettondedag jul")
                                  (holiday-fixed 5 1 "Första maj")
                                  (holiday-fixed 6 1 "Sveriges nationaldag")
@@ -95,61 +96,9 @@
                                 ("Asia/Karachi" "Karachi")
                                 ("Asia/Shanghai" "Shanghai")
                                 ("Asia/Tokyo" "Tokyo")))
-=======
-(setq
- user-full-name "Stefan Kangas"
- user-mail-address "stefankangas@gmail.com"
- inhibit-startup-message t              ; No startup message
- visible-bell t                         ; No audible bell
- kill-ring-max 120                      ; Default is 60
- messages-buffer-max-lines (* 8 1024)   ; Default is 1024
- Man-width 80                           ; Limit man to 80 character width
- bookmark-save-flag 1                   ; Save bookmarks immediately when added
- display-time-24hr-format t             ; Show 24hr clock when it's shown
- mouse-yank-at-point t                  ; Yank at point, even in X
- require-final-newline t                ; Make sure text files end in a newline
- message-send-mail-partially-limit nil  ; Never split emails
-
- scroll-conservatively most-positive-fixnum ; Always scroll one line at a time
- scroll-preserve-screen-position t          ; Affects Page-up Page-down
-
- ;; sentence-end "\\.  ?"                  ; Used only by certain modes.
-
- lazy-highlight-initial-delay 0.15    ; Seconds to wait before isearch highlights
-
- ;; choose browser
- browse-url-browser-function 'browse-url-generic
- browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
- frame-title-format '((buffer-file-name "%f" "%b")
-                      " -- %F"
-                      (:eval (format " [%s]" mode-name)))
-
- ;; calendar
- calendar-week-start-day 1              ; Start week on Monday
- calendar-date-style 'european          ; Use European calendar
-
- ;; holidays
- calendar-mark-holidays-flag t
- calendar-holidays nil
- holiday-bahai-holidays nil
- holiday-christian-holidays nil
- holiday-dragon-holidays nil
- holiday-general-holidays nil
- holiday-hebrew-holidays nil
- holiday-islamic-holidays nil
- holiday-solar-holidays nil
- )
-
-(setq-default
- fill-column 80                      ; note to self: use M-q and C-u 78 C-x f
- indent-tabs-mode nil                ; Always indent using spaces, never tabs
- indicate-empty-lines t              ; Show empty lines at end of file
- indicate-buffer-boundaries 'left    ; Show markers indicating buffer limits
- )
 
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
->>>>>>> 4e855fd85ec33c4cc644489a09022ac9923009d2
 
 (require 'saveplace) ; has to be a require
 (setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
@@ -714,14 +663,9 @@
   :ensure t
   :pin "gnu"
   :config
-<<<<<<< HEAD
-  (setq ido-cr+-auto-update-blacklist t) ; use default blacklist for broken commands
-  (ido-ubiquitous-mode 1))
-=======
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) "))
->>>>>>> 4e855fd85ec33c4cc644489a09022ac9923009d2
 
 (use-package iedit
   :ensure t)
