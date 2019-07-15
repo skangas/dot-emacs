@@ -201,6 +201,7 @@ kill it (unless it's modified)."
 ;; (global-set-key (kbd "C-x f") 'djcb-find-file-as-root)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
+
 ;; OK, Steve Yegge, I'll give it a try
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
