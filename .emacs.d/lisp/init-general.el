@@ -548,6 +548,10 @@
 (use-package f
   :ensure t)
 
+(use-package flx                        ; mostly needed for ivy completion
+  :ensure t
+  :pin "melpa-stable")
+
 (use-package google-translate
   :ensure t
   :bind (("C-c t" . google-translate-at-point)
@@ -653,11 +657,6 @@
 ;;   :config
 ;;   (ido-ubiquitous-mode 1)
 ;;   (setq ido-cr+-auto-update-blacklist t))
-
-;; mostly for ivy
-(use-package flx
-  :ensure t
-  :pin "melpa-stable")
 
 (use-package ivy
   :ensure t
