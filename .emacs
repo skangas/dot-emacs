@@ -3,9 +3,6 @@
 ;; ~skangas/.emacs
 ;;
 
-;; Log .emacs start time
-(defconst *emacs-start-time* (current-time))
-
 ;; Temporarily raise garbage collection limit for initialization
 (setq gc-cons-threshold (* 1024 1024 1024))
 (defun my-lower-gc-cons-threshold ()
@@ -20,19 +17,20 @@
              #'my-lower-gc-cons-threshold)
             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
 
-;; Get this over with. Has to be a require.
-(require 'cl)
+;; ‘load’ prefers the newest version of a file.
+(setq load-prefer-newer t)
 
 ;; Package
 (require 'package)
 (package-initialize)
 ;; Uncomment this if we have any problems with not finding packages:
 ;; (package-refresh-contents)
-(setq load-prefer-newer t)
 
 ;; Configure ELPA
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;; Add local elisp directories
@@ -79,7 +77,7 @@
   (setq auto-compile-mode-line-counter t))
 
 ;; Various configuration
-(setq message-log-max 1024) ;; do this first
+(setq message-log-max (* 8 1024)) ;; do this first
 (setq max-specpdl-size 15600)
 (setq max-lisp-eval-depth 9000)
 
@@ -87,6 +85,14 @@
 (setq ns-command-modifier 'meta)
 (setq ns-option-modifier 'super)
 (setq ns-right-alternate-modifier 'none)             ; use right alt for special characters
+
+;; Workaround for broken visual bell on OSX El Capitain
+(when (eq system-type 'darwin)
+  (setq visible-bell nil)
+  (setq ring-bell-function
+        (lambda ()
+          (invert-face 'mode-line)
+          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
 
 ;; Fix path for MacOSX
 (when (memq window-system '(mac ns))  
@@ -134,6 +140,8 @@
 (require 'init-coding-ruby)
 (require 'init-coding-scheme)
 
+;;(require 'init-mentor)
+
 (require 'init-desktop)
 (require 'init-hydra)
 
@@ -170,25 +178,12 @@
 (setq custom-file "~/.emacs.d/lisp/init-custom-file.el")
 (load custom-file 'noerror)
 
-;; Workaround for broken visual bell on OSX El Capitain
-(when (eq system-type 'darwin)
-  (setq visible-bell nil)
-  (setq ring-bell-function
-        (lambda ()
-          (invert-face 'mode-line)
-          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
-
 ;; Show current version in *scratch* buffer (this needs to be last to be on top)
 ;; and echo .emacs load time
 (add-hook 'after-init-hook
           (lambda ()
-            (insert (concat ";; " (substring (emacs-version) 0 14) ".    "))
+            (insert (concat ";; " (substring (emacs-version) 0 14)))
             (when (not noninteractive)
-              (insert (format
-                       " -- .emacs loaded in %d.2s\n"
-                       (destructuring-bind (hi lo ms ps) (current-time)
-                         (- (+ hi lo) (+ (first *emacs-start-time*)
-                                         (second *emacs-start-time*)))))))
+              (insert (format " loaded in %s\n" (emacs-init-time))))
             (newline-and-indent)  (newline-and-indent)))
-
-
+(put 'narrow-to-page 'disabled nil)

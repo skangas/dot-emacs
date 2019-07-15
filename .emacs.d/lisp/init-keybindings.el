@@ -174,9 +174,11 @@ kill it (unless it's modified)."
 (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
 (global-set-key (kbd "C-c e i") 'my-eval-and-replace)
 (global-set-key (kbd "C-c e l") 'my-goto-buffer-messages)
+(global-set-key (kbd "C-c e n") 'nameless-mode)
 (global-set-key (kbd "C-c e r") 'eval-region)
 (global-set-key (kbd "C-c e s") 'scratch)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
+(global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
 
 (global-set-key (kbd "C-<f3>") 'w3m-goto-url-new-session)
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)

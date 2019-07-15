@@ -2,11 +2,11 @@
 
 (require 'ansi-color)
 
-;; Change all yes or no prompt to y or n prompts
-(fset 'yes-or-no-p 'y-or-n-p)
-
 ;; Various configuration settings
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4e855fd85ec33c4cc644489a09022ac9923009d2
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 
@@ -19,20 +19,20 @@
   (run-if-fboundp (menu-bar-mode -1)))     ; No menu
 (run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
 (run-if-fboundp (tool-bar-mode -1))        ; No toolbar
-(run-if-fboundp (mwheel-install))          ; Enable mousewheel
-
-(run-if-fboundp (global-font-lock-mode t)) ; Syntax hi-lighting
+(run-if-fboundp (mouse-wheel-mode 1))      ; Enable mousewheel
 (run-if-fboundp (column-number-mode 1))    ; Show column number
 (run-if-fboundp (line-number-mode 1))      ; Show line number
-
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
-(run-if-fboundp (auto-compression-mode 1)) ; Automatically read/write compressed files
-(run-if-fboundp (display-time-mode 1))
+;; (run-if-fboundp (display-time-mode 1))
+
+;; Change all yes or no prompt to y or n prompts
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Increase min bits to 2048
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
+<<<<<<< HEAD
 (setq user-full-name "Stefan Kangas"
       inhibit-startup-message t                      ; No startup message
       visible-bell t                                 ; No audible bell
@@ -95,6 +95,61 @@
                                 ("Asia/Karachi" "Karachi")
                                 ("Asia/Shanghai" "Shanghai")
                                 ("Asia/Tokyo" "Tokyo")))
+=======
+(setq
+ user-full-name "Stefan Kangas"
+ user-mail-address "stefankangas@gmail.com"
+ inhibit-startup-message t              ; No startup message
+ visible-bell t                         ; No audible bell
+ kill-ring-max 120                      ; Default is 60
+ messages-buffer-max-lines (* 8 1024)   ; Default is 1024
+ Man-width 80                           ; Limit man to 80 character width
+ bookmark-save-flag 1                   ; Save bookmarks immediately when added
+ display-time-24hr-format t             ; Show 24hr clock when it's shown
+ mouse-yank-at-point t                  ; Yank at point, even in X
+ require-final-newline t                ; Make sure text files end in a newline
+ message-send-mail-partially-limit nil  ; Never split emails
+
+ scroll-conservatively most-positive-fixnum ; Always scroll one line at a time
+ scroll-preserve-screen-position t          ; Affects Page-up Page-down
+
+ ;; sentence-end "\\.  ?"                  ; Used only by certain modes.
+
+ lazy-highlight-initial-delay 0.15    ; Seconds to wait before isearch highlights
+
+ ;; choose browser
+ browse-url-browser-function 'browse-url-generic
+ browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
+ frame-title-format '((buffer-file-name "%f" "%b")
+                      " -- %F"
+                      (:eval (format " [%s]" mode-name)))
+
+ ;; calendar
+ calendar-week-start-day 1              ; Start week on Monday
+ calendar-date-style 'european          ; Use European calendar
+
+ ;; holidays
+ calendar-mark-holidays-flag t
+ calendar-holidays nil
+ holiday-bahai-holidays nil
+ holiday-christian-holidays nil
+ holiday-dragon-holidays nil
+ holiday-general-holidays nil
+ holiday-hebrew-holidays nil
+ holiday-islamic-holidays nil
+ holiday-solar-holidays nil
+ )
+
+(setq-default
+ fill-column 80                      ; note to self: use M-q and C-u 78 C-x f
+ indent-tabs-mode nil                ; Always indent using spaces, never tabs
+ indicate-empty-lines t              ; Show empty lines at end of file
+ indicate-buffer-boundaries 'left    ; Show markers indicating buffer limits
+ )
+
+(setq sv-hide-some-holidays t)
+(require 'sv-kalender)
+>>>>>>> 4e855fd85ec33c4cc644489a09022ac9923009d2
 
 (require 'saveplace) ; has to be a require
 (setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
@@ -128,8 +183,7 @@
       kept-new-versions 1024
       delete-old-versions t
       backup-by-copying t       ; don't clobber symlinks
-      backup-directory-alist
-      '(("." . "~/.emacs.d/cache/saves")))    ; don't litter my fs tree
+      backup-directory-alist '(("." . "~/.emacs.d/cache/saves")))    ; don't litter
 
 ;; Delete old and big backup files that just wastes space
 (let ((bak-dir (expand-file-name "~/.emacs.d/cache/saves")))
@@ -139,9 +193,9 @@
                    "*Messages*" "find" bak-dir "-size" "+1M" "-mtime" "+90" "-delete")))
 
 ;; Change cursor color depending on context (EmacsNiftyTricks)
-(setq hcz-set-cursor-color-color "")
-(setq hcz-set-cursor-color-buffer "")
-(defun hcz-set-cursor-color-according-to-mode ()
+(setq my/set-cursor-color-color "")
+(setq my/set-cursor-color-buffer "")
+(defun my/set-cursor-color-according-to-mode ()
   "change cursor color according to some minor modes."
   ;; set-cursor-color is somewhat costly, so we only call it when needed:
   (let ((color
@@ -149,11 +203,11 @@
            (if overwrite-mode "#000000"
              "#FF0000"))))
     (unless (and
-             (string= color hcz-set-cursor-color-color)
-             (string= (buffer-name) hcz-set-cursor-color-buffer))
-      (set-cursor-color (setq hcz-set-cursor-color-color color))
-      (setq hcz-set-cursor-color-buffer (buffer-name)))))
-(add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
+             (string= color my/set-cursor-color-color)
+             (string= (buffer-name) my/set-cursor-color-buffer))
+      (set-cursor-color (setq my/set-cursor-color-color color))
+      (setq my/set-cursor-color-buffer (buffer-name)))))
+(add-hook 'post-command-hook 'my/set-cursor-color-according-to-mode)
 
 ;; Confirm on exit
 (defun confirm-exit-emacs ()
@@ -204,13 +258,11 @@
   ;; Kill the current (*scratch*) buffer
   (remove-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
   (kill-buffer (current-buffer))
-
   ;; Make a brand new *scratch* buffer
   (set-buffer (get-buffer-create "*scratch*"))
   (lisp-interaction-mode)
   (make-local-variable 'kill-buffer-query-functions)
   (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
-
   ;; Since we killed it, don't let caller do that.
   nil)
 
@@ -220,7 +272,7 @@
     (setq buffer-read-only t)
     (buffer-disable-undo)
     (fundamental-mode)
-    ; (message "Buffer is set to read-only because it is large.  Undo also disabled.")
+    (message "Buffer is set to read-only because it is large.  Undo also disabled.")
     ))
 (add-hook 'find-file-hook 'my-find-file-check-make-large-file-read-only-hook)
 
@@ -230,6 +282,12 @@
 					(split-window-horizontally arg)
 				      (split-window-vertically arg))))
 
+;; FIXME: Move this somewhere else.
+(progn
+  ;; I can never remember the correct name for this.  So whatever.
+  (defalias 'toolbar-mode 'tool-bar-mode))
+
+
 ;;;; packages
 
 (use-package abbrev
@@ -307,12 +365,14 @@
     '(diminish 'auto-dim-other-buffers-mode ""))
   (diminish 'abbrev-mode "Ab")
   (diminish 'eldoc-mode " Doc")
+  (eval-after-load "anzu"
+    '(diminish 'anzu-mode ""))
   (eval-after-load "company"
     '(diminish 'company-mode "Cmp"))
   (eval-after-load 'enh-ruby-mode
     '(diminish 'enh-ruby-mode "Ruby"))
   (eval-after-load 'paredit
-    '(diminish 'paredit-mode "ParEd"))
+    '(diminish 'paredit-mode "PE"))
   (eval-after-load 'minitest
     '(diminish 'minitest-mode "MT"))
   (eval-after-load 'robe
@@ -333,11 +393,11 @@
     (dolist (from (dired-get-marked-files))
       (copy-file from "/home/skangas/red"))
     (revert-buffer))
-  (require 'dired-x) ; require immediately to provide C-x C-j
+  (require 'dired-x)                   ; require immediately to provide C-x C-j
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
-        dired-isearch-filenames 'dwim  ; Search filenames only
-        dired-auto-revert-buffer t)    ; Revert dired on visit
+        dired-isearch-filenames 'dwim) ; Search filenames only
+  (setq dired-auto-revert-buffer t)    ; Revert dired buffer on visit
   ;; Toggle showing dot-files using "."
   (define-minor-mode dired-hide-dotfiles-mode
     ""
@@ -365,23 +425,23 @@
       (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))))
 
   ;; (defun diredext-exec-git-command-in-shell (command &optional arg file-list)
-;;   "Run a shell command 
-;; git COMMAND
-;; ' on the marked files.
-;; if no files marked, always operate on current line in dired-mode
-;; "
-;;   (interactive
-;;    (let ((files (dired-get-marked-files t current-prefix-arg)))
-;;      (list
-;;       ;; Want to give feedback whether this file or marked files are used:
-;;       (dired-read-shell-command "git command on %s: " current-prefix-arg files)
-;;       current-prefix-arg
-;;       files)))
-;;   (unless (string-match "[?][ \t]\'" command)
-;;     (setq command (concat command " *")))
-;;   (setq command (concat "git " command))
-;;   (dired-do-shell-command command arg file-list)
-;;   (message command))
+  ;;   "Run a shell command
+  ;; git COMMAND
+  ;; ' on the marked files.
+  ;; if no files marked, always operate on current line in dired-mode
+  ;; "
+  ;;   (interactive
+  ;;    (let ((files (dired-get-marked-files t current-prefix-arg)))
+  ;;      (list
+  ;;       ;; Want to give feedback whether this file or marked files are used:
+  ;;       (dired-read-shell-command "git command on %s: " current-prefix-arg files)
+  ;;       current-prefix-arg
+  ;;       files)))
+  ;;   (unless (string-match "[?][ \t]\'" command)
+  ;;     (setq command (concat command " *")))
+  ;;   (setq command (concat "git " command))
+  ;;   (dired-do-shell-command command arg file-list)
+  ;;   (message command))
   ;; (eval-after-load 'dired '(define-key dired-mode-map "/" 'diredext-exec-git-command-in-shell))
   
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
@@ -609,8 +669,8 @@
 
 (use-package ido
   :config
-  (ido-mode 1)
-  (ido-everywhere 1)
+  (ido-mode 0)
+  (ido-everywhere 0)
 
   (setq ido-enable-flex-matching t
         ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
@@ -636,22 +696,32 @@
         (if (looking-back "/")
             (insert "~/")
           (call-interactively 'self-insert-command)))))
-  (add-hook 'ido-setup-hook 'my-ido-go-straight-home)
+  (add-hook 'ido-setup-hook 'my-ido-go-straight-home))
 
-  ;; WORKAROUND FOR GNUS BUG
-  ;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-01/msg00613.html
-  (add-hook 'ido-before-fallback-functions
-            (lambda (fn)
-              (and (eq fn 'read-file-name)
-                   (> (length ido-text) 0)
-                   (boundp 'initial)
-                   (setq initial nil)))))
+;; ;; Disabled.  It is slow and sometimes broken.
+;; (use-package ido-completing-read+
+;;   :ensure t
+;;   :config
+;;   (ido-ubiquitous-mode 1)
+;;   (setq ido-cr+-auto-update-blacklist t))
 
-(use-package ido-completing-read+
+;; mostly for ivy
+(use-package flx
   :ensure t
+  :pin "melpa-stable")
+
+(use-package ivy
+  :ensure t
+  :pin "gnu"
   :config
+<<<<<<< HEAD
   (setq ido-cr+-auto-update-blacklist t) ; use default blacklist for broken commands
   (ido-ubiquitous-mode 1))
+=======
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) "))
+>>>>>>> 4e855fd85ec33c4cc644489a09022ac9923009d2
 
 (use-package iedit
   :ensure t)
@@ -677,22 +747,21 @@
   :pin "melpa"
   :config
   (openwith-mode t)
-  (setq my-video-types '(".asf" ".avi" ".f4v"
-                         ".flv" ".m4a" ".m4v"
-                         ".mkv" ".mov" ".mp4"
-                         ".mpeg" ".mpg" ".ogv"
-                         ".wmv"))
-  (setq my-video-types-regexp (regexp-opt my-video-types))
-  
+  (setq my-video-types
+        (concat (regexp-opt '(".asf" ".avi" ".f4v"
+                              ".flv" ".m4a" ".m4v"
+                              ".mkv" ".mov" ".mp4"
+                              ".mpeg" ".mpg" ".ogv"
+                              ".wmv")) "\\'"))
+
   (setq openwith-associations
-        (let ((video-types (concat my-video-types-regexp "\\'")))
-          `((,video-types "mpv" (file))
-            ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
-            ("\\.azw3\\'" "calibre" (file))
-            ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
-            ;; ("\\.mp3\\'" "mplayer" (file))
-            ("\\.pdf\\'" "evince" (file))
-            )))
+        `((,my-video-types "mpv" (file))
+          ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
+          ("\\.azw3\\'" "calibre" (file))
+          ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
+          ;; ("\\.mp3\\'" "mplayer" (file))
+          ("\\.pdf\\'" "evince" (file))
+          ))
 
   (when (version< emacs-version "27")
     ;; Do not warn about big files for openwith files
@@ -730,6 +799,23 @@
   :ensure t
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)))
+
+(use-package tramp
+  :config
+  ;; (setq tramp-default-method "ssh")
+
+  ;; (set-default 'tramp-default-proxies-alist
+  ;;              '((".*" "\\`root\\'" "/ssh:%h:")))
+
+  ;; don't backup files edited in tramp using sudo or su -- we don't want to
+  ;; spread secret root files around.
+  (setq backup-enable-predicate
+        (lambda (name)
+          (and (normal-backup-enable-predicate name)
+               (not
+                (let ((method (file-remote-p name 'method)))
+                  (when (stringp method)
+                    (member method '("su" "sudo")))))))))
 
 (use-package undo-tree
   :pin "gnu"

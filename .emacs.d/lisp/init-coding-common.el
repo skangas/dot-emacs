@@ -1,11 +1,17 @@
 ;;; General coding
 
-(use-package auto-complete
+;; TRYING OUT COMPANY INSTEAD
+;; (use-package auto-complete
+;;   :ensure t
+;;   :defer 30
+;;   :config
+;;   (ac-config-default)
+;;   (setq ac-quick-help-delay 2.0))
+
+(use-package company
   :ensure t
-  :defer 30
-  :config
-  (ac-config-default)
-  (setq ac-quick-help-delay 1.0))
+  :pin "gnu"
+  )
 
 (use-package debbugs
   :ensure t
@@ -19,6 +25,10 @@
   (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
 
+(use-package elide-head
+  :config
+  (add-hook 'prog-mode-hook 'elide-head))
+
 (use-package flymake
   :config
   (defun my-flymake-show-next-error ()
@@ -30,10 +40,13 @@
 
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-c g" . magit-dispatch))
+  :config
+  (setq magit-diff-refine-hunk 'all))
 
 (use-package markdown-mode
   :ensure t
+  :defer 300 ; I rarely use this
   :mode ("\\.md\\'" . gfm-mode))
 
 (use-package paredit
@@ -136,28 +149,6 @@
 
 (setq glasses-separate-parentheses-p nil)
 ;; (projectile ido-flx)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; gud
-
-;Add color to the current GUD line
-(defvar my-gud-overlay
-  (let* ((ov (make-overlay (point-min) (point-min))))
-    (overlay-put ov 'face 'secondary-selection)
-    ov)
-  "Overlay variable for GUD highlighting.")
-(defadvice gud-display-line (after my-gud-highlight act)
-  "Highlight current line."
-  (let* ((ov my-gud-overlay)
-         (bf (gud-find-file (ad-get-arg 0))))
-    (save-excursion
-      (set-buffer bf)
-      (move-overlay ov (line-beginning-position) (line-beginning-position 2)
-                    (current-buffer)))))
-(defun my-gud-kill-buffer ()
-  (if (eq major-mode 'gud-mode)
-      (delete-overlay my-gud-overlay)))
-(add-hook 'kill-buffer-hook 'my-gud-kill-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; compile command

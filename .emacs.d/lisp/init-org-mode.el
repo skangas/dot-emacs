@@ -1,26 +1,23 @@
 ;;; init-org-mode.el
 
-(require 'org-protocol)
-;; (require 'org-checklist)
-;; (require 'org-habit-plus)
-;; (require 'org-exp-blocks)
-
-(use-package org
+(use-package org-plus-contrib
   :ensure t
-  :pin "gnu"
+  :pin "org"
   :config
-  ;; (add-to-list 'org-modules 'org-habit 'org-habit-plus)
-  (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
+
+  ;;; standard packages
+  (require 'org-protocol)
+  ;;; contrib packages
+  ;; (require 'org-checklist)
+  (require 'org-man)
+  ;; (require 'org-latex)
+  ;; external packages on next page (C-x ])
 
   ;; MobileOrg
   (setq org-mobile-directory "~/Dropbox/mobileorg")
-                                        ;(setq org-mobile-files "~/org/todo.org")
+  ;;(setq org-mobile-files "~/org/todo.org")
 
-  ;; org-mode hooks
   (defun my-org-mode-hook-defun ()
-    ;; make sure cua-mode is disabled
-    (cua-mode -1)
-
     ;; Undefine C-c [ and C-c ] since this breaks my
     ;; org-agenda files. when directories are included it
     ;; expands the files in the directories individually.
@@ -28,23 +25,19 @@
     (org-defkey org-mode-map "\C-c]"    'undefined)
 
     ;; flyspell unless this is my password file
-    ;; (unless (string-equal (buffer-name) "secrets.org.gpg")
-    ;;   (flyspell-mode 1))
-
-    ;; Use IDO for target completion -- DEPRECATED. install "ido-completing-read+" from MELPA
-    (setq org-completion-use-ido t)
+    ;; (when nil
+    ;;   (unless (string-equal (buffer-name) "secrets.org.gpg")
+    ;;     (flyspell-mode 1)))
 
     ;; read-only if this is my password file
     (when (string-equal (buffer-name) "secrets.org.gpg")
       (setq buffer-read-only t)))
 
   (add-hook 'org-mode-hook 'my-org-mode-hook-defun)
+  (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
   ;; Save all org-mode buffers every hour
   (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; options
 
   ;; Disable priority commands
   (setq org-enable-priority-commands nil)
@@ -60,8 +53,13 @@
   (setq org-hide-leading-stars t)
   (set-face-foreground 'org-hide "#3f3f3f")
 
-  ;; hide italics markers
-  (setq org-hide-emphasis-markers t)
+  ;; don't hide italics markers
+  ;; (setq org-hide-emphasis-markers nil)
+
+  ;; Strike out done headlines
+  (setq org-fontify-done-headline t)
+  (custom-set-faces
+   '(org-headline-done ((t (:strike-through "#222")))))
 
   ;; Information to record when a task moves to the DONE state.
   (setq org-log-done 'time)
@@ -71,11 +69,6 @@
 
   ;; automatically adjust footnotes after insert/delete
   (setq org-footnote-auto-adjust t)
-
-  ;; Strike out done headlines
-  (setq org-fontify-done-headline t)
-  (custom-set-faces
-   '(org-headline-done ((t (:strike-through "#222")))))
 
   ;; General font customization
   (custom-set-faces
@@ -154,11 +147,8 @@
         (org-agenda-backward-block))))
   (advice-add 'org-agenda-forward-block :after #'sk/advice-never-go-to-end-of-buffer)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; org-capture
-
   (load "~/org/.org-capture.el")
-
   (setq org-directory "~/org/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
 
@@ -168,7 +158,7 @@
       (sk-search-and-replace '(("https://mail.google.com/mail/u/0/#inbox/" "https://mail.google.com/mail/u/0/#all/")))))
   (add-hook 'org-capture-prepare-finalize-hook 'sk-org-capture-prepare-finalize-hook)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; refile
 
   ;; Provide refile targets as paths
@@ -193,7 +183,7 @@
     (not (member (nth 2 (org-heading-components)) org-done-keywords)))
   (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; screenshot
 
   ;; Only works for OSX
@@ -220,7 +210,7 @@ same directory as the org-buffer and insert a link to this file."
     (if (file-exists-p filename)
         (insert (concat "[[file:" filename "]]"))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; agenda
 
   (setq org-agenda-files '("~/org/todo.org"
@@ -306,7 +296,7 @@ same directory as the org-buffer and insert a link to this file."
                          (org-tags-match-list-sublevels nil))))
                  nil))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; babel
 
   ;; languages to load
@@ -315,24 +305,14 @@ same directory as the org-buffer and insert a link to this file."
    'org-babel-load-languages '((emacs-lisp . t)
                                (shell . t)))
 
-  ;; OLD:
-  ;; (setq org-babel-load-languages '((emacs-lisp . t)
-  ;;                                  (haskell . t)
-  ;;                                  (shell . t)
-  ;;                                  (latex . t)))
-
-
-  ;; ;; Load necessary packages for latex
-  ;; (require 'org-latex)
-
+  ;; Code listings in latex
   ;; ;; export listings
   ;; (setq org-export-latex-listings t)
-
   ;; ;; export listings
   ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
   ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; iimage -- display images in your org-mode-file
 
   (require 'iimage)
@@ -347,7 +327,7 @@ same directory as the org-buffer and insert a link to this file."
       (set-face-underline-p 'org-link t))
     (iimage-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org ad hoc code, quick hacks and workarounds
   ;; http://orgmode.org/worg/org-hacks.html
   
@@ -360,6 +340,35 @@ same directory as the org-buffer and insert a link to this file."
                   (outline-previous-visible-heading 1)
                   (org-show-subtree))))))
 
+
+;;; External packages
+
+(use-package org-bullets
+  :ensure t
+  :pin melpa
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package org-download
+  :ensure t)
+
+;; (use-package org-habit-plus
+;;   :config
+;;   (add-to-list 'org-modules 'org-habit 'org-habit-plus))
+
+;; (require 'org-exp-blocks)
+
+(use-package org-journal
+  :ensure t
+  ;; :init ; this has to be done before loading org-journal
+  ;; (setq org-journal-file-format "%Y-%m-%d.org")
+  :config
+  (setq org-journal-dir "~/org/journal"
+        ;; org-extend-today-until 5
+        ;; org-journal-date-format "%A %Y-%m-%d"
+        ))
+
+
 ;; Helper functions from section 6.1 of Organize Your Life In Plain Text!
 
 (defun bh/find-project-task ()
@@ -805,25 +814,5 @@ so change the default 'F' binding in the agenda to allow both"
           '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
           'append)
 
-(use-package org-bullets
-  :ensure t
-  :pin melpa
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-(use-package org-download
-  :ensure t)
-
-(use-package org-journal
-  :ensure t
-  ;; :init ; this has to be done before loading org-journal
-  ;; (setq org-journal-file-format "%Y-%m-%d.org")
-  :config
-  (setq org-journal-dir "~/org/journal"
-        ;; org-extend-today-until 5
-        ;; org-journal-date-format "%A %Y-%m-%d"
-        ))
-
 (provide 'init-org-mode)
-
 ;; init-org-mode.el ends here
