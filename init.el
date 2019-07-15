@@ -22,7 +22,8 @@
 
 ;; Package
 (require 'package)
-(package-initialize)
+(when (version< emacs-version "27")
+  (package-initialize))
 ;; Uncomment this if we have any problems with not finding packages:
 ;; (package-refresh-contents)
 
