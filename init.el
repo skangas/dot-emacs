@@ -119,11 +119,11 @@
 (require 'init-keybindings)
 
 (require 'init-auto-insert-mode)
+(require 'init-elfeed)
+(require 'init-org-mode)
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)
-(require 'init-org-mode)
 ;; (require 'init-rcirc)
-(require 'init-tramp)
 ;; (require 'init-w3m)
 
 ;; Coding
