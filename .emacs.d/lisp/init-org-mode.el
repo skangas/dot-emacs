@@ -117,6 +117,9 @@
   ;; keep the agenda fast
   (setq org-agenda-span 'day)
 
+  ;; get the notes out of the way into a drawer
+  (setq org-log-into-drawer t)
+
   ;; Use sticky agenda's so they persist
   (setq org-agenda-sticky t)
 

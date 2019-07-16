@@ -13,6 +13,11 @@
   :pin "gnu"
   )
 
+(use-package debbugs
+  :ensure t
+  :config
+  (setq debbugs-gnu-trunk-directory "~/wip/emacs"))
+
 (use-package diff-hl
   :ensure t
   :config
@@ -95,6 +100,7 @@
 (use-package ws-butler ; Automatically trim whitespace on save.
   :ensure t
   :config
+  ;; (setq ws-butler-convert-leading-tabs-or-spaces t)
   (add-hook 'prog-mode-hook #'ws-butler-mode))
 
 (use-package yasnippet

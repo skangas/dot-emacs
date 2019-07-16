@@ -8,6 +8,9 @@
 
 ;; FIXME: add visual line mode to all modes where it makes sense
 
+;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
+;;   are enabled by default.
+
 (unless (eq window-system 'ns)
   (run-if-fboundp (menu-bar-mode -1)))     ; No menu
 (run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
@@ -25,40 +28,37 @@
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
-(setq
- user-full-name "Stefan Kangas"
- user-mail-address "stefankangas@gmail.com"
- inhibit-startup-message t              ; No startup message
- visible-bell t                         ; No audible bell
- kill-ring-max 120                      ; Default is 60
- messages-buffer-max-lines (* 8 1024)   ; Default is 1024
- Man-width 80                           ; Limit man to 80 character width
- bookmark-save-flag 1                   ; Save bookmarks immediately when added
- display-time-24hr-format t             ; Show 24hr clock when it's shown
- mouse-yank-at-point t                  ; Yank at point, even in X
- require-final-newline t                ; Make sure text files end in a newline
- message-send-mail-partially-limit nil  ; Never split emails
+(setq user-full-name "Stefan Kangas"
+      user-mail-address "stefankangas@gmail.com"
+      inhibit-startup-message t                      ; No startup message
+      visible-bell t                                 ; No audible bell
+      display-time-24hr-format t                     ; Show 24hr clock when it's shown
+      bookmark-save-flag 1                           ; Save bookmarks immediately when added
+      require-final-newline t                        ; Make sure text files end in a newline
+      Man-width 80                                   ; Limit man to 80 character width
+      message-send-mail-partially-limit nil          ; Never split emails
+      messages-buffer-max-lines (* 16 1024)          ; From 1024
+      kill-ring-max 120                              ; Default is 60
+      sentence-end "\\.  ?"                          ; Used only by certain modes.
+      scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
+      scroll-preserve-screen-position t              ; Affects Page-up Page-down
+      mouse-yank-at-point t                          ; Yank at point, even in X
+      lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
+      page-delimiter "^\C-l\n"                       ; Fix to give correct line count
 
- scroll-conservatively most-positive-fixnum ; Always scroll one line at a time
- scroll-preserve-screen-position t          ; Affects Page-up Page-down
+      ;; choose browser
+      browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
+      frame-title-format '((buffer-file-name "%f" "%b")
+                           " -- %F"
+                           (:eval (format " [%s]" mode-name)))
 
- ;; sentence-end "\\.  ?"                  ; Used only by certain modes.
+      ;; calendar
+      calendar-week-start-day 1              ; Start week on Monday
+      calendar-date-style 'european          ; Use European calendar
 
- lazy-highlight-initial-delay 0.15    ; Seconds to wait before isearch highlights
-
- ;; choose browser
- browse-url-browser-function 'browse-url-generic
- browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
- frame-title-format '((buffer-file-name "%f" "%b")
-                      " -- %F"
-                      (:eval (format " [%s]" mode-name)))
-
- ;; calendar
- calendar-week-start-day 1              ; Start week on Monday
- calendar-date-style 'european          ; Use European calendar
-
- ;; holidays
- calendar-mark-holidays-flag t
+      ;; holidays
+      calendar-mark-holidays-flag t
  calendar-holidays nil
  holiday-bahai-holidays nil
  holiday-christian-holidays nil
@@ -67,14 +67,35 @@
  holiday-hebrew-holidays nil
  holiday-islamic-holidays nil
  holiday-solar-holidays nil
- )
 
-(setq-default
- fill-column 80                      ; note to self: use M-q and C-u 78 C-x f
- indent-tabs-mode nil                ; Always indent using spaces, never tabs
- indicate-empty-lines t              ; Show empty lines at end of file
- indicate-buffer-boundaries 'left    ; Show markers indicating buffer limits
- )
+      )
+
+;; (setq-default bidi-display-reordering nil)
+
+(setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
+              indent-tabs-mode nil                   ; Always indent using spaces, never tabs
+              indicate-empty-lines t                 ; Show empty lines at end of file
+              indicate-buffer-boundaries 'left)      ; Show markers indicating buffer limits
+
+(setq holiday-swedish-holidays '((holiday-fixed 1 1 "Nyårsdagen")
+                                 (holiday-fixed 1 6 "Trettondedag jul")
+                                 (holiday-fixed 5 1 "Första maj")
+                                 (holiday-fixed 6 1 "Sveriges nationaldag")
+                                 (holiday-fixed 1 25 "Juldagen")
+                                 (holiday-fixed 1 26 "Annandag jul")
+                                 (holiday-fixed 1 31 "Nyårsafton"))
+      calendar-holidays holiday-swedish-holidays)
+
+(setq display-time-world-list '(("America/Los_Angeles" "Seattle")
+                                ("America/New_York" "New York")
+                                ("America/Toronto" "Toronto")
+                                ("Europe/London" "London")
+                                ("Europe/Paris" "Paris")
+                                ("Europe/Stockholm" "Göteborg")
+                                ("Europe/Rome" "Rome")
+                                ("Asia/Karachi" "Karachi")
+                                ("Asia/Shanghai" "Shanghai")
+                                ("Asia/Tokyo" "Tokyo")))
 
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
@@ -379,64 +400,12 @@
   :config
   (global-discover-mode 1))
 
-(use-package elfeed
-  :commands elfeed
-  :ensure t
-  :config
-  (add-hook 'elfeed-show-mode 'visual-line-mode)
-
-  (defun skangas-score-elfeed-entry (entry)
-    (let ((title (elfeed-entry-title entry))
-          (link (elfeed-entry-link entry))
-          (categories (elfeed-meta entry :categories))
-          (content (elfeed-deref (elfeed-entry-content entry)))
-          (score 0))
-      ;; TITLE
-      (cl-loop for (pattern n) in '(("IFK Mariehamn\\|Smålejon\\| VM \\| SM \\|NHL\\|BK-46\\|hemmaplan\\|Sjundeå IF" -1000)
-                                    ("Smålejon" -1000) ; Finskt lag
-                                    ("World Championship" -1000)
-                                    ("finalserien" -1000)
-                                    ("Chicago Blackhawks" -1000)
-                                    ("Nyheter från dagen:" -1000)
-                                    ("Horoskop – " -1000))
-               if (string-match pattern title)
-               do (incf score n)
-               if (string-match pattern content)
-               do (incf score n))
-
-      ;; LINK
-      (cl-loop for (pattern n) in '(("^https://www.theguardian.com/\\(football\\|sport\\|lifeandstyle\\)/" -1000)
-                                    ("^https://www.svt.se/nyheter/uutiset/" -1000)
-                                    ("^https://www.svt.se/nyheter/lokalt/" -1000)
-                                    ("^Https://www.svt.se/nyheter/lokalt/\\(vast\\|norrbotten)" 1000)
-                                    ("^https://www.bbc.com/sport" -1000))
-               if (string-match pattern link)
-               do (incf score n))
-
-      ;; Ban categories
-      (if (memq "Sport" categories) (incf score -1000))
-
-      ;; Show result of scoring
-      (message "elfeed scoring: %s - %s (%s)" title score categories)
-
-      ;; store score for later
-      (setf (elfeed-meta entry :my/score) score)
-
-      (cond
-       ((<= score -1000)
-        (elfeed-untag-1 'unread))
-       ((= score 1)
-        (elfeed-tag entry 'relevant))
-       ((> score 1)
-        (elfeed-tag entry 'important)))
-      entry))
-  (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry))
-
 (use-package elfeed-org
   :ensure t
   :pin "melpa"
   :config
-  (elfeed-org))
+  (elfeed-org)
+  (setq rmh-elfeed-org-files '("~/org/misc/elfeed.org")))
 
 (use-package epa-file
   :config
@@ -450,8 +419,18 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
+;; (use-package eww
+;;   :config
+;;   (add-hook 'eww-mode-hook (visual-line-mode))
+;;   )
+;; eww-mode-hook
+
 (use-package f
   :ensure t)
+
+(use-package flx                        ; mostly needed for ivy completion
+  :ensure t
+  :pin "melpa-stable")
 
 (use-package google-translate
   :ensure t
@@ -527,12 +506,9 @@
   (ido-everywhere 0)
 
   (setq ido-enable-flex-matching t
-        ido-use-filename-at-point 'guess
         ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-
         ido-default-file-method 'selected-window
         ido-default-buffer-method 'selected-window
-
         ido-work-directory-list '("~/" "~/org" "~/src")
         ido-case-fold t                 ; Be case-insensitive
         ido-max-directory-size 100000   ; Avoid [Too Big] messages
@@ -562,18 +538,23 @@
 ;;   (ido-ubiquitous-mode 1)
 ;;   (setq ido-cr+-auto-update-blacklist t))
 
-;; mostly for ivy
-(use-package flx
-  :ensure t
-  :pin "melpa-stable")
-
 (use-package ivy
   :ensure t
   :pin "gnu"
   :config
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) "))
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-virtual-abbreviate 'full ; Show the full virtual file paths
+        ivy-extra-directories nil ; default value: ("../" "./")
+        ivy-format-function 'ivy-format-function-arrow)
+
+  ;; Global bindings
+  (global-set-key (kbd "C-s") 'swiper)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+
+  ;; Minibuffer bindings
+  (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
 
 (use-package iedit
   :ensure t)
@@ -581,6 +562,10 @@
 (use-package ioccur
   :pin "melpa"
   :ensure t)
+
+(use-package isearch
+  :config
+  (setq isearch-allow-scroll t))
 
 (use-package midnight ; close inactive buffers
   :config
@@ -611,20 +596,20 @@
           ("\\.pdf\\'" "evince" (file))
           ))
 
-  ;; Do not warn about big files for openwith files
-  ;; (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
-  ;;                                            (size op-type filename))
-  ;;   (if (and openwith-mode
-  ;;            (equal op-type "open")
-  ;;            (some (lambda (oa)
-  ;;                    (save-match-data (string-match (car oa) filename)))
-  ;;                  openwith-associations))
-  ;;       (let ((large-file-warning-threshold nil))
-  ;;         ad-do-it)
-  ;;     ad-do-it))
-  ;; (ad-deactivate 'abort-if-file-too-large)
-  ;; (ad-activate 'abort-if-file-too-large)
-  )
+  (when (version< emacs-version "27")
+    ;; Do not warn about big files for openwith files
+    (defadvice abort-if-file-too-large (around my-do-not-prompt-for-big-media-files
+                                               (size op-type filename))
+      (if (and openwith-mode
+               (equal op-type "open")
+               (some (lambda (oa)
+                       (save-match-data (string-match (car oa) filename)))
+                     openwith-associations))
+          (let ((large-file-warning-threshold nil))
+            ad-do-it)
+        ad-do-it))
+    (ad-deactivate 'abort-if-file-too-large)
+    (ad-activate 'abort-if-file-too-large)))
 
 (use-package powerline
   :ensure t
