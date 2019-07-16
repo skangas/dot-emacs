@@ -138,6 +138,7 @@
 ;; My code
 (require 'sk-lisp)
 (require 'sk-idom-article-length)
+(require 'sk-misc)
 
 ;; Various packages
 (use-package xml-rpc
