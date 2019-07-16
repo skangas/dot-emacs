@@ -1,8 +1,46 @@
+;;; sk-misc.el --- random functions
+
+;; Copyright (C) 2010, Stefan Kangas
+
+;; Author: Stefan Kangas
+;; Keywords: utilities
+
+;; This file is NOT part of GNU Emacs.
+
+;; GNU Emacs is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; GNU Emacs is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;;; Code
+
+(require 'cl-lib)
+
+(defvar sk--previous-random-line nil
+  "Previous random line jumped to by `goto-random-line'.")
+
 (defun goto-random-line ()
   "Go to a random line in this buffer."
   (interactive)
-  (goto-char (point-min))
-  (forward-line (1+ (random (count-lines (point-min) (point-max))))))
+  (cl-flet ((get-random-line (lambda () (1+ (random (count-lines (point-min) (point-max)))))))
+    (goto-char (point-min))
+    (let ((lin (get-random-line)))
+      (while (eq lin sk/previous-random-line)
+        (setq lin (get-random-line)))
+      (forward-line lin)
+      (message "Jumped to random line %s" lin)
+      (setq sk/previous-random-line lin)))
+  (back-to-indentation))
 
 ;; (defun my-convert-iso8859-1-to-utf-8 ()
 ;;   (interactive)
