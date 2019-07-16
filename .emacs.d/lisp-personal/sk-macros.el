@@ -17,7 +17,4 @@
            (ad-update 'call-process)
            (message "sk advice activated"))))
 
-(defmacro sk-join (join-char join-list) `(mapconcat 'identity ,join-list ,join-char))
-
 (provide 'sk-macros)
-
