@@ -1,7 +1,7 @@
 ;;; init-org-mode.el
 
-(use-package org-plus-contrib
-  :ensure t
+(use-package org
+  :ensure org-plus-contrib
   :pin "org"
   :config
 
