@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2010, Stefan Kangas
 
-;; Maintainer: Stefan Kangas
+;; Author: Stefan Kangas
 ;; Keywords: git, subversion, vcs
 
 ;; This file is NOT part of GNU Emacs.

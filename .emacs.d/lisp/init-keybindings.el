@@ -45,6 +45,10 @@
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
 (global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
 
+;; C-g
+(global-set-key (kbd "M-g M-r") 'goto-random-line)
+
+
 ;; OK, Steve Yegge, I'll give it a try
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
