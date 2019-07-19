@@ -45,12 +45,6 @@
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
 (global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
 
-;; OK, Steve Yegge, I'll give it a try
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-t" 'shell-pop)
-(global-set-key "\C-c\C-k" 'kill-region)
-
 
 ;;; Mode dependent key bindings
 
