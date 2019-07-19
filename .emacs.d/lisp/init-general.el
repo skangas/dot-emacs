@@ -280,11 +280,11 @@
 ;;     (centered-cursor-mode))
 ;;   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
-(use-package auto-dim-other-buffers
-  :pin "melpa"
-  :ensure t
-  :config
-  (auto-dim-other-buffers-mode t))
+;; (use-package auto-dim-other-buffers
+;;   :pin "melpa"
+;;   :ensure t
+;;   :config
+;;   (auto-dim-other-buffers-mode t))
 
 (use-package boxquote
   :ensure t)
@@ -437,9 +437,9 @@
   :bind (("C-c t" . google-translate-at-point)
          ("C-c T" . google-translate-query-translate)))
 
-(use-package hl-line
-  :config
-  (global-hl-line-mode 1))
+;; (use-package hl-line
+;;   :config
+;;   (global-hl-line-mode 1))
 
 (use-package ibuffer
   :config
