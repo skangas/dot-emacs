@@ -10,8 +10,7 @@
 
 (use-package company
   :ensure t
-  :pin "gnu"
-  )
+  :pin "gnu")
 
 (use-package debbugs
   :ensure t
