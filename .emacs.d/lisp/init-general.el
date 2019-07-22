@@ -538,6 +538,17 @@
 ;;   (ido-ubiquitous-mode 1)
 ;;   (setq ido-cr+-auto-update-blacklist t))
 
+(use-package iedit
+  :ensure t)
+
+(use-package ioccur
+  :pin "melpa"
+  :ensure t)
+
+(use-package isearch
+  :config
+  (setq isearch-allow-scroll t))
+
 (use-package ivy
   :ensure t
   :pin "gnu"
@@ -555,17 +566,6 @@
 
   ;; Minibuffer bindings
   (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
-
-(use-package iedit
-  :ensure t)
-
-(use-package ioccur
-  :pin "melpa"
-  :ensure t)
-
-(use-package isearch
-  :config
-  (setq isearch-allow-scroll t))
 
 (use-package midnight ; close inactive buffers
   :config
