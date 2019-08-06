@@ -96,6 +96,7 @@
                               ("@moten" . ?m)
                               ("@lasning" . ?l)
                               ("@spanska" . ?s)
+                              ("@fritid" . ?f)
                               (:endgroup)
                               ("PERSONAL" . ?P)
 
