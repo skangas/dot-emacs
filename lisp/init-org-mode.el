@@ -94,6 +94,7 @@
                               ("@ek" . ?e)
                               ("@ck" . ?k)
                               ("@moten" . ?m)
+                              ("@lasning" . ?l)
                               ("@spanska" . ?s)
                               (:endgroup)
                               ("PERSONAL" . ?P)
