@@ -93,6 +93,7 @@
                               ("@ärende" . ?ä)
                               ("@ek" . ?e)
                               ("@ck" . ?k)
+                              ("@grupp" . ?g)
                               ("@moten" . ?m)
                               ("@lasning" . ?l)
                               ("@spanska" . ?s)
