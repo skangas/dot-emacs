@@ -28,7 +28,9 @@
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
-(setq scroll-conservatively 10)
+(setq scroll-conservatively 500)
+(setq scroll-step 0)
+(setq scroll-preserve-screen-position nil)
 
 (setq user-full-name "Stefan Kangas"
       user-mail-address "stefankangas@gmail.com"
@@ -42,7 +44,6 @@
       messages-buffer-max-lines (* 16 1024)          ; From 1024
       kill-ring-max 120                              ; Default is 60
       sentence-end "\\.  ?"                          ; Used only by certain modes.
-      scroll-conservatively 10     ; Always scroll one line at a time
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
