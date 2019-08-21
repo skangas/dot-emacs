@@ -28,6 +28,8 @@
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
+(setq scroll-conservatively 10)
+
 (setq user-full-name "Stefan Kangas"
       user-mail-address "stefankangas@gmail.com"
       inhibit-startup-message t                      ; No startup message
@@ -40,7 +42,8 @@
       messages-buffer-max-lines (* 16 1024)          ; From 1024
       kill-ring-max 120                              ; Default is 60
       sentence-end "\\.  ?"                          ; Used only by certain modes.
-      scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
+      scroll-conservatively 10     ; Always scroll one line at a time
+      ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
       lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
