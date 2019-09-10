@@ -7,6 +7,7 @@
     ("b" (elfeed-search-set-filter "@6-months-ago +bloggar +unread") "bloggar")
     ("e" (elfeed-search-set-filter "@6-months-ago +engelska +nyheter +unread") "engelska")
     ("i" (elfeed-search-set-filter "@6-months-ago +imt +unread") "imt")
+    ("j" (elfeed-search-set-filter "@6-months-ago +imt-castellano +unread") "imt-castellano")
     ("n" (elfeed-search-set-filter "@6-months-ago +nyheter +unread") "nyheter")
     ("p" (elfeed-search-set-filter "@6-months-ago +spanska +nyheter +unread") "spanska")
     ("s" (elfeed-search-set-filter "@6-months-ago +svenska +nyheter +unread") "svenska")
