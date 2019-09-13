@@ -114,12 +114,12 @@
 
 ;; Require my configuration files
 (require 'init-general)
-(require 'init-compat)
+;; (require 'init-compat)
 (require 'init-emacs-server)
 (require 'init-keybindings)
 
 (require 'init-auto-insert-mode)
-(require 'init-elfeed)
+;; (require 'init-elfeed)
 (require 'init-org-mode)
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)
