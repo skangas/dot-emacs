@@ -542,23 +542,23 @@
 ;;   (ido-ubiquitous-mode 1)
 ;;   (setq ido-cr+-auto-update-blacklist t))
 
-(use-package ivy
-  :ensure t
-  :pin "gnu"
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "
-        ivy-virtual-abbreviate 'full ; Show the full virtual file paths
-        ivy-extra-directories nil ; default value: ("../" "./")
-        ivy-format-function 'ivy-format-function-arrow)
+;; (use-package ivy
+;;   :ensure t
+;;   :pin "gnu"
+;;   :config
+;;   (ivy-mode 1)
+;;   (setq ivy-use-virtual-buffers t
+;;         ivy-count-format "(%d/%d) "
+;;         ivy-virtual-abbreviate 'full ; Show the full virtual file paths
+;;         ivy-extra-directories nil ; default value: ("../" "./")
+;;         ivy-format-function 'ivy-format-function-arrow)
 
-  ;; Global bindings
-  (global-set-key (kbd "C-s") 'swiper)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;   ;; Global bindings
+;;   (global-set-key (kbd "C-s") 'swiper)
+;;   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 
-  ;; Minibuffer bindings
-  (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
+;;   ;; Minibuffer bindings
+;;   (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
 
 (use-package iedit
   :ensure t)
