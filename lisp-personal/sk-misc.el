@@ -26,7 +26,7 @@
 
 (require 'cl-lib)
 
-(defvar sk--previous-random-line nil
+(defvar sk/previous-random-line nil
   "Previous random line jumped to by `goto-random-line'.")
 
 (defun goto-random-line ()
