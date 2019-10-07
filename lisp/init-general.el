@@ -674,17 +674,28 @@
     "C-c r T" "Go to test/toggle"
     "C-c r t" "Go to test/search"))
 
-(use-package window-numbering
-  :ensure t
-  :config
-  (window-numbering-mode 1))
-
 (use-package winner
   :bind (("<C-s-left>" . winner-undo)
          ("<C-s-right>" . winner-redo))
   :config
   (setq winner-dont-bind-my-keys t) ; default bindings conflict with org-mode
-  (winner-mode +1))                 ; turn on the global minor mode
+  (winner-mode 1))
+
+(use-package winum
+  ;; Replaces window-numbering.el
+  :ensure t
+  :pin "melpa-stable"
+  :bind (("M-1" . winum-select-window-1)
+         ("M-2" . winum-select-window-2)
+         ("M-3" . winum-select-window-3)
+         ("M-4" . winum-select-window-4)
+         ("M-5" . winum-select-window-5)
+         ("M-6" . winum-select-window-6)
+         ("M-7" . winum-select-window-7)
+         ("M-8" . winum-select-window-8)
+         ("M-9" . winum-select-window-9))
+  :config
+  (winum-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;; image-mode
