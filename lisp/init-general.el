@@ -401,13 +401,6 @@
   :config
   (global-discover-mode 1))
 
-(use-package elfeed-org
-  :ensure t
-  :pin "melpa"
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files '("~/org/misc/elfeed.org")))
-
 (use-package epa-file
   :config
   ;;(setq epa-armor t)
