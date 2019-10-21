@@ -7,6 +7,17 @@
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 
 
+;;; Advice
+
+(defun sk/advice-recenter-top-bottom (&rest args)
+  (recenter-top-bottom 0))
+
+(defun sk/advice-recenter-middle (&rest args)
+  (recenter-top-bottom))
+
+(advice-add 'next-error :after #'sk/advice-recenter-middle)
+
+
 ;;; Global key bindings
 
 ;; C-<foo>
