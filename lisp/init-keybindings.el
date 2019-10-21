@@ -9,13 +9,15 @@
 
 ;;; Advice
 
-(defun sk/advice-recenter-top-bottom (&rest args)
+(defun sk/advice-recenter-top (orig-fun &rest args)
+  (apply orig-fun args)
   (recenter-top-bottom 0))
 
 (defun sk/advice-recenter-middle (&rest args)
-  (recenter-top-bottom))
+  (recenter))
 
 (advice-add 'next-error :after #'sk/advice-recenter-middle)
+;; (advice-remove 'next-error #'recenter-top-bottom)
 
 
 ;;; Global key bindings
