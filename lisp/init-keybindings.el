@@ -13,15 +13,7 @@
   (apply orig-fun args)
   (recenter-top-bottom 0))
 
-(defun sk/advice-recenter-middle (orig-fun &rest args)
-  (apply orig-fun args)
-  ;; Have to wrap this in condition-case due to Bug#37856
-  (condition-case nil
-      (recenter)
-    (error nil)))
-
-(advice-add 'next-error :around #'sk/advice-recenter-middle)
-;; (advice-remove 'next-error #'sk/advice-recenter-middle)
+(add-hook 'next-error-hook 'recenter)
 
 
 ;;; Global key bindings
