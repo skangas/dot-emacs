@@ -2,10 +2,8 @@
 ;; AutoInsertMode
 
 (auto-insert-mode t)
-(setq auto-insert-directory "~/.emacs.d/templates/")
-                                        ; *NOTE* Trailing slash important
-;; (setq auto-insert-query nil)
-                                        ; Do not prompt before insertion
+(setq auto-insert-directory "~/.emacs.d/templates/") ; Keep trailing slash
+;; (setq auto-insert-query nil) ; Do not prompt before insertion
 
 ;; (add-hook 'cperl-mode-hook 'auto-insert)
 
