@@ -1,5 +1,4 @@
 ;;; General settings
-
 (require 'ansi-color)
 
 ;; Various configuration settings
@@ -723,5 +722,3 @@ window ratios.  Imagemagick is required to run this function."
 (add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
 
 (provide 'init-general)
-
-;; init-general.el ends here
