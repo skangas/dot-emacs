@@ -1,15 +1,12 @@
 ;;; General settings
 (require 'ansi-color)
 
-;; Various configuration settings
-(defmacro run-if-fboundp (arg)
-  (if (fboundp (car arg)) arg))
-
+
+;;;; Various configuration settings
 ;; FIXME: add visual line mode to all modes where it makes sense
 
-;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
-;;   are enabled by default.
-
+(defmacro run-if-fboundp (arg)
+  (if (fboundp (car arg)) arg))
 (unless (eq window-system 'ns)
   (run-if-fboundp (menu-bar-mode -1)))     ; No menu
 (run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
@@ -18,15 +15,12 @@
 (run-if-fboundp (column-number-mode 1))    ; Show column number
 (run-if-fboundp (line-number-mode 1))      ; Show line number
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
-;; (run-if-fboundp (display-time-mode 1))
+(run-if-fboundp (display-time-mode 1))
+;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
+;;   are enabled by default.
 
 ;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; Increase min bits to 2048
-;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
-(when (boundp 'gnutls-min-prime-bits)
-  (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits)))
 
 (setq user-full-name "Stefan Kangas"
       user-mail-address "stefankangas@gmail.com"
