@@ -1,7 +1,13 @@
+
+;;;; Emacs < 27.1
+
 ;; Increase min bits to 2048 for old Emacs
-(when (and (boundp 'gnutls-min-prime-bits)
-           gnutls-min-prime-bits)
+(when (and (< emacs-major-version 27)
+           (boundp 'gnutls-min-prime-bits))
   (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits)))
+
+
+;;;; Emacs < 25.3
 
 ;; From etc/NEWS.25:
 ;;
@@ -23,4 +29,3 @@
          (list start end))))
 
 (provide 'init-compat)
-;; init-compat.el ends here

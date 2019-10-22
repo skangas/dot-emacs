@@ -16,13 +16,8 @@
     '["shell-template" my-auto-update-source-file])
   (define-auto-insert
     '(org-mode . "Org-mode File")
-    '["org-mode-template" my-auto-update-source-file]))
-
-;; (setq auto-insert-alist
-;;       '((("\\.h\\(pp\\)?$" "C/C++ Header") . ["c-header-template" my-auto-update-source-file])
-;;
-
-;; ))
+    '["org-mode-template" my-auto-update-source-file])
+  )
 
 (defun my-auto-update-source-file ()
   ;; replace HEADER_NAME with something suitable for an ifdef
