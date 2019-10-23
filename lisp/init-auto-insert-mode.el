@@ -1,22 +1,42 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; AutoInsertMode
+;;; init-auto-insert-mode.el
 
 (add-hook 'find-file-hook auto-insert)
 (setq auto-insert-directory "~/.emacs.d/templates/") ; Keep trailing slash
-;; (setq auto-insert-query nil) ; Do not prompt before insertion
+(setq auto-insert-query nil)
 
-;; (add-hook 'cperl-mode-hook 'auto-insert)
+(string-match "~/org/.*\\.org\\'"
+              "~/org/foo.org")
 
 (eval-after-load 'autoinsert
-  (define-auto-insert
-    '(cperl-mode . "Perl Program")
-    '["perl-template" my-auto-update-source-file])
-  (define-auto-insert
-    '(sh-mode . "Shell Script")
-    '["shell-template" my-auto-update-source-file])
-  (define-auto-insert
-    '(org-mode . "Org-mode File")
-    '["org-mode-template" my-auto-update-source-file])
+  ;; Reset to default
+  '(progn
+     (custom-reevaluate-setting 'auto-insert-alist)
+
+     ;; Perl
+     (define-auto-insert
+       '(cperl-mode . "Perl Program")
+       '["perl-template" my-auto-update-source-file])
+
+     ;; Shell
+     (define-auto-insert
+       '(sh-mode . "Shell Script")
+       '["shell-template" my-auto-update-source-file])
+
+     ;; *.org
+     (define-auto-insert
+       '(org-mode . "Org")
+       '(nil
+         "#+TITLE:  " (read-string "Title: ") "
+#+DATE:   " (format-time-string "%Y-%m-%d") "
+#+AUTHOR: SK
+#+STARTUP: content hidestars indent
+#+OPTIONS: toc:nil num:1 email:nil
+
+" _)))
+
+  ;; (define-auto-insert
+  ;;   '(org-mode . "Org-mode File")
+  ;;   '["org-mode-template" my-auto-update-source-file])
   )
 
 (defun my-auto-update-source-file ()
