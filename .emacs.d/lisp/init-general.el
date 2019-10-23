@@ -19,6 +19,29 @@
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
 ;;   are enabled by default.
 
+;; macOS
+(when (eq system-type 'darwin)
+  (setq ns-command-modifier 'meta)
+  (setq ns-option-modifier 'super)
+  (setq ns-right-alternate-modifier 'none) ; use right alt for special characters
+
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize))
+
+  ;; Workaround for broken visual bell on OSX El Capitain
+  (setq visible-bell nil)
+  (setq ring-bell-function
+        (lambda ()
+          (invert-face 'mode-line)
+          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
+
+;; Hack to get my configuration running at work (Windows)
+(when (eq system-type 'windows-nt)
+  (when load-file-name
+    (setenv "HOME" (file-name-directory load-file-name))))
+
 ;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -415,10 +438,6 @@
 (use-package f
   :ensure t)
 
-(use-package flx                        ; mostly needed for ivy completion
-  :ensure t
-  :pin "melpa-stable")
-
 (use-package google-translate
   :ensure t
   :bind (("C-c t" . google-translate-at-point)
@@ -535,25 +554,6 @@
 (use-package isearch
   :config
   (setq isearch-allow-scroll t))
-
-(use-package ivy
-  :ensure t
-  :pin "gnu"
-  :diminish ivy-mode
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "
-        ivy-virtual-abbreviate 'full ; Show the full virtual file paths
-        ivy-extra-directories nil ; default value: ("../" "./")
-        ivy-format-function 'ivy-format-function-arrow)
-
-  ;; Global bindings
-  (global-set-key (kbd "C-s") 'swiper)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-
-  ;; Minibuffer bindings
-  (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
 
 (use-package midnight ; close inactive buffers
   :config
