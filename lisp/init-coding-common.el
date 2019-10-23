@@ -10,11 +10,15 @@
 
 (use-package company
   :ensure t
-  :pin "gnu")
+  :pin "gnu"
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package debbugs
   :ensure t
   :config
+  (setq debbugs-gnu-emacs-current-release "27.1")
+  (setq debbugs-gnu-branch-directory "~/wip/emacs26")
   (setq debbugs-gnu-trunk-directory "~/wip/emacs"))
 
 (use-package diff-hl
