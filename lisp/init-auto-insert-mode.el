@@ -1,6 +1,6 @@
 ;;; init-auto-insert-mode.el
 
-(add-hook 'find-file-hook auto-insert)
+(add-hook 'find-file-hook 'auto-insert)
 (setq auto-insert-directory "~/.emacs.d/templates/") ; Keep trailing slash
 (setq auto-insert-query nil)
 
@@ -21,6 +21,16 @@
      (define-auto-insert
        '(sh-mode . "Shell Script")
        '["shell-template" my-auto-update-source-file])
+
+     ;; Emacs Configuration
+     (define-auto-insert
+       (expand-file-name "~/\\.emacs\\.d/.*\\.el")
+       '(nil
+         ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
+
+" _ "
+
+\(provide '" (file-name-base (buffer-file-name)) ")\n"))
 
      ;; *.org
      (define-auto-insert
