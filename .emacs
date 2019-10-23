@@ -32,6 +32,11 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 
+;; Create necessary directories
+(dolist (dir '("~/.emacs.d/cache" "~/.emacs.d/cache/semanticdb"))
+  (unless (file-directory-p dir)
+    (make-directory dir)))
+
 
 ;;; Enable theme early to avoid flickering.
 (use-package zenburn-theme
@@ -40,38 +45,8 @@
   (when (version< "27" emacs-version)
     (load-theme 'zenburn t)))
 
-
-;;; macOS portability.
-(when (eq system-type 'darwin)
-  (setq ns-command-modifier 'meta)
-  (setq ns-option-modifier 'super)
-  (setq ns-right-alternate-modifier 'none) ; use right alt for special characters
-
-  (use-package exec-path-from-shell
-    :ensure t
-    :config
-    (exec-path-from-shell-initialize))
-
-  ;; Workaround for broken visual bell on OSX El Capitain
-  (setq visible-bell nil)
-  (setq ring-bell-function
-        (lambda ()
-          (invert-face 'mode-line)
-          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
-
-
-;;; Windows portability
-(when (eq system-type 'windows-nt)
-  ;; Hack to get my configuration running at work
-  (when load-file-name
-    (setenv "HOME" (file-name-directory load-file-name))))
-
-;; Create necessary directories
-(dolist (dir '("~/.emacs.d/cache" "~/.emacs.d/cache/semanticdb"))
-  (unless (file-directory-p dir)
-    (make-directory dir)))
-
-;; General configuration
+;; General configuration.  (the order matters)
+(require 'init-portability)
 (require 'init-general)
 (require 'init-compat)
 (require 'init-emacs-server)
