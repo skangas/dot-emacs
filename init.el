@@ -22,15 +22,15 @@
             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
 
 
-;;; Packages and contrib.
-(require 'init-package)
-
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
+
+;;; Packages and contrib.
+(require 'init-package)
 
 ;; Create necessary directories
 (dolist (dir '("~/.emacs.d/cache" "~/.emacs.d/cache/semanticdb"))

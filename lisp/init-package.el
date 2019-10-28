@@ -9,7 +9,7 @@
 
 ;;; Package
 (require 'package)
-(when (< emacs-major-version "27")
+(when (< emacs-major-version 27)
   (package-initialize))
 
 ;; Uncomment this if we have any problems with not finding packages:
