@@ -42,6 +42,7 @@
       Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails
       messages-buffer-max-lines (* 16 1024)          ; From 1024
+
       kill-ring-max 120                              ; Default is 60
       sentence-end "\\.  ?"                          ; Used only by certain modes.
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
