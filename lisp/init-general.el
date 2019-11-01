@@ -33,7 +33,7 @@
 (setq scroll-preserve-screen-position nil)
 
 (setq user-full-name "Stefan Kangas"
-      user-mail-address "stefankangas@gmail.com"
+      user-mail-address "stefan@marxist.se"
       inhibit-startup-message t                      ; No startup message
       visible-bell t                                 ; No audible bell
       display-time-24hr-format t                     ; Show 24hr clock when it's shown
