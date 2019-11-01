@@ -126,6 +126,8 @@
 ;; (require 'init-rcirc)
 ;; (require 'init-w3m)
 
+(require 'init-mail)
+
 ;; Coding
 (require 'init-coding-common)
 (require 'init-coding-c)
