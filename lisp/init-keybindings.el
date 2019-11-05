@@ -7,6 +7,15 @@
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 
 
+;;; Advice
+
+(defun sk/advice-recenter-top (orig-fun &rest args)
+  (apply orig-fun args)
+  (recenter-top-bottom 0))
+
+(add-hook 'next-error-hook 'recenter)
+
+
 ;;; Global key bindings
 
 ;; C-<foo>

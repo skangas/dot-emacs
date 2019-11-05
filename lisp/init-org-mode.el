@@ -1,7 +1,7 @@
 ;;; init-org-mode.el
 
-(use-package org-plus-contrib
-  :ensure t
+(use-package org
+  :ensure org-plus-contrib
   :pin "org"
   :config
 
@@ -93,8 +93,11 @@
                               ("@ärende" . ?ä)
                               ("@ek" . ?e)
                               ("@ck" . ?k)
+                              ("@grupp" . ?g)
                               ("@moten" . ?m)
+                              ("@lasning" . ?l)
                               ("@spanska" . ?s)
+                              ("@fritid" . ?f)
                               (:endgroup)
                               ("PERSONAL" . ?P)
 
@@ -136,9 +139,7 @@
        (org-defkey org-agenda-mode-map "P"    'org-agenda-backward-block)))
 
   ;; After moving to next section, recenter screen
-  (defun sk/advice-recenter-top-bottom (&rest args)
-    (recenter-top-bottom 0))
-  (advice-add 'org-agenda-forward-block :after #'sk/advice-recenter-top-bottom)
+  (advice-add 'org-agenda-forward-block :after #'sk/advice-recenter-top)
 
   ;; Negate annoying behaviour of org-agenda-forward-block to move to end of buffer
   (defun sk/advice-never-go-to-end-of-buffer (&rest args)

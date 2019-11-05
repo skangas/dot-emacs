@@ -1,16 +1,12 @@
 ;;; General settings
-
 (require 'ansi-color)
 
-;; Various configuration settings
-(defmacro run-if-fboundp (arg)
-  (if (fboundp (car arg)) arg))
-
+
+;;;; Various configuration settings
 ;; FIXME: add visual line mode to all modes where it makes sense
 
-;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
-;;   are enabled by default.
-
+(defmacro run-if-fboundp (arg)
+  (if (fboundp (car arg)) arg))
 (unless (eq window-system 'ns)
   (run-if-fboundp (menu-bar-mode -1)))     ; No menu
 (run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
@@ -19,7 +15,9 @@
 (run-if-fboundp (column-number-mode 1))    ; Show column number
 (run-if-fboundp (line-number-mode 1))      ; Show line number
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
-;; (run-if-fboundp (display-time-mode 1))
+(run-if-fboundp (display-time-mode 1))
+;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
+;;   are enabled by default.
 
 ;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -288,11 +286,11 @@
 ;;     (centered-cursor-mode))
 ;;   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
-(use-package auto-dim-other-buffers
-  :pin "melpa"
-  :ensure t
-  :config
-  (auto-dim-other-buffers-mode t))
+;; (use-package auto-dim-other-buffers
+;;   :pin "melpa"
+;;   :ensure t
+;;   :config
+;;   (auto-dim-other-buffers-mode t))
 
 (use-package boxquote
   :ensure t)
@@ -408,13 +406,6 @@
   :config
   (global-discover-mode 1))
 
-(use-package elfeed-org
-  :ensure t
-  :pin "melpa"
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files '("~/org/misc/elfeed.org")))
-
 (use-package epa-file
   :config
   ;;(setq epa-armor t)
@@ -436,18 +427,14 @@
 (use-package f
   :ensure t)
 
-(use-package flx                        ; mostly needed for ivy completion
-  :ensure t
-  :pin "melpa-stable")
-
 (use-package google-translate
   :ensure t
   :bind (("C-c t" . google-translate-at-point)
          ("C-c T" . google-translate-query-translate)))
 
-(use-package hl-line
-  :config
-  (global-hl-line-mode 1))
+;; (use-package hl-line
+;;   :config
+;;   (global-hl-line-mode 1))
 
 (use-package ibuffer
   :config
@@ -545,24 +532,6 @@
 ;;   :config
 ;;   (ido-ubiquitous-mode 1)
 ;;   (setq ido-cr+-auto-update-blacklist t))
-
-(use-package ivy
-  :ensure t
-  :pin "gnu"
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "
-        ivy-virtual-abbreviate 'full ; Show the full virtual file paths
-        ivy-extra-directories nil ; default value: ("../" "./")
-        ivy-format-function 'ivy-format-function-arrow)
-
-  ;; Global bindings
-  (global-set-key (kbd "C-s") 'swiper)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-
-  ;; Minibuffer bindings
-  (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word))
 
 (use-package iedit
   :ensure t)
@@ -757,5 +726,3 @@ window ratios.  Imagemagick is required to run this function."
 (add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
 
 (provide 'init-general)
-
-;; init-general.el ends here
