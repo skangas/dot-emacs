@@ -25,6 +25,9 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
+;; ;; Not using this for now.
+;; (add-hook 'ielm-mode-hook 'enable-paredit-mode)
+
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
 
@@ -37,6 +40,7 @@
     (interactive)
     (let ((byte-compile-warnings '(unresolved)))
       (when (and buffer-file-name
+                 (not (string-match "\\.dir-locals\\.el$"  buffer-file-name))
                  (string-match "/.*\\.el$"  buffer-file-name)
 ;                     (string-match init-file-user buffer-file-name)) ;; XXX: doesn't work
                  (file-newer-than-file-p buffer-file-name
