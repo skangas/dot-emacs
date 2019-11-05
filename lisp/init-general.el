@@ -75,6 +75,9 @@
 
       )
 
+;; This is very slow, due to Terminus font? -- skangas @ 2019-11-05
+;; (add-to-list 'auto-coding-alist '("\\.nfo\\'" . cp437-dos))
+
 ;; (setq-default bidi-display-reordering nil)
 
 (setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
