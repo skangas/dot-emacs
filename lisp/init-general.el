@@ -348,7 +348,6 @@
     (dolist (from (dired-get-marked-files))
       (copy-file from "/home/skangas/red"))
     (revert-buffer))
-  (require 'dired-x)                   ; require immediately to provide C-x C-j
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
         dired-isearch-filenames 'dwim) ; Search filenames only
