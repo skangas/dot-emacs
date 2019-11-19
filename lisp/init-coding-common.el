@@ -45,7 +45,8 @@
   :ensure t
   :bind (("C-c g" . magit-dispatch))
   :config
-  (setq magit-diff-refine-hunk 'all))
+  (setq magit-diff-refine-hunk 'all)
+  (setq magit-repository-directories '(("~/wip/emacs/" . 0))))
 
 (use-package markdown-mode
   :ensure t
