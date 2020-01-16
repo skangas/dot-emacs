@@ -13,7 +13,8 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "
         ivy-virtual-abbreviate 'full    ; Show the full virtual file paths
-        ivy-extra-directories nil       ; default value: ("../" "./")
+        ;; ivy-extra-directories nil       ; default value: '("../" "./")
+        ivy-extra-directories '("../" "./")
         ivy-format-function 'ivy-format-function-arrow
         ivy-height 15)
 
