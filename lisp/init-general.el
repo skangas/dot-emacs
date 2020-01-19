@@ -47,7 +47,6 @@
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
       lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
-      page-delimiter "^\C-l\n"                       ; Fix to give correct line count
 
       ;; choose browser
       browse-url-browser-function 'browse-url-generic
@@ -72,6 +71,12 @@
  holiday-solar-holidays nil
 
       )
+
+;; - two spaces is used for delimiters in use-package statements
+;; - \n gives correct line count for page
+(setq page-delimiter "^ {0,2}\C-l\n")
+
+(setq enable-recursive-minibuffers t)
 
 ;; This is very slow, due to Terminus font? -- skangas @ 2019-11-05
 ;; (add-to-list 'auto-coding-alist '("\\.nfo\\'" . cp437-dos))
@@ -434,6 +439,11 @@
 ;; (use-package hl-line
 ;;   :config
 ;;   (global-hl-line-mode 1))
+
+;; (use-package guess-language-mode
+;;   :ensure t
+;;   :config
+;;   (setq guess-language-languages '(en sv)))
 
 (use-package ibuffer
   :config
