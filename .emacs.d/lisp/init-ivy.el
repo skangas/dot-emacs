@@ -89,7 +89,7 @@
                                    (counsel-describe-variable . "^")
                                    (counsel-org-capture . "^")
                                    (Man-completion-table . "^")
-                                   (woman . "^")))
+                                   (woman . "^")))a
 
   )
 
