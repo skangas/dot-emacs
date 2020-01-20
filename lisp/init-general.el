@@ -182,6 +182,7 @@
 (setq flyspell-use-meta-tab nil
       ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
+(setq flyspell-abbrev-p t)
 
 ;; Wait for wheezy or install hunspell-sv-se from testing
 ;; http://packages.debian.org/wheezy/hunspell-sv-se
