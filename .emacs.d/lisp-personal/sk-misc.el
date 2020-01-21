@@ -82,5 +82,12 @@
 ;;   (interactive)
 ;;   (my-delete-html-tags '("\?xml" "!DOCTYPE" "html" "head" "title" "meta" "style" "script" "\!--" "!\[CDATA" "body" "div")))
 
+(defun sk-test-find-dired ()
+  (interactive)
+  (find-dired "/mnt/usb/seed/other" "-type f \\( ! -iname '*.jpg' ! -iname '*.jpeg' ! -iname '*.gif' ! -iname '*.bmp' ! -iname '*.html' ! -iname '*.png' ! -iname '*.zip' \\)")
+  (goto-random-line))
+
+
+
 (provide 'sk-misc)
 ;; sk-misc.el ends here
