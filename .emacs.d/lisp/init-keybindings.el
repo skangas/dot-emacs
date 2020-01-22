@@ -65,7 +65,7 @@
 
 ;;; Mode dependent key bindings
 
-(customize-set-variable 'smerge-command-prefix (kbd "C-c C-v"))
+(customize-set-variable 'smerge-command-prefix (kbd "C-c v"))
 
 ;; occur-mode
 (define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
