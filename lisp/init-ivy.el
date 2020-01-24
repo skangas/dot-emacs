@@ -85,11 +85,11 @@
                                    (org-agenda-refile . "^")
                                    (org-capture-refile . "^")
                                    (counsel-M-x . "")
-                                   (counsel-describe-function . "^")
+                                   (counsel-describe-function . "")
                                    (counsel-describe-variable . "^")
                                    (counsel-org-capture . "^")
                                    (Man-completion-table . "^")
-                                   (woman . "^")))a
+                                   (woman . "^")))
 
   )
 
