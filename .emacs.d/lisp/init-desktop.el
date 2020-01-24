@@ -1,5 +1,16 @@
 (desktop-save-mode 1)
 
+;; Warn if there is no desktop.
+(add-hook 'desktop-not-loaded-hook
+          (lambda ()
+            (with-current-buffer "*scratch*"
+              (insert ";; WARNING: desktop not loaded - already in use\n\n"))))
+
+;; Use new 'guess value.
+(if (fboundp 'desktop--load-locked-desktop-p) ; >= Emacs 28
+    (setq desktop-load-locked-desktop 'check))
+
+
 (setq desktop-save 'if-exists)
 (setq desktop-dirname (expand-file-name "~/.emacs.d/cache"))
 (add-to-list 'desktop-path desktop-dirname)
