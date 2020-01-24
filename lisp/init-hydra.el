@@ -2,6 +2,18 @@
   :ensure t
   :config
 
+  (defhydra sk/go (:exit nil)
+    "filter"
+    ("1" (goto-random-line) "random")
+    ("2" (dired-find-file) "open")
+    ("3" (progn
+           (goto-random-line)
+           (cl-letf (((symbol-function 'y-or-n-p) (lambda (&rest _) t)))
+
+             (dired-find-file))) "open")
+    ("5" (dired-do-delete) "delete")
+    ("q" nil "quit" :color blue))
+
   (defhydra sk/elfeed-jump ()
     "filter"
     ("b" (elfeed-search-set-filter "@6-months-ago +bloggar +unread") "bloggar")
