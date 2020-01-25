@@ -23,6 +23,10 @@
 (global-set-key (kbd "C-M-y") 'iedit-mode)
 (global-set-key (kbd "<C-tab>") 'hippie-expand) ; Remove?
 
+;; M-<foo>
+(global-set-key (kbd "M-<left>") 'previous-buffer)
+(global-set-key (kbd "M-<right>") 'next-buffer)
+
 ;; F<foo>
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
 (global-set-key (kbd "<f6>") 'mentor)
