@@ -20,8 +20,16 @@
 
 (setq desktop-buffers-not-to-save
       (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-              "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb" 
+              "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
               "\\)$"))
+
+;; Yes, ugly, but whatever.
+;; (setq desktop-files-not-to-save-orig desktop-files-not-to-save)
+;; (setq desktop-files-not-to-save
+;;       (regexp-opt
+;;        (list
+;;         "\\`/mnt/usb/seed/"
+;;         desktop-files-not-to-save-orig)))
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
