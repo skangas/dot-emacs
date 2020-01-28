@@ -17,7 +17,7 @@
   (setq org-mobile-directory "~/Dropbox/mobileorg")
   ;;(setq org-mobile-files "~/org/todo.org")
 
-  (defun my-org-mode-hook-defun ()
+  (defun sk-org-mode-hook ()
     ;; Undefine C-c [ and C-c ] since this breaks my
     ;; org-agenda files. when directories are included it
     ;; expands the files in the directories individually.
@@ -29,11 +29,10 @@
     ;;   (unless (string-equal (buffer-name) "secrets.org.gpg")
     ;;     (flyspell-mode 1)))
 
-    ;; read-only if this is my password file
     (when (string-equal (buffer-name) "secrets.org.gpg")
       (setq buffer-read-only t)))
 
-  (add-hook 'org-mode-hook 'my-org-mode-hook-defun)
+  (add-hook 'org-mode-hook 'sk-org-mode-hook)
   (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
   ;; Save all org-mode buffers every hour
