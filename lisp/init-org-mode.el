@@ -1,9 +1,12 @@
 ;;; init-org-mode.el
 
+(message "Loaded org-mode")
+
 (use-package org
   :ensure org-plus-contrib
   :pin "org"
   :config
+  (message "Loaded org-mode inside")
 
   ;;; standard packages
   (require 'org-protocol)
