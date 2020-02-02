@@ -1,23 +1,21 @@
 ;;; init-org-mode.el
 
-(message "Loaded org-mode")
-
 (use-package org
   :ensure org-plus-contrib
   :pin "org"
   :config
-  (message "Loaded org-mode inside")
 
   ;;; standard packages
   (require 'org-protocol)
-  ;;; contrib packages
-  ;; (require 'org-checklist)
-  (require 'org-man)
-  ;; (require 'org-latex)
-  ;; external packages on next page (C-x ])
 
-  ;; MobileOrg
-  (setq org-mobile-directory "~/Dropbox/mobileorg")
+  ;; (require 'org-checklist) ; contrib
+
+  ;; Link to man pages.
+  (require 'org-man) ; contrib
+  ;; (require 'org-latex)
+
+  ;; MobileOrg (currently unused -- 2020-02-01)
+  ;; (setq org-mobile-directory "~/Dropbox/mobileorg")
   ;;(setq org-mobile-files "~/org/todo.org")
 
   (defun sk-org-mode-hook ()
@@ -27,13 +25,9 @@
     (org-defkey org-mode-map "\C-c["    'undefined)
     (org-defkey org-mode-map "\C-c]"    'undefined)
 
-    ;; flyspell unless this is my password file
-    ;; (when nil
-    ;;   (unless (string-equal (buffer-name) "secrets.org.gpg")
-    ;;     (flyspell-mode 1)))
-
+    ;; settings for secret file
     (when (string-equal (buffer-name) "secrets.org.gpg")
-      (setq buffer-read-only t)))
+        (setq buffer-read-only t)))
 
   (add-hook 'org-mode-hook 'sk-org-mode-hook)
   (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
@@ -55,7 +49,7 @@
   (setq org-hide-leading-stars t)
   (set-face-foreground 'org-hide "#3f3f3f")
 
-  ;; don't hide italics markers
+  ;; hide italics markers if t
   ;; (setq org-hide-emphasis-markers nil)
 
   ;; Strike out done headlines
@@ -168,7 +162,7 @@
   (setq org-refile-use-outline-path t)
 
   ;; Complete the outline path in hierarchical steps
-  (setq org-outline-path-complete-in-steps nil)
+  (setq org-outline-path-complete-in-steps t)
 
   ;; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
@@ -220,8 +214,10 @@ same directory as the org-buffer and insert a link to this file."
                            "~/org/personal.org"
                            "~/org/agenda.org"
                            "~/org/refile.org"
-                           "~/org/.cache/revolution-imt.org"
-                           "~/org/.cache/google-calendar.org"))
+                           ;; FIXME
+                           ;; "~/org/.cache/revolution-imt.org"
+                           ;; "~/org/.cache/google-calendar.org"
+                           ))
   
   (setq org-agenda-dim-blocked-tasks t)
   (setq org-agenda-tags-todo-honor-ignore-options t)
