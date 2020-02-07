@@ -1,5 +1,9 @@
 ;;; init-org-mode.el
 
+(use-package anki-editor
+  :ensure t
+  :after org)
+
 (use-package org
   :ensure org-plus-contrib
   :pin "org"
