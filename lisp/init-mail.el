@@ -1,7 +1,3 @@
-(use-package notmuch
-  :ensure t
-  )
-
 (progn
   (setq message-user-fqdn "marxist.se") ; used to generate Message-ID
   (setq message-fill-column 70)

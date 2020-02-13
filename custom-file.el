@@ -17,7 +17,8 @@
      (:name "sent" :query "tag:sent" :key "t")
      (:name "drafts" :query "tag:draft" :key "d")
      (:name "all mail" :query "*" :key "a")
-     (:name "ek" :query "tag:ek")))
+     (:name "ek" :query "tag:ek")
+     (:name "logcheck" :query "from:logcheck@joffe.skangas.se")))
  '(org-enforce-todo-dependencies t)
  '(org-modules
    '(org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-w3m))
