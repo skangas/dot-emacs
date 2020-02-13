@@ -575,7 +575,7 @@
                               ".wmv")) "\\'"))
 
   (setq openwith-associations
-        `((,my-video-types "mpv" (file))
+        `((,my-video-types "mpv --cache=50000" (file))
           ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
           ("\\.azw3\\'" "calibre" (file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
