@@ -2,8 +2,12 @@
   (setq message-user-fqdn "marxist.se") ; used to generate Message-ID
   (setq message-fill-column 70)
 
-  (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  (setq sendmail-program "/usr/bin/msmtp")
+  (pcase system-type
+    ('gnu/linux
+     (setq message-send-mail-function 'message-send-mail-with-sendmail)
+     (setq sendmail-program "/usr/bin/msmtp"))
+    ('darwin
+     (load-file "~/org/misc/.osx-sendmail.el")))
 
   ;; Generate the mail headers before you edit your message.
   (setq message-generate-headers-first t)
