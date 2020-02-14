@@ -18,7 +18,8 @@
      (:name "drafts" :query "tag:draft" :key "d")
      (:name "all mail" :query "*" :key "a")
      (:name "ek" :query "tag:ek")
-     (:name "logcheck" :query "from:logcheck@joffe.skangas.se")))
+     (:name "desk" :query "tag:desk AND tag:unread")
+     (:name "logcheck" :query "tag:logcheck AND not tag:trash AND not tag:deleted")))
  '(org-enforce-todo-dependencies t)
  '(org-modules
    '(org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-w3m))
