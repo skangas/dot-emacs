@@ -34,4 +34,18 @@
 
   )
 
+(with-eval-after-load 'notmuch
+
+  ;; KEYBINDINGS
+  (defun sk-notmuch-delete-message ()
+    "toggle deleted tag for message"
+    (interactive)
+    (if (member "deleted" (notmuch-show-get-tags))
+        (notmuch-show-tag (list "-deleted"))
+      (notmuch-show-tag (list "+deleted"))))
+
+  (define-key notmuch-show-mode-map "d" #'sk-notmuch-delete-message)
+
+  ())
+
 (provide 'init-mail)
