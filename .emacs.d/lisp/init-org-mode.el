@@ -7,6 +7,8 @@
 
   ;;; standard packages
   (require 'org-protocol)
+  (when (not (version< org-version "9.2"))
+   (require 'org-tempo))
 
   ;; (require 'org-checklist) ; contrib
 
