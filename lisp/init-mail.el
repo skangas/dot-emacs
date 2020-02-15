@@ -1,5 +1,5 @@
 (progn
-  (setq message-user-fqdn "marxist.se") ; used to generate Message-ID
+  (setq message-user-fqdn "stefankangas.se") ; used to generate Message-ID
   (setq message-fill-column 70)
 
   (pcase system-type
