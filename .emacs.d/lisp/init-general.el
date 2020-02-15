@@ -116,7 +116,7 @@
 (setq-default save-place t)                   ; activate it for all buffers
 
 (show-paren-mode 1)
-(setq show-paren-delay 0.1)
+(setq show-paren-delay 0)
 
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -177,12 +177,6 @@
                 (save-buffers-kill-emacs)))
 (global-unset-key "\C-x\C-c")
 (global-set-key "\C-x\C-c" 'confirm-exit-emacs)
-
-;; Spell checking
-(setq flyspell-use-meta-tab nil
-      ispell-program-name "aspell"
-      ispell-extra-args '("--sug-mode=ultra"))
-(setq flyspell-abbrev-p t)
 
 ;; Wait for wheezy or install hunspell-sv-se from testing
 ;; http://packages.debian.org/wheezy/hunspell-sv-se
@@ -431,6 +425,18 @@
 
 (use-package f
   :ensure t)
+
+(setq ispell-program-name "aspell"
+      ispell-extra-args '("--sug-mode=ultra"))
+
+(use-package flyspell-mode
+  :config
+  ;; Non-nil means that flyspell uses M-TAB to correct word.
+  (setq flyspell-use-meta-tab nil)
+  ;; If non-nil, add correction to abbreviation table.
+  (setq flyspell-abbrev-p t)
+  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  )
 
 (use-package google-translate
   :ensure t
