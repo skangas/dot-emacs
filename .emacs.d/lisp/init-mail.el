@@ -35,7 +35,7 @@
   )
 
 (with-eval-after-load 'notmuch
-  (setq notmuch-search-oldest-first t)
+  (setq notmuch-search-oldest-first nil)
 
   ;; KEYBINDINGS
   (defun sk-notmuch-delete-message ()
