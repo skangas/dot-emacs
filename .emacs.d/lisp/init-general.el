@@ -429,7 +429,7 @@
 (setq ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
 
-(use-package flyspell-mode
+(use-package flyspell :ensure nil
   :config
   ;; Non-nil means that flyspell uses M-TAB to correct word.
   (setq flyspell-use-meta-tab nil)
