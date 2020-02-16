@@ -99,6 +99,7 @@
                               (:endgroup)
                               ("PERSONAL" . ?P)
 
+                              ("emacs")
                               ("REFILE" . ?r)
                               ("WAITING" . ?w)
                               ("HOLD" . ?h)
