@@ -174,8 +174,7 @@
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 5)
                              ("~/org/later.org" :maxlevel . 5)
-                             ("~/org/agenda.org" :maxlevel . 5)
-                             ("~/org/spanska.org" :maxlevel . 5)))
+                             ("~/org/agenda.org" :maxlevel . 5)))
 
   ;; Exclude DONE state tasks from refile targets
   (defun bh/verify-refile-target ()
