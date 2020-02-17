@@ -5,16 +5,16 @@
   :pin "org"
   :config
 
-  ;;; standard packages
+;;; standard packages
   (require 'org-protocol)
   (require 'org-notmuch)
   (when (not (version< org-version "9.2"))
-   (require 'org-tempo))
+    (require 'org-tempo))
 
   ;; (require 'org-checklist) ; contrib
 
   ;; Link to man pages.
-  (require 'org-man) ; contrib
+  (require 'org-man)                    ; contrib
   ;; (require 'org-latex)
 
   ;; MobileOrg (currently unused -- 2020-02-01)
@@ -30,7 +30,7 @@
 
     ;; settings for secret file
     (when (string-equal (buffer-name) "secrets.org.gpg")
-        (setq buffer-read-only t)))
+      (setq buffer-read-only t)))
 
   (add-hook 'org-mode-hook 'sk-org-mode-hook)
   (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
@@ -68,6 +68,20 @@
 
   ;; automatically adjust footnotes after insert/delete
   (setq org-footnote-auto-adjust t)
+
+  ;; Automatically change list bullets.
+  (setq org-list-demote-modify-bullet (quote (("+" . "-")
+                                              ("*" . "-")
+                                              ("1." . "-")
+                                              ("1)" . "-")
+                                              ("A)" . "-")
+                                              ("B)" . "-")
+                                              ("a)" . "-")
+                                              ("b)" . "-")
+                                              ("A." . "-")
+                                              ("B." . "-")
+                                              ("a." . "-")
+                                              ("b." . "-"))))
 
   ;; General font customization
   (custom-set-faces
@@ -167,7 +181,7 @@
       (sk-search-and-replace '(("https://mail.google.com/mail/u/0/#inbox/" "https://mail.google.com/mail/u/0/#all/")))))
   (add-hook 'org-capture-prepare-finalize-hook 'sk-org-capture-prepare-finalize-hook)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; refile
 
   ;; Provide refile targets as paths
@@ -191,7 +205,7 @@
     (not (member (nth 2 (org-heading-components)) org-done-keywords)))
   (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; screenshot
 
   ;; Only works for OSX
@@ -218,7 +232,7 @@ same directory as the org-buffer and insert a link to this file."
     (if (file-exists-p filename)
         (insert (concat "[[file:" filename "]]"))))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; agenda
 
   (setq org-agenda-files '("~/org/todo.org"
@@ -306,7 +320,7 @@ same directory as the org-buffer and insert a link to this file."
                          (org-tags-match-list-sublevels nil))))
                  nil))))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; babel
 
   ;; languages to load
@@ -322,7 +336,7 @@ same directory as the org-buffer and insert a link to this file."
   ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
   ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; iimage -- display images in your org-mode-file
 
   (require 'iimage)
@@ -337,7 +351,7 @@ same directory as the org-buffer and insert a link to this file."
       (set-face-underline-p 'org-link t))
     (iimage-mode))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org ad hoc code, quick hacks and workarounds
   ;; http://orgmode.org/worg/org-hacks.html
   
