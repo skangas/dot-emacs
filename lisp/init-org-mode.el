@@ -7,6 +7,7 @@
 
   ;;; standard packages
   (require 'org-protocol)
+  (require 'org-notmuch)
   (when (not (version< org-version "9.2"))
    (require 'org-tempo))
 
@@ -70,10 +71,18 @@
 
   ;; General font customization
   (custom-set-faces
-   '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold)))))
+   '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
+   '(org-mode-line-clock ((t (:background "white" :foreground "blue" :box (:line-width -1 :style released-button)))) t))
 
   ;;  Remove clocked tasks with 0:00 duration
   (setq org-clock-out-remove-zero-time-clocks t)
+
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
 
   ;; Don't include validation link in exported HTML
   (setq org-html-validation-link nil)
