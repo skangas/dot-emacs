@@ -83,6 +83,9 @@
                                               ("a." . "-")
                                               ("b." . "-"))))
 
+  ;; Create unique IDs for headers when linking.
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+
   ;; General font customization
   (custom-set-faces
    '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
