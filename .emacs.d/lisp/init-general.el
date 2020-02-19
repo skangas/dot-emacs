@@ -571,8 +571,8 @@
         (concat (regexp-opt '(".asf" ".avi" ".f4v"
                               ".flv" ".m4a" ".m4v"
                               ".mkv" ".mov" ".mp4"
-                              ".mpeg" ".mpg" ".ogv"
-                              ".wmv")) "\\'"))
+                              ".m2ts" ".mpeg" ".mpg"
+                              ".ogv" ".wmv" ".webm")) "\\'"))
 
   (setq openwith-associations
         `((,my-video-types "mpv" (file))
