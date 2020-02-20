@@ -22,6 +22,9 @@
 ;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Use hl-line-mode globally.
+(global-hl-line-mode 1)
+
 ;; Increase min bits to 2048
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 ;; (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
@@ -116,7 +119,7 @@
 (setq-default save-place t)                   ; activate it for all buffers
 
 (show-paren-mode 1)
-(setq show-paren-delay 0.1)
+(setq show-paren-delay 0)
 
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -177,12 +180,6 @@
                 (save-buffers-kill-emacs)))
 (global-unset-key "\C-x\C-c")
 (global-set-key "\C-x\C-c" 'confirm-exit-emacs)
-
-;; Spell checking
-(setq flyspell-use-meta-tab nil
-      ispell-program-name "aspell"
-      ispell-extra-args '("--sug-mode=ultra"))
-(setq flyspell-abbrev-p t)
 
 ;; Wait for wheezy or install hunspell-sv-se from testing
 ;; http://packages.debian.org/wheezy/hunspell-sv-se
@@ -432,14 +429,22 @@
 (use-package f
   :ensure t)
 
+(setq ispell-program-name "aspell"
+      ispell-extra-args '("--sug-mode=ultra"))
+
+(use-package flyspell :ensure nil
+  :config
+  ;; Non-nil means that flyspell uses M-TAB to correct word.
+  (setq flyspell-use-meta-tab nil)
+  ;; If non-nil, add correction to abbreviation table.
+  (setq flyspell-abbrev-p t)
+  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  )
+
 (use-package google-translate
   :ensure t
   :bind (("C-c t" . google-translate-at-point)
          ("C-c T" . google-translate-query-translate)))
-
-;; (use-package hl-line
-;;   :config
-;;   (global-hl-line-mode 1))
 
 ;; (use-package guess-language-mode
 ;;   :ensure t
@@ -575,7 +580,7 @@
                               ".ogv" ".wmv" ".webm")) "\\'"))
 
   (setq openwith-associations
-        `((,my-video-types "mpv" (file))
+        `((,my-video-types "mpv --cache=50000" (file))
           ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
           ("\\.azw3\\'" "calibre" (file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))

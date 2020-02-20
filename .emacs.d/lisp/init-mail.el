@@ -1,9 +1,13 @@
 (progn
-  (setq message-user-fqdn "marxist.se") ; used to generate Message-ID
+  (setq message-user-fqdn "stefankangas.se") ; used to generate Message-ID
   (setq message-fill-column 70)
 
-  (setq message-send-mail-function 'message-send-mail-with-sendmail)
-  (setq sendmail-program "/usr/bin/msmtp")
+  (pcase system-type
+    ('gnu/linux
+     (setq message-send-mail-function 'message-send-mail-with-sendmail)
+     (setq sendmail-program "/usr/bin/msmtp"))
+    ('darwin
+     (load-file "~/org/misc/.osx-sendmail.el")))
 
   ;; Generate the mail headers before you edit your message.
   (setq message-generate-headers-first t)
@@ -29,5 +33,20 @@
 
 
   )
+
+(with-eval-after-load 'notmuch
+  (setq notmuch-search-oldest-first nil)
+
+  ;; KEYBINDINGS
+  (defun sk-notmuch-delete-message ()
+    "toggle deleted tag for message"
+    (interactive)
+    (if (member "deleted" (notmuch-show-get-tags))
+        (notmuch-show-tag (list "-deleted"))
+      (notmuch-show-tag (list "+deleted"))))
+
+  (define-key notmuch-show-mode-map "d" #'sk-notmuch-delete-message)
+
+  ())
 
 (provide 'init-mail)

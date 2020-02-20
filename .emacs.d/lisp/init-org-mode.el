@@ -9,35 +9,34 @@
   :pin "org"
   :config
 
-  ;;; standard packages
+;;; standard packages
   (require 'org-protocol)
-  ;;; contrib packages
-  ;; (require 'org-checklist)
-  (require 'org-man)
-  ;; (require 'org-latex)
-  ;; external packages on next page (C-x ])
+  (require 'org-notmuch)
+  (when (not (version< org-version "9.2"))
+    (require 'org-tempo))
 
-  ;; MobileOrg
-  (setq org-mobile-directory "~/Dropbox/mobileorg")
+  ;; (require 'org-checklist) ; contrib
+
+  ;; Link to man pages.
+  (require 'org-man)                    ; contrib
+  ;; (require 'org-latex)
+
+  ;; MobileOrg (currently unused -- 2020-02-01)
+  ;; (setq org-mobile-directory "~/Dropbox/mobileorg")
   ;;(setq org-mobile-files "~/org/todo.org")
 
-  (defun my-org-mode-hook-defun ()
+  (defun sk-org-mode-hook ()
     ;; Undefine C-c [ and C-c ] since this breaks my
     ;; org-agenda files. when directories are included it
     ;; expands the files in the directories individually.
     (org-defkey org-mode-map "\C-c["    'undefined)
     (org-defkey org-mode-map "\C-c]"    'undefined)
 
-    ;; flyspell unless this is my password file
-    ;; (when nil
-    ;;   (unless (string-equal (buffer-name) "secrets.org.gpg")
-    ;;     (flyspell-mode 1)))
-
-    ;; read-only if this is my password file
+    ;; settings for secret file
     (when (string-equal (buffer-name) "secrets.org.gpg")
       (setq buffer-read-only t)))
 
-  (add-hook 'org-mode-hook 'my-org-mode-hook-defun)
+  (add-hook 'org-mode-hook 'sk-org-mode-hook)
   (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
   ;; Save all org-mode buffers every hour
@@ -57,7 +56,7 @@
   (setq org-hide-leading-stars t)
   (set-face-foreground 'org-hide "#3f3f3f")
 
-  ;; don't hide italics markers
+  ;; hide italics markers if t
   ;; (setq org-hide-emphasis-markers nil)
 
   ;; Strike out done headlines
@@ -74,12 +73,37 @@
   ;; automatically adjust footnotes after insert/delete
   (setq org-footnote-auto-adjust t)
 
+  ;; Automatically change list bullets.
+  (setq org-list-demote-modify-bullet (quote (("+" . "-")
+                                              ("*" . "-")
+                                              ("1." . "-")
+                                              ("1)" . "-")
+                                              ("A)" . "-")
+                                              ("B)" . "-")
+                                              ("a)" . "-")
+                                              ("b)" . "-")
+                                              ("A." . "-")
+                                              ("B." . "-")
+                                              ("a." . "-")
+                                              ("b." . "-"))))
+
+  ;; Create unique IDs for headers when linking.
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+
   ;; General font customization
   (custom-set-faces
-   '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold)))))
+   '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
+   '(org-mode-line-clock ((t (:background "white" :foreground "blue" :box (:line-width -1 :style released-button)))) t))
 
   ;;  Remove clocked tasks with 0:00 duration
   (setq org-clock-out-remove-zero-time-clocks t)
+
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
 
   ;; Don't include validation link in exported HTML
   (setq org-html-validation-link nil)
@@ -121,7 +145,13 @@
                 ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
                 ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
-  ;; keep the agenda fast
+  ;; Open the agenda in the current window.
+  (setq org-agenda-window-setup 'current-window)
+
+  ;; Improve the look of the horizontal line.
+  (setq org-agenda-block-separator nil) ;; HORIZONTAL SCAN LINE-3
+
+  ;; Keep the agenda fast.
   (setq org-agenda-span 'day)
 
   ;; get the notes out of the way into a drawer
@@ -129,6 +159,9 @@
 
   ;; Use sticky agenda's so they persist
   (setq org-agenda-sticky t)
+
+  ;; Remove completed deadline tasks from the agenda view.
+  ;; (setq org-agenda-skip-deadline-if-done t)
 
   ;; Warn two weeks before deadline
   (setq org-deadline-warning-days 14)
@@ -163,14 +196,14 @@
       (sk-search-and-replace '(("https://mail.google.com/mail/u/0/#inbox/" "https://mail.google.com/mail/u/0/#all/")))))
   (add-hook 'org-capture-prepare-finalize-hook 'sk-org-capture-prepare-finalize-hook)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; refile
 
   ;; Provide refile targets as paths
   (setq org-refile-use-outline-path t)
 
   ;; Complete the outline path in hierarchical steps
-  (setq org-outline-path-complete-in-steps nil)
+  (setq org-outline-path-complete-in-steps t)
 
   ;; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
@@ -179,8 +212,7 @@
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 5)
                              ("~/org/later.org" :maxlevel . 5)
-                             ("~/org/agenda.org" :maxlevel . 5)
-                             ("~/org/spanska.org" :maxlevel . 5)))
+                             ("~/org/agenda.org" :maxlevel . 5)))
 
   ;; Exclude DONE state tasks from refile targets
   (defun bh/verify-refile-target ()
@@ -188,7 +220,7 @@
     (not (member (nth 2 (org-heading-components)) org-done-keywords)))
   (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; screenshot
 
   ;; Only works for OSX
@@ -215,15 +247,17 @@ same directory as the org-buffer and insert a link to this file."
     (if (file-exists-p filename)
         (insert (concat "[[file:" filename "]]"))))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; agenda
 
   (setq org-agenda-files '("~/org/todo.org"
                            "~/org/personal.org"
                            "~/org/agenda.org"
                            "~/org/refile.org"
-                           "~/org/.cache/revolution-imt.org"
-                           "~/org/.cache/google-calendar.org"))
+                           ;; FIXME
+                           ;; "~/org/.cache/revolution-imt.org"
+                           ;; "~/org/.cache/google-calendar.org"
+                           ))
   
   (setq org-agenda-dim-blocked-tasks t)
   (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -301,7 +335,7 @@ same directory as the org-buffer and insert a link to this file."
                          (org-tags-match-list-sublevels nil))))
                  nil))))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; babel
 
   ;; languages to load
@@ -317,7 +351,7 @@ same directory as the org-buffer and insert a link to this file."
   ;; (add-to-list 'org-export-latex-packages-alist '("" "listings"))
   ;; (add-to-list 'org-export-latex-packages-alist '("" "color"))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; iimage -- display images in your org-mode-file
 
   (require 'iimage)
@@ -332,7 +366,7 @@ same directory as the org-buffer and insert a link to this file."
       (set-face-underline-p 'org-link t))
     (iimage-mode))
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org ad hoc code, quick hacks and workarounds
   ;; http://orgmode.org/worg/org-hacks.html
   
