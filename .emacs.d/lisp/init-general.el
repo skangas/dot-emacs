@@ -22,6 +22,9 @@
 ;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Use hl-line-mode globally.
+(global-hl-line-mode 1)
+
 ;; Increase min bits to 2048
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 ;; (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
@@ -442,10 +445,6 @@
   :ensure t
   :bind (("C-c t" . google-translate-at-point)
          ("C-c T" . google-translate-query-translate)))
-
-;; (use-package hl-line
-;;   :config
-;;   (global-hl-line-mode 1))
 
 ;; (use-package guess-language-mode
 ;;   :ensure t

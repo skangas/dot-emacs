@@ -125,7 +125,6 @@
                               (:endgroup)
                               ("PERSONAL" . ?P)
 
-                              ("emacs")
                               ("REFILE" . ?r)
                               ("WAITING" . ?w)
                               ("HOLD" . ?h)
@@ -142,7 +141,13 @@
                 ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
                 ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
-  ;; keep the agenda fast
+  ;; Open the agenda in the current window.
+  (setq org-agenda-window-setup 'current-window)
+
+  ;; Improve the look of the horizontal line.
+  (setq org-agenda-block-separator nil) ;; HORIZONTAL SCAN LINE-3
+
+  ;; Keep the agenda fast.
   (setq org-agenda-span 'day)
 
   ;; get the notes out of the way into a drawer
@@ -150,6 +155,9 @@
 
   ;; Use sticky agenda's so they persist
   (setq org-agenda-sticky t)
+
+  ;; Remove completed deadline tasks from the agenda view.
+  ;; (setq org-agenda-skip-deadline-if-done t)
 
   ;; Warn two weeks before deadline
   (setq org-deadline-warning-days 14)
