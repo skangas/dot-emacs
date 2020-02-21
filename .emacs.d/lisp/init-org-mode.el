@@ -145,6 +145,9 @@
                 ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
                 ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
+  ;; Skip scheduled if done.
+  (setq org-agenda-skip-scheduled-if-done t)
+
   ;; Open the agenda in the current window.
   (setq org-agenda-window-setup 'current-window)
 
