@@ -22,6 +22,16 @@
             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
 
 
+;; Debian specific
+(when (and (equal system-name "joffe") (not (fboundp 'debian-startup)))
+  ;; From /usr/share/doc/emacs-common/README.Debian.gz
+  (setq debian-emacs-flavor 'emacs)
+  ;; Ugly hack to load Debian installed "elpa-*" packages.
+  (load-file "/usr/share/emacs/site-lisp/debian-startup.el")
+  (debian-startup 'emacs)
+  (let ((default-directory "/usr/share/emacs/site-lisp"))
+    (load-file "/usr/share/emacs/site-lisp/subdirs.el")))
+
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
