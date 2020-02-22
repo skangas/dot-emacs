@@ -69,6 +69,7 @@
 (require 'init-hydra)
 (require 'init-ivy)
 (require 'init-mentor)
+(require 'init-notmuch)
 (require 'init-org-mode)
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)
@@ -85,13 +86,13 @@
 ;; (require 'init-coding-common-lisp)
 (require 'init-coding-cpp)
 (require 'init-coding-emacs-lisp)
-(require 'init-coding-haskell)
+;; (require 'init-coding-haskell)
 ;; (require 'init-coding-java)
 (require 'init-coding-perl)
 (require 'init-coding-php)
 (require 'init-coding-python)
 (require 'init-coding-ruby)
-(require 'init-coding-scheme)
+;; (require 'init-coding-scheme)
 
 ;; My code
 (require 'sk-lisp)
