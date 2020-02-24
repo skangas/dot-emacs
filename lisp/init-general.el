@@ -369,6 +369,8 @@
         (setq dired-actual-switches "-lAh"))
       (revert-buffer)))
 
+  ;; image-dired
+  (setq image-dired-dir "~/.emacs.d/cache/image-dired/")
   (defun image-dired-here ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
@@ -377,7 +379,7 @@
   (defun dired-open-feh ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
-    (let ((cmd "feh -F -Z * &" ))
+    (let ((cmd "feh -F -Z -r -z * &" ))
       (message cmd)
       (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))))
 
