@@ -197,7 +197,7 @@
   '(("#[abcdef[:digit:]]\\{6\\}"
      (0 (put-text-property (match-beginning 0)
                            (match-end 0)
-                           'face (list :background 
+                           'face (list :background
                                        (match-string-no-properties 0)))))))
 
 (defun hexcolour-add-to-font-lock ()
@@ -236,9 +236,9 @@
 
 ;;; ediff
 (setq ediff-split-window-function (lambda (&optional arg)
-				    (if (> (frame-width) 150)
-					(split-window-horizontally arg)
-				      (split-window-vertically arg))))
+                                    (if (> (frame-width) 150)
+                                        (split-window-horizontally arg)
+                                      (split-window-vertically arg))))
 
 ;; FIXME: Move this somewhere else.
 (progn
@@ -361,21 +361,23 @@
     :lighter " Hide"
     :init-value nil
     (if (not (eq major-mode 'dired-mode))
-        (progn 
-	  (error "Doesn't seem to be a Dired buffer")
-	  (setq dired-hide-dotfiles-mode nil))
+        (progn
+          (error "Doesn't seem to be a Dired buffer")
+          (setq dired-hide-dotfiles-mode nil))
       (if dired-hide-dotfiles-mode
-	  (setq dired-actual-switches "-lh")
+          (setq dired-actual-switches "-lh")
         (setq dired-actual-switches "-lAh"))
       (revert-buffer)))
 
   ;; image-dired
   (setq image-dired-dir "~/.emacs.d/cache/image-dired/")
+  (setq image-dired-thumb-width  150
+        image-dired-thumb-height 150)
   (defun image-dired-here ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
     (image-dired default-directory))
-  
+
   (defun dired-open-feh ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
@@ -402,7 +404,7 @@
   ;;   (dired-do-shell-command command arg file-list)
   ;;   (message command))
   ;; (eval-after-load 'dired '(define-key dired-mode-map "/" 'diredext-exec-git-command-in-shell))
-  
+
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
 
 (use-package discover
@@ -526,7 +528,7 @@
         ido-max-directory-size 100000   ; Avoid [Too Big] messages
         ;; display matches vertically
         ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
-                                " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))) 
+                                " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
 
   (dolist (file-ending '("os" "pyc"))
     (add-to-list 'ido-ignore-files (concat "." file-ending "$")))

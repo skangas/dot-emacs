@@ -116,3 +116,4 @@
             (newline-and-indent)  (newline-and-indent)))
 (put 'narrow-to-page 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
+(put 'list-timers 'disabled nil)
