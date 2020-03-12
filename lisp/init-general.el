@@ -239,6 +239,7 @@
                                     (if (> (frame-width) 150)
                                         (split-window-horizontally arg)
                                       (split-window-vertically arg))))
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; FIXME: Move this somewhere else.
 (progn
