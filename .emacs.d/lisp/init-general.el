@@ -344,14 +344,8 @@
               ("." . dired-hide-dotfiles-mode)
               ("," . dired-hide-details-mode)
               ("å" . dired-open-feh)
-              ("C-i" . image-dired-here)
-              ("C-c r" . my-dired-move-to-red))
+              ("C-i" . image-dired-here))
   :config
-  (defun my-dired-move-to-red ()
-    (interactive)
-    (dolist (from (dired-get-marked-files))
-      (copy-file from "/home/skangas/red"))
-    (revert-buffer))
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
         dired-isearch-filenames 'dwim) ; Search filenames only
