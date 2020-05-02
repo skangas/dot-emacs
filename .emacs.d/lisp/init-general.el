@@ -61,6 +61,7 @@
       ;; calendar
       calendar-week-start-day 1              ; Start week on Monday
       calendar-date-style 'european          ; Use European calendar
+      display-time-world-buffer-name "*World Clock*"
 
       ;; holidays
       calendar-mark-holidays-flag t
