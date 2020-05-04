@@ -69,7 +69,7 @@
 (require 'init-hydra)
 (require 'init-ivy)
 (require 'init-mentor)
-(require 'init-notmuch)
+(require 'init-mail)
 (require 'init-org-mode)
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)

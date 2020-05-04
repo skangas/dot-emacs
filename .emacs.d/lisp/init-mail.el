@@ -35,6 +35,8 @@
   )
 
 (with-eval-after-load 'notmuch
+  (setq notmuch-show-logo nil)
+  (setq notmuch-show-all-tags-list t)
   (setq notmuch-search-oldest-first nil)
 
   ;; KEYBINDINGS
