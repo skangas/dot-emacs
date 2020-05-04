@@ -27,12 +27,7 @@
                                        ;; Never reply here.
                                        "control@debbugs.gnu.org"
                                        "bug-gnu-emacs@gnu.org"
-                                       "emacs-pretest-bug@gnu.org"
-                                       )))
-
-
-
-  )
+                                       "emacs-pretest-bug@gnu.org"))))
 
 (with-eval-after-load 'notmuch
   (setq notmuch-show-logo nil)
@@ -44,11 +39,96 @@
     "toggle deleted tag for message"
     (interactive)
     (if (member "deleted" (notmuch-show-get-tags))
-        (notmuch-show-tag (list "-deleted"))
-      (notmuch-show-tag (list "+deleted"))))
+        (notmuch-show-tag (list "-trash"))
+      (notmuch-show-tag (list "+trash"))))
 
-  (define-key notmuch-show-mode-map "d" #'sk-notmuch-delete-message)
+  (define-key notmuch-show-mode-map "d" #'sk-notmuch-delete-message))
 
-  ())
+
+;;;;;;;;;; Handle word attachments.
+;; Below code from https://notmuchmail.org/pipermail/notmuch/2017/023855.html
+
+(defun mm-inline-msword (handle)
+  (let (text)
+    (with-temp-buffer
+      (mm-insert-part handle)
+      (call-process-region (point-min) (point-max) "antiword" t t nil "-")
+      (setq text (buffer-string)))
+    (mm-insert-inline handle text)))
+
+(defun mm-inline-docx (handle)
+  "pandoc --normalize -r docx -w markdown %s"
+  (let (text)
+    (with-temp-buffer
+      (mm-insert-part handle)
+      (let ((coding-system-for-read 'utf-8))
+	(call-process-region (point-min) (point-max) (expand-file-name "~/bin/antiwordx") t t nil))
+      (setq text (buffer-string)))
+    (mm-insert-inline handle text)))
+
+(setq my-inline-mime-tests
+     '(("text/rtf" mm-inline-rtf
+        (lambda
+          (handle)
+          (let
+              ((name
+                (mail-content-type-get
+                 (mm-handle-disposition handle)
+                 'filename)))
+            (and name
+                 (equal ".rtf"
+                        (substring name -4 nil))))))
+       ("application/x-msword" mm-inline-docx
+        (lambda
+          (handle)
+          (let
+              ((name
+                (mail-content-type-get
+                 (mm-handle-disposition handle)
+                 'filename)))
+            (and name
+                 (equal ".docx"
+                        (substring name -5 nil))))))
+       ("application/x-msword" mm-inline-msword
+        (lambda
+          (handle)
+          (let
+              ((name
+                (mail-content-type-get
+                 (mm-handle-disposition handle)
+                 'filename)))
+            (and name
+                 (equal ".doc"
+                        (substring name -4 nil))))))
+       ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" mm-inline-docx identity)
+       ("application/octet-stream" mm-inline-docx
+        (lambda
+          (handle)
+          (let
+              ((name
+                (mail-content-type-get
+                 (mm-handle-disposition handle)
+                 'filename)))
+            (and name
+                 (equal ".docx"
+                        (substring name -5 nil))))))
+       ("application/octet-stream" mm-inline-msword
+        (lambda
+          (handle)
+          (let
+              ((name
+                (mail-content-type-get
+                 (mm-handle-disposition handle)
+                 'filename)))
+            (and name
+                 (equal ".doc"
+                        (substring name -4 nil))))))
+       ("application/msword" mm-inline-msword identity)))
+
+(mapcar (lambda (x) (add-to-list 'mm-inlined-types (car x)))
+        my-inline-mime-tests)
+
+(mapcar (lambda (x) (add-to-list 'mm-inline-media-tests x))
+        my-inline-mime-tests)
 
 (provide 'init-mail)
