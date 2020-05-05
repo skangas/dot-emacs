@@ -2,13 +2,14 @@
   (setq message-user-fqdn "stefankangas.se") ; used to generate Message-ID
   (setq message-fill-column 70)
 
-  (pcase system-type
-    ('gnu/linux
-     (setq message-send-mail-function 'message-send-mail-with-sendmail)
-     (setq sendmail-program "/usr/bin/msmtp"))
-    ('darwin
-     (load-file "~/org/misc/.osx-sendmail.el")))
-
+  ;; (pcase system-type
+  ;;   ('gnu/linux
+  ;;    (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  ;;    (setq sendmail-program "/usr/bin/msmtp"))
+  ;;   ('darwin
+  ;;    (load-file "~/org/misc/.osx-sendmail.el")))
+  (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
+  (setq message-sendmail-extra-arguments '("send" "-C" "~/.mail/account.gmail"))
   ;; Generate the mail headers before you edit your message.
   (setq message-generate-headers-first t)
 
@@ -35,15 +36,22 @@
   (setq notmuch-show-all-tags-list t)
   (setq notmuch-search-oldest-first nil)
 
-  ;; KEYBINDINGS
-  (defun sk-notmuch-delete-message ()
-    "toggle deleted tag for message"
+  ;; Delete message.
+  (defun sk/notmuch-show-delete-message ()
+    "toggle deleted tag for message in notmuch show mode."
     (interactive)
     (if (member "trash" (notmuch-show-get-tags))
         (notmuch-show-tag (list "-trash"))
       (notmuch-show-tag (list "+trash"))))
-
-  (define-key notmuch-show-mode-map "d" #'sk-notmuch-delete-message))
+  (defun sk/notmuch-search-delete-message ()
+    "toggle deleted tag for message in notmuch show mode."
+    (interactive)
+    (if (member "trash" (notmuch-search-get-tags))
+        (notmuch-search-tag (list "-trash"))
+      (notmuch-search-tag (list "+trash")))
+    (notmuch-search-next-thread))
+  (define-key notmuch-search-mode-map "d" 'sk/notmuch-search-delete-message)
+  (define-key notmuch-show-mode-map "d" 'sk/notmuch-show-delete-message))
 
 
 ;;;;;;;;;; Handle word attachments.
