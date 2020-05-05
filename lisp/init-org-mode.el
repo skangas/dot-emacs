@@ -2,6 +2,7 @@
 
 (use-package anki-editor
   :ensure t
+  :pin "melpa"
   :after org)
 
 (use-package org
@@ -11,14 +12,14 @@
 
 ;;; standard packages
   (require 'org-protocol)
-  (require 'org-notmuch)
+  (require 'ol-notmuch)
   (when (not (version< org-version "9.2"))
     (require 'org-tempo))
 
   ;; (require 'org-checklist) ; contrib
 
   ;; Link to man pages.
-  (require 'org-man)                    ; contrib
+  (require 'ol-man)                    ; contrib
   ;; (require 'org-latex)
 
   ;; MobileOrg (currently unused -- 2020-02-01)
@@ -273,7 +274,7 @@ same directory as the org-buffer and insert a link to this file."
                  ((org-agenda-overriding-header "Habits")
                   (org-agenda-sorting-strategy
                    '(todo-state-down effort-up category-keep))))
-                (" " "Agenda"
+                ("x" "Agenda"
                  ((agenda "" nil)
                   (tags "REFILE"
                         ((org-agenda-overriding-header "Tasks to Refile")

@@ -29,6 +29,7 @@
                                        "bug-gnu-emacs@gnu.org"
                                        "emacs-pretest-bug@gnu.org"))))
 
+(require 'notmuch)
 (with-eval-after-load 'notmuch
   (setq notmuch-show-logo nil)
   (setq notmuch-show-all-tags-list t)
@@ -38,7 +39,7 @@
   (defun sk-notmuch-delete-message ()
     "toggle deleted tag for message"
     (interactive)
-    (if (member "deleted" (notmuch-show-get-tags))
+    (if (member "trash" (notmuch-show-get-tags))
         (notmuch-show-tag (list "-trash"))
       (notmuch-show-tag (list "+trash"))))
 
