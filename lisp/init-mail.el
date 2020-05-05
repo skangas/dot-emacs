@@ -9,7 +9,9 @@
   ;;   ('darwin
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
-  (setq message-sendmail-extra-arguments '("send" "-C" "~/.mail/account.gmail"))
+  (setq message-sendmail-extra-arguments `("send" "-C"
+                                           ,(expand-file-name "~/.mail/account.gmail")))
+  (setq message-sendmail-f-is-evil t) ;; maybe not needed in latest lieer?
   ;; Generate the mail headers before you edit your message.
   (setq message-generate-headers-first t)
 
