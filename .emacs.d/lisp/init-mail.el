@@ -44,7 +44,9 @@
     (interactive)
     (if (member "trash" (notmuch-show-get-tags))
         (notmuch-show-tag (list "-trash"))
-      (notmuch-show-tag (list "+trash"))))
+      (notmuch-show-tag (list "+trash")))
+    (unless (notmuch-show-next-open-message)
+      (notmuch-show-next-thread t)))
 
   (defun sk/notmuch-search-delete-message ()
     "toggle deleted tag for message in notmuch show mode."
