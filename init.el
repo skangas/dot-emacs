@@ -30,8 +30,7 @@
   (load-file "/usr/share/emacs/site-lisp/debian-startup.el")
   (debian-startup 'emacs)
   (let ((default-directory "/usr/share/emacs/site-lisp"))
-    (load-file "/usr/share/emacs/site-lisp/subdirs.el"))
-  (load-file "/usr/share/emacs/site-lisp/elpa/"))
+    (load-file "/usr/share/emacs/site-lisp/subdirs.el")))
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
