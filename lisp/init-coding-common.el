@@ -16,6 +16,7 @@
 
 (use-package debbugs
   :ensure t
+  :pin "gnu"
   :config
   (setq debbugs-gnu-emacs-current-release "27.1")
   (setq debbugs-gnu-branch-directory "~/wip/emacs26")
@@ -179,7 +180,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :ensure t
   :mode (("\\.yml\\'" . yaml-mode)))
 
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+;; Disabled for now.
+;; (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;; Shared bindings
 (defun my-coding-keys (map)
