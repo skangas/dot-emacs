@@ -9,7 +9,7 @@
   ;;   ('darwin
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
-  (setq message-sendmail-extra-arguments `("--quiet" "send" "-C" "~/.mail/account.gmail"))
+  (setq message-sendmail-extra-arguments `("send" "--quiet" "-C" "~/.mail/account.gmail"))
   ;; (setq message-sendmail-extra-arguments `("send" "-C" "~/.mail/account.gmail"))
   (setq message-sendmail-f-is-evil t) ;; maybe not needed in latest lieer?
   ;; Generate the mail headers before you edit your message.
@@ -45,6 +45,7 @@
     (if (member "trash" (notmuch-show-get-tags))
         (notmuch-show-tag (list "-trash"))
       (notmuch-show-tag (list "+trash"))))
+
   (defun sk/notmuch-search-delete-message ()
     "toggle deleted tag for message in notmuch show mode."
     (interactive)
@@ -52,6 +53,7 @@
         (notmuch-search-tag (list "-trash"))
       (notmuch-search-tag (list "+trash")))
     (notmuch-search-next-thread))
+
   (define-key notmuch-search-mode-map "d" 'sk/notmuch-search-delete-message)
   (define-key notmuch-show-mode-map "d" 'sk/notmuch-show-delete-message))
 
