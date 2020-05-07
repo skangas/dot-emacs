@@ -1,5 +1,7 @@
 (progn
   (setq message-user-fqdn "stefankangas.se") ; used to generate Message-ID
+  (setq user-mail-address "stefan@marxist.se")
+  (setq notmuch-identities '("stefan@marxist.se"))
   ;; (setq message-fill-column 72)
 
   ;; (pcase system-type
