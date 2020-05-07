@@ -48,6 +48,10 @@
     (make-directory dir)))
 
 
+;; Font
+(add-to-list 'default-frame-alist
+             '(font . "Ubuntu Mono-14"))
+
 ;;; Enable theme early to avoid flickering.
 (use-package zenburn-theme
   :ensure t
