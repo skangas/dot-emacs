@@ -95,41 +95,41 @@
                  (message "Skipping duplicate entry: %s" title))
         (puthash title t skangas--elfeed-seen-entry-title))))
 
-(defun skangas-score-elfeed-entry (entry)
-    (let ((title (elfeed-entry-title entry))
-          (link (elfeed-entry-link entry))
-          (categories (elfeed-meta entry :categories))
-          (content (elfeed-deref (elfeed-entry-content entry)))
-          (score 0))
+;; (defun skangas-score-elfeed-entry (entry)
+;;     (let ((title (elfeed-entry-title entry))
+;;           (link (elfeed-entry-link entry))
+;;           (categories (elfeed-meta entry :categories))
+;;           (content (elfeed-deref (elfeed-entry-content entry)))
+;;           (score 0))
 
-      (cl-loop for (pattern n) in (list (list sk/elfeed-filtered-words-1000 -1000))
-               if (string-match pattern title)
-               do (incf score n)
-               if (string-match pattern content)
-               do (incf score n))
-      ;; LINK
-      (cl-loop for (pattern n) in sk/elfeed-filtered-links
-               if (string-match pattern link)
-               do (incf score n))
+;;       (cl-loop for (pattern n) in (list (list sk/elfeed-filtered-words-1000 -1000))
+;;                if (string-match pattern title)
+;;                do (incf score n)
+;;                if (string-match pattern content)
+;;                do (incf score n))
+;;       ;; LINK
+;;       (cl-loop for (pattern n) in sk/elfeed-filtered-links
+;;                if (string-match pattern link)
+;;                do (incf score n))
 
-      ;; Ban categories
-      (if (memq "Sport" categories) (incf score -1000))
+;;       ;; Ban categories
+;;       (if (memq "Sport" categories) (incf score -1000))
 
-      ;; Show result of scoring
-      (when (not (= score 0))
-        (message "elfeed scoring: %s - %s (%s)" title score categories))
+;;       ;; Show result of scoring
+;;       (when (not (= score 0))
+;;         (message "elfeed scoring: %s - %s (%s)" title score categories))
 
-      ;; Store score for later
-      (setf (elfeed-meta entry :my/score) score)
+;;       ;; Store score for later
+;;       (setf (elfeed-meta entry :my/score) score)
 
-      (cond
-       ((<= score -1000)
-        (elfeed-untag-1 entry 'unread))
-       ((= score 1)
-        (elfeed-tag entry 'relevant))
-       ((> score 1)
-        (elfeed-tag entry 'important)))
-      entry))
+;;       (cond
+;;        ((<= score -1000)
+;;         (elfeed-untag-1 entry 'unread))
+;;        ((= score 1)
+;;         (elfeed-tag entry 'relevant))
+;;        ((> score 1)
+;;         (elfeed-tag entry 'important)))
+;;       entry))
 
 (use-package elfeed
   :commands elfeed
@@ -140,9 +140,11 @@
               ("n" . next-line)
               ("p" . 'previous-line))
   :config
-  (add-hook 'elfeed-show-mode 'visual-line-mode)
+  nil
+  ;; (add-hook 'elfeed-show-mode 'visual-line-mode) ;; replaced by shr-width
   (add-hook 'elfeed-new-entry-hook 'skangas-elfeed-skip-duplicate-entry)
-  (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry))
+  ;; (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
+  )
 
 (use-package elfeed-org
   :ensure t

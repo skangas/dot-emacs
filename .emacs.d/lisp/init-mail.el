@@ -1,6 +1,6 @@
 (progn
   (setq message-user-fqdn "stefankangas.se") ; used to generate Message-ID
-  (setq message-fill-column 70)
+  ;; (setq message-fill-column 72)
 
   ;; (pcase system-type
   ;;   ('gnu/linux
@@ -10,6 +10,7 @@
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
   (setq message-sendmail-extra-arguments `("send" "--quiet" "-C" "~/.mail/account.gmail"))
+  (setq notmuch-fcc-dirs nil)
   ;; (setq message-sendmail-extra-arguments `("send" "-C" "~/.mail/account.gmail"))
   (setq message-sendmail-f-is-evil t) ;; maybe not needed in latest lieer?
   ;; Generate the mail headers before you edit your message.
