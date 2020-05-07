@@ -57,6 +57,9 @@
       (notmuch-search-tag (list "+trash")))
     (notmuch-search-next-thread))
 
+  (define-key notmuch-search-mode-map "h" 'notmuch-search-archive-thread)
+  (define-key notmuch-show-mode-map "h" 'notmuch-show-archive-message-then-next-or-next-thread)
+
   (define-key notmuch-search-mode-map "d" 'sk/notmuch-search-delete-message)
   (define-key notmuch-show-mode-map "d" 'sk/notmuch-show-delete-message))
 
