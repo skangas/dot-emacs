@@ -153,6 +153,10 @@
   (let ((link (elfeed-entry-link elfeed-show-entry)))
     (eww-browse-url link)))
 
+(defun sk/elfeed-show-share-link ()
+  (interactive)
+  (kill-region (point-min) (point-max)))
+
 (use-package elfeed
   :commands elfeed
   :ensure t
