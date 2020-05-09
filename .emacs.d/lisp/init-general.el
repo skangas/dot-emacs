@@ -57,6 +57,7 @@
       frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
                            (:eval (format " [%s]" mode-name)))
+      shr-width 80
 
       ;; calendar
       calendar-week-start-day 1              ; Start week on Monday
