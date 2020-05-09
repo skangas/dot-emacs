@@ -11,7 +11,7 @@
   ;;   ('darwin
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
-  (setq message-sendmail-extra-arguments '("send" "--quiet" "-C" "~/.mail/account.gmail"))
+  ;; (setq message-sendmail-extra-arguments '("send" "--quiet" "-C" "~/.mail/account.gmail"))
   (setq message-sendmail-extra-arguments '("queue" "--quiet" "-C" "~/.mail/account.gmail"))
   (setq notmuch-fcc-dirs nil)
   ;; (setq message-sendmail-extra-arguments `("send" "-C" "~/.mail/account.gmail"))

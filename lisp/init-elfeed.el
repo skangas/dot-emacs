@@ -131,6 +131,28 @@
 ;;         (elfeed-tag entry 'important)))
 ;;       entry))
 
+(defun sk/elfeed-search-copy-link (entry)
+  (interactive (list (elfeed-search-selected :single)))
+  (let ((link (elfeed-entry-link entry)))
+    (kill-new link)
+    (message link)))
+
+(defun sk/elfeed-search-browse-in-eww (entry)
+  (interactive (list (elfeed-search-selected :single)))
+  (let ((link (elfeed-entry-link entry)))
+    (eww-browse-url link)))
+
+(defun sk/elfeed-show-copy-link ()
+  (interactive)
+  (let ((link (elfeed-entry-link elfeed-show-entry)))
+    (kill-new link)
+    (message link)))
+
+(defun sk/elfeed-show-browse-in-eww ()
+  (interactive)
+  (let ((link (elfeed-entry-link elfeed-show-entry)))
+    (eww-browse-url link)))
+
 (use-package elfeed
   :commands elfeed
   :ensure t
@@ -138,7 +160,12 @@
               ("h" . elfeed-search-untag-all-unread) ; more ergonomic keybinding
               ("j" . sk/elfeed-jump/body)
               ("n" . next-line)
-              ("p" . 'previous-line))
+              ("p" . 'previous-line)
+              ("w" . 'sk/elfeed-search-copy-link)
+              ("B" . 'sk/elfeed-search-browse-in-eww))
+  :bind (:map elfeed-show-mode-map
+              ("B" . 'sk/elfeed-show-browse-in-eww)
+              ("w" . 'sk/elfeed-show-copy-link))
   :config
   nil
   (add-hook 'elfeed-new-entry-hook 'skangas-elfeed-skip-duplicate-entry)

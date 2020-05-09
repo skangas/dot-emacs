@@ -19,9 +19,14 @@
 ;;; Global key bindings
 
 ;; C-<foo>
-(global-set-key (kbd "C-å") 'isearch-forward) ; more ergonomic alias?
+(global-set-key (kbd "C-c 1") 'org-agenda)
+(global-set-key (kbd "C-c 2") 'notmuch)
+(global-set-key (kbd "C-c 3") 'elfeed)
+(global-set-key (kbd "C-c 5") 'magit-status)
+(global-set-key (kbd "C-ä") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
-(global-set-key (kbd "<C-tab>") 'hippie-expand) ; Remove?
+(global-set-key (kbd "C-!") 'org-capture) "
+(global-set-key (kbd \"<C-tab>\") 'hippie-expand)" ; Remove?
 
 ;; M-<foo>
 (global-set-key (kbd "M-<left>") 'previous-buffer)

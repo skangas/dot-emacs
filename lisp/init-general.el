@@ -57,7 +57,6 @@
       frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
                            (:eval (format " [%s]" mode-name)))
-      shr-width 80
 
       ;; calendar
       calendar-week-start-day 1              ; Start week on Monday
@@ -421,11 +420,12 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
-;; (use-package eww
-;;   :config
-;;   (add-hook 'eww-mode-hook (visual-line-mode))
-;;   )
-;; eww-mode-hook
+(use-package eww
+  :config
+  (setq shr-width 80)
+  (defun sk/my-eww-mode-hook ()
+    (setq line-spacing 5))
+  (add-hook 'eww-mode-hook 'sk/my-eww-mode-hook))
 
 (use-package f
   :ensure t)
