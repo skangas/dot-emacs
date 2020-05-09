@@ -141,8 +141,8 @@
               ("p" . 'previous-line))
   :config
   nil
-  ;; (add-hook 'elfeed-show-mode 'visual-line-mode) ;; replaced by shr-width
   (add-hook 'elfeed-new-entry-hook 'skangas-elfeed-skip-duplicate-entry)
+  (add-hook 'elfeed-show-mode 'visual-line-mode)
   ;; (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
   )
 
