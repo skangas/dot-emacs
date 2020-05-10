@@ -50,6 +50,7 @@
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
       lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
+      ffap-machine-p-known 'reject                   ; stop ffap from pinging random hosts
 
       ;; choose browser
       browse-url-browser-function 'browse-url-generic
@@ -63,16 +64,18 @@
       calendar-date-style 'european          ; Use European calendar
       display-time-world-buffer-name "*World Clock*"
 
+
+
       ;; holidays
       calendar-mark-holidays-flag t
- calendar-holidays nil
- holiday-bahai-holidays nil
- holiday-christian-holidays nil
- holiday-dragon-holidays nil
- holiday-general-holidays nil
- holiday-hebrew-holidays nil
- holiday-islamic-holidays nil
- holiday-solar-holidays nil
+      calendar-holidays nil
+      holiday-bahai-holidays nil
+      holiday-christian-holidays nil
+      holiday-dragon-holidays nil
+      holiday-general-holidays nil
+      holiday-hebrew-holidays nil
+      holiday-islamic-holidays nil
+      holiday-solar-holidays nil
 
       )
 
