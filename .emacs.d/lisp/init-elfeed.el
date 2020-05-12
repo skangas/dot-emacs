@@ -157,12 +157,8 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (let ((title (progn
-                   (re-search-forward "^Title: \\(.+\\)")
-                   (match-string 1)))
-          (source (progn
-                    (re-search-forward "^Feed: \\(.+\\)")
-                    (match-string 1)))
+    (let ((title (elfeed-entry-title elfeed-show-entry))
+          (source (elfeed-feed-title (elfeed-entry-feed elfeed-show-entry)))
           (body (buffer-substring (point-min) (point-max)))
           (url (elfeed-entry-link elfeed-show-entry)))
       (message-mail)
@@ -174,11 +170,11 @@
       (insert url "\n\n" body)
       ;; Cleanup.
       (message-goto-body)
-      (re-search-forward "^Feed: \\(.+\\)\n")
+      (re-search-forward "^Feed: \\(.*\\)\n")
       (replace-match "")
-      (re-search-forward "^Tags: \\(.+\\)\n")
+      (re-search-forward "^Tags: \\(.*\\)\n")
       (replace-match "")
-      (re-search-forward "^Link: \\(.+\\)\n")
+      (re-search-forward "^Link: \\(.*\\)\n")
       (replace-match "")
       ;; Finish.
       (message-goto-body))))
