@@ -155,7 +155,33 @@
 
 (defun sk/elfeed-show-share-link ()
   (interactive)
-  (kill-region (point-min) (point-max)))
+  (save-excursion
+    (goto-char (point-min))
+    (let ((title (progn
+                   (re-search-forward "^Title: \\(.+\\)")
+                   (match-string 1)))
+          (source (progn
+                    (re-search-forward "^Feed: \\(.+\\)")
+                    (match-string 1)))
+          (body (buffer-substring (point-min) (point-max)))
+          (url (elfeed-entry-link elfeed-show-entry)))
+      (message-mail)
+      ;; Compose message.
+      (insert "desk@marxist.se")
+      (message-goto-subject)
+      (insert title " | " source)
+      (message-goto-body)
+      (insert url "\n\n" body)
+      ;; Cleanup.
+      (message-goto-body)
+      (re-search-forward "^Feed: \\(.+\\)\n")
+      (replace-match "")
+      (re-search-forward "^Tags: \\(.+\\)\n")
+      (replace-match "")
+      (re-search-forward "^Link: \\(.+\\)\n")
+      (replace-match "")
+      ;; Finish.
+      (message-goto-body))))
 
 (use-package elfeed
   :commands elfeed
@@ -168,8 +194,10 @@
               ("w" . 'sk/elfeed-search-copy-link)
               ("B" . 'sk/elfeed-search-browse-in-eww))
   :bind (:map elfeed-show-mode-map
+              ("h" . 'elfeed-show-next)
               ("B" . 'sk/elfeed-show-browse-in-eww)
-              ("w" . 'sk/elfeed-show-copy-link))
+              ("w" . 'sk/elfeed-show-copy-link)
+              ("S" . 'sk/elfeed-show-share-link))
   :config
   nil
   (add-hook 'elfeed-new-entry-hook 'skangas-elfeed-skip-duplicate-entry)
