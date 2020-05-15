@@ -14,23 +14,6 @@
     ("5" (dired-do-delete) "delete")
     ("q" nil "quit" :color blue))
 
-  (defhydra sk/elfeed-jump ()
-    "filter"
-    ("b" (elfeed-search-set-filter "@6-months-ago +bloggar +unread") "bloggar")
-    ("e" (elfeed-search-set-filter "@6-months-ago +engelska +nyheter +unread") "engelska")
-    ("i" (elfeed-search-set-filter "@6-months-ago +imt +unread") "imt")
-    ("j" (elfeed-search-set-filter "@6-months-ago +imt +español +unread") "imt+español")
-    ("n" (elfeed-search-set-filter "@6-months-ago +nyheter +unread") "nyheter")
-    ("p" (elfeed-search-set-filter "@6-months-ago +español +unread") "español")
-    ("s" (elfeed-search-set-filter "@6-months-ago +svenska +nyheter +unread") "svenska")
-    ("t" (elfeed-search-set-filter "@6-months-ago +tech +unread") "tech")
-    ("y" (elfeed-search-set-filter "@6-months-ago +youtube") "youtube")
-    ;; ("M" elfeed-toggle-star "Mark")
-    ("A" (elfeed-search-set-filter "@6-months-ago") "All")
-    ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
-    ("Q" bjm/elfeed-save-db-and-bury "Quit Elfeed" :color blue)
-    ("q" nil "quit" :color blue))
-
   ;; TODO
   ;; (defhydra hydra-clock-in (:exit t)
   ;;   ""

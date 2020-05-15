@@ -195,10 +195,30 @@
               ("w" . 'sk/elfeed-show-copy-link)
               ("S" . 'sk/elfeed-show-share-link))
   :config
-  nil
   (add-hook 'elfeed-new-entry-hook 'skangas-elfeed-skip-duplicate-entry)
   (add-hook 'elfeed-show-mode 'visual-line-mode)
   ;; (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
+
+  (with-eval-after-load 'hydra
+    (defhydra sk/elfeed-jump ()
+      "filter"
+      ("1" (elfeed-search-set-filter "@6-months-ago +svenska +nyheter +unread") "svenska")
+      ("4" (elfeed-search-set-filter "@6-months-ago +bloggar +unread") "bloggar")
+      ("2" (elfeed-search-set-filter "@6-months-ago +imt +unread") "imt")
+      ("3" (elfeed-search-set-filter "@6-months-ago +engelska +nyheter +unread") "engelska")
+
+      ("7" (elfeed-search-set-filter "@6-months-ago +youtube unread") "youtube")
+      ("8" (elfeed-search-set-filter "@6-months-ago +imt +español +unread") "imt+español")
+      ("9" (elfeed-search-set-filter "@6-months-ago +español +unread") "español")
+
+      ("n" (elfeed-search-set-filter "@6-months-ago +nyheter +unread") "nyheter")
+      ("t" (elfeed-search-set-filter "@6-months-ago +tech +unread") "tech")
+
+      ;; ("M" elfeed-toggle-star "Mark")
+      ("A" (elfeed-search-set-filter "@6-months-ago") "All")
+      ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+      ("Q" bjm/elfeed-save-db-and-bury "Quit Elfeed" :color blue)
+      ("q" nil "quit" :color blue)))
   )
 
 (use-package elfeed-org

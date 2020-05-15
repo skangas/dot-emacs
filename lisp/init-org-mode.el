@@ -207,7 +207,7 @@
   (setq org-refile-use-outline-path t)
 
   ;; Complete the outline path in hierarchical steps
-  (setq org-outline-path-complete-in-steps t)
+  (setq org-outline-path-complete-in-steps nil)
 
   ;; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
