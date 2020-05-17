@@ -203,9 +203,9 @@
     (defhydra sk/elfeed-jump ()
       "filter"
       ("1" (elfeed-search-set-filter "@6-months-ago +svenska +nyheter +unread") "svenska")
-      ("4" (elfeed-search-set-filter "@6-months-ago +bloggar +unread") "bloggar")
       ("2" (elfeed-search-set-filter "@6-months-ago +imt +unread") "imt")
       ("3" (elfeed-search-set-filter "@6-months-ago +engelska +nyheter +unread") "engelska")
+      ("4" (elfeed-search-set-filter "@6-months-ago +bloggar +unread") "bloggar")
 
       ("7" (elfeed-search-set-filter "@6-months-ago +youtube unread") "youtube")
       ("8" (elfeed-search-set-filter "@6-months-ago +imt +español +unread") "imt+español")
