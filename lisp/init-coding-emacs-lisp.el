@@ -40,6 +40,7 @@
     (interactive)
     (let ((byte-compile-warnings '(unresolved)))
       (when (and buffer-file-name
+                 (not (string-match "^/home/skangas/wip/emacs" buffer-file-name))
                  (not (string-match "\\.dir-locals\\.el$"  buffer-file-name))
                  (string-match "/.*\\.el$"  buffer-file-name)
 ;                     (string-match init-file-user buffer-file-name)) ;; XXX: doesn't work
