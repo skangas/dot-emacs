@@ -27,7 +27,7 @@
      (:name "desk" :query "tag:desk AND tag:unread")
      (:name "logcheck" :query "tag:logcheck AND not tag:trash AND not tag:deleted")
      (:name "emacs::bugs" :query "tag:emacs::bugs AND tag:unread")
-     (:name "emacs" :query "(tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help) AND tag:unread")))
+     (:name "emacs" :query "(tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help) AND tag:unread" :key "e")))
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#fb4934")
