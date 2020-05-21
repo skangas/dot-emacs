@@ -25,25 +25,29 @@
       (notmuch)
     (notmuch-search "tag:inbox")))
 
+(defun sk/org-agenda ()
+  (interactive)
+  (org-agenda nil "x"))
+
 ;; C-<foo>
-(global-set-key (kbd "C-c C-1") 'org-agenda)
+(global-set-key (kbd "C-c C-1") 'sk/org-agenda)
 (global-set-key (kbd "C-c C-2") 'sk/notmuch-inbox)
 (global-set-key (kbd "C-c C-3") 'elfeed)
 (global-set-key (kbd "C-c C-4") 'notmuch)
 (global-set-key (kbd "C-c C-5") 'magit-status)
-(global-set-key (kbd "C-ä") 'isearch-forward)
+(global-set-key (kbd "C-z") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
 (global-set-key (kbd "C-!") 'org-capture) "
 (global-set-key (kbd \"<C-tab>\") 'hippie-expand)" ; Remove?
 
-(define-prefix-command 'ctl-å-map)
-(global-set-key (kbd "C-å") 'ctl-å-map)
-(global-set-key (kbd "C-å C-å") 'switch-bury-or-kill-buffer)
-(global-set-key (kbd "C-å C-c") 'compile)
-(global-set-key (kbd "C-å C-b") 'previous-buffer)
-(global-set-key (kbd "C-å C-f") 'next-buffer)
-(global-set-key (kbd "C-å C-p") 'winner-undo)
-(global-set-key (kbd "C-å C-n") 'winner-redo)
+;; (define-prefix-command 'ctl-ao-map)
+;; (global-set-key (kbd "C-ä") 'ctl-ao-map)
+;; (global-set-key (kbd "C-ä C-ä") 'switch-bury-or-kill-buffer)
+;; (global-set-key (kbd "C-ä C-c") 'compile)
+;; (global-set-key (kbd "C-ä C-b") 'previous-buffer)
+;; (global-set-key (kbd "C-ä C-f") 'next-buffer)
+;; (global-set-key (kbd "C-ä C-p") 'winner-undo)
+;; (global-set-key (kbd "C-ä C-n") 'winner-redo)
 
 ;; M-<foo>
 (global-set-key (kbd "M-<left>") 'previous-buffer)

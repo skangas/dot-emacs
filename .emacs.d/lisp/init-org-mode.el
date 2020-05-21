@@ -6,8 +6,8 @@
   :after org)
 
 (use-package org
-  :ensure org-plus-contrib
-  :pin "org"
+  ;; :ensure org-plus-contrib
+  ;; :pin "org"
   :config
 
 ;;; standard packages
@@ -27,13 +27,15 @@
   ;;(setq org-mobile-files "~/org/todo.org")
 
   (with-eval-after-load 'hydra
-    (defhydra sk/org-agenda-filter ()
+    (defhydra sk/org-agenda-filter (:exit t)
       "filter"
-      ("b" (progn (org-agenda-filter "-@hemma-emacs") ) "arbeta")
-      ("f" (progn (org-agenda-filter "emacs+@hemma") ) "fritid")
+      ("C-b" (when (fboundp 'org-agenda-filter-set)
+               (org-agenda-filter-set "-@hemma-emacs")) "arbeta")
+      ("C-f" (when (fboundp 'org-agenda-filter-set)
+               (org-agenda-filter-set "emacs-konfa+@hemma")) "fritid")
       )
     (defun sk/org-agenda-keybindings ()
-      (org-defkey org-agenda-mode-map (kbd "C-c C-f") 'sk/org-agenda-filter))
+      (org-defkey org-agenda-mode-map (kbd "C-c C-f") 'sk/org-agenda-filter/body))
     (add-hook 'org-agenda-mode-hook 'sk/org-agenda-keybindings))
 
   (defun sk-org-mode-hook ()

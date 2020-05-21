@@ -38,6 +38,8 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
+(add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
+(add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
 
 ;;; Packages and contrib.
 (require 'init-package)
