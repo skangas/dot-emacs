@@ -32,8 +32,7 @@
       ("C-b" (when (fboundp 'org-agenda-filter-set)
                (org-agenda-filter-set "-@hemma-emacs")) "arbeta")
       ("C-f" (when (fboundp 'org-agenda-filter-set)
-               (org-agenda-filter-set "emacs-konfa+@hemma")) "fritid")
-      )
+               (org-agenda-filter-set "emacs-konfa+@hemma")) "fritid"))
     (defun sk/org-agenda-keybindings ()
       (org-defkey org-agenda-mode-map (kbd "C-c C-f") 'sk/org-agenda-filter/body))
     (add-hook 'org-agenda-mode-hook 'sk/org-agenda-keybindings))
@@ -137,6 +136,7 @@
                               ("@grupp" . ?g)
                               ("@moten" . ?m)
                               ("@lasning" . ?l)
+                              ("@laptop" . ?p)
                               ("@spanska" . ?s)
                               ("@fritid" . ?f)
                               (:endgroup)
@@ -289,7 +289,7 @@ same directory as the org-buffer and insert a link to this file."
                 ("x" "Agenda"
                  ((agenda "" nil)
                   (tags "REFILE"
-                        ((org-agenda-overriding-header "Tasks to Refile")
+                        ((org-agenda-overriding-header "Refile")
                          (org-tags-match-list-sublevels nil)))
                   (tags-todo "-CANCELLED/!"
                              ((org-agenda-overriding-header "Stuck Projects")
