@@ -14,6 +14,12 @@
     ("5" (dired-do-delete) "delete")
     ("q" nil "quit" :color blue))
 
+  (defhydra sk/org-agenda-filter ()
+    "filter"
+    ("b" (progn (org-agenda-filter "-@hemma-emacs") ) "arbeta")
+    ("f" (progn (org-agenda-filter "emacs") ) "fritid")
+    )
+
   ;; TODO
   ;; (defhydra hydra-clock-in (:exit t)
   ;;   ""

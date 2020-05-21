@@ -19,12 +19,22 @@
   ;; (require 'org-checklist) ; contrib
 
   ;; Link to man pages.
-  (require 'ol-man)                    ; contrib
+  (require 'ol-man)                     ; contrib
   ;; (require 'org-latex)
 
   ;; MobileOrg (currently unused -- 2020-02-01)
   ;; (setq org-mobile-directory "~/Dropbox/mobileorg")
   ;;(setq org-mobile-files "~/org/todo.org")
+
+  (with-eval-after-load 'hydra
+    (defhydra sk/org-agenda-filter ()
+      "filter"
+      ("b" (progn (org-agenda-filter "-@hemma-emacs") ) "arbeta")
+      ("f" (progn (org-agenda-filter "emacs+@hemma") ) "fritid")
+      )
+    (defun sk/org-agenda-keybindings ()
+      (org-defkey org-agenda-mode-map (kbd "C-c C-f") 'sk/org-agenda-filter))
+    (add-hook 'org-agenda-mode-hook 'sk/org-agenda-keybindings))
 
   (defun sk-org-mode-hook ()
     ;; Undefine C-c [ and C-c ] since this breaks my
