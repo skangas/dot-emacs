@@ -26,15 +26,24 @@
     (notmuch-search "tag:inbox")))
 
 ;; C-<foo>
-(global-set-key (kbd "C-c 1") 'org-agenda)
-(global-set-key (kbd "C-c 2") 'sk/notmuch-inbox)
-(global-set-key (kbd "C-c 3") 'elfeed)
-(global-set-key (kbd "C-c 4") 'notmuch)
-(global-set-key (kbd "C-c 5") 'magit-status)
+(global-set-key (kbd "C-c C-1") 'org-agenda)
+(global-set-key (kbd "C-c C-2") 'sk/notmuch-inbox)
+(global-set-key (kbd "C-c C-3") 'elfeed)
+(global-set-key (kbd "C-c C-4") 'notmuch)
+(global-set-key (kbd "C-c C-5") 'magit-status)
 (global-set-key (kbd "C-ä") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
 (global-set-key (kbd "C-!") 'org-capture) "
 (global-set-key (kbd \"<C-tab>\") 'hippie-expand)" ; Remove?
+
+(define-prefix-command 'ctl-å-map)
+(global-set-key (kbd "C-å") 'ctl-å-map)
+(global-set-key (kbd "C-å C-å") 'switch-bury-or-kill-buffer)
+(global-set-key (kbd "C-å C-c") 'compile)
+(global-set-key (kbd "C-å C-b") 'previous-buffer)
+(global-set-key (kbd "C-å C-f") 'next-buffer)
+(global-set-key (kbd "C-å C-p") 'winner-undo)
+(global-set-key (kbd "C-å C-n") 'winner-redo)
 
 ;; M-<foo>
 (global-set-key (kbd "M-<left>") 'previous-buffer)
@@ -120,14 +129,6 @@
 
 
 ;;; Various hacks
-
-;; Fast buffer switching
-;; http://mbork.pl/2014-04-04_Fast_buffer_switching_and_friends
-
-(define-prefix-command 'ctl-z-map)
-(global-set-key (kbd "C-z") 'ctl-z-map)
-(global-set-key (kbd "C-z C-c") 'compile)
-(global-set-key (kbd "C-z C-b") 'switch-bury-or-kill-buffer)
 
 (defun switch-bury-or-kill-buffer (&optional aggr)
   "With no argument, switch (but unlike C-x b, without the need

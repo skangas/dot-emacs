@@ -567,6 +567,7 @@
 
 (use-package midnight ; close inactive buffers
   :config
+  (setq clean-buffer-list-delay-general 7) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
 
