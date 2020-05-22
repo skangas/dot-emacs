@@ -351,14 +351,19 @@ same directory as the org-buffer and insert a link to this file."
                          (org-tags-match-list-sublevels nil))))
                  nil))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; babel
 
   ;; languages to load
-
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t)
                                (shell . t)))
+
+  ;; skip confirmation
+  (defun sk/org-confirm-babel-evaluate (lang body)
+    (or
+     ;; ~/org/*
+     (string-match (concat "^" (expand-file-name "~/") "org/" ".*\\.org") buffer-file-name)))
+  (setq org-confirm-babel-evaluate #'sk/org-confirm-babel-evaluate)
 
   ;; Code listings in latex
   ;; ;; export listings
