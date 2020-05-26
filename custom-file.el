@@ -44,5 +44,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
+ '(org-headline-done ((t (:strike-through "#222"))))
  '(org-mode-line-clock ((t (:background "white" :foreground "blue" :box (:line-width -1 :style released-button)))))
  '(variable-pitch ((t (:family "Lucida Grande")))))
