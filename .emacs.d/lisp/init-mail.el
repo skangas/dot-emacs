@@ -40,7 +40,7 @@
 (with-eval-after-load 'notmuch
   (setq notmuch-show-logo nil)
   (setq notmuch-show-all-tags-list t)
-  (setq notmuch-search-oldest-first nil)
+  (setq notmuch-search-oldest-first t)
 
   ;; Delete message.
   (defun sk/notmuch-show-delete-message ()
