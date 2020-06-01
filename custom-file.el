@@ -13,8 +13,7 @@
  '(mairix-mail-program 'gnus)
  '(mairix-search-file "mairix_search")
  '(notmuch-saved-searches
-   '((:name "inbox" :query "tag:inbox" :key "i")
-     (:name "unread" :query "tag:unread" :key "u")
+   '((:name "unread" :query "tag:unread" :key "u")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t")
      (:name "drafts" :query "tag:draft" :key "d")
@@ -23,7 +22,8 @@
      (:name "desk" :query "tag:desk AND tag:unread")
      (:name "logcheck" :query "tag:logcheck AND not tag:trash AND not tag:deleted")
      (:name "emacs::bugs" :query "tag:emacs::bugs AND tag:unread")
-     (:name "emacs" :query "(tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help) AND tag:unread" :key "e")))
+     (:name "emacs" :query "(tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help) AND tag:unread" :key "e")
+     (:name "inbox" :query "tag:inbox" :key "i")))
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(org-enforce-todo-dependencies t)
