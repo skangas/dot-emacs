@@ -274,7 +274,7 @@ same directory as the org-buffer and insert a link to this file."
                            ;; "~/org/.cache/revolution-imt.org"
                            ;; "~/org/.cache/google-calendar.org"
                            ))
-  
+
   (setq org-agenda-dim-blocked-tasks t)
   (setq org-agenda-tags-todo-honor-ignore-options t)
 
@@ -353,10 +353,17 @@ same directory as the org-buffer and insert a link to this file."
 
   ;; babel
 
+  (use-package ob-async
+    :ensure t
+    :config
+    (setq ob-async-no-async-languages-alist '("shell")))
+
   ;; languages to load
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t)
-                               (shell . t)))
+                               (eshell . t)
+                               (shell . t)
+                               (sql . t)))
 
   ;; skip confirmation
   (defun sk/org-confirm-babel-evaluate (lang body)
@@ -390,7 +397,7 @@ same directory as the org-buffer and insert a link to this file."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Org ad hoc code, quick hacks and workarounds
   ;; http://orgmode.org/worg/org-hacks.html
-  
+
   ;; Fix a problem with saveplace.el putting you back in a folded position.
 
   (add-hook 'org-mode-hook
@@ -683,7 +690,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
       next-headline)))
 
 ;;;;; FIXME: This should be removed with an upgraded org-mode
-;; (when (string= org-version "TAG=7.01g") 
+;; (when (string= org-version "TAG=7.01g")
 ;;  (defun org-is-habit-p (&optional pom)
 ;;    "Is the task at POM or point a habit?"
 ;;    (string= "habit" (org-entry-get (or pom (point)) "STYLE"))))
@@ -703,7 +710,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
       (if (member (org-get-todo-state) org-todo-keywords-1)
           (if (member (org-get-todo-state) org-done-keywords)
               (let* ((closed-day
-                      (apply 'encode-time (org-parse-time-string 
+                      (apply 'encode-time (org-parse-time-string
                                            (save-excursion
                                              (re-search-forward "\\(20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]\\)" subtree-end t)
                                              (match-string 1)))))
