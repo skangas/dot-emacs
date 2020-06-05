@@ -353,6 +353,8 @@ same directory as the org-buffer and insert a link to this file."
 
   ;; babel
 
+  ;;(setq org-confirm-babel-evaluate nil)
+
   (use-package ob-async
     :ensure t
     :config
