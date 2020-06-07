@@ -42,6 +42,17 @@
   (setq notmuch-show-all-tags-list t)
   (setq notmuch-search-oldest-first t)
 
+  ;; Mark as read.
+  (defun sk/notmuch-search-mark-read ()
+    "toggle unread tag for message in notmuch search mode."
+    (interactive)
+    (if (member "unread" (notmuch-search-get-tags))
+        (notmuch-search-tag (list "-unread"))
+      (notmuch-search-tag (list "+unread")))
+    (notmuch-search-next-thread))
+
+  (define-key notmuch-search-mode-map "v" 'sk/notmuch-search-mark-read)
+
   ;; Delete message.
   (defun sk/notmuch-show-delete-message ()
     "toggle deleted tag for message in notmuch show mode."
@@ -53,7 +64,7 @@
       (notmuch-show-next-thread t)))
 
   (defun sk/notmuch-search-delete-message ()
-    "toggle deleted tag for message in notmuch show mode."
+    "toggle deleted tag for message in notmuch search mode."
     (interactive)
     (if (member "trash" (notmuch-search-get-tags))
         (notmuch-search-tag (list "-trash"))
