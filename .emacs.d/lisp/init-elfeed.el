@@ -199,6 +199,8 @@
   (add-hook 'elfeed-show-mode 'visual-line-mode)
   ;; (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
 
+  (setq elfeed-sort-order 'ascending)
+
   (with-eval-after-load 'hydra
     (defhydra sk/elfeed-jump ()
       "filter"
