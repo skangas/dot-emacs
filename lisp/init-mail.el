@@ -40,7 +40,7 @@
 (with-eval-after-load 'notmuch
   (setq notmuch-show-logo nil)
   (setq notmuch-show-all-tags-list t)
-  (setq notmuch-search-oldest-first t)
+  ;; (setq notmuch-search-oldest-first nil)
 
   ;; Mark as read.
   (defun sk/notmuch-search-mark-read ()
