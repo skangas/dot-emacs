@@ -83,6 +83,11 @@
 
       )
 
+(setq history-delete-duplicates t)
+(setq help-window-select t)
+(setq track-eol t)
+
+
 ;; - two spaces is used for delimiters in use-package statements
 ;; - \n gives correct line count for page
 (setq page-delimiter "^ {0,2}\C-l\n")

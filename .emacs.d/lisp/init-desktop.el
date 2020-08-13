@@ -1,3 +1,4 @@
+(setq desktop-restore-eager 5)
 (desktop-save-mode 1)
 
 ;; Warn if there is no desktop.
