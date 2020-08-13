@@ -86,6 +86,13 @@
 (setq history-delete-duplicates t)
 (setq help-window-select t)
 (setq track-eol t)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring
+        last-kbd-macro
+        kmacro-ring
+        shell-command-history))
 
 
 ;; - two spaces is used for delimiters in use-package statements
