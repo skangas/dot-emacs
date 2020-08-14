@@ -68,6 +68,12 @@
   (setq org-hide-leading-stars t)
   (set-face-foreground 'org-hide "#3f3f3f")
 
+  ;; Only indent one space per level.
+  (setq org-indent-indentation-per-level 1)
+
+  ;; Don't indent text to header.
+  (setq org-adapt-indentation nil)
+
   ;; hide italics markers if t
   ;; (setq org-hide-emphasis-markers nil)
 
