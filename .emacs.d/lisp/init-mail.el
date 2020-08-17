@@ -10,6 +10,7 @@
   ;;    (setq sendmail-program "/usr/bin/msmtp"))
   ;;   ('darwin
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
   ;; (setq message-sendmail-extra-arguments '("send" "--quiet" "-C" "~/.mail/account.gmail"))
   (setq message-sendmail-extra-arguments '("queue" "--quiet" "-C" "~/.mail/account.gmail"))
@@ -40,7 +41,7 @@
 (with-eval-after-load 'notmuch
   (setq notmuch-show-logo nil)
   (setq notmuch-show-all-tags-list t)
-  ;; (setq notmuch-search-oldest-first nil)
+  (setq notmuch-search-oldest-first nil)
 
   ;; Mark as read.
   (defun sk/notmuch-search-mark-read ()
