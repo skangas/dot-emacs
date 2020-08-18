@@ -27,14 +27,17 @@
 
 (defun sk/org-agenda ()
   (interactive)
-  (org-agenda nil "x"))
+  (if (get-buffer "*Org Agenda(x)*")
+      (switch-to-buffer "*Org Agenda(x)*")
+    (org-agenda nil "x")))
 
 ;; C-<foo>
-(global-set-key (kbd "C-c C-1") 'sk/org-agenda)
-(global-set-key (kbd "C-c C-2") 'sk/notmuch-inbox)
-(global-set-key (kbd "C-c C-3") 'elfeed)
-(global-set-key (kbd "C-c C-4") 'notmuch)
-(global-set-key (kbd "C-c C-5") 'magit-status)
+(dolist (k '("C-" ""))
+  (global-set-key (kbd (concat "C-c " k "1")) 'sk/org-agenda)
+  (global-set-key (kbd (concat "C-c " k "2")) 'sk/notmuch-inbox)
+  (global-set-key (kbd (concat "C-c " k "3")) 'elfeed)
+  (global-set-key (kbd (concat "C-c " k "4")) 'notmuch)
+  (global-set-key (kbd (concat "C-c " k "5")) 'magit-status))
 (global-set-key (kbd "C-z") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
 (global-set-key (kbd "C-!") 'org-capture) "
