@@ -91,7 +91,7 @@
     (mm-insert-inline handle text)))
 
 (defun mm-inline-docx (handle)
-  "pandoc --normalize -r docx -w markdown %s"
+  "pandoc -r docx -w markdown %s"
   (let (text)
     (with-temp-buffer
       (mm-insert-part handle)
