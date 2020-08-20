@@ -7,32 +7,32 @@
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(compilation-message-face 'default)
- '(cua-global-mark-cursor-color "#11948b")
- '(cua-normal-cursor-color "#596e76")
- '(cua-overwrite-cursor-color "#a67c00")
- '(cua-read-only-cursor-color "#778c00")
+ '(cua-global-mark-cursor-color "#689d6a")
+ '(cua-normal-cursor-color "#7c6f64")
+ '(cua-overwrite-cursor-color "#b57614")
+ '(cua-read-only-cursor-color "#98971a")
  '(custom-safe-themes
    '("285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "0cb1b0ea66b145ad9b9e34c850ea8e842c4c4c83abe04e37455a1ef4cc5b8791" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "84890723510d225c45aaff941a7e201606a48b973f0121cb9bcb0b9399be8cba" "bfdcbf0d33f3376a956707e746d10f3ef2d8d9caa1c214361c9c08f00a1c8409" default))
  '(ecb-options-version "2.32")
- '(fci-rule-color "#405A61")
- '(highlight-changes-colors '("#c42475" "#5e65b6"))
+ '(fci-rule-color "#ebdbb2")
+ '(highlight-changes-colors '("#d3869b" "#8f3f71"))
  '(highlight-symbol-colors
-   '("#ed7ddb24b29e" "#cd82e29fd17c" "#fc9acadfb443" "#d974d4beddd6" "#df07dfc6b349" "#f76ccd6eaf2a" "#d132db91e15a"))
- '(highlight-symbol-foreground-color "#5d737a")
+   '("#ed94d1d39b5c" "#d6a5dca3af86" "#eb90bc25933d" "#e1bec426b1e4" "#e40dda889de7" "#ef28c40e9555" "#c667cd42b3b9"))
+ '(highlight-symbol-foreground-color "#665c54")
  '(hl-bg-colors
-   '("#d6a549" "#ed6e3e" "#ff6243" "#f46495" "#837bdf" "#6fa5e7" "#66c1b3" "#a8b84b"))
+   '("#e29a3f" "#df6835" "#cf5130" "#f598a7" "#c2608f" "#5b919b" "#82cc73" "#c6c148"))
  '(hl-fg-colors
-   '("#fffce9" "#fffce9" "#fffce9" "#fffce9" "#fffce9" "#fffce9" "#fffce9" "#fffce9"))
- '(hl-paren-colors '("#11948b" "#a67c00" "#007ec4" "#5e65b6" "#778c00"))
+   '("#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7"))
+ '(hl-paren-colors '("#689d6a" "#b57614" "#076678" "#8f3f71" "#98971a"))
  '(jdee-db-active-breakpoint-face-colors (cons "#073642" "#268bd2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#073642" "#859900"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#073642" "#56697A"))
- '(lsp-ui-doc-border "#5d737a")
+ '(lsp-ui-doc-border "#665c54")
  '(mairix-file-path "~/Maildir/")
  '(mairix-mail-program 'gnus)
  '(mairix-search-file "mairix_search")
  '(notmuch-saved-searches
-   '((:name "inbox" :query "tag:inbox" :key "i" :sort-order oldest-first)
+   '((:name "inbox" :query "tag:inbox" :key "i")
      (:name "unread" :query "tag:unread" :key "u")
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "t")
@@ -52,8 +52,8 @@
  '(package-selected-packages
    '(modus-vivendi-theme modus-operandi-theme ob-async solarized-theme anki-editor org-babel-eval-in-repl guess-language-mode guess-language ivy browse-kill-ring winum bonjourmadame org-plus-contrib debbugs sublimity org-download org-ac org-bullets org-journal go-mode diff-hl notmuch hydra multiple-cursors iedit rinari smartparens rvm ruby-test-mode robe projectile-rails projectile enh-ruby-mode pymacs macrostep jde auto-package-update auto-complete openwith open-with ido-completing-read+ inf-ruby minitest eruby-mode centered-window xml-rpc haskell-mode google-translate f exec-path-from-shell discover cursor-chg centered-cursor-mode boxquote auto-dim-other-buffers magit dashboard geiser zenburn-theme yaml-mode window-numbering use-package smex paredit nameless elfeed-org auto-compile async))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
- '(pos-tip-background-color "#f4eedb")
- '(pos-tip-foreground-color "#5d737a")
+ '(pos-tip-background-color "#ebdbb2")
+ '(pos-tip-foreground-color "#665c54")
  '(rustic-ansi-faces
    ["#002b36" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
  '(safe-local-variable-values
@@ -63,12 +63,12 @@
      (epa-file-cache-passphrase-for-symmetric-encryption . t)))
  '(savehist-mode t)
  '(send-mail-function 'sendmail-send-it)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#778c00" "#f4eedb" 0.2))
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#98971a" "#ebdbb2" 0.2))
  '(smerge-command-prefix "v")
- '(term-default-bg-color "#fffce9")
- '(term-default-fg-color "#596e76")
+ '(term-default-bg-color "#fbf1c7")
+ '(term-default-fg-color "#7c6f64")
  '(weechat-color-list
-   '(unspecified "#fffce9" "#f4eedb" "#990001" "#cc1f24" "#4f6600" "#778c00" "#785700" "#a67c00" "#005797" "#007ec4" "#93004d" "#c42475" "#006d68" "#11948b" "#596e76" "#88999b")))
+   '(unspecified "#fbf1c7" "#ebdbb2" "#750000" "#9d0006" "#747400" "#98971a" "#8a5100" "#b57614" "#004858" "#076678" "#9f4d64" "#d3869b" "#2e7d33" "#689d6a" "#7c6f64" "#3c3836")))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
