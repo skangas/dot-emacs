@@ -14,7 +14,6 @@
   ;; When non-nil, add recent files and/or bookmarks to `ivy-switch-buffer'.
   (setq ivy-use-virtual-buffers t)
 
-
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-height 10)
 
