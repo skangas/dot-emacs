@@ -92,6 +92,14 @@
         kmacro-ring
         shell-command-history))
 
+;; TODO: Could/should this be added to Emacs itself?
+(when (>= emacs-major-version 27)
+  (defun dotfiles--gc-on-last-frame-out-of-focus ()
+    "GC if all frames are inactive."
+    (if (seq-every-p #'null (mapcar #'frame-focus-state (frame-list)))
+        (garbage-collect)))
+  (add-function :after after-focus-change-function
+                #'dotfiles--gc-on-last-frame-out-of-focus))
 
 ;; - two spaces is used for delimiters in use-package statements
 ;; - \n gives correct line count for page
