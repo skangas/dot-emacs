@@ -4,34 +4,12 @@
   :ensure t
   :pin "melpa-stable")
 
-(use-package ivy
-  :ensure t
-  :pin "gnu"
-  :diminish ivy-mode
-  :config
-  (ivy-mode 1)
-
-  ;; When non-nil, add recent files and/or bookmarks to `ivy-switch-buffer'.
-  (setq ivy-use-virtual-buffers t)
-
-  (setq ivy-count-format "(%d/%d) ")
-  (setq ivy-height 10)
-
-  ;; ivy-extra-directories nil       ; default value: '("../" "./")
-  (setq ivy-extra-directories '("../" "./"))
-
-  (setq ivy-format-function 'ivy-format-function-arrow)
-
-  ;; Show the full virtual file paths
-  (setq ivy-virtual-abbreviate 'full)
-
-  
-  ;; Global bindings
-  (global-set-key (kbd "C-r") 'swiper-isearch-backward)
-  (global-set-key (kbd "C-s") 'swiper-isearch)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-
-  ;; Ivy-based interface to standard commands
+(use-package counsel
+	     :ensure t
+	     :pin "gnu"
+	     :config
+	     (global-set-key (kbd "M-x") 'counsel-M-x)
+	       ;; Ivy-based interface to standard commands
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   ;; (global-set-key (kbd "M-y") 'counsel-yank-pop)
@@ -60,8 +38,6 @@
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (global-set-key (kbd "C-c w") 'counsel-wmctrl)
 
-  ;; Ivy-resume and other commands
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
   (global-set-key (kbd "C-c b") 'counsel-bookmark)
   (global-set-key (kbd "C-c d") 'counsel-descbinds)
   (global-set-key (kbd "C-c g") 'counsel-git)
@@ -74,6 +50,38 @@
   (global-set-key (kbd "C-c k") 'counsel-ag)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+
+)
+
+(use-package ivy
+  :ensure t
+  :pin "gnu"
+  :diminish ivy-mode
+  :config
+  (ivy-mode 1)
+
+  ;; When non-nil, add recent files and/or bookmarks to `ivy-switch-buffer'.
+  (setq ivy-use-virtual-buffers t)
+
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-height 10)
+
+  ;; ivy-extra-directories nil       ; default value: '("../" "./")
+  (setq ivy-extra-directories '("../" "./"))
+
+  (setq ivy-format-function 'ivy-format-function-arrow)
+
+  ;; Show the full virtual file paths
+  (setq ivy-virtual-abbreviate 'full)
+
+  
+  ;; Global bindings
+  (global-set-key (kbd "C-r") 'swiper-isearch-backward)
+  (global-set-key (kbd "C-s") 'swiper-isearch)
+
+
+  ;; Ivy-resume and other commands
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
   ;; Minibuffer bindings
   (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word)
