@@ -84,11 +84,9 @@
 
 (defun sk-test-find-dired ()
   (interactive)
-  (find-dired "/mnt/usb/seed/other" "-type f \\( ! -iname '*.jpg' ! -iname '*.jpeg' ! -iname '*.gif' ! -iname '*.bmp' ! -iname '*.html' ! -iname '*.png' ! -iname '*.zip' ! -iname '*.db' ! -iname '*.pdf' \\)")
+  (find-dired "/mnt/usb/seed/other" "-type f \\( ! -iname '*.jpg' ! -iname '*.jpeg' ! -iname '*.gif' ! -iname '*.bmp' ! -iname '*.html' ! -iname '*.png' ! -iname '*.zip' ! -iname '*.db' ! -iname '*.pdf ! -iname '*.nfo' \\)")
   (sk/go/body)
   (goto-random-line))
-
-
 
 (provide 'sk-misc)
 ;; sk-misc.el ends here
