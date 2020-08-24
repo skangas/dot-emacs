@@ -31,6 +31,10 @@
       (switch-to-buffer "*Org Agenda(x)*")
     (org-agenda nil "x")))
 
+(defun sk/mailsync.sh ()
+  (interactive)
+  (async-shell-command "mailsync.sh"))
+
 ;; C-<foo>
 (dolist (k '("C-" ""))
   (global-set-key (kbd (concat "C-c " k "1")) 'sk/org-agenda)

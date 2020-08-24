@@ -25,6 +25,9 @@
 ;; Use hl-line-mode globally.
 (global-hl-line-mode 1)
 
+;; Use savehist-mode.
+(savehist-mode 1)
+
 ;; Increase min bits to 2048
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 ;; (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
