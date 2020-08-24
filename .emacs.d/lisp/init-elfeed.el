@@ -88,12 +88,12 @@
   (make-hash-table :test 'equal))
 
 (defun skangas-elfeed-skip-duplicate-entry (entry)
-    "Skip entries with same title as one we seen before to remove duplicates."
-    (let ((title (elfeed-entry-title entry)))
-      (if (gethash title skangas--elfeed-seen-entry-title)
-          (progn (elfeed-untag-1 entry 'unread)
-                 (message "Skipping duplicate entry: %s" title))
-        (puthash title t skangas--elfeed-seen-entry-title))))
+  "Skip entries with same title as one we seen before to remove duplicates."
+  (let ((title (elfeed-entry-title entry)))
+    (if (gethash title skangas--elfeed-seen-entry-title)
+        (progn (elfeed-untag-1 entry 'unread)
+               (message "Skipping duplicate entry: %s" title))
+      (puthash title t skangas--elfeed-seen-entry-title))))
 
 ;; (defun skangas-score-elfeed-entry (entry)
 ;;     (let ((title (elfeed-entry-title entry))
@@ -199,7 +199,7 @@
   (add-hook 'elfeed-show-mode 'visual-line-mode)
   ;; (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
 
-  (setq elfeed-sort-order 'ascending)
+  (setq elfeed-sort-order 'descending)
 
   (with-eval-after-load 'hydra
     (defhydra sk/elfeed-jump ()
@@ -221,7 +221,33 @@
       ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
       ("Q" bjm/elfeed-save-db-and-bury "Quit Elfeed" :color blue)
       ("q" nil "quit" :color blue)))
-  )
+
+  (defun elfeed-scroll-up-command (&optional arg)
+    "Scroll up or go to next feed item in Elfeed"
+    (interactive "^P")
+    (let ((scroll-error-top-bottom nil))
+      (condition-case-unless-debug nil
+          (scroll-up-command arg)
+        (error (elfeed-show-next)))))
+
+  (defun elfeed-scroll-down-command (&optional arg)
+    "Scroll up or go to next feed item in Elfeed"
+    (interactive "^P")
+    (let ((scroll-error-top-bottom nil))
+      (condition-case-unless-debug nil
+          (scroll-down-command arg)
+        (error (elfeed-show-prev)))))
+
+  (define-key elfeed-show-mode-map (kbd "SPC") 'elfeed-scroll-up-command)
+  (define-key elfeed-show-mode-map (kbd "S-SPC") 'elfeed-scroll-down-command))
+
+;; (setq elfeed-show-entry-switch #'switch-to-buffer)
+
+;; (defun elfeed-display-buffer (buf &optional act)
+;;   nil
+;;   ;; (pop-to-buffer buf)
+;;   ;; (set-window-text-height (get-buffer-window) (round (* 0.7 (frame-height))))
+;;   )
 
 (use-package elfeed-org
   :ensure t
