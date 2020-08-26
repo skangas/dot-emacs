@@ -21,6 +21,7 @@
 (defun sk/notmuch-inbox (arg)
   "Show notmuch inbox, with prefix arg show notmuch."
   (interactive "P")
+  (require 'notmuch)
   (if arg
       (notmuch)
     (notmuch-search "tag:inbox")))
