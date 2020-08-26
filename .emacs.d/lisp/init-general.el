@@ -210,20 +210,6 @@
 (global-unset-key "\C-x\C-c")
 (global-set-key "\C-x\C-c" 'confirm-exit-emacs)
 
-;; Wait for wheezy or install hunspell-sv-se from testing
-;; http://packages.debian.org/wheezy/hunspell-sv-se
-
-(eval-after-load "ispell"
-  (progn
-    (setq ispell-program-name "hunspell")
-    ;; (setq ispell-extra-args '("--sug-mode=ultra"))
-    ;; (setq ispell-dictionary "swedish"
-    ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
-    ;;       ispell-silently-savep t)
-    ))
-
-;; (setq-default ispell-program-name "hunspell")
-
 ;; hexcolour
 (defvar hexcolour-keywords
   '(("#[abcdef[:digit:]]\\{6\\}"
@@ -467,7 +453,8 @@
   (setq flyspell-use-meta-tab nil)
   ;; If non-nil, add correction to abbreviation table.
   (setq flyspell-abbrev-p t)
-  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'text-mode 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   )
 
 (use-package google-translate
@@ -587,6 +574,18 @@
 (use-package isearch
   :config
   (setq isearch-allow-scroll t))
+
+(use-package ispell
+  :config
+  (setq ispell-program-name "hunspell")
+  (setq ispell-dictionary "en_US,sv_SE,es_ES")
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
+  (setq ispell-silently-savep t)
+  ;; (setq ispell-extra-args '("--sug-mode=ultra"))
+  ;; (setq ispell-dictionary "swedish"
+  ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
+  )
 
 (use-package midnight ; close inactive buffers
   :config
