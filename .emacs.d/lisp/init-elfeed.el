@@ -2,87 +2,98 @@
 
 (defvar sk/elfeed-filtered-links)
 (setq sk/elfeed-filtered-links
-      '(("^https://www.theguardian.com/\\(football\\|sport\\|lifeandstyle\\)/" -1000)
-        ("^https://www.svt.se/nyheter/uutiset/" -1000)
+      '(
+        ("^https://www.bbc.co.uk/sport/" -1000)
+        ("^https://www.bbc.com/sport" -1000)
         ("^https://www.svt.se/nyheter/lokalt/" -1000)
         ("^https://www.svt.se/nyheter/lokalt/\\(vast\\|norrbotten\\)" 1000)
-        ("^https://www.bbc.co.uk/sport/" -1000)
-        ("^https://www.bbc.com/sport" -1000)))
+        ("^https://www.svt.se/nyheter/uutiset/" -1000)
+        ("^https://www.theguardian.com/food/" -1000)
+        ("^https://www.theguardian.com/football/" -1000)
+        ("^https://www.theguardian.com/lifeandstyle/" -1000)
+        ("^https://www.theguardian.com/sport/" -1000)
+        ("^https://www.theguardian.com/stage/" -1000)
+        ))
 
 (defvar sk/elfeed-filtered-words-1000)
 (setq sk/elfeed-filtered-words-1000
       (regexp-opt
-       '("\\<VM\\>"
-         "\\<EM\\>"
-         "\\<SM\\>"
-         "\\<OS\\>"
-         "[Aa]llsvenskan"
-         "[ESV]M-guld\\(et\\)?"
-         "[ESV]M-brons\\(et\\)?"
-         "[ESV]M-silver\\(et\\)?"
-         "[ESV]M-genrep\\(et\\)?"
-         "[ESV]M-kvaltrupp\\(en\\)?"
-         "[ESV]M-lag\\(e[tn]\\)?"
-         "[ESV]M-kval\\(et\\)?"
-         "bortaplan"
-         "bortasegern?"
-         "damidrott\\(en\\)?"
-         "finalserien?"
-         "fotboll"
-         "fotbollslag\\(et\\)?"
-         "fotbollsspelaren?"
-         "förbundskapten\\(en\\)?"
-         "guldmålvakt\\(en\\)?"
-         "handboll"
-         "handbollsligan?"
-         "handbollsmästaren?"
-         "herridrott\\(en\\)?"
-         "hemmaplan"
-         "hemmapublik\\(en\\)?"
-         "\\(is\\)?hockeylag\\(et\\|en\\)?"
-         "\\(is\\)?hockeyspelaren?"
-         "kvartsfinal\\(en\\)?"
-         "lagkapten\\(en\\)?"
-         "landslag\\(e[nt]\\)?"
-         "löparstjärnan?"
-         "matchens enda mål"
-         "matchserien?"
-         "medaljhopp\\(et\\)"
-         "målform"
-         "passningspoäng"
-         "poängkung\\(en\\)?"
-         "poängligan?"
-         "proffshockeyn?"
-         "semifinal\\(en\\)?"
-         "semifinallag\\(e[nt]\\)?"
-         "skrällag\\(e[nt]?\\)"
-         "slutspel\\(e[nt]?\\)"
-         ;; Finska lag
-         "HIFK"
-         "BK-46"
-         "Smålejon\\(en\\)?"
-         "Lejon\\(en\\)?"
-         "IFK Mariehamn"
-         "Sjundeå IF"
-         ;; engelska sporttermer
-         "Ajax"
-         "Boston Bruins"
-         "Chicago Blackhawks"
-         "Columbus Blue Jackets"
-         "Dallas Stars"
-         "Diamond League"
-         "NHL"
-         "New York Giants"
-         "Oakland Raiders"
-         "Stanley Cup"
-         "World Cup"
-         "World\\( Snooker\\)? Championship"
-         "\\(Premier\\|Champions\\) League"
-         ;; diverse
-         "Eurovision"
-         "Nyheter från dagen:"
-         "Horoskop – "
-         )))
+       (mapcar
+        (lambda (x)
+          (concat "\\<" x "\\>"))
+        '("VM"
+          "EM"
+          "SM"
+          "OS"
+          "[Aa]llsvenskan"
+          "[ESV]M-guld\\(et\\)?"
+          "[ESV]M-brons\\(et\\)?"
+          "[ESV]M-silver\\(et\\)?"
+          "[ESV]M-genrep\\(et\\)?"
+          "[ESV]M-kvaltrupp\\(en\\)?"
+          "[ESV]M-lag\\(e[tn]\\)?"
+          "[ESV]M-kval\\(et\\)?"
+          "bortaplan"
+          "bortasegern?"
+          "damidrott\\(en\\)?"
+          "finalserien?"
+          "fotboll"
+          "fotbollslag\\(et\\)?"
+          "fotbollsspelaren?"
+          "förbundskapten\\(en\\)?"
+          "guldmålvakt\\(en\\)?"
+          "handboll"
+          "handbollsligan?"
+          "handbollsmästaren?"
+          "herridrott\\(en\\)?"
+          "hemmaplan"
+          "hemmapublik\\(en\\)?"
+          "\\(is\\)?hockeylag\\(et\\|en\\)?"
+          "\\(is\\)?hockeyspelaren?"
+          "kvartsfinal\\(en\\)?"
+          "lagkapten\\(en\\)?"
+          "landslag\\(e[nt]\\)?"
+          "löparstjärnan?"
+          "matchens enda mål"
+          "matchserien?"
+          "medaljhopp\\(et\\)"
+          "målform"
+          "passningspoäng"
+          "poängkung\\(en\\)?"
+          "poängligan?"
+          "proffshockeyn?"
+          "semifinal\\(en\\)?"
+          "semifinallag\\(e[nt]\\)?"
+          "skrällag\\(e[nt]?\\)"
+          "slutspel\\(e[nt]?\\)"
+          ;; Finska lag
+          "HIFK"
+          "BK-46"
+          "Smålejon\\(en\\)?"
+          "Lejon\\(en\\)?"
+          "IFK Mariehamn"
+          "Sjundeå IF"
+          ;; engelska sporttermer
+          "Ajax"
+          "Boston Bruins"
+          "Chicago Blackhawks"
+          "Columbus Blue Jackets"
+          "Dallas Stars"
+          "Diamond League"
+          "NHL"
+          "New York Giants"
+          "Oakland Raiders"
+          "Stanley Cup"
+          "World Cup"
+          "World\\( Snooker\\)? Championship"
+          "Messi"
+          "Manchester City"
+          "\\(Premier\\|Champions\\) League"
+          ;; diverse
+          "Eurovision"
+          "Nyheter från dagen:"
+          "Horoskop – "
+          ))))
 
 (defvar skangas--elfeed-seen-entry-title
   (make-hash-table :test 'equal))
@@ -95,41 +106,43 @@
                (message "Skipping duplicate entry: %s" title))
       (puthash title t skangas--elfeed-seen-entry-title))))
 
-;; (defun skangas-score-elfeed-entry (entry)
-;;     (let ((title (elfeed-entry-title entry))
-;;           (link (elfeed-entry-link entry))
-;;           (categories (elfeed-meta entry :categories))
-;;           (content (elfeed-deref (elfeed-entry-content entry)))
-;;           (score 0))
+(defun skangas-score-elfeed-entry (entry)
+  (let ((title (elfeed-entry-title entry))
+        (link (elfeed-entry-link entry))
+        (categories (elfeed-meta entry :categories))
+        (content (elfeed-deref (elfeed-entry-content entry)))
+        (score 0))
 
-;;       (cl-loop for (pattern n) in (list (list sk/elfeed-filtered-words-1000 -1000))
-;;                if (string-match pattern title)
-;;                do (incf score n)
-;;                if (string-match pattern content)
-;;                do (incf score n))
-;;       ;; LINK
-;;       (cl-loop for (pattern n) in sk/elfeed-filtered-links
-;;                if (string-match pattern link)
-;;                do (incf score n))
+    (cl-loop for (pattern n) in (list (list sk/elfeed-filtered-words-1000 -1000))
+             if (string-match pattern title)
+             do (incf score n)
+             if (string-match pattern content)
+             do (incf score n))
+    ;; LINK
+    (cl-loop for (pattern n) in sk/elfeed-filtered-links
+             if (string-match pattern link)
+             do (progn
+                  (message "Matched pattern %s for link %s (%s)" pattern link n)
+                  (incf score n)))
 
-;;       ;; Ban categories
-;;       (if (memq "Sport" categories) (incf score -1000))
+    ;; Ban categories
+    (if (memq "Sport" categories) (incf score -1000))
 
-;;       ;; Show result of scoring
-;;       (when (not (= score 0))
-;;         (message "elfeed scoring: %s - %s (%s)" title score categories))
+    ;; Show result of scoring
+    (when (not (= score 0))
+      (message "elfeed scoring: %s - %s (%s)" title score categories))
 
-;;       ;; Store score for later
-;;       (setf (elfeed-meta entry :my/score) score)
+    ;; Store score for later
+    (setf (elfeed-meta entry :my/score) score)
 
-;;       (cond
-;;        ((<= score -1000)
-;;         (elfeed-untag-1 entry 'unread))
-;;        ((= score 1)
-;;         (elfeed-tag entry 'relevant))
-;;        ((> score 1)
-;;         (elfeed-tag entry 'important)))
-;;       entry))
+    (cond
+     ((<= score -1000)
+      (elfeed-untag-1 entry 'unread))
+     ((= score 1)
+      (elfeed-tag entry 'relevant))
+     ((> score 1)
+      (elfeed-tag entry 'important)))
+    entry))
 
 (defun sk/elfeed-search-copy-link (entry)
   (interactive (list (elfeed-search-selected :single)))
@@ -197,7 +210,7 @@
   :config
   (add-hook 'elfeed-new-entry-hook 'skangas-elfeed-skip-duplicate-entry)
   (add-hook 'elfeed-show-mode 'visual-line-mode)
-  ;; (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
+  (add-hook 'elfeed-new-entry-hook 'skangas-score-elfeed-entry)
 
   (setq elfeed-sort-order 'descending)
 
