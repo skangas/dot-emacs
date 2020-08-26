@@ -22,7 +22,10 @@
   :config
   (setq debbugs-gnu-emacs-current-release "27.1")
   (setq debbugs-gnu-branch-directory "~/wip/emacs26")
-  (setq debbugs-gnu-trunk-directory "~/wip/emacs"))
+  (setq debbugs-gnu-trunk-directory "~/wip/emacs")
+  ;; workaround to send control messages...
+  (autoload 'sendmail-send-it "sendmail" nil t)
+  )
 
 (use-package diff-hl
   :ensure t

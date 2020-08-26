@@ -85,7 +85,7 @@
 (require 'init-elfeed)
 (require 'init-hydra)
 (require 'init-ivy)
-(require 'init-mentor)
+;;(require 'init-mentor)
 (require 'init-mail)
 (require 'init-org-mode)
 ;; (require 'init-bbdb)
