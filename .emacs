@@ -23,14 +23,25 @@
 
 
 ;; Debian specific
-(when (and (equal system-name "joffe") (not (fboundp 'debian-startup)))
+(when (and (equal system-name "joffe")
+           (not (fboundp 'debian-startup)))
+
   ;; From /usr/share/doc/emacs-common/README.Debian.gz
   (setq debian-emacs-flavor 'emacs)
-  ;; Ugly hack to load Debian installed "elpa-*" packages.
+
+  ;; ;; Ugly hack to load Debian installed "elpa-*" packages.
   (load-file "/usr/share/emacs/site-lisp/debian-startup.el")
+
+  ;; Workaround for Emacs < 27.1.
+  ;; See /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+  ;; FIXME: Maybe not needed soon.
+  (setq ispell-menu-map-needed nil)
+
   (debian-startup 'emacs)
   (let ((default-directory "/usr/share/emacs/site-lisp"))
     (load-file "/usr/share/emacs/site-lisp/subdirs.el")))
+
+;;(add-to-list 'load-path (expand-file-name "/usr/share/emacs/site-lisp/elpa/notmuch-0.30"))
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))

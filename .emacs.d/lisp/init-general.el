@@ -213,11 +213,14 @@
 ;; Wait for wheezy or install hunspell-sv-se from testing
 ;; http://packages.debian.org/wheezy/hunspell-sv-se
 
-;; (eval-after-load "ispell"
-;;     (progn
-;;       (setq ispell-dictionary "swedish"
-;; 	    ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
-;; 	    ispell-silently-savep t)))
+(eval-after-load "ispell"
+  (progn
+    (setq ispell-program-name "hunspell")
+    ;; (setq ispell-extra-args '("--sug-mode=ultra"))
+    ;; (setq ispell-dictionary "swedish"
+    ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
+    ;;       ispell-silently-savep t)
+    ))
 
 ;; (setq-default ispell-program-name "hunspell")
 
@@ -457,9 +460,6 @@
 
 (use-package f
   :ensure t)
-
-(setq ispell-program-name "aspell"
-      ispell-extra-args '("--sug-mode=ultra"))
 
 (use-package flyspell :ensure nil
   :config
