@@ -453,7 +453,7 @@
   (setq flyspell-use-meta-tab nil)
   ;; If non-nil, add correction to abbreviation table.
   (setq flyspell-abbrev-p t)
-  (add-hook 'text-mode 'flyspell-mode)
+  (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   )
 
