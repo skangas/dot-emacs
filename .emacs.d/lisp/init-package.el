@@ -36,7 +36,7 @@
 ;; Configure use-package
 (eval-when-compile
   (require 'use-package))
-(setq use-package-always-pin "melpa-stable")
+(setq use-package-always-pin "melpa")
 
 ;; For use-package :diminish
 (use-package diminish
