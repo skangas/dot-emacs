@@ -2,7 +2,7 @@
 
 (use-package flx                        ; mostly needed for ivy completion
   :ensure t
-  :pin "melpa-stable")
+  :pin "melpa")
 
 (use-package counsel
 	     :ensure t

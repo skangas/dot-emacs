@@ -449,6 +449,7 @@
 
 (use-package flyspell :ensure nil
   :config
+  (setq flyspell-issue-welcome-flag nil)
   ;; Non-nil means that flyspell uses M-TAB to correct word.
   (setq flyspell-use-meta-tab nil)
   ;; If non-nil, add correction to abbreviation table.
@@ -701,7 +702,7 @@
 (use-package winum
   ;; Replaces window-numbering.el
   :ensure t
-  :pin "melpa-stable"
+  :pin "melpa"
   :bind (("M-1" . winum-select-window-1)
          ("M-2" . winum-select-window-2)
          ("M-3" . winum-select-window-3)
