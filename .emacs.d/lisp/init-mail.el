@@ -10,6 +10,7 @@
   ;;    (setq sendmail-program "/usr/bin/msmtp"))
   ;;   ('darwin
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
+
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
   ;; (setq message-sendmail-extra-arguments '("send" "--quiet" "-C" "~/.mail/account.gmail"))
