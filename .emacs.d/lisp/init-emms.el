@@ -1,22 +1,25 @@
 ;; (require 'emms-auto)
 ;; (autoload 'emms-browser "emms-setup" "emms-setup" t)
 
-(eval-after-load "emms"
+(eval-after-load 'emms
   '(progn
      (require 'emms-setup)
      (emms-all)
      (emms-default-players)
 
      (require 'emms-player-mpd)
-     (add-to-list 'emms-player-list 'emms-player-mpd)
+     (setq emms-player-mpd-server-name "localhost")
+     (setq emms-player-mpd-server-port "8000")
+
      (add-to-list 'emms-info-functions 'emms-info-mpd)
+     (add-to-list 'emms-player-list 'emms-player-mpd)
 
      (setq emms-source-file-default-directory "~/music/")
      (setq emms-player-mpd-music-directory "~/music/")
      (setq emms-playlist-buffer-name "*EMMS Playlist*")
      (setq later-do-interval 0.5)
 
-     ;; emms-source-file-directory-tree-function 
+     ;; emms-source-file-directory-tree-function
      (setq emms-mode-line-format " %s "
            emms-show-format "NP: %s"
            emms-player-mpd-server-name "localhost"
