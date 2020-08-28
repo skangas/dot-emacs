@@ -94,6 +94,14 @@
 (defvar skangas--elfeed-seen-entry-title
   (make-hash-table :test 'equal))
 
+(defvar elfeed-score-log-buffer "*Elfeed-score*")
+
+(defun elfeed-score-log (msg args)
+  (with-current-buffer (get-buffer-create elfeed-score-log-buffer)
+    (save-excursion
+      (goto-char (point-max))
+      (insert (apply #'format (concat (format "elfeed-score: %s" msg)) args)))))
+
 (defun skangas-elfeed-skip-duplicate-entry (entry)
   "Skip entries with same title as one we seen before to remove duplicates."
   (let ((title (elfeed-entry-title entry)))
@@ -109,24 +117,30 @@
         (content (elfeed-deref (elfeed-entry-content entry)))
         (score 0))
 
-    (cl-loop for (pattern n) in (list (list sk/elfeed-filtered-words-1000 -1000))
+    (elfeed-score-log "SCORING: %s @ %s" title link)
+
+    (cl-loop for (pattern score) in (list (list sk/elfeed-filtered-words-1000 -1000))
              if (string-match pattern title)
-             do (incf score n)
+             do (progn
+                  (elfeed-score-log (format "%s %s" score pattern))
+                  (incf score score))
              if (string-match pattern content)
-             do (incf score n))
+             do (progn
+                  (elfeed-score-log (format "%s %s" score pattern))
+                  (incf score score)))
     ;; LINK
-    (cl-loop for (pattern n) in sk/elfeed-filtered-links
+    (cl-loop for (pattern score) in sk/elfeed-filtered-links
              if (string-match pattern link)
              do (progn
-                  (message "Matched pattern %s for link %s (%s)" pattern link n)
-                  (incf score n)))
+                  (elfeed-score-log (format "%s %s %s" score pattern))
+                  (incf score score)))
 
     ;; Ban categories
     (if (memq "Sport" categories) (incf score -1000))
 
     ;; Show result of scoring
     (when (not (= score 0))
-      (message "elfeed scoring: %s - %s (%s)" title score categories))
+      (message "elfeed-score: %s - %s (%s)" title score categories))
 
     ;; Store score for later
     (setf (elfeed-meta entry :my/score) score)
@@ -176,14 +190,14 @@
       (message-goto-subject)
       (insert title " | " source)
       (message-goto-body)
-      (insert url "\n\n" body)
+      (insert url "\score\score" body)
       ;; Cleanup.
       (message-goto-body)
-      (re-search-forward "^Feed: \\(.*\\)\n")
+      (re-search-forward "^Feed: \\(.*\\)\score")
       (replace-match "")
-      (re-search-forward "^Tags: \\(.*\\)\n")
+      (re-search-forward "^Tags: \\(.*\\)\score")
       (replace-match "")
-      (re-search-forward "^Link: \\(.*\\)\n")
+      (re-search-forward "^Link: \\(.*\\)\score")
       (replace-match "")
       ;; Finish.
       (message-goto-body))))
@@ -194,7 +208,7 @@
   :bind (:map elfeed-search-mode-map
               ("h" . elfeed-search-untag-all-unread) ; more ergonomic keybinding
               ("j" . sk/elfeed-jump/body)
-              ("n" . next-line)
+              ("score" . next-line)
               ("p" . 'previous-line)
               ("w" . 'sk/elfeed-search-copy-link)
               ("B" . 'sk/elfeed-search-browse-in-eww))
@@ -222,7 +236,7 @@
       ("8" (elfeed-search-set-filter "@6-months-ago +imt +español +unread") "imt+español")
       ("9" (elfeed-search-set-filter "@6-months-ago +español +unread") "español")
 
-      ("n" (elfeed-search-set-filter "@6-months-ago +nyheter +unread") "nyheter")
+      ("score" (elfeed-search-set-filter "@6-months-ago +nyheter +unread") "nyheter")
       ("t" (elfeed-search-set-filter "@6-months-ago +tech +unread") "tech")
 
       ;; ("M" elfeed-toggle-star "Mark")
