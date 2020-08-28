@@ -6,11 +6,9 @@
   :after org)
 
 (use-package org
-  ;; :ensure org-plus-contrib
-  ;; :pin "org"
   :config
 
-;;; standard packages
+;;;; standard packages
   (require 'org-protocol)
   (require 'ol-notmuch)
   (when (not (version< org-version "9.2"))
@@ -55,7 +53,7 @@
   (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 
   ;; Disable priority commands
-  (setq org-enable-priority-commands nil)
+  (setq org-enable-priority-commands t)
 
   ;; Sanitize C-a, C-e, C-k for org-mode
   (setq org-special-ctrl-a/e t)
@@ -116,13 +114,6 @@
   ;;  Remove clocked tasks with 0:00 duration
   (setq org-clock-out-remove-zero-time-clocks t)
 
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   )
-
   ;; Don't include validation link in exported HTML
   (setq org-html-validation-link nil)
 
@@ -144,10 +135,10 @@
                               ("@lasning" . ?l)
                               ("@laptop" . ?p)
                               ("@spanska" . ?s)
+                              ("@emacs" . ?x)
                               ("@fritid" . ?f)
                               (:endgroup)
                               ("PERSONAL" . ?P)
-
                               ("REFILE" . ?r)
                               ("WAITING" . ?w)
                               ("HOLD" . ?h)

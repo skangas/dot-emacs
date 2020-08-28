@@ -290,11 +290,6 @@
 (use-package ag
   :ensure t)
 
-(use-package anzu
-  :ensure t
-  :config
-  (global-anzu-mode +1))
-
 (use-package async
   :ensure t
   :config
@@ -342,7 +337,7 @@
     '(diminish 'auto-dim-other-buffers-mode ""))
   (diminish 'abbrev-mode "Ab")
   (diminish 'eldoc-mode "")
-  (eval-after-load "anzu"
+  (eval-after-load 'anzu
     '(diminish 'anzu-mode ""))
   (eval-after-load "company"
     '(diminish 'company-mode "Comp"))
