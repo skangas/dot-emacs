@@ -45,8 +45,9 @@
   (global-set-key (kbd (concat "C-c " k "5")) 'magit-status))
 (global-set-key (kbd "C-z") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
-(global-set-key (kbd "C-!") 'org-capture) "
-(global-set-key (kbd \"<C-tab>\") 'hippie-expand)" ; Remove?
+(global-set-key (kbd "C-!") 'org-capture)
+;; (global-set-key (kbd "-/") 'hippie-expand) ; Remove?
+
 
 ;; (define-prefix-command 'ctl-ao-map)
 ;; (global-set-key (kbd "C-ä") 'ctl-ao-map)
