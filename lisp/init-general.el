@@ -339,12 +339,12 @@
   (diminish 'eldoc-mode "")
   (eval-after-load 'anzu
     '(diminish 'anzu-mode ""))
-  (eval-after-load "company"
-    '(diminish 'company-mode "Comp"))
+  (eval-after-load 'company
+    '(diminish 'company-mode "comp"))
   (eval-after-load 'enh-ruby-mode
     '(diminish 'enh-ruby-mode "Ruby"))
   (eval-after-load 'paredit
-    '(diminish 'paredit-mode "ParEd"))
+    '(diminish 'paredit-mode "PEd"))
   (eval-after-load 'minitest
     '(diminish 'minitest-mode "MT"))
   (eval-after-load 'robe
