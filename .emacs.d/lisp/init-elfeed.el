@@ -96,11 +96,11 @@
 
 (defvar elfeed-score-log-buffer "*Elfeed-score*")
 
-(defun elfeed-score-log (msg args)
+(defun elfeed-score-log (msg &rest args)
   (with-current-buffer (get-buffer-create elfeed-score-log-buffer)
     (save-excursion
       (goto-char (point-max))
-      (insert (apply #'format (concat (format "elfeed-score: %s" msg)) args)))))
+      (insert (apply #'format (concat (format "elfeed-score: %s\n" msg)) args)))))
 
 (defun skangas-elfeed-skip-duplicate-entry (entry)
   "Skip entries with same title as one we seen before to remove duplicates."
@@ -122,17 +122,17 @@
     (cl-loop for (pattern score) in (list (list sk/elfeed-filtered-words-1000 -1000))
              if (string-match pattern title)
              do (progn
-                  (elfeed-score-log (format "%s %s" score pattern))
+                  (elfeed-score-log "%s %s" score pattern)
                   (incf score score))
              if (string-match pattern content)
              do (progn
-                  (elfeed-score-log (format "%s %s" score pattern))
+                  (elfeed-score-log "%s %s" score pattern)
                   (incf score score)))
     ;; LINK
     (cl-loop for (pattern score) in sk/elfeed-filtered-links
              if (string-match pattern link)
              do (progn
-                  (elfeed-score-log (format "%s %s %s" score pattern))
+                  (elfeed-score-log "%s %s" score pattern)
                   (incf score score)))
 
     ;; Ban categories
