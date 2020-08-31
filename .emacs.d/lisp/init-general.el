@@ -573,11 +573,12 @@
 
 (use-package ispell
   :config
-  (setq ispell-program-name "hunspell")
-  (setq ispell-dictionary "en_US,sv_SE,es_ES")
-  (ispell-set-spellchecker-params)
-  (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
-  (setq ispell-silently-savep t)
+  ;; (setq ispell-program-name "hunspell")
+  ;; (setq ispell-dictionary "en_US,sv_SE,es_ES")
+  ;; (ispell-set-spellchecker-params)
+  ;; (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
+  ;; (setq ispell-silently-savep t)
+
   ;; (setq ispell-extra-args '("--sug-mode=ultra"))
   ;; (setq ispell-dictionary "swedish"
   ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
