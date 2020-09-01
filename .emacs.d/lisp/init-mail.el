@@ -166,4 +166,37 @@
 (mapcar (lambda (x) (add-to-list 'mm-inline-media-tests x))
         my-inline-mime-tests)
 
+(defun sk/approve-mailman-post ()
+  "Approve a mailman post.  Run in notmuch-mail-show buffer."
+  (interactive)
+  (cond ((eq major-mode 'notmuch-show-mode)
+         (notmuch-show-reply))
+        ((eq major-mode 'notmuch-message-mode))
+        (t (user-error "sk/approve-mailman-mode: Incorrect major mode")))
+
+  (let ((subject (progn
+                   (re-search-forward "> Subject: \\(confirm .*\\)")
+                   (match-string 1))))
+    (message-goto-subject)
+    (message-beginning-of-line)
+    (kill-line)
+    (insert subject))
+
+  (let ((to (progn
+              (re-search-forward "> From: \\(.+-request@marxist.se\\)")
+              (match-string 1))))
+    (message-goto-to)
+    (message-beginning-of-line)
+    (kill-line)
+    (insert to))
+
+  ;; Approved:
+  (newline)
+  ;; FIMXE: Fixa för olika e-postlistor...
+  (insert "Approved: " sk/mailman-approve-password) ; secret
+
+  ;; Erase body
+  (message-goto-body)
+  (delete-region (point) (point-max)))
+
 (provide 'init-mail)
