@@ -432,7 +432,11 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
-(use-package eww
+(use-package eshell ; built-in
+  :config
+  (setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
+
+(use-package eww                        ; built-in
   :config
   (setq shr-width 80)
   (defun sk/my-eww-mode-hook ()
@@ -586,11 +590,15 @@
   (setq flyspell-use-global-abbrev-table-p t)
   )
 
-(use-package midnight ; close inactive buffers
+(use-package midnight                   ; (built-in)
   :config
-  (setq clean-buffer-list-delay-general 7) ; default is 3 days
+  (setq clean-buffer-list-delay-general 4) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
+
+(use-package mpc                        ; (built-in)
+  :config
+  (setq mpc-mpd-music-directory "~/music"))
 
 (use-package multiple-cursors
   :ensure t)
