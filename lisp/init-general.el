@@ -33,6 +33,7 @@
 ;; (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
 (setq scroll-conservatively 500)
+(setq scroll-margin 2)
 (setq scroll-step 0)
 (setq scroll-preserve-screen-position nil)
 
