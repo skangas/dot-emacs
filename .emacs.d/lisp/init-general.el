@@ -473,19 +473,39 @@
         '(("default"
            ("Main"
             (or
+             (mode . image-mode)
+             (mode . dired-mode)
+             (filename . "/mnt/usb/seed/")))
+           ("Work"
+            (or
              (mode . org-agenda-mode)
-             (name . "\*mentor\*")
-             (name . "magit:")))
-           ("Mentor"
-            (filename . "wip/mentor"))
+             (name . "org/")
+             (name . "\*mentor\*")))
            ("Text Files"
             (or
              (mode . org-mode)
              (mode . text-mode)
              ))
-           ("Dired"
+           ("Email"
             (or
-             (mode . dired-mode)))
+             (mode . notmuch-search-mode)
+             (mode . notmuch-show-mode)
+             (mode . notmuch-hello-mode)
+             (mode . message-mode)
+             (mode . mail-mode)
+             (mode . gnus-group-mode)
+             (mode . gnus-summary-mode)
+             (mode . gnus-article-mode)))
+           ("Emacs Configuration"
+            (or (filename . "\\.emacs\\.d")
+                (filename . "\\.emacs")))
+           ("Mentor"
+            (filename . "wip/mentor"))
+           ("Emacs"
+            (or
+             (filename . "~/wip/emacs")))
+           ("Emacs Lisp"
+            (mode . emacs-lisp-mode))
            ("Programming"
             (or
              (mode . ag-mode)
@@ -498,25 +518,9 @@
              (mode . java-mode)
              (mode . sh-mode)
              (mode . haskell-mode)))
-           ("Mail"
-            (or
-             (mode . message-mode)
-             (mode . mail-mode)
-             (mode . gnus-group-mode)
-             (mode . gnus-summary-mode)
-             (mode . gnus-article-mode)
-             ))
-           ("Emacs Configuration"
-            (or (filename . ".emacs.d")
-                (filename . ".emacs")))
-           ("Emacs Lisp"
-            (mode . emacs-lisp-mode))
            ("Configuration"
             (or
              (mode . conf-unix-mode)))
-           ("Images"
-            (or
-             (mode . image-mode)))
            ("IRC"
             (mode . rcirc-mode)))))
   (add-hook 'ibuffer-mode-hook
@@ -577,10 +581,11 @@
 
 (use-package ispell
   :config
-  ;; (setq ispell-program-name "hunspell")
-  ;; (setq ispell-dictionary "en_US,sv_SE,es_ES")
-  ;; (ispell-set-spellchecker-params)
-  ;; (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
+  ;; FIXME: temporary workaround
+  (setq ispell-program-name "hunspell")
+  (setq ispell-dictionary "en_US,sv_SE,es_ES")
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
 
   ;; (setq ispell-extra-args '("--sug-mode=ultra"))
   ;; (setq ispell-dictionary "swedish"
