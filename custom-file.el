@@ -16,6 +16,7 @@
  '(debug-on-error t)
  '(default-input-method "spanish-prefix")
  '(ecb-options-version "2.32")
+ '(eldoc-echo-area-use-multiline-p t)
  '(fci-rule-color "#525252")
  '(highlight-changes-colors '("#d3869b" "#8f3f71"))
  '(highlight-symbol-colors
@@ -33,6 +34,14 @@
  '(mairix-file-path "~/Maildir/")
  '(mairix-mail-program 'gnus)
  '(mairix-search-file "mairix_search")
+ '(modus-operandi-theme-3d-modeline nil)
+ '(modus-operandi-theme-bold-constructs t)
+ '(modus-operandi-theme-completions nil)
+ '(modus-operandi-theme-intense-hl-line t)
+ '(modus-operandi-theme-proportional-fonts t)
+ '(modus-operandi-theme-scale-headings t)
+ '(modus-operandi-theme-section-headings t)
+ '(modus-operandi-theme-variable-pitch-headings t)
  '(notmuch-saved-searches
    '((:name "inbox" :query "tag:inbox" :key "i")
      (:name "unread" :query "tag:unread" :key "u")
@@ -54,6 +63,7 @@
  '(package-selected-packages
    '(emms auctex modus-vivendi-theme modus-operandi-theme ob-async solarized-theme anki-editor org-babel-eval-in-repl guess-language-mode guess-language ivy browse-kill-ring winum bonjourmadame org-plus-contrib debbugs sublimity org-download org-ac org-bullets org-journal go-mode diff-hl notmuch hydra multiple-cursors iedit rinari smartparens rvm ruby-test-mode robe projectile-rails projectile enh-ruby-mode pymacs macrostep jde auto-package-update auto-complete openwith open-with ido-completing-read+ inf-ruby minitest eruby-mode centered-window xml-rpc haskell-mode google-translate f exec-path-from-shell discover cursor-chg centered-cursor-mode boxquote auto-dim-other-buffers magit dashboard geiser zenburn-theme yaml-mode window-numbering use-package smex paredit nameless elfeed-org auto-compile async))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
+ '(pixel-scroll-mode t)
  '(pos-tip-background-color "#ebdbb2")
  '(pos-tip-foreground-color "#665c54")
  '(rustic-ansi-faces

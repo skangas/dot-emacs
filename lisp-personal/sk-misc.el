@@ -32,6 +32,7 @@
 (defun goto-random-line ()
   "Go to a random line in this buffer."
   (interactive)
+  (random t)
   (cl-flet ((get-random-line (lambda () (1+ (random (count-lines (point-min) (point-max)))))))
     (goto-char (point-min))
     (let ((lin (get-random-line)))
@@ -85,8 +86,9 @@
 (defun sk-test-find-dired ()
   (interactive)
   (find-dired "/mnt/usb/seed/other" "-type f \\( ! -iname '*.jpg' ! -iname '*.jpeg' ! -iname '*.gif' ! -iname '*.bmp' ! -iname '*.html' ! -iname '*.png' ! -iname '*.zip' ! -iname '*.db' ! -iname '*.pdf ! -iname '*.nfo' \\)")
-  (sk/go/body)
-  (goto-random-line))
+  ;; (sk/go/body)
+  ;; (goto-random-line)
+  )
 
 (provide 'sk-misc)
 ;; sk-misc.el ends here
