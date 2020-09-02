@@ -16,7 +16,7 @@
   :mode "\\.rb\\'"
   :interpreter "ruby"
   :config
-  (add-to-list 'ac-modes 'enh-ruby-mode)
+  ;; (add-to-list 'ac-modes 'enh-ruby-mode)
   (add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
@@ -32,14 +32,16 @@
   :config
   (projectile-rails-global-mode))
 
-(use-package rinari
-  :ensure t
-  :pin "melpa"
-  :config
-  (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)
-  ;; ;; Disabled for now to not clutter my minor-modes
-  ;; (global-rinari-mode)
-  )
+;; FIXME: This was last updated in 2015.  Still relevant?
+
+;; (use-package rinari
+;;   :ensure t
+;;   :pin "melpa"
+;;   :config
+;;   (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)
+;;   ;; ;; Disabled for now to not clutter my minor-modes
+;;   ;; (global-rinari-mode)
+;;   )
 
 (use-package robe
   :ensure t
@@ -76,10 +78,10 @@
   :config
   (add-hook 'ruby-mode-hook 'minitest-mode))
 
-(use-package rvm
-  :ensure t
-  :config
-  (rvm-use-default))
+;; (use-package rvm
+;;   :ensure t
+;;   :config
+;;   (rvm-use-default))
 
 (provide 'init-coding-ruby)
 

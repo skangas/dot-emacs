@@ -66,11 +66,13 @@
 (setq-default line-spacing 1)
 
 ;;; Enable theme early to avoid flickering.
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (when (version< "27" emacs-version)
-    (load-theme 'zenburn t)))
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (when (version< "27" emacs-version)
+;;     (load-theme 'zenburn t)))
+
+(load-theme 'modus-operandi)
 
 ;; General configuration.  (the order matters)
 (require 'init-portability)
@@ -99,7 +101,7 @@
 ;; Coding
 (require 'init-coding-common)
 (require 'init-coding-c)
-(require 'init-coding-cedet)
+;; (require 'init-coding-cedet)
 ;; (require 'init-coding-common-lisp)
 (require 'init-coding-cpp)
 (require 'init-coding-emacs-lisp)
@@ -108,7 +110,7 @@
 (require 'init-coding-perl)
 (require 'init-coding-php)
 (require 'init-coding-python)
-(require 'init-coding-ruby)
+;; (require 'init-coding-ruby)
 ;; (require 'init-coding-scheme)
 
 ;; My code
