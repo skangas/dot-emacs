@@ -1,9 +1,9 @@
 ;;; init-org-mode.el
 
-(use-package anki-editor
-  :ensure t
-  :pin "melpa"
-  :after org)
+;; (use-package anki-editor
+;;   :ensure t
+;;   :pin "melpa"
+;;   :after org)
 
 (use-package org
   :config
@@ -889,7 +889,7 @@ so change the default 'F' binding in the agenda to allow both"
         (error "All projects viewed.")))))
 
 (add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project ""))
+          '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
           'append)
 
 (provide 'init-org-mode)
