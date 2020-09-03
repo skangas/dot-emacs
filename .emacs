@@ -136,6 +136,12 @@
             (when (not noninteractive)
               (insert (format " loaded in %s\n" (emacs-init-time))))
             (newline-and-indent)  (newline-and-indent)))
+
+;; Enable some features
+(put 'narrow-to-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'list-timers 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
