@@ -158,17 +158,6 @@
 
 (add-hook 'before-save-hook 'time-stamp)
 
-;; Zap up to char
-(autoload 'zap-up-to-char "misc"
-  "Kill up to, but not including ARGth occurrence of CHAR.
-\(fn arg char)"
-  'interactive)
-(global-set-key "\M-z" 'zap-up-to-char)
-
-;; Enable some features
-(put 'narrow-to-region 'disabled nil)
-(put 'set-goal-column 'disabled nil)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backup files
 (setq version-control t         ; use versioned backups
@@ -201,15 +190,6 @@
       (set-cursor-color (setq my/set-cursor-color-color color))
       (setq my/set-cursor-color-buffer (buffer-name)))))
 (add-hook 'post-command-hook 'my/set-cursor-color-according-to-mode)
-
-;; Confirm on exit
-(defun confirm-exit-emacs ()
-        "ask for confirmation before exiting emacs"
-        (interactive)
-        (if (yes-or-no-p "Are you sure you want to exit? ")
-                (save-buffers-kill-emacs)))
-(global-unset-key "\C-x\C-c")
-(global-set-key "\C-x\C-c" 'confirm-exit-emacs)
 
 ;; hexcolour
 (defvar hexcolour-keywords

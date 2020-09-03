@@ -43,11 +43,11 @@
   (global-set-key (kbd (concat "C-c " k "3")) 'elfeed)
   (global-set-key (kbd (concat "C-c " k "4")) 'notmuch)
   (global-set-key (kbd (concat "C-c " k "5")) 'magit-status))
+
 (global-set-key (kbd "C-z") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
 (global-set-key (kbd "C-!") 'org-capture)
 ;; (global-set-key (kbd "-/") 'hippie-expand) ; Remove?
-
 
 ;; (define-prefix-command 'ctl-ao-map)
 ;; (global-set-key (kbd "C-ä") 'ctl-ao-map)
@@ -61,6 +61,7 @@
 ;; M-<foo>
 (global-set-key (kbd "M-<left>") 'previous-buffer)
 (global-set-key (kbd "M-<right>") 'next-buffer)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
 
 ;; F<foo>
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
@@ -100,6 +101,16 @@
 
 ;; (global-set-key "\C-t" 'shell-pop)
 ;; (global-set-key "\C-c\C-k" 'kill-region)
+
+
+;;; Confirm on exit
+(defun confirm-exit-emacs ()
+        "ask for confirmation before exiting emacs"
+        (interactive)
+        (if (yes-or-no-p "Are you sure you want to exit? ")
+                (save-buffers-kill-emacs)))
+(global-unset-key "\C-x\C-c")
+(global-set-key "\C-x\C-c" 'confirm-exit-emacs)
 
 
 ;;; Mode dependent key bindings
