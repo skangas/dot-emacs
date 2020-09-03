@@ -52,6 +52,9 @@
 (add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
 (add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
 
+(when (file-readable-p "~/.emacs-secrets.el")
+  (load-file "~/.emacs-secrets.el"))
+
 ;;; Packages and contrib.
 (require 'init-package)
 
