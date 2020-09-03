@@ -367,7 +367,8 @@ same directory as the org-buffer and insert a link to this file."
   (use-package ob-async
     :ensure t
     :config
-    (setq ob-async-no-async-languages-alist '("shell")))
+    ;; (setq ob-async-no-async-languages-alist '("ipython"))
+    )
 
   ;; languages to load
   (org-babel-do-load-languages
