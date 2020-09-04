@@ -48,7 +48,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
-(add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 (add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
 (add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
 
@@ -90,7 +89,7 @@
 (require 'init-elfeed)
 (require 'init-hydra)
 (require 'init-ivy)
-;;(require 'init-mentor)
+(require 'init-mentor)
 (require 'init-mail)
 (require 'init-org-mode)
 ;; (require 'init-bbdb)
