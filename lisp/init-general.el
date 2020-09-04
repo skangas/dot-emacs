@@ -85,6 +85,13 @@
 
       )
 
+(setq sk/video-types
+      (concat (regexp-opt '(".asf" ".avi" ".f4v"
+                            ".flv" ".m4a" ".m4v"
+                            ".mkv" ".mov" ".mp4"
+                            ".m2ts" ".mpeg" ".mpg"
+                            ".ogv" ".wmv" ".webm")) "\\'"))
+
 (setq history-delete-duplicates t)
 (setq help-window-select t)
 (setq track-eol t)
@@ -334,11 +341,6 @@
     '(diminish 'ruby-test-mode "RT")))
 
 (use-package dired
-  :bind (:map dired-mode-map
-              ("." . dired-hide-dotfiles-mode)
-              ("," . dired-hide-details-mode)
-              ("å" . dired-open-feh)
-              ("C-i" . image-dired-here))
   :config
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
@@ -367,12 +369,15 @@
     (interactive)
     (image-dired default-directory))
 
-  (defun dired-open-feh ()
+  (defun dired-sk/open-media-dwim ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
-    (let ((cmd "feh -F -Z -r -z * &" ))
+    (let* ((file (dired-get-file-for-visit))
+           (cmd (if (string-match sk/video-types file)
+                    "mpv * &"
+                  "feh -F -Z -r -z * &") ))
       (message cmd)
-      (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))))
+      (dired-do-shell-command cmd nil (list ))))
 
   ;; (defun diredext-exec-git-command-in-shell (command &optional arg file-list)
   ;;   "Run a shell command
@@ -394,7 +399,16 @@
   ;;   (message command))
   ;; (eval-after-load 'dired '(define-key dired-mode-map "/" 'diredext-exec-git-command-in-shell))
 
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+
+  (push `(,sk/video-types "mpv")
+        dired-guess-shell-alist-default)
+
+  :bind (:map dired-mode-map
+              ("." . dired-hide-dotfiles-mode)
+              ("," . dired-hide-details-mode)
+              ("å" . dired-sk/open-media-dwim)
+              ("C-i" . image-dired-here)))
 
 (use-package discover
   :ensure t
@@ -599,15 +613,9 @@
   :pin "melpa"
   :config
   (openwith-mode t)
-  (setq my-video-types
-        (concat (regexp-opt '(".asf" ".avi" ".f4v"
-                              ".flv" ".m4a" ".m4v"
-                              ".mkv" ".mov" ".mp4"
-                              ".m2ts" ".mpeg" ".mpg"
-                              ".ogv" ".wmv" ".webm")) "\\'"))
 
   (setq openwith-associations
-        `((,my-video-types "mpv --cache=50000" (file))
+        `((,sk/video-types "mpv --cache=50000" (file))
           ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
           ("\\.azw3\\'" "calibre" (file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
