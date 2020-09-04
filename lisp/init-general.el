@@ -377,7 +377,7 @@
                     "mpv * &"
                   "feh -F -Z -r -z * &") ))
       (message cmd)
-      (dired-do-shell-command cmd nil (list ))))
+      (dired-do-shell-command cmd nil (list file))))
 
   ;; (defun diredext-exec-git-command-in-shell (command &optional arg file-list)
   ;;   "Run a shell command
