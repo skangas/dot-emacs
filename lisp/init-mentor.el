@@ -1,9 +1,11 @@
 ;;; init-mentor.el  -*- lexical-binding:t -*-
 
-(use-package xml-rpc
-  :ensure t)
+;; (use-package xml-rpc
+;;   :ensure t)
 
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
+;; Use my local version.
+(add-to-list 'load-path (expand-file-name "~/wip/xml-rpc-el"))
 
 (setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
 ;; (setq mentor-rtorrent-external-rpc "http://localhost/our-RPC2")
