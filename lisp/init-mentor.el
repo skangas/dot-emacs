@@ -7,8 +7,8 @@
 ;; Use my local version.
 (add-to-list 'load-path (expand-file-name "~/wip/xml-rpc-el"))
 
-(setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
-;; (setq mentor-rtorrent-external-rpc "http://localhost/our-RPC2")
+;; (setq mentor-rtorrent-external-rpc "scgi://127.0.0.1:5000")
+(setq mentor-rtorrent-external-rpc "http://localhost/our-RPC2")
 ;; (setq mentor-rtorrent-external-rpc "scgi:///~/.rtorrent-session/rpc.socket")
 
 (autoload 'mentor "mentor" nil t)
