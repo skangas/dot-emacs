@@ -112,9 +112,9 @@
   (add-function :after after-focus-change-function
                 #'dotfiles--gc-on-last-frame-out-of-focus))
 
-;; - two spaces is used for delimiters in use-package statements
+;; - spaces are used for delimiters within use-package statements
 ;; - \n gives correct line count for page
-(setq page-delimiter "^ {0,2}\C-l\n")
+(setq page-delimiter "^ *\C-l\n")
 
 (setq enable-recursive-minibuffers t)
 
