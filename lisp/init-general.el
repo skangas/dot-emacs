@@ -331,6 +331,8 @@
     '(diminish 'company-mode "comp"))
   (eval-after-load 'enh-ruby-mode
     '(diminish 'enh-ruby-mode "Ruby"))
+  (eval-after-load 'gcmh
+    '(diminish 'gcmh-mode ""))
   (eval-after-load 'paredit
     '(diminish 'paredit-mode "PEd"))
   (eval-after-load 'minitest
