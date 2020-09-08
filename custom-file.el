@@ -65,6 +65,7 @@
  '(pixel-scroll-mode nil)
  '(pos-tip-background-color "#ebdbb2")
  '(pos-tip-foreground-color "#665c54")
+ '(proced-auto-update-flag t)
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
