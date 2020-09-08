@@ -403,6 +403,7 @@
 
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 
+  (require 'dired-x)
   (push `(,sk/video-types "mpv")
         dired-guess-shell-alist-default)
 
