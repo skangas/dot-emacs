@@ -8,6 +8,8 @@
 ;;   (ac-config-default)
 ;;   (setq ac-quick-help-delay 2.0))
 
+(setq gdb-many-windows t)
+
 (setq compilation-scroll-output t)
 
 (use-package company
