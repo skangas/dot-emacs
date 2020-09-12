@@ -622,7 +622,7 @@
           ("\\.azw3\\'" "calibre" (file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
           ;; ("\\.mp3\\'" "mplayer" (file))
-          ("\\.pdf\\'" "evince" (file))
+          ;; ("\\.pdf\\'" "evince" (file))
           ))
 
   (when (version< emacs-version "27")
