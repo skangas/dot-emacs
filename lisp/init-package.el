@@ -19,8 +19,8 @@
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")))
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
              '("org" . "https://orgmode.org/elpa/") t)
 
@@ -36,7 +36,7 @@
 ;; Configure use-package
 (eval-when-compile
   (require 'use-package))
-(setq use-package-always-pin "melpa-stable")
+(setq use-package-always-pin "melpa")
 
 ;; For use-package :diminish
 (use-package diminish

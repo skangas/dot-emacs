@@ -23,21 +23,36 @@
 
 
 ;; Debian specific
-(when (and (equal system-name "joffe") (not (fboundp 'debian-startup)))
+(when (and (equal system-name "joffe")
+           (not (fboundp 'debian-startup)))
+
   ;; From /usr/share/doc/emacs-common/README.Debian.gz
   (setq debian-emacs-flavor 'emacs)
-  ;; Ugly hack to load Debian installed "elpa-*" packages.
+
+  ;; ;; Ugly hack to load Debian installed "elpa-*" packages.
   (load-file "/usr/share/emacs/site-lisp/debian-startup.el")
+
+  ;; Workaround for Emacs < 27.1.
+  ;; See /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+  ;; FIXME: Maybe not needed soon.
+  (setq ispell-menu-map-needed nil)
+
   (debian-startup 'emacs)
   (let ((default-directory "/usr/share/emacs/site-lisp"))
     (load-file "/usr/share/emacs/site-lisp/subdirs.el")))
+
+;;(add-to-list 'load-path (expand-file-name "/usr/share/emacs/site-lisp/elpa/notmuch-0.30"))
 
 ;; Add local elisp directories
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
-(add-to-list 'load-path (expand-file-name "~/wip/mentor"))
+(add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
+(add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
+
+(when (file-readable-p "~/.emacs-secrets.el")
+  (load-file "~/.emacs-secrets.el"))
 
 ;;; Packages and contrib.
 (require 'init-package)
@@ -49,16 +64,17 @@
 
 
 ;; Font
-(add-to-list 'default-frame-alist
-             '(font . "Ubuntu Mono-14"))
+(add-to-list 'default-frame-alist '(font . "Ubuntu Mono-14"))
 (setq-default line-spacing 1)
 
 ;;; Enable theme early to avoid flickering.
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (when (version< "27" emacs-version)
-    (load-theme 'zenburn t)))
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (when (version< "27" emacs-version)
+;;     (load-theme 'zenburn t)))
+
+(load-theme 'modus-operandi)
 
 ;; General configuration.  (the order matters)
 (require 'init-portability)
@@ -87,7 +103,7 @@
 ;; Coding
 (require 'init-coding-common)
 (require 'init-coding-c)
-(require 'init-coding-cedet)
+;; (require 'init-coding-cedet)
 ;; (require 'init-coding-common-lisp)
 (require 'init-coding-cpp)
 (require 'init-coding-emacs-lisp)
@@ -96,7 +112,7 @@
 (require 'init-coding-perl)
 (require 'init-coding-php)
 (require 'init-coding-python)
-(require 'init-coding-ruby)
+;; (require 'init-coding-ruby)
 ;; (require 'init-coding-scheme)
 
 ;; My code
@@ -119,6 +135,12 @@
             (when (not noninteractive)
               (insert (format " loaded in %s\n" (emacs-init-time))))
             (newline-and-indent)  (newline-and-indent)))
+
+;; Enable some features
+(put 'narrow-to-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'list-timers 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)

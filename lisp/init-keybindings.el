@@ -21,24 +21,47 @@
 (defun sk/notmuch-inbox (arg)
   "Show notmuch inbox, with prefix arg show notmuch."
   (interactive "P")
+  (require 'notmuch)
   (if arg
       (notmuch)
     (notmuch-search "tag:inbox")))
 
+(defun sk/org-agenda ()
+  (interactive)
+  (if (get-buffer "*Org Agenda(x)*")
+      (switch-to-buffer "*Org Agenda(x)*")
+    (org-agenda nil "x")))
+
+(defun sk/mailsync.sh ()
+  (interactive)
+  (async-shell-command "mailsync.sh"))
+
 ;; C-<foo>
-(global-set-key (kbd "C-c 1") 'org-agenda)
-(global-set-key (kbd "C-c 2") 'sk/notmuch-inbox)
-(global-set-key (kbd "C-c 3") 'elfeed)
-(global-set-key (kbd "C-c 4") 'notmuch)
-(global-set-key (kbd "C-c 5") 'magit-status)
-(global-set-key (kbd "C-ä") 'isearch-forward)
+(dolist (k '("C-" ""))
+  (global-set-key (kbd (concat "C-c " k "1")) 'sk/org-agenda)
+  (global-set-key (kbd (concat "C-c " k "2")) 'sk/notmuch-inbox)
+  (global-set-key (kbd (concat "C-c " k "3")) 'elfeed)
+  (global-set-key (kbd (concat "C-c " k "4")) 'notmuch)
+  (global-set-key (kbd (concat "C-c " k "5")) 'magit-status))
+
+(global-set-key (kbd "C-z") 'isearch-forward)
 (global-set-key (kbd "C-M-y") 'iedit-mode)
-(global-set-key (kbd "C-!") 'org-capture) "
-(global-set-key (kbd \"<C-tab>\") 'hippie-expand)" ; Remove?
+(global-set-key (kbd "C-!") 'org-capture)
+;; (global-set-key (kbd "-/") 'hippie-expand) ; Remove?
+
+;; (define-prefix-command 'ctl-ao-map)
+;; (global-set-key (kbd "C-ä") 'ctl-ao-map)
+;; (global-set-key (kbd "C-ä C-ä") 'switch-bury-or-kill-buffer)
+;; (global-set-key (kbd "C-ä C-c") 'compile)
+;; (global-set-key (kbd "C-ä C-b") 'previous-buffer)
+;; (global-set-key (kbd "C-ä C-f") 'next-buffer)
+;; (global-set-key (kbd "C-ä C-p") 'winner-undo)
+;; (global-set-key (kbd "C-ä C-n") 'winner-redo)
 
 ;; M-<foo>
 (global-set-key (kbd "M-<left>") 'previous-buffer)
 (global-set-key (kbd "M-<right>") 'next-buffer)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
 
 ;; F<foo>
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
@@ -53,9 +76,9 @@
 ;; C-c <foo>
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'org-iswitchb)
+(global-set-key (kbd "C-c B") 'gnus-read-ephemeral-emacs-bug-group)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c S") 'sk/use-swedish-dictionary)
 (global-set-key (kbd "C-c t") 'sk/translate-using-tyda)
 (global-set-key (kbd "C-c y") '(lambda () (interactive) (popup-menu 'yank-menu)))
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; Remove?
@@ -80,6 +103,16 @@
 ;; (global-set-key "\C-c\C-k" 'kill-region)
 
 
+;;; Confirm on exit
+(defun confirm-exit-emacs ()
+        "ask for confirmation before exiting emacs"
+        (interactive)
+        (if (yes-or-no-p "Are you sure you want to exit? ")
+                (save-buffers-kill-emacs)))
+(global-unset-key "\C-x\C-c")
+(global-set-key "\C-x\C-c" 'confirm-exit-emacs)
+
+
 ;;; Mode dependent key bindings
 
 (customize-set-variable 'smerge-command-prefix (kbd "C-c v"))
@@ -100,8 +133,8 @@
 
 ;;; My utility functions
 
-;; FIXME: Make this into a toggle...
 (defun sk/use-swedish-dictionary ()
+  ;; This is no longer needed; I use Hunspell instead.
   (interactive)
   (ispell-change-dictionary "swedish")
   (flyspell-buffer))
@@ -120,14 +153,6 @@
 
 
 ;;; Various hacks
-
-;; Fast buffer switching
-;; http://mbork.pl/2014-04-04_Fast_buffer_switching_and_friends
-
-(define-prefix-command 'ctl-z-map)
-(global-set-key (kbd "C-z") 'ctl-z-map)
-(global-set-key (kbd "C-z C-c") 'compile)
-(global-set-key (kbd "C-z C-b") 'switch-bury-or-kill-buffer)
 
 (defun switch-bury-or-kill-buffer (&optional aggr)
   "With no argument, switch (but unlike C-x b, without the need

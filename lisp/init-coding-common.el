@@ -8,6 +8,10 @@
 ;;   (ac-config-default)
 ;;   (setq ac-quick-help-delay 2.0))
 
+(setq gdb-many-windows t)
+
+(setq compilation-scroll-output t)
+
 (use-package company
   :ensure t
   :pin "gnu"
@@ -20,7 +24,10 @@
   :config
   (setq debbugs-gnu-emacs-current-release "27.1")
   (setq debbugs-gnu-branch-directory "~/wip/emacs26")
-  (setq debbugs-gnu-trunk-directory "~/wip/emacs"))
+  (setq debbugs-gnu-trunk-directory "~/wip/emacs")
+  ;; workaround to send control messages...
+  (autoload 'sendmail-send-it "sendmail" nil t)
+  )
 
 (use-package diff-hl
   :ensure t
@@ -149,7 +156,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package ws-butler ; Automatically trim whitespace on save.
   :ensure t
   :config
-  ;; (setq ws-butler-convert-leading-tabs-or-spaces t)
+  (setq ws-butler-convert-leading-tabs-or-spaces t)
   (add-hook 'prog-mode-hook #'ws-butler-mode))
 
 (use-package yasnippet
