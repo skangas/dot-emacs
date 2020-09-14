@@ -1,10 +1,10 @@
 ;; Emacs Lisp
 
-(use-package elisp-slime-nav
-  :ensure t
-  :config
-  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-    (add-hook hook 'elisp-slime-nav-mode)))
+;; (use-package elisp-slime-nav
+;;   :ensure t
+;;   :config
+;;   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+;;     (add-hook hook 'elisp-slime-nav-mode)))
 
 ;; (require 'eval-expr)
 ;; (eval-expr-install)
@@ -48,7 +48,10 @@
                                          (concat buffer-file-name "c")))
         (when (file-exists-p (concat buffer-file-name ".elc"))
           (delete-file (concat buffer-file-name ".elc")))
-        (byte-compile-file buffer-file-name)))))
+        (byte-compile-file buffer-file-name))))
+  (defun my-inhibit-byte-compile ()
+    (string-match "^/home/skangas/wip/emacs" buffer-file-name))
+  (add-hook 'auto-compile-inhibit-compile-hook 'my-inhibit-byte-compile))
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 

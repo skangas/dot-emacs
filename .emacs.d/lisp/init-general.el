@@ -25,11 +25,15 @@
 ;; Use hl-line-mode globally.
 (global-hl-line-mode 1)
 
+;; Use savehist-mode.
+(savehist-mode 1)
+
 ;; Increase min bits to 2048
 ;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 ;; (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
 
 (setq scroll-conservatively 500)
+(setq scroll-margin 2)
 (setq scroll-step 0)
 (setq scroll-preserve-screen-position nil)
 
@@ -42,9 +46,8 @@
       require-final-newline t                        ; Make sure text files end in a newline
       Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails
-      messages-buffer-max-lines (* 16 1024)          ; From 1024
 
-      kill-ring-max 120                              ; Default is 60
+      kill-ring-max (* kill-ring-max 2)
       sentence-end "\\.  ?"                          ; Used only by certain modes.
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
@@ -81,9 +84,36 @@
 
       )
 
-;; - two spaces is used for delimiters in use-package statements
+(setq sk/video-types
+      (concat (regexp-opt '(".asf" ".avi" ".f4v"
+                            ".flv" ".m4a" ".m4v"
+                            ".mkv" ".mov" ".mp4"
+                            ".m2ts" ".mpeg" ".mpg"
+                            ".ogv" ".wmv" ".webm")) "\\'"))
+
+(setq history-delete-duplicates t)
+(setq help-window-select t)
+(setq track-eol t)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring
+        last-kbd-macro
+        kmacro-ring
+        shell-command-history))
+
+;; TODO: Could/should this be added to Emacs itself?
+(when (>= emacs-major-version 27)
+  (defun dotfiles--gc-on-last-frame-out-of-focus ()
+    "GC if all frames are inactive."
+    (if (seq-every-p #'null (mapcar #'frame-focus-state (frame-list)))
+        (garbage-collect)))
+  (add-function :after after-focus-change-function
+                #'dotfiles--gc-on-last-frame-out-of-focus))
+
+;; - spaces are used for delimiters within use-package statements
 ;; - \n gives correct line count for page
-(setq page-delimiter "^ {0,2}\C-l\n")
+(setq page-delimiter "^ *\C-l\n")
 
 (setq enable-recursive-minibuffers t)
 
@@ -134,17 +164,6 @@
 
 (add-hook 'before-save-hook 'time-stamp)
 
-;; Zap up to char
-(autoload 'zap-up-to-char "misc"
-  "Kill up to, but not including ARGth occurrence of CHAR.
-\(fn arg char)"
-  'interactive)
-(global-set-key "\M-z" 'zap-up-to-char)
-
-;; Enable some features
-(put 'narrow-to-region 'disabled nil)
-(put 'set-goal-column 'disabled nil)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backup files
 (setq version-control t         ; use versioned backups
@@ -177,26 +196,6 @@
       (set-cursor-color (setq my/set-cursor-color-color color))
       (setq my/set-cursor-color-buffer (buffer-name)))))
 (add-hook 'post-command-hook 'my/set-cursor-color-according-to-mode)
-
-;; Confirm on exit
-(defun confirm-exit-emacs ()
-        "ask for confirmation before exiting emacs"
-        (interactive)
-        (if (yes-or-no-p "Are you sure you want to exit? ")
-                (save-buffers-kill-emacs)))
-(global-unset-key "\C-x\C-c")
-(global-set-key "\C-x\C-c" 'confirm-exit-emacs)
-
-;; Wait for wheezy or install hunspell-sv-se from testing
-;; http://packages.debian.org/wheezy/hunspell-sv-se
-
-;; (eval-after-load "ispell"
-;;     (progn
-;;       (setq ispell-dictionary "swedish"
-;; 	    ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
-;; 	    ispell-silently-savep t)))
-
-;; (setq-default ispell-program-name "hunspell")
 
 ;; hexcolour
 (defvar hexcolour-keywords
@@ -278,11 +277,6 @@
 (use-package ag
   :ensure t)
 
-(use-package anzu
-  :ensure t
-  :config
-  (global-anzu-mode +1))
-
 (use-package async
   :ensure t
   :config
@@ -329,15 +323,17 @@
   (eval-after-load 'auto-dim-other-buffers
     '(diminish 'auto-dim-other-buffers-mode ""))
   (diminish 'abbrev-mode "Ab")
-  (diminish 'eldoc-mode " Doc")
-  (eval-after-load "anzu"
+  (diminish 'eldoc-mode "")
+  (eval-after-load 'anzu
     '(diminish 'anzu-mode ""))
-  (eval-after-load "company"
-    '(diminish 'company-mode "Cmp"))
+  (eval-after-load 'company
+    '(diminish 'company-mode "comp"))
   (eval-after-load 'enh-ruby-mode
     '(diminish 'enh-ruby-mode "Ruby"))
+  (eval-after-load 'gcmh
+    '(diminish 'gcmh-mode ""))
   (eval-after-load 'paredit
-    '(diminish 'paredit-mode "PE"))
+    '(diminish 'paredit-mode "PEd"))
   (eval-after-load 'minitest
     '(diminish 'minitest-mode "MT"))
   (eval-after-load 'robe
@@ -346,11 +342,6 @@
     '(diminish 'ruby-test-mode "RT")))
 
 (use-package dired
-  :bind (:map dired-mode-map
-              ("." . dired-hide-dotfiles-mode)
-              ("," . dired-hide-details-mode)
-              ("å" . dired-open-feh)
-              ("C-i" . image-dired-here))
   :config
   (setq dired-listing-switches "-lAh"  ; Use human sizes
         dired-dwim-target t            ; Try to guess a default target directory
@@ -379,12 +370,15 @@
     (interactive)
     (image-dired default-directory))
 
-  (defun dired-open-feh ()
+  (defun dired-sk/open-media-dwim ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
-    (let ((cmd "feh -F -Z -r -z * &" ))
+    (let* ((file (dired-get-file-for-visit))
+           (cmd (if (string-match sk/video-types file)
+                    "mpv * &"
+                  "feh -F -Z -r -z * &") ))
       (message cmd)
-      (dired-do-shell-command cmd nil (list (dired-get-file-for-visit)))))
+      (dired-do-shell-command cmd nil (list file))))
 
   ;; (defun diredext-exec-git-command-in-shell (command &optional arg file-list)
   ;;   "Run a shell command
@@ -406,7 +400,17 @@
   ;;   (message command))
   ;; (eval-after-load 'dired '(define-key dired-mode-map "/" 'diredext-exec-git-command-in-shell))
 
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+
+  (require 'dired-x)
+  (push `(,sk/video-types "mpv")
+        dired-guess-shell-alist-default)
+
+  :bind (:map dired-mode-map
+              ("." . dired-hide-dotfiles-mode)
+              ("," . dired-hide-details-mode)
+              ("å" . dired-sk/open-media-dwim)
+              ("C-i" . image-dired-here)))
 
 (use-package discover
   :ensure t
@@ -425,7 +429,11 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
-(use-package eww
+(use-package eshell ; built-in
+  :config
+  (setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
+
+(use-package eww                        ; built-in
   :config
   (setq shr-width 80)
   (defun sk/my-eww-mode-hook ()
@@ -435,22 +443,26 @@
 (use-package f
   :ensure t)
 
-(setq ispell-program-name "aspell"
-      ispell-extra-args '("--sug-mode=ultra"))
-
 (use-package flyspell :ensure nil
   :config
+  (setq flyspell-issue-welcome-flag nil)
   ;; Non-nil means that flyspell uses M-TAB to correct word.
   (setq flyspell-use-meta-tab nil)
   ;; If non-nil, add correction to abbreviation table.
   (setq flyspell-abbrev-p t)
-  ;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   )
 
-(use-package google-translate
+(use-package gcmh ; the Garbage Collector Magic Hack by Andrea Corallo
   :ensure t
-  :bind (("C-c t" . google-translate-at-point)
-         ("C-c T" . google-translate-query-translate)))
+  :config
+  (gcmh-mode))
+
+;; (use-package google-translate
+;;   :ensure t
+;;   :bind (("C-c t" . google-translate-at-point)
+;;          ("C-c T" . google-translate-query-translate)))
 
 ;; (use-package guess-language-mode
 ;;   :ensure t
@@ -463,19 +475,39 @@
         '(("default"
            ("Main"
             (or
+             (mode . image-mode)
+             (mode . dired-mode)
+             (filename . "/mnt/usb/seed/")))
+           ("Work"
+            (or
              (mode . org-agenda-mode)
-             (name . "\*mentor\*")
-             (name . "magit:")))
-           ("Mentor"
-            (filename . "wip/mentor"))
+             (name . "org/")
+             (name . "\*mentor\*")))
            ("Text Files"
             (or
              (mode . org-mode)
              (mode . text-mode)
              ))
-           ("Dired"
+           ("Email"
             (or
-             (mode . dired-mode)))
+             (mode . notmuch-search-mode)
+             (mode . notmuch-show-mode)
+             (mode . notmuch-hello-mode)
+             (mode . message-mode)
+             (mode . mail-mode)
+             (mode . gnus-group-mode)
+             (mode . gnus-summary-mode)
+             (mode . gnus-article-mode)))
+           ("Emacs Configuration"
+            (or (filename . "\\.emacs\\.d")
+                (filename . "\\.emacs")))
+           ("Mentor"
+            (filename . "wip/mentor"))
+           ("Emacs"
+            (or
+             (filename . "~/wip/emacs")))
+           ("Emacs Lisp"
+            (mode . emacs-lisp-mode))
            ("Programming"
             (or
              (mode . ag-mode)
@@ -488,25 +520,9 @@
              (mode . java-mode)
              (mode . sh-mode)
              (mode . haskell-mode)))
-           ("Mail"
-            (or
-             (mode . message-mode)
-             (mode . mail-mode)
-             (mode . gnus-group-mode)
-             (mode . gnus-summary-mode)
-             (mode . gnus-article-mode)
-             ))
-           ("Emacs Configuration"
-            (or (filename . ".emacs.d")
-                (filename . ".emacs")))
-           ("Emacs Lisp"
-            (mode . emacs-lisp-mode))
            ("Configuration"
             (or
              (mode . conf-unix-mode)))
-           ("Images"
-            (or
-             (mode . image-mode)))
            ("IRC"
             (mode . rcirc-mode)))))
   (add-hook 'ibuffer-mode-hook
@@ -565,10 +581,31 @@
   :config
   (setq isearch-allow-scroll t))
 
-(use-package midnight ; close inactive buffers
+(use-package ispell
   :config
+  ;; FIXME: temporary workaround
+  (setq ispell-program-name "hunspell")
+  (setq ispell-dictionary "en_US,sv_SE,es_ES")
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
+
+  ;; (setq ispell-extra-args '("--sug-mode=ultra"))
+  ;; (setq ispell-dictionary "swedish"
+  ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
+
+  (setq ispell-silently-savep t)
+  (setq flyspell-use-global-abbrev-table-p t)
+  )
+
+(use-package midnight                   ; (built-in)
+  :config
+  (setq clean-buffer-list-delay-general 4) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
+
+(use-package mpc                        ; (built-in)
+  :config
+  (setq mpc-mpd-music-directory "~/music"))
 
 (use-package multiple-cursors
   :ensure t)
@@ -578,20 +615,14 @@
   :pin "melpa"
   :config
   (openwith-mode t)
-  (setq my-video-types
-        (concat (regexp-opt '(".asf" ".avi" ".f4v"
-                              ".flv" ".m4a" ".m4v"
-                              ".mkv" ".mov" ".mp4"
-                              ".m2ts" ".mpeg" ".mpg"
-                              ".ogv" ".wmv" ".webm")) "\\'"))
 
   (setq openwith-associations
-        `((,my-video-types "mpv --cache=50000" (file))
+        `((,sk/video-types "mpv --cache=50000" (file))
           ("\\(?:\\.img\\|\\.iso\\)\\'" "mpv" ("dvd://" "-dvd-device" file))
           ("\\.azw3\\'" "calibre" (file))
           ;; ("\\.\\(?:jp?g\\|png\\)\\'" "display" (file)))))
           ;; ("\\.mp3\\'" "mplayer" (file))
-          ("\\.pdf\\'" "evince" (file))
+          ;; ("\\.pdf\\'" "evince" (file))
           ))
 
   (when (version< emacs-version "27")
@@ -678,7 +709,7 @@
 (use-package winum
   ;; Replaces window-numbering.el
   :ensure t
-  :pin "melpa-stable"
+  :pin "melpa"
   :bind (("M-1" . winum-select-window-1)
          ("M-2" . winum-select-window-2)
          ("M-3" . winum-select-window-3)

@@ -1,3 +1,4 @@
+(setq desktop-restore-eager 5)
 (desktop-save-mode 1)
 
 ;; Warn if there is no desktop.
@@ -10,6 +11,7 @@
 (if (fboundp 'desktop--load-locked-desktop-p) ; >= Emacs 28
     (setq desktop-load-locked-desktop 'check))
 
+;; (setq desktop-restore-eager 10)
 
 (setq desktop-save 'if-exists)
 (setq desktop-dirname (expand-file-name "~/.emacs.d/cache"))

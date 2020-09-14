@@ -13,6 +13,8 @@
   (when (string-match "^Stefans-M" (system-name))
     (setq notmuch-command "remote-notmuch.sh"))
 
+
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
   ;; (setq message-sendmail-extra-arguments '("send" "--quiet" "-C" "~/.mail/account.gmail"))
   (setq message-sendmail-extra-arguments '("queue" "--quiet" "-C" "~/.mail/account.gmail"))
@@ -45,6 +47,17 @@
   (setq notmuch-show-all-tags-list t)
   (setq notmuch-search-oldest-first nil)
 
+  ;; Mark as read.
+  (defun sk/notmuch-search-mark-read ()
+    "toggle unread tag for message in notmuch search mode."
+    (interactive)
+    (if (member "unread" (notmuch-search-get-tags))
+        (notmuch-search-tag (list "-unread"))
+      (notmuch-search-tag (list "+unread")))
+    (notmuch-search-next-thread))
+
+  (define-key notmuch-search-mode-map "v" 'sk/notmuch-search-mark-read)
+
   ;; Delete message.
   (defun sk/notmuch-show-delete-message ()
     "toggle deleted tag for message in notmuch show mode."
@@ -56,7 +69,7 @@
       (notmuch-show-next-thread t)))
 
   (defun sk/notmuch-search-delete-message ()
-    "toggle deleted tag for message in notmuch show mode."
+    "toggle deleted tag for message in notmuch search mode."
     (interactive)
     (if (member "trash" (notmuch-search-get-tags))
         (notmuch-search-tag (list "-trash"))
@@ -82,7 +95,7 @@
     (mm-insert-inline handle text)))
 
 (defun mm-inline-docx (handle)
-  "pandoc --normalize -r docx -w markdown %s"
+  "pandoc -r docx -w markdown %s"
   (let (text)
     (with-temp-buffer
       (mm-insert-part handle)
@@ -155,5 +168,38 @@
 
 (mapcar (lambda (x) (add-to-list 'mm-inline-media-tests x))
         my-inline-mime-tests)
+
+(defun sk/approve-mailman-post ()
+  "Approve a mailman post.  Run in notmuch-mail-show buffer."
+  (interactive)
+  (cond ((eq major-mode 'notmuch-show-mode)
+         (notmuch-show-reply))
+        ((eq major-mode 'notmuch-message-mode))
+        (t (user-error "sk/approve-mailman-mode: Incorrect major mode")))
+
+  (let ((subject (progn
+                   (re-search-forward "> Subject: \\(confirm .*\\)")
+                   (match-string 1))))
+    (message-goto-subject)
+    (message-beginning-of-line)
+    (kill-line)
+    (insert subject))
+
+  (let ((to (progn
+              (re-search-forward "> From: \\(.+-request@marxist.se\\)")
+              (match-string 1))))
+    (message-goto-to)
+    (message-beginning-of-line)
+    (kill-line)
+    (insert to))
+
+  ;; Approved:
+  (newline)
+  ;; FIMXE: Fixa för olika e-postlistor...
+  (insert "Approved: " sk/mailman-approve-password) ; secret
+
+  ;; Erase body
+  (message-goto-body)
+  (delete-region (point) (point-max)))
 
 (provide 'init-mail)
