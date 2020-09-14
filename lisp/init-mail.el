@@ -10,6 +10,9 @@
   ;;    (setq sendmail-program "/usr/bin/msmtp"))
   ;;   ('darwin
   ;;    (load-file "~/org/misc/.osx-sendmail.el")))
+  (when (string-match "^Stefans-M" (system-name))
+    (setq notmuch-command "remote-notmuch.sh"))
+
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
   ;; (setq message-sendmail-extra-arguments '("send" "--quiet" "-C" "~/.mail/account.gmail"))
   (setq message-sendmail-extra-arguments '("queue" "--quiet" "-C" "~/.mail/account.gmail"))
