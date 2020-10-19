@@ -5,6 +5,11 @@
 ;;;; Various configuration settings
 ;; FIXME: add visual line mode to all modes where it makes sense
 
+(setq Info-streamline-headings '(("Emacs" . "Emacs")
+ ("Software development\\|Programming" . "Software development")
+ ("Libraries" . "Libraries")
+ ("Network applications\\|World Wide Web\\|Net Utilities" . "Network applications")))
+
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 (unless (eq window-system 'ns)
