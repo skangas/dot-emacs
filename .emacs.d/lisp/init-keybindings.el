@@ -99,6 +99,10 @@
 
 (define-key ctl-x-map "\C-j" 'dired-jump)
 
+;; C-h
+(define-key help-map "u" 'man)
+(define-key help-map "\C-a" 'apropos)
+
 ;; (global-set-key "\C-t" 'shell-pop)
 ;; (global-set-key "\C-c\C-k" 'kill-region)
 
