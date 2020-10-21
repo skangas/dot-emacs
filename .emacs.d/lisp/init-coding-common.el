@@ -42,12 +42,8 @@
 
 (use-package flymake
   :config
-  (defun my-flymake-show-next-error ()
-     (interactive)
-     (flymake-goto-next-error)
-     (flymake-popup-current-error-menu))
-  (add-hook 'flymake-mode-hook
-            (local-set-key (kbd "C-c C-e") 'my-flymake-show-next-error)))
+  (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+  (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error))
 
 (use-package magit
   :ensure t
