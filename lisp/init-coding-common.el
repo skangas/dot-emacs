@@ -1,13 +1,5 @@
 ;;; General coding
 
-;; TRYING OUT COMPANY INSTEAD
-;; (use-package auto-complete
-;;   :ensure t
-;;   :defer 30
-;;   :config
-;;   (ac-config-default)
-;;   (setq ac-quick-help-delay 2.0))
-
 (setq gdb-many-windows t)
 
 (setq compilation-scroll-output t)
