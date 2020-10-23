@@ -96,6 +96,7 @@
 
 ;; C-g
 (global-set-key (kbd "M-g M-r") 'goto-random-line)
+(global-set-key (kbd "M-g M-s") 'sort-lines)
 
 (define-key ctl-x-map "\C-j" 'dired-jump)
 
