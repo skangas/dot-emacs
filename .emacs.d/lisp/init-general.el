@@ -603,8 +603,9 @@
   )
 
 (use-package midnight                   ; (built-in)
-  :config
-  (setq clean-buffer-list-delay-general 4) ; default is 3 days
+  :init
+  (midnight-mode 1)
+  (setq clean-buffer-list-delay-general 7) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
 
