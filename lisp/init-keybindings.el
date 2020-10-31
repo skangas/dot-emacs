@@ -92,7 +92,7 @@
 (global-set-key (kbd "C-c e r") 'eval-region)
 (global-set-key (kbd "C-c e s") 'scratch)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
-(global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
+(global-set-key (kbd "C-c e t") 'sk/ert-run-all-tests)
 
 ;; C-g
 (global-set-key (kbd "M-g M-r") 'goto-random-line)

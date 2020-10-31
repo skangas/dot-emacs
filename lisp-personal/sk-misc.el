@@ -1,6 +1,6 @@
 ;;; sk-misc.el --- random functions
 
-;; Copyright (C) 2010, Stefan Kangas
+;; Copyright (C) 2010-2020 Stefan Kangas
 
 ;; Author: Stefan Kangas
 ;; Keywords: utilities
@@ -23,6 +23,8 @@
 ;;; Commentary:
 
 ;;; Code
+
+
 
 (require 'cl-lib)
 
