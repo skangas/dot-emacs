@@ -24,9 +24,15 @@
 
 ;;; Code
 
-
-
 (require 'cl-lib)
+
+(defun sk/ert-run-all-tests ()
+  (interactive)
+  (require 'ert)
+  (require 'ert-x)
+  (ert-delete-all-tests)
+  (eval-buffer)
+  (ert-run-tests-interactively "t"))
 
 (defvar sk/previous-random-line nil
   "Previous random line jumped to by `goto-random-line'.")
