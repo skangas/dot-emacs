@@ -28,4 +28,12 @@
       '(defun enriched-decode-display-prop (start end &optional param)
          (list start end))))
 
+
+;;;; Emacs < 25.1
+
+(when (< emacs-major-version 25)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode))
+
 (provide 'init-compat)
