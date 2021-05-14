@@ -64,7 +64,8 @@
 
 
 ;; Font
-(add-to-list 'default-frame-alist '(font . "Ubuntu Mono-14"))
+(unless (eq window-system 'ns)
+  (add-to-list 'default-frame-alist '(font . "Ubuntu Mono-14")))
 (setq-default line-spacing 1)
 
 ;;; Enable theme early to avoid flickering.
