@@ -1,7 +1,10 @@
+;;;; init-compat.el
+
 
 ;;;; Emacs < 27.1
 
 ;; Increase min bits to 2048 for old Emacs
+;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
 (when (and (< emacs-major-version 27)
            (boundp 'gnutls-min-prime-bits))
   (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits)))
@@ -21,6 +24,7 @@
 ;; This vulnerability was introduced in Emacs 21.1.  To work around that
 ;; in Emacs versions before 25.3, append the following to your ~/.emacs
 ;; init file:
+
 (if (and (< emacs-major-version 26)
          (not (and (= emacs-major-version 25)
                    (= emacs-minor-version 3))))

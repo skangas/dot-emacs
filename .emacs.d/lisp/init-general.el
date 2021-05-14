@@ -28,10 +28,6 @@
 ;; Use savehist-mode.
 (savehist-mode 1)
 
-;; Increase min bits to 2048
-;; https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html
-;; (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits))
-
 (setq scroll-conservatively 500)
 (setq scroll-margin 2)
 (setq scroll-step 0)
@@ -584,10 +580,10 @@
 (use-package ispell
   :config
   ;; FIXME: temporary workaround
-  (setq ispell-program-name "hunspell")
-  (setq ispell-dictionary "en_US,sv_SE,es_ES")
-  (ispell-set-spellchecker-params)
-  (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
+  ;; (setq ispell-program-name "hunspell")
+  ;; (setq ispell-dictionary "en_US,sv_SE,es_ES")
+  ;; (ispell-set-spellchecker-params)
+  ;; (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
 
   ;; (setq ispell-extra-args '("--sug-mode=ultra"))
   ;; (setq ispell-dictionary "swedish"
