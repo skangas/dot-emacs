@@ -75,7 +75,8 @@
 ;;   (when (version< "27" emacs-version)
 ;;     (load-theme 'zenburn t)))
 
-(load-theme 'modus-operandi)
+(ignore-errors
+  (load-theme 'modus-operandi))
 
 ;; General configuration.  (the order matters)
 (require 'init-portability)
