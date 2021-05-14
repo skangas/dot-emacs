@@ -92,12 +92,17 @@
 (global-set-key (kbd "C-c e r") 'eval-region)
 (global-set-key (kbd "C-c e s") 'scratch)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
-(global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
+(global-set-key (kbd "C-c e t") 'sk/ert-run-all-tests)
 
 ;; C-g
 (global-set-key (kbd "M-g M-r") 'goto-random-line)
+(global-set-key (kbd "M-g M-s") 'sort-lines)
 
 (define-key ctl-x-map "\C-j" 'dired-jump)
+
+;; C-h
+(define-key help-map "u" 'man)
+(define-key help-map "\C-a" 'apropos)
 
 ;; (global-set-key "\C-t" 'shell-pop)
 ;; (global-set-key "\C-c\C-k" 'kill-region)

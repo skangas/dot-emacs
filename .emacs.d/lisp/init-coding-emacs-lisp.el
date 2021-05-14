@@ -21,9 +21,10 @@
 (use-package suggest
   :ensure t)
 
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (add-hook 'local-write-file-hooks
+                      'check-parens)))
 
 ;; ;; Not using this for now.
 ;; (add-hook 'ielm-mode-hook 'enable-paredit-mode)
