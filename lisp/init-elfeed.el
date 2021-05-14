@@ -207,7 +207,7 @@
   :ensure t
   :bind (:map elfeed-search-mode-map
               ("h" . elfeed-search-untag-all-unread) ; more ergonomic keybinding
-              ("j" . sk/elfeed-jump/body)
+              ;; ("j" . sk/elfeed-jump/body)
               ("n" . next-line)
               ("p" . 'previous-line)
               ("w" . 'sk/elfeed-search-copy-link)
