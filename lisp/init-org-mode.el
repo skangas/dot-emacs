@@ -10,14 +10,24 @@
 
 ;;;; standard packages
   (require 'org-protocol)
-  (require 'ol-notmuch)
+
+  ;; 9.3.1 and later
+  (ignore-errors
+    (require 'ol-notmuch))
+  ;; 9.3 and earlier
+  (ignore-errors
+    (require 'org-notmuch))
+  
   (when (not (version< org-version "9.2"))
     (require 'org-tempo))
 
   ;; (require 'org-checklist) ; contrib
 
   ;; Link to man pages.
-  (require 'ol-man)                     ; contrib
+  (ignore-errors                     ; contrib
+    (require 'ol-man))
+  (ignore-errors
+    (require 'org-man))
   ;; (require 'org-latex)
 
   ;; MobileOrg (currently unused -- 2020-02-01)
