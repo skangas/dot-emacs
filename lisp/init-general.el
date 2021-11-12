@@ -432,6 +432,10 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
+(use-package erc ; built-in
+  :config
+  (add-hook 'erc-mode-hook #'abbrev-mode))
+
 (use-package eshell ; built-in
   :config
   (setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
