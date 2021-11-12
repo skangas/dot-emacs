@@ -15,14 +15,9 @@
 ;; Uncomment this if we have any problems with not finding packages:
 ;; (package-refresh-contents)
 
-;; Configure ELPA
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")))
+;; Configure MELPA
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-;; (add-to-list 'package-archives
-;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("org" . "https://orgmode.org/elpa/") t)
 
 
 ;;; use-package
@@ -34,8 +29,8 @@
     (package-install 'use-package)))
 
 ;; Configure use-package
-(eval-when-compile
-  (require 'use-package))
+;(eval-when-compile
+;  (require 'use-package))
 (setq use-package-always-pin "melpa")
 
 ;; For use-package :diminish
@@ -51,13 +46,16 @@
   (require 'bind-key))
 
 ;; Enable auto-compile
-(use-package auto-compile
-  :ensure t
-  :init
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode)
-  (setq load-prefer-newer t)
-  (setq auto-compile-display-buffer nil)
-  (setq auto-compile-mode-line-counter t))
+
+;; This lead to some crashes and other weird issues, disable:
+
+;; (use-package auto-compile
+;;   :ensure t
+;;   :init
+;;   (auto-compile-on-load-mode)
+;;   (auto-compile-on-save-mode)
+;;   (setq load-prefer-newer t)
+;;   (setq auto-compile-display-buffer nil)
+;;   (setq auto-compile-mode-line-counter t))
 
 (provide 'init-package)

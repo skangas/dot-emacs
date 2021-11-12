@@ -91,12 +91,96 @@
 ;;   (interactive)
 ;;   (my-delete-html-tags '("\?xml" "!DOCTYPE" "html" "head" "title" "meta" "style" "script" "\!--" "!\[CDATA" "body" "div")))
 
-(defun sk-test-find-dired ()
+(global-set-key [(hyper l)] 'my-fix-command)
+(defvar my-prev-mode nil)
+(defun my-fix-command ()
   (interactive)
-  (find-dired "/mnt/usb/seed/other" "-type f \\( ! -iname '*.jpg' ! -iname '*.jpeg' ! -iname '*.gif' ! -iname '*.bmp' ! -iname '*.html' ! -iname '*.png' ! -iname '*.zip' ! -iname '*.db' ! -iname '*.pdf' ! -iname '*.nfo' \\)")
-  ;; (sk/go/body)
-  ;; (goto-random-line)
-  )
+  (let ((mode nil)
+        (regexp "(define-derived-mode \\([^ \t\n]+\\)\\|(defun \\([^ \t\n]+-mode\\) ")
+        change bindings)
+    (if (not (re-search-forward "^ *\\((interactive\\)" nil t))
+        (message "No more interactive in this file")
+      (recenter nil t)
+      (save-match-data
+        (save-excursion
+          (beginning-of-defun)
+          (let ((form (read (current-buffer))))
+            (when (and (listp form)
+                       (eq (car form) 'defun))
+              (setq bindings
+                    (shell-command-to-string
+                     (format
+                      "cd %s../lisp; grep -r --include '*.el' \"define-key.*'%s\""
+                      data-directory (cadr form)))))))
+        (save-excursion
+          (when (or (re-search-backward regexp nil t)
+                    (re-search-forward regexp nil t))
+            (setq mode (or (match-string 1) (match-string 2)))))
+        (setq change (read-string (format "%sChange to: "
+                                          (or bindings ""))
+                                  (or mode my-prev-mode))))
+      (when (cl-plusp (length change))
+        (setq mode change)
+        (goto-char (match-beginning 1))
+        (let ((form (read (current-buffer))))
+          (goto-char (match-beginning 1))
+          (forward-char 1)
+          (if (> (length form) 1)
+              (progn
+                (forward-sexp 2)
+                (insert " " mode))
+            (forward-sexp 1)
+            (insert " nil " mode))
+          (forward-sexp -1))
+        (setq my-prev-mode mode)))))
+
+;; Courtesy of Mattias Engdegård
+(defun all-strings (rx)
+  "List of all strings matching RX.
+Mainly covers output from `regexp-opt' as converted by `xr'."
+  (pcase-exhaustive rx
+    ((pred stringp) (list rx))
+    (`(seq) (list ""))
+    (`(seq ,rx . ,rxs)
+     (let ((strings1 (all-strings rx)))
+       (mapcan (lambda (s2) (mapcar (lambda (s1) (concat s1 s2)) strings1))
+               (all-strings `(seq . ,rxs)))))
+    (`(or . ,rxs) (mapcan #'all-strings rxs))
+    (`(any . ,args)
+     ;; Only covers string arguments.
+     (mapcan (lambda (arg)
+               (mapcar #'char-to-string
+                       (replace-regexp-in-string ; Expand ranges.
+                        (rx anychar ?- anychar)
+                        (lambda (range)
+                          (apply #'string (number-sequence (aref range 0)
+                                                           (aref range 2))))
+                        arg t)))
+             args))
+    (`(opt . ,rxs) (all-strings `(or (seq . ,rxs) "")))
+    (`(group . ,rxs) (all-strings `(seq . ,rxs)))))
+
+(defun sk-convert-to-regexp-opt (beg end)
+  (interactive "r")
+  (let ((regexp (read
+                 (buffer-substring-no-properties beg end)))
+        (standard-output (current-buffer))
+        (print-level nil)
+        (print-length nil)
+        words)
+    (when (string-match (rx string-start
+                            "\\<" (* anychar) "\\>"
+                            string-end)
+                        regexp)
+      (setq regexp (string-trim regexp "\\\\<" "\\\\>"))
+      (setq words t))
+    (save-excursion
+      (delete-region beg end)
+      (princ "(regexp-opt '")
+      (prin1 (sort (all-strings (xr regexp)) #'string<))
+      (when words
+        (princ " 'words"))
+      (princ ")"))))
 
 (provide 'sk-misc)
 ;; sk-misc.el ends here

@@ -126,7 +126,7 @@
   "Insert current theme as XResources in current buffer" t)
 
 ;; Don't clutter .emacs with M-x customize stuff
-(setq custom-file "~/.emacs.d/lisp/init-custom-file.el")
+(setq custom-file "~/.emacs.d/init-custom-file.el")
 (load custom-file 'noerror)
 
 ;; Show current version in *scratch* buffer and echo .emacs load time
