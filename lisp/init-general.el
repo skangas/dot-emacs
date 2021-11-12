@@ -49,7 +49,6 @@
       message-send-mail-partially-limit nil          ; Never split emails
 
       kill-ring-max (* kill-ring-max 2)
-      sentence-end "\\.  ?"                          ; Used only by certain modes.
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
