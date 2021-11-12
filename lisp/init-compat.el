@@ -7,6 +7,24 @@
 (fmakunbound 'enriched-encode)
 
 
+;; Stefan Monnier @ emacs-devel 2021-04-01
+
+;; Makes sense, indeed.  It might be worth having people play with the
+;; value for a while (and not just for bulk-bandwidth tests but also for
+;; interactive use like `M-x shell`, `M-x compile`, `M-x grep`, including
+;; with largish outputs) and report back.
+;;
+;; I just put (setq read-process-output-max (max 65536 read-process-output-max))
+;; into my init file, and I'll see if I notice a difference.
+;; [ BTW, I think a value >=32kB would be desirable since it avoids
+;;   breaking UDP datagrams.  ]
+;;
+;; Stefan
+
+;; Maybe faster:
+(setq read-process-output-max (max read-process-output-max (* 64 1024)))
+
+
 ;;;; Emacs < 27.1
 
 ;; Increase min bits to 2048 for old Emacs
