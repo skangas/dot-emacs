@@ -12,6 +12,11 @@
   '(progn
      (custom-reevaluate-setting 'auto-insert-alist)
 
+     ;; Python
+     (define-auto-insert
+       '(python-mode . "Python Program")
+       '["python-template" my-auto-update-source-file])
+
      ;; Perl
      (define-auto-insert
        '(cperl-mode . "Perl Program")
