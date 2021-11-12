@@ -486,11 +486,6 @@
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   )
 
-(use-package gcmh ; the Garbage Collector Magic Hack by Andrea Corallo
-  :ensure t
-  :config
-  (gcmh-mode))
-
 ;; (use-package google-translate
 ;;   :ensure t
 ;;   :bind (("C-c t" . google-translate-at-point)
