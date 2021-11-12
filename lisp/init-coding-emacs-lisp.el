@@ -3,6 +3,14 @@
 ;; (require 'eval-expr)
 ;; (eval-expr-install)
 
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
+
+(use-package el-search
+  :ensure t)
+
 (use-package nameless
   :ensure t
   :diminish nameless-mode
@@ -13,6 +21,9 @@
   :ensure t)
 
 (use-package suggest
+  :ensure t)
+
+(use-package xr
   :ensure t)
 
 (add-hook 'emacs-lisp-mode-hook
