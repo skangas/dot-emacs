@@ -2,6 +2,15 @@
   :ensure t
   :config
 
+  (defhydra sk/gogo (:exit nil)
+    "filter"
+    ("n" (next-error) "next-error")
+    ("p" (previous-error) "prev-error")
+    ("f" (flyspell-goto-next-error) "flyspell-next")
+    ("i" (ispell-word) "ispell-word"))
+
+  (global-set-key (kbd "M-g TAB") 'sk/gogo/body)
+
   (defhydra sk/go (:exit nil)
     "filter"
     ("1" (goto-random-line) "random")
