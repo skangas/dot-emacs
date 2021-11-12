@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: anki card general
+# key: anki-c1
+# --
+Item
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Stefan-Världen: Basic
+:ANKI_TAGS:  $3
+:END:
+**** Framsida
+$1
+**** Baksida
+$2
+$4
