@@ -42,8 +42,6 @@ filladapt.el:
 	curl -O http://www.wonderworks.com/download/filladapt.el
 haskell-ghci.el:
 	curl -O http://home.arachsys.com/~chris/haskell-ghci.el
-iimage.el:
-	curl -O https://raw.githubusercontent.com/typester/emacs/master/lisp/iimage.el
 org-habit-plus.el:
 	curl -O https://raw.githubusercontent.com/oddious/org-habit-plus/master/org-habit-plus.el
 rcirc-late-fix.el:
