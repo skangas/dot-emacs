@@ -1,6 +1,12 @@
 ;;;; init-compat.el
 
 
+;;;; Disable enriched-mode permanently due to below security issues.
+(fmakunbound 'enriched-mode)
+(fmakunbound 'enriched-decode)
+(fmakunbound 'enriched-encode)
+
+
 ;;;; Emacs < 27.1
 
 ;; Increase min bits to 2048 for old Emacs
