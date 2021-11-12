@@ -39,7 +39,10 @@
                                        ;; Never reply here.
                                        "control@debbugs.gnu.org"
                                        "bug-gnu-emacs@gnu.org"
-                                       "emacs-pretest-bug@gnu.org"))))
+                                       "emacs-pretest-bug@gnu.org")))
+
+  ;; allows use of `gnus-dired-attach' (C-c RET C-a)
+  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
 
 (require 'notmuch)
 (with-eval-after-load 'notmuch
