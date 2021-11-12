@@ -128,12 +128,12 @@
 (define-key occur-mode-map (kbd "p") 'previous-logical-line)
 
 ;; wgrep
-(eval-after-load 'grep
-  '(define-key grep-mode-map
-    (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
-(eval-after-load 'wgrep
-  '(define-key grep-mode-map
-    (kbd "C-c C-c") 'wgrep-finish-edit))
+(with-eval-after-load 'grep
+  (define-key grep-mode-map
+              (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
+(with-eval-after-load 'wgrep
+  (define-key grep-mode-map
+              (kbd "C-c C-c") 'wgrep-finish-edit))
 
 
 ;;; My utility functions

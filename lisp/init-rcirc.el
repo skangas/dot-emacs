@@ -59,8 +59,8 @@
 ;; disable keepalive pings
 (setq rcirc-keepalive-timer t)
 
-;; (eval-after-load "rcirc"
-;;   '(defun rcirc-generate-new-buffer-name (process target)
+;; (with-eval-after-load "rcirc"
+;;   (defun rcirc-generate-new-buffer-name (process target)
 ;;      "Return a buffer name based on PROCESS and TARGET.
 ;; This is used for the initial name given to IRC buffers."
 ;;      (let ((pname (process-name process)))

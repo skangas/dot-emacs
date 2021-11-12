@@ -323,26 +323,26 @@
 (use-package diminish
   :ensure t
   :config
-  (eval-after-load 'auto-dim-other-buffers
-    '(diminish 'auto-dim-other-buffers-mode ""))
+  (with-eval-after-load 'auto-dim-other-buffers
+    (diminish 'auto-dim-other-buffers-mode ""))
   (diminish 'abbrev-mode "Ab")
   (diminish 'eldoc-mode "")
-  (eval-after-load 'anzu
-    '(diminish 'anzu-mode ""))
-  (eval-after-load 'company
-    '(diminish 'company-mode "comp"))
-  (eval-after-load 'enh-ruby-mode
-    '(diminish 'enh-ruby-mode "Ruby"))
-  (eval-after-load 'gcmh
-    '(diminish 'gcmh-mode ""))
-  (eval-after-load 'paredit
-    '(diminish 'paredit-mode "PEd"))
-  (eval-after-load 'minitest
-    '(diminish 'minitest-mode "MT"))
-  (eval-after-load 'robe
-    '(diminish 'robe-mode "Ro"))
-  (eval-after-load 'ruby-test-mode
-    '(diminish 'ruby-test-mode "RT")))
+  (with-eval-after-load 'anzu
+    (diminish 'anzu-mode ""))
+  (with-eval-after-load 'company
+    (diminish 'company-mode "comp"))
+  (with-eval-after-load 'enh-ruby-mode
+    (diminish 'enh-ruby-mode "Ruby"))
+  (with-eval-after-load 'gcmh
+    (diminish 'gcmh-mode ""))
+  (with-eval-after-load 'paredit
+    (diminish 'paredit-mode "PEd"))
+  (with-eval-after-load 'minitest
+    (diminish 'minitest-mode "MT"))
+  (with-eval-after-load 'robe
+    (diminish 'robe-mode "Ro"))
+  (with-eval-after-load 'ruby-test-mode
+    (diminish 'ruby-test-mode "RT")))
 
 (use-package dired
   :config
