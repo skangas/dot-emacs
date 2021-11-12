@@ -682,14 +682,6 @@
                           "^/home/skangas/.emacs.bmk$"
                           "^/Users/skangas/org/.*")))
 
-(use-package seq
-  :ensure t)
-
-(use-package smex
-  :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)))
-
 (use-package tramp
   :config
   ;; (setq tramp-default-method "ssh")
