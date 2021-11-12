@@ -1,0 +1,9 @@
+#name : ert
+#group : general
+#key : ert
+# --
+
+
+
+(ert-deftest `(file-name-base (buffer-file-name))`-$1 ()
+  $0)

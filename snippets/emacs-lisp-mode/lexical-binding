@@ -1,0 +1,6 @@
+#name : lexical-binding
+#group : general
+#key : lbind
+# --
+
+ -*- lexical-binding: t -*-
