@@ -3,23 +3,23 @@
 ;; ~skangas/.emacs
 ;;
 
-(setq message-log-max (* 20 message-log-max))
-(setq max-specpdl-size (* 10 max-specpdl-size))
-(setq max-lisp-eval-depth (* 10 max-lisp-eval-depth))
+(setq message-log-max (* 10 message-log-max))
+;; (setq max-specpdl-size (* 10 max-specpdl-size))
+;; (setq max-lisp-eval-depth (* 10 max-lisp-eval-depth))
 
 ;; Temporarily raise garbage collection limit for initialization
-(setq gc-cons-threshold (* 1024 1024 1024))
-(defun my-lower-gc-cons-threshold ()
-  ;; Revert back to something slightly bigger than the default
-  (setq gc-cons-threshold 1000000)
-  (remove-hook 'focus-out-hook #'my-lower-gc-cons-threshold)) 
-(add-hook 'after-init-hook
-          (lambda ()
-            (run-with-idle-timer
-             1
-             nil
-             #'my-lower-gc-cons-threshold)
-            (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
+;; (setq gc-cons-threshold (* 1024 1024 1024))
+;; (defun my-lower-gc-cons-threshold ()
+;;   ;; Revert back to something slightly bigger than the default
+;;   (setq gc-cons-threshold 1000000)
+;;   (remove-hook 'focus-out-hook #'my-lower-gc-cons-threshold))
+;; (add-hook 'after-init-hook
+;;           (lambda ()
+;;             (run-with-idle-timer
+;;              1
+;;              nil
+;;              #'my-lower-gc-cons-threshold)
+;;             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
 
 
 ;; Debian specific
@@ -48,8 +48,8 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
-(add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
-(add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
+;; (add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
+;; (add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
 
 (when (file-readable-p "~/.emacs-secrets.el")
   (load-file "~/.emacs-secrets.el"))
@@ -81,10 +81,10 @@
 ;; General configuration.  (the order matters)
 (require 'init-portability)
 (require 'init-general)
-;; (require 'init-compat)
+(require 'init-compat)
 (require 'init-emacs-server)
 (require 'init-keybindings)
-(require 'init-desktop)
+;;(require 'init-desktop)
 
 ;; Various features
 (require 'init-auto-insert-mode)
@@ -100,20 +100,20 @@
 ;; (require 'init-rcirc)
 ;; (require 'init-w3m)
 
-(require 'init-mail)
+;;(require 'init-mail)
 
 ;; Coding
-(require 'init-coding-common)
 (require 'init-coding-c)
-;; (require 'init-coding-cedet)
-;; (require 'init-coding-common-lisp)
+(require 'init-coding-common)
 (require 'init-coding-cpp)
 (require 'init-coding-emacs-lisp)
-;; (require 'init-coding-haskell)
-;; (require 'init-coding-java)
 (require 'init-coding-perl)
 (require 'init-coding-php)
 (require 'init-coding-python)
+;; (require 'init-coding-cedet)
+;; (require 'init-coding-common-lisp)
+;; (require 'init-coding-haskell)
+;; (require 'init-coding-java)
 ;; (require 'init-coding-ruby)
 ;; (require 'init-coding-scheme)
 
@@ -129,8 +129,8 @@
 (setq custom-file "~/.emacs.d/lisp/init-custom-file.el")
 (load custom-file 'noerror)
 
-;; Show current version in *scratch* buffer (this needs to be last to be on top)
-;; and echo .emacs load time
+;; Show current version in *scratch* buffer and echo .emacs load time
+;; (this needs to be last to be on top)
 (add-hook 'after-init-hook
           (lambda ()
             (insert (concat ";; " (substring (emacs-version) 0 14)))
