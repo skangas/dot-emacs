@@ -1,0 +1,7 @@
+#name : test ... end
+#group : general
+#key : tt
+# --
+test "${1:description}" do
+  $0
+end
