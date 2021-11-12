@@ -21,12 +21,12 @@
   (autoload 'sendmail-send-it "sendmail" nil t)
   )
 
-(use-package diff-hl
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-  (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
-  (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+;; (use-package diff-hl
+;;   :ensure t
+;;   :config
+;;   (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+;;   (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
+;;   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
 
 (use-package elide-head
   :config
