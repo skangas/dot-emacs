@@ -444,8 +444,33 @@
   :config
   (setq shr-width 80)
   (defun sk/my-eww-mode-hook ()
-    (setq line-spacing 5))
-  (add-hook 'eww-mode-hook 'sk/my-eww-mode-hook))
+    ;; Set line-spacing to at least N.
+    (when (natnump line-spacing)
+      (setq line-spacing (max line-spacing 5))))
+  (add-hook 'eww-mode-hook 'sk/my-eww-mode-hook)
+
+  ;; Fix <mark> tags for www.rae.es
+  (defun shr-tag-mark (dom)
+    (shr-generic dom)
+    ;; Hack to work around bug in libxml2 (Bug#48211):
+    ;; https://gitlab.gnome.org/GNOME/libxml2/-/issues/247
+    (insert " "))
+
+  (defun sk/eww-fix-up-whitespace-for-rae ()
+    (save-excursion
+      (let ((buffer-read-only nil))
+        (goto-char (point-min))
+        (if (string= (substring (plist-get eww-data :url) 0 19)
+                     "https://dle.rae.es/")
+            (while (re-search-forward " \\([.,]\\)" nil t)
+              (replace-match "\\1"))))))
+  (add-hook 'eww-after-render-hook #'sk/eww-fix-up-whitespace-for-rae)
+
+  (defun sk/eww-move-point-in-place ()
+    (when (string-match "www.marxist.com/.*\.htm" (plist-get eww-data :url))
+      (search-forward "Details " nil t)
+      (recenter 0)))
+  (add-hook 'eww-after-render-hook #'sk/eww-move-point-in-place))
 
 (use-package f
   :ensure t)
