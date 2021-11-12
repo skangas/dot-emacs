@@ -682,22 +682,11 @@
                           "^/home/skangas/.emacs.bmk$"
                           "^/Users/skangas/org/.*")))
 
-(use-package tramp
+(use-package tramp                      ; built-in
   :config
-  ;; (setq tramp-default-method "ssh")
-
-  ;; (set-default 'tramp-default-proxies-alist
-  ;;              '((".*" "\\`root\\'" "/ssh:%h:")))
-
-  ;; don't backup files edited in tramp using sudo or su -- we don't want to
-  ;; spread secret root files around.
-  (setq backup-enable-predicate
-        (lambda (name)
-          (and (normal-backup-enable-predicate name)
-               (not
-                (let ((method (file-remote-p name 'method)))
-                  (when (stringp method)
-                    (member method '("su" "sudo")))))))))
+  ;; don't backup any remote lines
+  (add-to-list 'backup-directory-alist
+               (cons tramp-file-name-regexp nil)))
 
 (use-package undo-tree
   :pin "gnu"
