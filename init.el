@@ -1,6 +1,6 @@
 ;; -*- no-byte-compile: t -*-
 ;;
-;; ~skangas/.emacs
+;; init.el
 ;;
 
 (setq message-log-max (* 10 message-log-max))
@@ -44,7 +44,7 @@
 ;;(add-to-list 'load-path (expand-file-name "/usr/share/emacs/site-lisp/elpa/notmuch-0.30"))
 
 ;; Add local elisp directories
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
