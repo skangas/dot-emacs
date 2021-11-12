@@ -1,0 +1,7 @@
+#name : brecip
+#group : general
+#key : brecip
+# --
+
+Can you reproduce this on a recent version of Emacs?  If yes, could you please
+provide a step-by-step recipe for reproducing it, starting from "emacs -Q"?

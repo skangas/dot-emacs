@@ -1,0 +1,13 @@
+#name : bmaster
+#group : general
+#key : bmaster
+# --
+
+I have now fixed this on $0 (commit $1).
+
+Please verify that this fix works for you, but for now I'm closing this
+bug report.  If you see anything that is wrong, please reply to this
+email (use "Reply to all" in your email client) and we can reopen the
+bug report.  You could also just report a new bug.
+
+Thanks again for the bug report!
