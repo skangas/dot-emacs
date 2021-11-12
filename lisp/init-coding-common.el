@@ -173,7 +173,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package yaml-mode
   :ensure t
-  :mode (("\\.yml\\'" . yaml-mode)))
+  :mode (("\\.ya?ml\\'" . yaml-mode)))
 
 ;; Disabled for now.
 ;; (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
