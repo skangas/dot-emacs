@@ -749,6 +749,5 @@
      (define-key image-mode-map "V" 'sk/image-mode-toggle-resized)))
 
 (setq image-animate-loop t)
-(add-hook 'image-mode-hook 'sk/image-mode-resize-maybe-hook)
 
 (provide 'init-general)
