@@ -25,6 +25,7 @@ history
 mentor
 network-security.data
 news
+newsticker
 org-roam.db
 package-quickstart.el
 places
@@ -34,6 +35,7 @@ projects
 recentf
 request
 saveplace
+smex-items
 srecode-map.el
 thumbs
 timelog
