@@ -44,6 +44,13 @@
   ;; allows use of `gnus-dired-attach' (C-c RET C-a)
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
 
+(defun my/check-for-subject ()
+  "Prevent user from sending email without a subject."
+  (unless (message-field-value "Subject")
+    (message-goto-subject)
+    (user-error "Attempting to send mail without a subject line")))
+(add-hook 'message-send-hook #'my/check-for-subject)
+
 (require 'notmuch)
 (with-eval-after-load 'notmuch
   (setq notmuch-show-logo nil)
