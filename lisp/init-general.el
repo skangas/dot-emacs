@@ -667,10 +667,10 @@
     (ad-deactivate 'abort-if-file-too-large)
     (ad-activate 'abort-if-file-too-large)))
 
-(use-package powerline
-  :ensure t
-  :config
-  (powerline-default-theme))
+;; (use-package powerline
+;;   :ensure t
+;;   :config
+;;   (powerline-default-theme))
 
 (use-package recentf
   :config
