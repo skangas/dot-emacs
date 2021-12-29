@@ -7,19 +7,6 @@
 ;; (setq max-specpdl-size (* 10 max-specpdl-size))
 ;; (setq max-lisp-eval-depth (* 10 max-lisp-eval-depth))
 
-;; Temporarily raise garbage collection limit for initialization
-;; (setq gc-cons-threshold (* 1024 1024 1024))
-;; (defun my-lower-gc-cons-threshold ()
-;;   ;; Revert back to something slightly bigger than the default
-;;   (setq gc-cons-threshold 1000000)
-;;   (remove-hook 'focus-out-hook #'my-lower-gc-cons-threshold))
-;; (add-hook 'after-init-hook
-;;           (lambda ()
-;;             (run-with-idle-timer
-;;              1
-;;              nil
-;;              #'my-lower-gc-cons-threshold)
-;;             (add-hook 'focus-out-hook #'my-lower-gc-cons-threshold)))
 
 
 ;; Debian specific
@@ -41,19 +28,6 @@
   (let ((default-directory "/usr/share/emacs/site-lisp"))
     (load-file "/usr/share/emacs/site-lisp/subdirs.el")))
 
-;;(add-to-list 'load-path (expand-file-name "/usr/share/emacs/site-lisp/elpa/notmuch-0.30"))
-
-;; Add local elisp directories
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-contrib"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp-personal"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/predictive"))
-;; (add-to-list 'load-path (expand-file-name "~/wip/org-mode/contrib"))
-;; (add-to-list 'load-path (expand-file-name "~/wip/org-mode/lisp"))
-
-(when (file-readable-p "~/.emacs-secrets.el")
-  (load-file "~/.emacs-secrets.el"))
-
 ;;; Packages and contrib.
 (require 'init-package)
 
@@ -61,12 +35,6 @@
 (dolist (dir '("~/.emacs.d/cache" "~/.emacs.d/cache/semanticdb"))
   (unless (file-directory-p dir)
     (make-directory dir)))
-
-
-;; Font
-(unless (eq window-system 'ns)
-  (add-to-list 'default-frame-alist '(font . "Ubuntu Mono-14")))
-(setq-default line-spacing 1)
 
 ;;; Enable theme early to avoid flickering.
 ;; (use-package zenburn-theme
