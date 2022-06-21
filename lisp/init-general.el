@@ -349,8 +349,9 @@
               ("å" . dired-sk/open-media-dwim)
               ("C-i" . image-dired-here))
   :config
-  (setq dired-listing-switches
-        "-lAFh --group-directories-first")
+  (if (eq system-type 'darwin)
+      (setq dired-listing-switches "-lAFh")
+    (setq dired-listing-switches "-lAFh --group-directories-first"))
   (setq dired-dwim-target t)           ; Try to guess a default target directory
   (setq dired-isearch-filenames 'dwim) ; Search filenames only
   (setq dired-auto-revert-buffer #'dired-directory-changed-p)
