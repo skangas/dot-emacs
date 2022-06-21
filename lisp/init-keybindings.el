@@ -98,6 +98,10 @@
 (global-set-key (kbd "M-g M-r") 'goto-random-line)
 (global-set-key (kbd "M-g M-s") 'sort-lines)
 
+(global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
+                                    #'elide-head-mode
+                                  #'elide-head))
+
 (define-key ctl-x-map "\C-j" 'dired-jump)
 
 ;; C-h
