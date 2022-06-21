@@ -614,10 +614,6 @@
   :pin "melpa"
   :ensure t)
 
-(use-package isearch
-  :config
-  (setq isearch-allow-scroll t))
-
 (use-package ispell
   :config
   ;; FIXME: temporary workaround

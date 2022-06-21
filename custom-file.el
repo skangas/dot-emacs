@@ -105,6 +105,7 @@
  '(image-auto-resize 'fit-window)
  '(image-dired-external-viewer "feh")
  '(image-dired-show-all-from-dir-max-files nil)
+ '(isearch-allow-scroll t)
  '(ivy-format-functions-alist
    '((counsel-compile-env . counsel-compile-env--format-hint)
      (counsel-kmacro . counsel--kmacro-format-function)
