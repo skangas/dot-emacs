@@ -139,15 +139,14 @@
 
 (setq world-clock-list
       '(("America/Los_Angeles" "Seattle")
+        ("America/Chicago" "Chicago")
         ("America/New_York" "New York")
-        ("America/Toronto" "Toronto")
         ("Europe/London" "London")
-        ("Europe/Paris" "Paris")
-        ("Europe/Stockholm" "Göteborg")
+        ("Europe/Stockholm" "Stockholm")
         ("Europe/Rome" "Rome")
         ("Asia/Karachi" "Karachi")
         ("Asia/Shanghai" "Shanghai")
-        ("Asia/Tokyo" "Tokyo")))
+        ("Australia/Sydney" "Sydney")))
 
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
