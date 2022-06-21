@@ -20,6 +20,9 @@
 (use-package macrostep
   :ensure t)
 
+(use-package package-lint
+  :ensure t)
+
 (use-package suggest
   :ensure t)
 
