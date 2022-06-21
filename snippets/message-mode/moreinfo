@@ -1,0 +1,7 @@
+#name : moreinfo
+#group : general
+#key : moreinfo
+# --
+
+tags $0 + moreinfo
+thanks
