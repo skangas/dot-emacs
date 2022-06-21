@@ -1,7 +1,7 @@
 ;;; early-init.el                                                 -*- lexical-binding: t; -*-
 
 ;; Font
-(unless (eq window-system 'ns)
+(unless (eq system-type 'darwin)
   (add-to-list 'default-frame-alist '(font . "Ubuntu Mono-14")))
 (setq-default line-spacing 1)
 
