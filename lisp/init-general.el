@@ -642,6 +642,12 @@
   (setq flyspell-use-global-abbrev-table-p t)
   )
 
+(use-package marginalia
+  :pin "gnu"
+  :ensure t
+  :init
+  (marginalia-mode 1))
+
 (use-package midnight                   ; (built-in)
   :init
   (midnight-mode 1)
