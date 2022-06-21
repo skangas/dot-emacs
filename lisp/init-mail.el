@@ -13,6 +13,7 @@
   (when (string-match "^Stefans-M" (system-name))
     (setq notmuch-command "remote-notmuch.sh"))
 
+  (setq display-time-mail-directory "~/.mail/account.gmail/mail/new")
 
   (setq message-send-mail-function 'message-send-mail-with-sendmail)
   (setq sendmail-program (expand-file-name "~/src/lieer/gmi"))
