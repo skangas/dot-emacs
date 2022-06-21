@@ -29,10 +29,9 @@
 (use-package xr
   :ensure t)
 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (add-hook 'local-write-file-hooks
-                      'check-parens)))
+(defun sk/emacs-lisp-data-mode-hook ()
+  (add-hook 'local-write-file-hooks 'check-parens))
+(add-hook 'lisp-data-mode-hook #'sk/emacs-lisp-data-mode-hook)
 
 ;; ;; Not using this for now.
 ;; (add-hook 'ielm-mode-hook 'enable-paredit-mode)
