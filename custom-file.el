@@ -30,6 +30,7 @@
  '(default-input-method "spanish-prefix")
  '(dired-clean-confirm-killing-deleted-buffers nil)
  '(dired-hide-details-hide-symlink-targets nil)
+ '(dired-vc-rename-file t)
  '(display-time-default-load-average nil)
  '(display-time-mail-directory "~/.mail/account.gmail/mail/new")
  '(display-time-mode t)
