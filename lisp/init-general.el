@@ -725,11 +725,11 @@
     "C-c r T" "Go to test/toggle"
     "C-c r t" "Go to test/search"))
 
-(use-package winner
+(use-package winner                     ; (built-in)
   :bind (("<C-s-left>" . winner-undo)
          ("<C-s-right>" . winner-redo))
   :config
-  (setq winner-dont-bind-my-keys t) ; default bindings conflict with org-mode
+  (setq winner-dont-bind-my-keys t)    ; default bindings conflict with org-mode
   (winner-mode 1))
 
 (use-package winum
