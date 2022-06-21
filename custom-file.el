@@ -143,6 +143,7 @@
  '(modus-themes-syntax 'yellow-comments-green-strings)
  '(modus-themes-variable-pitch-ui t)
  '(mouse-highlight 1)
+ '(native-comp-async-report-warnings-errors nil)
  '(notmuch-saved-searches
    '((:name "inbox" :query "tag:inbox" :key "i")
      (:name "unread" :query "tag:unread" :key "u")
