@@ -98,6 +98,10 @@
 (global-set-key (kbd "M-g M-r") 'goto-random-line)
 (global-set-key (kbd "M-g M-s") 'sort-lines)
 
+(global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
+                                    #'elide-head-mode
+                                  #'elide-head))
+
 (define-key ctl-x-map "\C-j" 'dired-jump)
 
 ;; C-h
@@ -106,16 +110,6 @@
 
 ;; (global-set-key "\C-t" 'shell-pop)
 ;; (global-set-key "\C-c\C-k" 'kill-region)
-
-
-;;; Confirm on exit
-(defun confirm-exit-emacs ()
-        "ask for confirmation before exiting emacs"
-        (interactive)
-        (if (yes-or-no-p "Are you sure you want to exit? ")
-                (save-buffers-kill-emacs)))
-(global-unset-key "\C-x\C-c")
-(global-set-key "\C-x\C-c" 'confirm-exit-emacs)
 
 
 ;;; Mode dependent key bindings

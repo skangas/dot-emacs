@@ -1,6 +1,11 @@
 ;;;; init-compat.el
 
 
+;; Emacs 29 master branch
+(unless (get 'magit--handle-bookmark 'bookmark-handler-type)
+  (put 'magit--handle-bookmark 'bookmark-handler-type "Magit"))
+
+
 ;;;; Disable enriched-mode permanently due to below security issues.
 (fmakunbound 'enriched-mode)
 (fmakunbound 'enriched-decode)

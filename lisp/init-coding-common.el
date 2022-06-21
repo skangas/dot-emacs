@@ -21,6 +21,9 @@
   (autoload 'sendmail-send-it "sendmail" nil t)
   )
 
+(use-package diff-mode                  ; (built-in)
+  :bind (("C-j" . 'diff-goto-source)))
+
 ;; (use-package diff-hl
 ;;   :ensure t
 ;;   :config
@@ -57,6 +60,7 @@
   (defun my-enable-paredit-mode ()
     (paredit-mode +1))
   (add-hook 'emacs-lisp-mode-hook       'my-enable-paredit-mode)
+  (add-hook 'lisp-data-mode-hook        'my-enable-paredit-mode)
   (add-hook 'lisp-mode-hook             'my-enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook 'my-enable-paredit-mode)
   (add-hook 'scheme-mode-hook           'my-enable-paredit-mode)

@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(abbrev-suggest t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline success warning error])
  '(auth-source-save-behavior nil)
@@ -16,6 +17,7 @@
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(company-tooltip-limit 15)
  '(compilation-message-face 'default)
+ '(confirm-kill-emacs 'y-or-n-p)
  '(cua-global-mark-cursor-color "#689d6a")
  '(cua-normal-cursor-color "#7c6f64")
  '(cua-overwrite-cursor-color "#b57614")
@@ -29,6 +31,7 @@
  '(default-input-method "spanish-prefix")
  '(dired-clean-confirm-killing-deleted-buffers nil)
  '(dired-hide-details-hide-symlink-targets nil)
+ '(dired-vc-rename-file t)
  '(display-time-default-load-average nil)
  '(display-time-mail-directory "~/.mail/account.gmail/mail/new")
  '(display-time-mode t)
@@ -57,6 +60,7 @@
  '(flymake-error-bitmap '(flymake-double-exclamation-mark modus-theme-fringe-red))
  '(flymake-note-bitmap '(exclamation-mark modus-theme-fringe-cyan))
  '(flymake-warning-bitmap '(exclamation-mark modus-theme-fringe-yellow))
+ '(help-enable-variable-value-editing t)
  '(highlight-changes-colors '("#d3869b" "#8f3f71"))
  '(highlight-symbol-colors
    '("#ed94d1d39b5c" "#d6a5dca3af86" "#eb90bc25933d" "#e1bec426b1e4" "#e40dda889de7" "#ef28c40e9555" "#c667cd42b3b9"))
@@ -100,9 +104,11 @@
  '(ibuffer-marked-face 'modus-theme-mark-sel)
  '(ibuffer-title-face 'modus-theme-pseudo-header)
  '(ignored-local-variable-values '((image-dired-thumbnail-storage . per-directory)))
+ '(image-animate-loop t)
  '(image-auto-resize 'fit-window)
  '(image-dired-external-viewer "feh")
  '(image-dired-show-all-from-dir-max-files nil)
+ '(isearch-allow-scroll t)
  '(ivy-format-functions-alist
    '((counsel-compile-env . counsel-compile-env--format-hint)
      (counsel-kmacro . counsel--kmacro-format-function)
@@ -119,8 +125,10 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#000000" "#80A0C2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#000000" "#A2BF8A"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#000000" "#3f3f3f"))
+ '(kill-whole-line t)
  '(lsp-ui-doc-border "#665c54")
  '(magit-diff-use-overlays nil)
+ '(magit-log-section-commit-count 12)
  '(mairix-file-path "~/Maildir/")
  '(mairix-mail-program 'gnus)
  '(mairix-search-file "mairix_search")
@@ -147,8 +155,8 @@
      (:name "desk" :query "tag:desk AND tag:unread")
      (:name "logcheck" :query "tag:logcheck AND not tag:trash AND not tag:deleted")
      (:name "emacs::bugs" :query "tag:emacs::bugs AND tag:unread")
-     (:name "emacs" :query "((tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help OR tag:emacs-todo) AND tag:unread) AND not tag:muted" :key "e")
-     (:name "emacs-all" :query "(((tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help) AND tag:unread) OR tag:emacs-todo) AND not tag:muted" :key "f")))
+     (:name "emacs" :query "((tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help OR tag:emacs-todo OR tag:emacs-elpa-diffs) AND tag:unread) AND not tag:muted" :key "e")
+     (:name "emacs-all" :query "(((tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help OR tag:emacs-elpa-diffs) AND tag:unread) OR tag:emacs-todo) AND not tag:muted" :key "f")))
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#C16069")
@@ -173,7 +181,8 @@
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
-   '((eval add-hook 'before-save-hook #'copyright-update nil t)
+   '((auto-insert)
+     (eval add-hook 'before-save-hook #'copyright-update nil t)
      (system-time-locale . "sv_SE.UTF-8")
      (truncate-partial-width-windows . t)
      (epa-file-cache-passphrase-for-symmetric-encryption . t)))
