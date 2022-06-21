@@ -600,7 +600,7 @@
   :ensure t)
 
 (use-package ioccur
-  :pin "melpa"
+  :pin "gnu"
   :ensure t)
 
 (use-package isearch
