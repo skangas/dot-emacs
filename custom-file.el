@@ -59,6 +59,7 @@
  '(flymake-error-bitmap '(flymake-double-exclamation-mark modus-theme-fringe-red))
  '(flymake-note-bitmap '(exclamation-mark modus-theme-fringe-cyan))
  '(flymake-warning-bitmap '(exclamation-mark modus-theme-fringe-yellow))
+ '(help-enable-variable-value-editing t)
  '(highlight-changes-colors '("#d3869b" "#8f3f71"))
  '(highlight-symbol-colors
    '("#ed94d1d39b5c" "#d6a5dca3af86" "#eb90bc25933d" "#e1bec426b1e4" "#e40dda889de7" "#ef28c40e9555" "#c667cd42b3b9"))
