@@ -101,6 +101,7 @@
  '(ibuffer-marked-face 'modus-theme-mark-sel)
  '(ibuffer-title-face 'modus-theme-pseudo-header)
  '(ignored-local-variable-values '((image-dired-thumbnail-storage . per-directory)))
+ '(image-animate-loop t)
  '(image-auto-resize 'fit-window)
  '(image-dired-external-viewer "feh")
  '(image-dired-show-all-from-dir-max-files nil)

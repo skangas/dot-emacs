@@ -343,15 +343,24 @@
   (with-eval-after-load 'ruby-test-mode
     (diminish 'ruby-test-mode "RT")))
 
-(use-package dired
+(use-package dired                      ; (built-in)
+  :bind (:map dired-mode-map
+              ("." . dired-hide-dotfiles-mode)
+              ("," . dired-hide-details-mode)
+              ("å" . dired-sk/open-media-dwim)
+              ("C-i" . image-dired-here))
   :config
-  (setq dired-listing-switches "-lAh"  ; Use human sizes
-        dired-dwim-target t            ; Try to guess a default target directory
-        dired-isearch-filenames 'dwim) ; Search filenames only
-  (setq dired-auto-revert-buffer t)    ; Revert dired buffer on visit
-  ;; Toggle showing dot-files using "."
+  (setq dired-listing-switches
+        "-lAFh --group-directories-first")
+  (setq dired-dwim-target t)           ; Try to guess a default target directory
+  (setq dired-isearch-filenames 'dwim) ; Search filenames only
+  (setq dired-auto-revert-buffer #'dired-directory-changed-p)
+  (setq dired-make-directory-clickable t) ; 29.1
+
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+
   (define-minor-mode dired-hide-dotfiles-mode
-    ""
+    "Toggle showing dot-files."
     :lighter " Hide"
     :init-value nil
     (if (not (eq major-mode 'dired-mode))
@@ -363,15 +372,6 @@
         (setq dired-actual-switches "-lAh"))
       (revert-buffer)))
 
-  ;; image-dired
-  (setq image-dired-dir "~/.emacs.d/cache/image-dired/")
-  (setq image-dired-thumb-width  150
-        image-dired-thumb-height 150)
-  (defun image-dired-here ()
-    "Make a preview buffer for all images in current directory and display it."
-    (interactive)
-    (image-dired default-directory))
-
   (defun dired-sk/open-media-dwim ()
     "Make a preview buffer for all images in current directory and display it."
     (interactive)
@@ -382,37 +382,12 @@
       (message cmd)
       (dired-do-shell-command cmd nil (list file))))
 
-  ;; (defun diredext-exec-git-command-in-shell (command &optional arg file-list)
-  ;;   "Run a shell command
-  ;; git COMMAND
-  ;; ' on the marked files.
-  ;; if no files marked, always operate on current line in dired-mode
-  ;; "
-  ;;   (interactive
-  ;;    (let ((files (dired-get-marked-files t current-prefix-arg)))
-  ;;      (list
-  ;;       ;; Want to give feedback whether this file or marked files are used:
-  ;;       (dired-read-shell-command "git command on %s: " current-prefix-arg files)
-  ;;       current-prefix-arg
-  ;;       files)))
-  ;;   (unless (string-match "[?][ \t]\'" command)
-  ;;     (setq command (concat command " *")))
-  ;;   (setq command (concat "git " command))
-  ;;   (dired-do-shell-command command arg file-list)
-  ;;   (message command))
-  ;; (eval-after-load 'dired '(define-key dired-mode-map "/" 'diredext-exec-git-command-in-shell))
-
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-
   (require 'dired-x)
   (push `(,sk/video-types "mpv")
         dired-guess-shell-alist-default)
 
-  :bind (:map dired-mode-map
-              ("." . dired-hide-dotfiles-mode)
-              ("," . dired-hide-details-mode)
-              ("å" . dired-sk/open-media-dwim)
-              ("C-i" . image-dired-here)))
+  (require 'dired-aux)
+  (setq dired-create-destination-dirs 'ask))
 
 (use-package discover
   :ensure t
@@ -618,6 +593,23 @@
 (use-package iedit
   :ensure t)
 
+(use-package image-dired                ; (built-in)
+  :config
+  (setq image-dired-dir "~/.emacs.d/cache/image-dired/")
+  (setq image-dired-thumb-width  150
+        image-dired-thumb-height 150)
+
+  (defun image-dired-here ()
+    "Make a preview buffer for all images in current directory and display it."
+    (interactive)
+    (image-dired default-directory)))
+
+(use-package image-mode                 ; (built-in)
+  :no-require t
+  :bind (:map image-mode-map
+              ("SPC" . #'image-next-file)
+              ("V" . #'sk/image-mode-toggle-resized)))
+
 (use-package ioccur
   :pin "melpa"
   :ensure t)
@@ -764,15 +756,5 @@
   (define-key winum-keymap (kbd "M-9") 'winum-select-window-9)
   (setq winum-scope 'frame-local)
   (winum-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;; image-mode
-
-(eval-after-load 'image-mode
-  '(progn
-     (define-key image-mode-map " " 'image-next-file)
-     (define-key image-mode-map "V" 'sk/image-mode-toggle-resized)))
-
-(setq image-animate-loop t)
 
 (provide 'init-general)
