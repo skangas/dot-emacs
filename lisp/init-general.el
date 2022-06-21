@@ -680,6 +680,11 @@
     (ad-deactivate 'abort-if-file-too-large)
     (ad-activate 'abort-if-file-too-large)))
 
+(use-package orderless
+  :pin "gnu"
+  :ensure t
+  :custom (completion-styles '(orderless basic)))
+
 ;; (use-package powerline
 ;;   :ensure t
 ;;   :config
