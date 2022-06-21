@@ -1,0 +1,6 @@
+#name : autoload
+#group : general
+#key : autoload
+# --
+
+;;;###autoload
