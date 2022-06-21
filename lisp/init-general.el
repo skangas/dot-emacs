@@ -40,10 +40,6 @@
 
 (setq user-full-name "Stefan Kangas"
       user-mail-address "stefan@marxist.se"
-      inhibit-startup-message t                      ; No startup message
-      visible-bell t                                 ; No audible bell
-      display-time-24hr-format t                     ; Show 24hr clock when it's shown
-      bookmark-save-flag 1                           ; Save bookmarks immediately when added
       require-final-newline t                        ; Make sure text files end in a newline
       Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails
@@ -58,19 +54,15 @@
       apropos-do-all t
 
       ;; choose browser
-      browse-url-browser-function 'browse-url-generic
+      browse-url-browser-function #'browse-url-generic
       browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
+
       frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
                            (:eval (format " [%s]" mode-name)))
 
       ;; calendar
-      calendar-week-start-day 1              ; Start week on Monday
       calendar-date-style 'european          ; Use European calendar
-      display-time-world-buffer-name "*World Clock*"
-
-
-
       ;; holidays
       calendar-mark-holidays-flag t
       calendar-holidays nil
@@ -80,9 +72,7 @@
       holiday-general-holidays nil
       holiday-hebrew-holidays nil
       holiday-islamic-holidays nil
-      holiday-solar-holidays nil
-
-      )
+      holiday-solar-holidays nil)
 
 (setq sk/video-types
       (concat (regexp-opt '(".asf" ".avi" ".f4v"

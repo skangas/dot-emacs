@@ -10,6 +10,8 @@
  '(awesome-tray-mode-line-active-color "#0031a9")
  '(awesome-tray-mode-line-inactive-color "#d7d7d7")
  '(bookmark-menu-confirm-deletion t)
+ '(bookmark-save-flag 1)
+ '(calendar-week-start-day 1)
  '(checkdoc-column-zero-backslash-before-paren nil)
  '(checkdoc-force-docstrings-flag nil)
  '(checkdoc-spellcheck-documentation-flag nil)
@@ -32,6 +34,7 @@
  '(dired-clean-confirm-killing-deleted-buffers nil)
  '(dired-hide-details-hide-symlink-targets nil)
  '(dired-vc-rename-file t)
+ '(display-time-24hr-format t)
  '(display-time-default-load-average nil)
  '(display-time-mail-directory "~/.mail/account.gmail/mail/new")
  '(display-time-mode t)
@@ -108,6 +111,7 @@
  '(image-auto-resize 'fit-window)
  '(image-dired-external-viewer "feh")
  '(image-dired-show-all-from-dir-max-files nil)
+ '(inhibit-startup-screen t)
  '(isearch-allow-scroll t)
  '(ivy-format-functions-alist
    '((counsel-compile-env . counsel-compile-env--format-hint)
@@ -197,9 +201,11 @@
  '(tool-bar-position 'top)
  '(uniquify-buffer-name-style 'forward nil (uniquify))
  '(vc-annotate-background-mode nil)
+ '(visible-bell t)
  '(weechat-color-list
    '(unspecified "#fbf1c7" "#ebdbb2" "#750000" "#9d0006" "#747400" "#98971a" "#8a5100" "#b57614" "#004858" "#076678" "#9f4d64" "#d3869b" "#2e7d33" "#689d6a" "#7c6f64" "#3c3836"))
  '(widget-image-enable t)
+ '(world-clock-buffer-name "*World Clock*")
  '(xterm-color-names
    ["#32302f" "#fb4933" "#98971a" "#d79921" "#458588" "#d3869b" "#689d6a" "#a89984"])
  '(xterm-color-names-bright
