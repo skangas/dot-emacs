@@ -182,5 +182,66 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
         (princ " 'words"))
       (princ ")"))))
 
+(defun sk/insert-nongnu-elpa-button ()
+  (interactive)
+  (let* ((pkg-name (car (last (file-name-split (buffer-file-name)) 2)))
+         (url (format "https://elpa.nongnu.org/nongnu/%s.html" pkg-name))
+         (svg (format "https://elpa.nongnu.org/nongnu/%s.svg" pkg-name)))
+    (pcase (file-name-extension (buffer-file-name))
+      ("org" (insert (format "[[%s][%s]]" url svg)))
+      ("md" (insert (format "[![NonGNU ELPA](%s)](%s)" svg url))))))
+
+(defun sk/convert-to-defvar-keymap ()
+  (interactive)
+  (require 'paredit)
+  (let (orig)
+    (save-restriction
+      (save-excursion
+        (narrow-to-defun)
+        (goto-char (point-min))
+        (forward-char 1)
+        (forward-sexp 1)
+        ;; insert "-keymap"
+        (insert "-keymap")
+        (forward-char 1)
+        ;; copy old keymap
+        (save-excursion
+          (let ((op (point)))
+            (forward-sexp 2)
+            (setq orig (buffer-substring op (point)))))
+        ;; go to let
+        (unless (re-search-forward "(let ((\\([^ ]+\\) (make-\\(sparse-\\)?keymap)))" nil t)
+          (user-error "Unable to continue: no let found"))
+        (let ((variable-name (match-string 1))
+              (is-full (not (string= (match-string 2) "sparse-"))))
+          (paredit-splice-sexp-killing-backward)
+          (when is-full
+            (insert ":full t\n"))
+          (while (re-search-forward
+                  (let ((variable-name "map"))
+                    (rx (seq "(define-key"
+                             (+ space)
+                             (regexp variable-name)
+                             (+ space)
+                             (group (+ nonl))
+                             (+ space)
+                             (group (+ nonl))
+                             ")"
+                             line-end)))
+                  nil t)
+            (let ((key (match-string 1))
+                  (def (match-string 2)))
+              (replace-match "")
+
+              ;; Now replace all the actual keys.
+              ;; Insert the definition.
+              (insert def)))
+          (goto-char (point-min))
+          (when (re-search-forward variable-name nil t)
+            (replace-match ""))
+          ;; handle docstring
+
+          )))))
+
 (provide 'sk-misc)
 ;; sk-misc.el ends here
