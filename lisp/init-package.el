@@ -19,6 +19,11 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
+;; Some local packages
+(dolist (p '("~/wip/org-mode/lisp"))
+  (when (file-directory-p p)
+    (add-to-list 'load-path p)))
+
 
 ;;; use-package
 
