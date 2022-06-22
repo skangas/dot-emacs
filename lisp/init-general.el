@@ -261,10 +261,12 @@
   ;; (add-hook 'erc-mode-hook (lambda () (abbrev-mode 1)))
   )
 
-(use-package ace-jump-mode
+(use-package avy
   :ensure t
-  :bind (("C-," . ace-jump-mode)
-         ("C-x SPC" . ace-jump-mode-pop-mark)))
+  :bind (("C-å" . avy-goto-char-timer)
+         ("C-Å" . avy-goto-char)
+         ("C-x SPC" . avy-mark)
+         ("M-g f" . avy-goto-line)))
 
 (use-package ag
   :ensure t)
