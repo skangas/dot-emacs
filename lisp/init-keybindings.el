@@ -84,6 +84,7 @@
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; Remove?
 
 ;; C-c e <foo>
+(global-set-key (kbd "C-c e a") 'aggressive-indent-mode)
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
 (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
