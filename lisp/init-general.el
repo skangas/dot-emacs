@@ -19,6 +19,7 @@
 (save-place-mode 1)                        ; Use `save-place-mode'
 (savehist-mode 1)                          ; Use `savehist-mode'
 (global-hl-line-mode 1)                    ; Use hl-line-mode globally
+(show-paren-mode 1)
 
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
 ;;   are enabled by default.
@@ -133,10 +134,6 @@
 
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
-
-
-(show-paren-mode 1)
-(setq show-paren-delay 0)
 
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)

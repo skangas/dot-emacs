@@ -192,6 +192,7 @@
      (epa-file-cache-passphrase-for-symmetric-encryption . t)))
  '(savehist-mode t)
  '(send-mail-function 'sendmail-send-it)
+ '(show-paren-delay 0)
  '(shr-max-image-proportion 0.6)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#98971a" "#ebdbb2" 0.2))
  '(smerge-command-prefix "\3v")
