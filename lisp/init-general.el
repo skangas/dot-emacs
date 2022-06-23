@@ -222,11 +222,6 @@
                                       (split-window-vertically arg))))
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-;; FIXME: Move this somewhere else.
-(progn
-  ;; I can never remember the correct name for this.  So whatever.
-  (defalias 'toolbar-mode 'tool-bar-mode))
-
 
 ;;;; packages
 

@@ -93,4 +93,7 @@ Enable `recentf-mode' if it isn't already."
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode))
 
+;; I can never remember the correct name for this.  So whatever.
+(defalias 'toolbar-mode 'tool-bar-mode)
+
 (provide 'init-compat)
