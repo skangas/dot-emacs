@@ -63,4 +63,7 @@
 ;;   (setq auto-compile-display-buffer nil)
 ;;   (setq auto-compile-mode-line-counter t))
 
+(autoload 'insert-x-resources "pjb-xresources"
+  "Insert current theme as XResources in current buffer" t)
+
 (provide 'init-package)
