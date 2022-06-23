@@ -5,11 +5,6 @@
 ;;;; Various configuration settings
 ;; FIXME: add visual line mode to all modes where it makes sense
 
-(setq Info-streamline-headings '(("Emacs" . "Emacs")
- ("Software development\\|Programming" . "Software development")
- ("Libraries" . "Libraries")
- ("Network applications\\|World Wide Web\\|Net Utilities" . "Network applications")))
-
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 (unless (eq window-system 'ns)
@@ -22,18 +17,14 @@
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
 (run-if-fboundp (display-time-mode 1))
 (save-place-mode 1)                        ; Use `save-place-mode'
+(savehist-mode 1)                          ; Use `savehist-mode'
+(global-hl-line-mode 1)                    ; Use hl-line-mode globally
 
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
 ;;   are enabled by default.
 
 ;; Change all yes or no prompt to y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; Use hl-line-mode globally.
-(global-hl-line-mode 1)
-
-;; Use savehist-mode.
-(savehist-mode 1)
 
 (setq scroll-conservatively 500)
 (setq scroll-margin 2)

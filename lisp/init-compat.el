@@ -5,24 +5,6 @@
 (unless (get 'magit--handle-bookmark 'bookmark-handler-type)
   (put 'magit--handle-bookmark 'bookmark-handler-type "Magit"))
 
-(unless (fboundp 'recentf-open) ; New in Emacs 29
-  (defun recentf-open (file)
-    "Prompt for FILE in `recentf-list' and visit it.
-Enable `recentf-mode' if it isn't already."
-    (interactive
-     (list
-      (progn (unless recentf-mode (recentf-mode 1))
-             (completing-read (format-prompt "Open recent file" nil)
-                              recentf-list nil t))))
-    (when file
-      (funcall recentf-menu-action file))))
-
-
-;;;; Disable enriched-mode permanently due to below security issues.
-(fmakunbound 'enriched-mode)
-(fmakunbound 'enriched-decode)
-(fmakunbound 'enriched-encode)
-
 
 ;; Stefan Monnier @ emacs-devel 2021-04-01
 
@@ -40,6 +22,31 @@ Enable `recentf-mode' if it isn't already."
 
 ;; Maybe faster:
 (setq read-process-output-max (max read-process-output-max (* 64 1024)))
+
+
+;;;; Emacs < 29.1
+
+(unless (fboundp 'recentf-open) ; New in Emacs 29
+  (defun recentf-open (file)
+    "Prompt for FILE in `recentf-list' and visit it.
+Enable `recentf-mode' if it isn't already."
+    (interactive
+     (list
+      (progn (unless recentf-mode (recentf-mode 1))
+             (completing-read (format-prompt "Open recent file" nil)
+                              recentf-list nil t))))
+    (when file
+      (funcall recentf-menu-action file))))
+
+
+;;;; Emacs < 28.1
+
+(when (< emacs-major-version 28)
+  (setq Info-streamline-headings
+        '(("Emacs" . "Emacs")
+          ("Software development\\|Programming" . "Software development")
+          ("Libraries" . "Libraries")
+          ("Network applications\\|World Wide Web\\|Net Utilities" . "Network applications"))))
 
 
 ;;;; Emacs < 27.1
@@ -72,6 +79,11 @@ Enable `recentf-mode' if it isn't already."
     (eval-after-load "enriched"
       '(defun enriched-decode-display-prop (start end &optional param)
          (list start end))))
+
+;; Actually, let's just disable `enriched-mode' permanently.
+(fmakunbound 'enriched-mode)
+(fmakunbound 'enriched-decode)
+(fmakunbound 'enriched-encode)
 
 
 ;;;; Emacs < 25.1
