@@ -629,14 +629,15 @@
 ;;   :config
 ;;   (powerline-default-theme))
 
-(use-package recentf
+(use-package recentf                    ; built-in
   :config
   (recentf-mode 1)
-  (setq recentf-max-saved-items 100
-        recentf-save-file "~/.emacs.d/cache/recentf"
-        recentf-exclude '("^/home/skangas/org/.*"
-                          "^/home/skangas/.emacs.bmk$"
-                          "^/Users/skangas/org/.*")))
+  :custom
+  (recentf-max-saved-items 100)
+  (recentf-save-file "~/.emacs.d/cache/recentf")
+  (recentf-exclude `(,(rx bos "/" (or "home" "Users") "/skangas/"
+                          (or (seq "org/" (* any))
+                              (seq ".emacs.bmk" eos))))))
 
 (use-package tramp                      ; built-in
   :config
