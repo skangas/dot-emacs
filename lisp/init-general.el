@@ -442,9 +442,6 @@
       (recenter 0)))
   (add-hook 'eww-after-render-hook #'sk/eww-move-point-in-place))
 
-(use-package f
-  :ensure t)
-
 (use-package flyspell :ensure nil
   :config
   (setq flyspell-issue-welcome-flag nil)
