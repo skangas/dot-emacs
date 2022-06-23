@@ -1,9 +1,21 @@
 ;;;; init-compat.el
 
 
-;; Emacs 29 master branch
+;;; Emacs 29 master branch
 (unless (get 'magit--handle-bookmark 'bookmark-handler-type)
   (put 'magit--handle-bookmark 'bookmark-handler-type "Magit"))
+
+(unless (fboundp 'recentf-open) ; New in Emacs 29
+  (defun recentf-open (file)
+    "Prompt for FILE in `recentf-list' and visit it.
+Enable `recentf-mode' if it isn't already."
+    (interactive
+     (list
+      (progn (unless recentf-mode (recentf-mode 1))
+             (completing-read (format-prompt "Open recent file" nil)
+                              recentf-list nil t))))
+    (when file
+      (funcall recentf-menu-action file))))
 
 
 ;;;; Disable enriched-mode permanently due to below security issues.

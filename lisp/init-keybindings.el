@@ -71,7 +71,7 @@
 ;; C-x <foo>
 (global-set-key (kbd "C-x m") 'browse-url-at-point)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open) ; replaces `find-file-read-only'
+(global-set-key (kbd "C-x C-r") #'recentf-open) ; replaces `find-file-read-only'
 
 ;; C-c <foo>
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -211,12 +211,6 @@ kill it (unless it's modified)."
                                        "Query replace"  t))))
   (with-current-buffer reb-target-buffer
     (query-replace-regexp (reb-target-binding reb-regexp) to-string)))
-
-;; open recent files using ido
-(defun my-ido-recentf-open ()
-  "Use ido to select a recently opened file from the `recentf-list'"
-  (interactive)
-  (find-file (ido-completing-read "Open file: " recentf-list nil t)))
 
 
 ;;; Currently unused
