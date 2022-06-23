@@ -97,6 +97,7 @@
 
 ;; C-g
 (global-set-key (kbd "M-g M-r") 'goto-random-line)
+(global-set-key (kbd "M-g M-m") 'menu-bar-mode)
 (global-set-key (kbd "M-g M-s") 'sort-lines)
 
 (global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
