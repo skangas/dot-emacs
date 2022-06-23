@@ -63,13 +63,13 @@
 (unless (eq system-type 'darwin)
   (require 'init-mail))
 (require 'init-org-mode)
+
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)
+;; (require 'init-ido)
 ;; (require 'init-mu4e)
 ;; (require 'init-rcirc)
 ;; (require 'init-w3m)
-
-;;(require 'init-mail)
 
 ;; Coding
 (require 'init-coding-c)

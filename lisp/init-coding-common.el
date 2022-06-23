@@ -47,11 +47,6 @@
   (setq magit-diff-refine-hunk 'all)
   (setq magit-repository-directories '(("~/wip/emacs/" . 0))))
 
-(use-package markdown-mode
-  :ensure t
-  :defer 300 ; I rarely use this
-  :mode ("\\.md\\'" . gfm-mode))
-
 (use-package paredit
   :ensure t
   :config

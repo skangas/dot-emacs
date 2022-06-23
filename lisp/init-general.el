@@ -574,6 +574,11 @@
   (midnight-delay-set 'midnight-delay "06:00")
   (timer-activate midnight-timer))
 
+(use-package markdown-mode
+  :ensure t
+  :defer 300 ; I rarely use this
+  :mode ("\\.md\\'" . gfm-mode))
+
 (use-package mpc                        ; (built-in)
   :config
   (setq mpc-mpd-music-directory "~/music"))
