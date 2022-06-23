@@ -21,6 +21,8 @@
 (run-if-fboundp (line-number-mode 1))      ; Show line number
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
 (run-if-fboundp (display-time-mode 1))
+(save-place-mode 1)                        ; Use `save-place-mode'
+
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
 ;;   are enabled by default.
 
@@ -141,9 +143,6 @@
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
 
-(require 'saveplace) ; has to be a require
-(setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
-(setq-default save-place t)                   ; activate it for all buffers
 
 (show-paren-mode 1)
 (setq show-paren-delay 0)
