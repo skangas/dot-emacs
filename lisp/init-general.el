@@ -638,7 +638,8 @@
 
 (use-package tramp                      ; built-in
   :config
-  ;; don't backup any remote lines
+  ;; don't backup any remote files:
+  ;; (info "(tramp) Auto-save File Lock and Backup")
   (add-to-list 'backup-directory-alist
                (cons tramp-file-name-regexp nil)))
 
