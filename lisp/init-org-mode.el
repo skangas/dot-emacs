@@ -432,14 +432,17 @@ same directory as the org-buffer and insert a link to this file."
 
 ;;; External packages
 
+(use-package org-download
+  :ensure t)
+
+(use-package org-super-agenda
+  :ensure t)
+
 (use-package org-superstar
   :ensure t
   :pin melpa
   :config
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
-
-(use-package org-download
-  :ensure t)
 
 ;; (use-package org-habit-plus
 ;;   :config
