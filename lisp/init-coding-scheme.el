@@ -14,5 +14,3 @@
   (setq geiser-default-implementation 'racket))
 
 (provide 'init-coding-scheme)
-
-;; init-coding-scheme.el ends here

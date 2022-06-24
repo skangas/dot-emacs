@@ -17,5 +17,3 @@
 ;;   )
 
 (provide 'init-coding-python)
-
-;; init-coding-python.el ends here

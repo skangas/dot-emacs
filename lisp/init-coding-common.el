@@ -225,5 +225,3 @@ compiler-command."
                 " " file)))))
 
 (provide 'init-coding-common)
-
-;; init-coding.el ends here

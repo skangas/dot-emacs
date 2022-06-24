@@ -260,4 +260,3 @@ kill it (unless it's modified)."
 ;;            (switch-to-buffer candidate)))))
 
 (provide 'init-keybindings)
-;; init-keybindings.el ends here

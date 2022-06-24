@@ -107,5 +107,3 @@
                     (perltidy-region))))
 
 (provide 'init-coding-perl)
-
-;; init-coding-perl.el ends here

@@ -64,5 +64,3 @@
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
 
 (provide 'init-coding-emacs-lisp)
-
-;; init-coding-emacs-lisp.el ends here

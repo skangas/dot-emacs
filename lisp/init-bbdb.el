@@ -45,5 +45,3 @@
           )))
 
 (provide 'init-bbdb)
-
-;; init-bbdb.el ends here

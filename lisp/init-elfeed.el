@@ -280,4 +280,3 @@
   (setq rmh-elfeed-org-files '("~/org/misc/elfeed.org")))
 
 (provide 'init-elfeed)
-;; init-elfeed.el ends here

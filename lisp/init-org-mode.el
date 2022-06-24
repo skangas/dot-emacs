@@ -920,4 +920,3 @@ so change the default 'F' binding in the agenda to allow both"
 ;;               (("C-c n I" . org-roam-insert-immediate))))
 
 (provide 'init-org-mode)
-;; init-org-mode.el ends here

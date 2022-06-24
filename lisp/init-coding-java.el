@@ -41,5 +41,3 @@
 ;;     (jde-javadoc-define-template 'jde-javadoc-return-tag-template "\"* @return \"")))
 
 (provide 'init-coding-java)
-
-;; init-coding-java.el ends here

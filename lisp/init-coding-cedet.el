@@ -80,5 +80,3 @@
 ;;                                  "~/research"))
 
 (provide 'init-coding-cedet)
-
-;; init-cedet.el ends here
