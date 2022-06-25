@@ -31,6 +31,7 @@
  '(custom-variable-default-form 'edit)
  '(debug-on-error t)
  '(default-input-method "spanish-prefix")
+ '(diary-file "~/org/.diary")
  '(dired-clean-confirm-killing-deleted-buffers nil)
  '(dired-hide-details-hide-symlink-targets nil)
  '(dired-vc-rename-file t)
