@@ -84,7 +84,8 @@
         regexp-search-ring
         last-kbd-macro
         kmacro-ring
-        shell-command-history))
+        shell-command-history
+        Info-history-list))
 
 ;; TODO: Could/should this be added to Emacs itself?
 (when (>= emacs-major-version 27)
