@@ -61,6 +61,10 @@
 ;;   (auto-compile-on-save-mode)
 ;;   (setq load-prefer-newer t)
 ;;   (setq auto-compile-display-buffer nil)
-;;   (setq auto-compile-mode-line-counter t))
+;;   (setq auto-compile-mode-line-counter t)
+;;   ;; (defun my-inhibit-byte-compile ()
+;;   ;;   (string-match "^/home/skangas/wip/emacs" buffer-file-name))
+;;   ;; (add-hook 'auto-compile-inhibit-compile-hook 'my-inhibit-byte-compile)
+;;   )
 
 (provide 'init-package)
