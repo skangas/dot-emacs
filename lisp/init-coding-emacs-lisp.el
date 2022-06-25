@@ -33,8 +33,6 @@
   (add-hook 'local-write-file-hooks 'check-parens))
 (add-hook 'lisp-data-mode-hook #'sk/emacs-lisp-data-mode-hook)
 
-;; ;; Not using this for now.
-;; (add-hook 'ielm-mode-hook 'enable-paredit-mode)
 
 (defun my-emacs-lisp-mode-hook ()
   (my-coding-keys emacs-lisp-mode-map)
