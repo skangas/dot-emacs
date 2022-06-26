@@ -202,6 +202,7 @@
  '(term-default-fg-color "#7c6f64")
  '(tool-bar-position 'top)
  '(uniquify-buffer-name-style 'forward nil (uniquify))
+ '(use-short-answers t)
  '(vc-annotate-background-mode nil)
  '(visible-bell t)
  '(weechat-color-list

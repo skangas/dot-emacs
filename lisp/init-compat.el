@@ -48,6 +48,10 @@ Enable `recentf-mode' if it isn't already."
           ("Libraries" . "Libraries")
           ("Network applications\\|World Wide Web\\|Net Utilities" . "Network applications"))))
 
+;; Change all yes or no prompt to y or n prompts.
+(when (< emacs-major-version 28)
+  (fset 'yes-or-no-p 'y-or-n-p)) ; Replaced by `use-short-answers'.
+
 
 ;;;; Emacs < 27.1
 

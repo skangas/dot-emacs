@@ -24,9 +24,6 @@
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
 ;;   are enabled by default.
 
-;; Change all yes or no prompt to y or n prompts
-(fset 'yes-or-no-p 'y-or-n-p)
-
 (setq scroll-conservatively 500)
 (setq scroll-margin 2)
 (setq scroll-step 0)
