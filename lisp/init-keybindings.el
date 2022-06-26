@@ -96,9 +96,9 @@
 (global-set-key (kbd "C-c e t") 'sk/ert-run-all-tests)
 
 ;; C-g
-(global-set-key (kbd "M-g M-r") 'goto-random-line)
-(global-set-key (kbd "M-g M-m") 'menu-bar-mode)
-(global-set-key (kbd "M-g M-s") 'sort-lines)
+(global-set-key (kbd "M-g M-r") #'goto-random-line)
+(global-set-key (kbd "M-g M-m") #'my-menu-bar-mode)
+(global-set-key (kbd "M-g M-s") #'sort-lines)
 
 (global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
                                     #'elide-head-mode
@@ -258,5 +258,25 @@ kill it (unless it's modified)."
 ;;            (gnus))
 ;;           (candidate
 ;;            (switch-to-buffer candidate)))))
+
+
+;;; Temporarily enable menu-bar
+
+(defvar my-menu-bar-timer nil)
+
+(defun my-menu-bar-cancel-timer ()
+  (when my-menu-bar-timer
+    (cancel-timer my-menu-bar-timer)
+    (setq my-menu-bar-timer nil)))
+
+(defun my-menu-bar-mode-disable ()
+  (my-menu-bar-cancel-timer)
+  (menu-bar-mode -1))
+
+(defun my-menu-bar-mode ()
+  (interactive)
+  (my-menu-bar-cancel-timer)
+  (menu-bar-mode 1)
+  (run-with-idle-timer 60 nil #'my-menu-bar-mode-disable))
 
 (provide 'init-keybindings)
