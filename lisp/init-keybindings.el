@@ -3,7 +3,6 @@
 
 ;;; Settings
 
-(setq cua-enable-cua-keys nil) ; Disable cua keys
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 
 
