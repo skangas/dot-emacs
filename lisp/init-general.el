@@ -628,7 +628,7 @@
   :config
   (recentf-mode 1)
   :custom
-  (recentf-max-saved-items 100)
+  (recentf-max-saved-items 200)
   (recentf-save-file "~/.emacs.d/cache/recentf")
   (recentf-exclude `(,(rx bos "/" (or "home" "Users") "/skangas/"
                           (or (seq "org/" (* any))
