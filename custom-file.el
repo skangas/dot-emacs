@@ -192,6 +192,7 @@
      (system-time-locale . "sv_SE.UTF-8")
      (truncate-partial-width-windows . t)
      (epa-file-cache-passphrase-for-symmetric-encryption . t)))
+ '(save-abbrevs 'silently)
  '(savehist-mode t)
  '(send-mail-function 'sendmail-send-it)
  '(show-paren-delay 0)
