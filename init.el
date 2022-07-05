@@ -113,5 +113,4 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'list-timers 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+(put 'help-fns-edit-variable 'disabled nil)

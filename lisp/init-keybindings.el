@@ -62,6 +62,12 @@
 (global-set-key (kbd "M-<right>") 'next-buffer)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 
+(global-set-key (kbd "M-c") #'capitalize-dwim)
+(global-set-key (kbd "M-u") #'upcase-dwim)
+(global-set-key (kbd "M-l") #'downcase-dwim)
+(global-unset-key (kbd "C-x C-l")) ; default is `downcase-region'
+(global-unset-key (kbd "C-x C-u")) ; default is `upcase-region'
+
 ;; F<foo>
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
 (global-set-key (kbd "<f6>") 'mentor)
