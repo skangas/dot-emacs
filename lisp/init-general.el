@@ -454,6 +454,25 @@
                  nil
                  (window-parameters (mode-line-format . none)))))
 
+(use-package grep                       ; built-in
+  :config
+  (defun sk/compilation-finish-flush-lines (buf _)
+    "Flush irrelevant lines in grep buffers."
+    (with-current-buffer buf
+      (let ((buffer-read-only nil))
+        (goto-char (point-min))
+        (flush-lines (rx bol "." (? "/lisp") "/"
+                         (or "ldefs-boot.el"
+                             "loaddefs.el"
+                             "calc/calc-loaddefs.el"
+                             "org/org-loaddefs.el"
+                             "textmodes/reftex-loaddefs.el"))))))
+
+  (defun sk/grep-mode-hook ()
+    (setq-local compilation-finish-functions #'sk/compilation-finish-flush-lines))
+
+  (add-hook 'grep-setup-hook 'sk/grep-mode-hook))
+
 ;; (use-package google-translate
 ;;   :ensure t
 ;;   :bind (("C-c t" . google-translate-at-point)
