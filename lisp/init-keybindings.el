@@ -84,7 +84,6 @@
 (global-set-key (kbd "C-c B") 'gnus-read-ephemeral-emacs-bug-group)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c t") 'sk/translate-using-tyda)
 (global-set-key (kbd "C-c y") (lambda () (interactive) (popup-menu 'yank-menu)))
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; Remove?
 
