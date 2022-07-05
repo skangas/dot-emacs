@@ -324,6 +324,7 @@
               ("." . dired-hide-dotfiles-mode)
               ("," . dired-hide-details-mode)
               ("å" . dired-sk/open-media-dwim)
+              ("E" . dired-do-eww)
               ("C-i" . image-dired-here))
   :config
   (if (eq system-type 'darwin)
