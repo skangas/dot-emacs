@@ -220,6 +220,13 @@
                                       (split-window-vertically arg))))
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;; auto-save-visited-mode
+(defun my/auto-save-visited-predicate ()
+  (and (eq major-mode 'org-mode)
+       (string-match "^/home/skangas/org/" buffer-file-name)))
+(setq auto-save-visited-predicate #'my/auto-save-visited-predicate)
+(auto-save-visited-mode 1)
+
 
 ;;;; packages
 
