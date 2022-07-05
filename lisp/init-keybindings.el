@@ -101,6 +101,7 @@
 
 ;; C-g
 (global-set-key (kbd "M-g M-r") #'goto-random-line)
+(global-set-key (kbd "M-g M-l") #'list-packages)
 (global-set-key (kbd "M-g M-m") #'my-menu-bar-mode)
 (global-set-key (kbd "M-g M-s") #'sort-lines)
 
