@@ -371,6 +371,14 @@
   :config
   (global-discover-mode 1))
 
+(use-package engine-mode
+  :ensure t
+  :config
+  (engine-mode t)
+  (defengine duckduckgo
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d"))
+
 (use-package epa-file
   :config
   ;;(setq epa-armor t)
