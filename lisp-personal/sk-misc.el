@@ -1,6 +1,6 @@
 ;;; sk-misc.el --- random functions
 
-;; Copyright (C) 2010-2020 Stefan Kangas
+;; Copyright (C) 2010-2022 Stefan Kangas <stefan@marxist.se>
 
 ;; Author: Stefan Kangas
 ;; Keywords: utilities
@@ -194,7 +194,7 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
 (defun sk/convert-to-defvar-keymap ()
   (interactive)
   (require 'paredit)
-  (let (orig)
+  (let (orig varname)
     (save-restriction
       (save-excursion
         (narrow-to-defun)
@@ -209,38 +209,86 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
           (let ((op (point)))
             (forward-sexp 2)
             (setq orig (buffer-substring op (point)))))
+
         ;; go to let
         (unless (re-search-forward "(let ((\\([^ ]+\\) (make-\\(sparse-\\)?keymap)))" nil t)
           (user-error "Unable to continue: no let found"))
+
         (let ((variable-name (match-string 1))
               (is-full (not (string= (match-string 2) "sparse-"))))
+          ;; Delete let -- we no longer need it.
           (paredit-splice-sexp-killing-backward)
+
           (when is-full
             (insert ":full t\n"))
+
           (while (re-search-forward
-                  (let ((variable-name "map"))
-                    (rx (seq "(define-key"
-                             (+ space)
-                             (regexp variable-name)
-                             (+ space)
-                             (group (+ nonl))
-                             (+ space)
-                             (group (+ nonl))
-                             ")"
-                             line-end)))
+                  (rx
+                   ;; (define-key
+                   "(" (* space) "define-key" symbol-end (+ space)
+                   ;; map
+                   (regexp variable-name) symbol-end (+ space)
+                   ;; [1] key
+                   (group (or
+                           ;; "a"
+                           (seq "\"" (+ (not "\"")) "\"")
+                           ;; (kbd "a")
+                           (seq "(kbd " (+ (not ")")) ")")))
+                   (+ space)
+                   ;; [2] binding
+                   (group (? (or "'" "#'")) lisp-mode-symbol)
+                   ;; end of sexp
+                   (* space) ")"
+                   ;; [3] any junk, e.g. comments
+                   (group (regexp ".*")) line-end)
                   nil t)
             (let ((key (match-string 1))
-                  (def (match-string 2)))
-              (replace-match "")
+                  (definition (match-string 2))
+                  (comment (match-string 3)))
+              (replace-match
+               (format "\"%s\" %s%s%s"
+                       (save-match-data
+                         (if (string-match (rx "(kbd \"" (group (+ (not ")"))) "\")") key)
+                             (match-string 1 key)
+                           (key-description (read key))))
+                       ;; Maybe add "#"
+                       (if (string-match-p (rx bos (or "#" "'mouse-face")) definition) "" "#")
+                       definition comment)
+               nil t)))
 
-              ;; Now replace all the actual keys.
-              ;; Insert the definition.
-              (insert def)))
-          (goto-char (point-min))
-          (when (re-search-forward variable-name nil t)
-            (replace-match ""))
+
           ;; handle docstring
+          (goto-char (point-max))
+          (forward-line -1)
+          (back-to-indentation)
 
+          (when (not (looking-at (rx (* space) (regexp variable-name))))
+            (paredit-kill)
+            (delete-indentation)
+            (goto-char (point-min))
+            (forward-line 1)
+            (open-line 1)
+            (insert (format "  :doc "))
+            (yank)
+            (cycle-spacing))
+
+          ;; Remove variable name
+          (progn
+            (re-search-forward variable-name)
+            (replace-match "")
+            (delete-indentation))
+
+          ;; Align regexp
+          (progn
+            (align-regexp (point-min) (point-max) "\\(\\s-*\\)\\#'"))
+
+
+          (eval-defun nil)
+
+          ;; double check it is okay
+          (pop-to-buffer "*scratch")
+          (insert (format "(equal %s)\n\n" orig))
+          (eval-last-sexp 1)
           )))))
 
 (provide 'sk-misc)
