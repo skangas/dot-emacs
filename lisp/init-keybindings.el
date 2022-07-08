@@ -87,6 +87,7 @@
 (global-set-key (kbd "M-g M-l") #'list-packages)
 (global-set-key (kbd "M-g M-m") #'my-menu-bar-mode)
 (global-set-key (kbd "M-g M-s") #'sort-lines)
+(global-set-key (kbd "M-g M-w") #'eww)
 
 (global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
                                     #'elide-head-mode
