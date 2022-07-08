@@ -137,6 +137,7 @@
  '(mairix-file-path "~/Maildir/")
  '(mairix-mail-program 'gnus)
  '(mairix-search-file "mairix_search")
+ '(minibuffer-beginning-of-buffer-movement t)
  '(minibuffer-default-prompt-format " (default %s)")
  '(mml-secure-openpgp-sign-with-sender t)
  '(modus-operandi-theme-3d-modeline nil)
