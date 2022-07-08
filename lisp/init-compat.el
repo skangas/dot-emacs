@@ -38,6 +38,8 @@ Enable `recentf-mode' if it isn't already."
     (when file
       (funcall recentf-menu-action file))))
 
+(setq ffap-machine-p-known 'accept) ; default in Emacs 29
+
 
 ;;;; Emacs < 28.1
 

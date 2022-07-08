@@ -40,7 +40,6 @@
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
       lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
-      ffap-machine-p-known 'reject                   ; stop ffap from pinging random hosts
       save-interprogram-paste-before-kill t
       apropos-do-all t
 
