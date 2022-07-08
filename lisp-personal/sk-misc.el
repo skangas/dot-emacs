@@ -291,5 +291,9 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
           (eval-last-sexp 1)
           )))))
 
+(defun flush-empty-lines ()
+  (interactive)
+  (flush-lines "^$"))
+
 (provide 'sk-misc)
 ;; sk-misc.el ends here
