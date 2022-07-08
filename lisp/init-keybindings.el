@@ -17,24 +17,6 @@
 
 ;;; Global key bindings
 
-(defun sk/notmuch-inbox (arg)
-  "Show notmuch inbox, with prefix arg show notmuch."
-  (interactive "P")
-  (require 'notmuch)
-  (if arg
-      (notmuch)
-    (notmuch-search "tag:inbox")))
-
-(defun sk/org-agenda ()
-  (interactive)
-  (if (get-buffer "*Org Agenda(x)*")
-      (switch-to-buffer "*Org Agenda(x)*")
-    (org-agenda nil "x")))
-
-(defun sk/mailsync.sh ()
-  (interactive)
-  (async-shell-command "mailsync.sh"))
-
 ;; C-<foo>
 (dolist (k '("C-" ""))
   (global-set-key (kbd (concat "C-c " k "1")) 'sk/org-agenda)
@@ -264,6 +246,27 @@ kill it (unless it's modified)."
 ;;            (gnus))
 ;;           (candidate
 ;;            (switch-to-buffer candidate)))))
+
+
+;;;; Various jump commands
+
+(defun sk/notmuch-inbox (arg)
+  "Show notmuch inbox, with prefix arg show notmuch."
+  (interactive "P")
+  (require 'notmuch)
+  (if arg
+      (notmuch)
+    (notmuch-search "tag:inbox")))
+
+(defun sk/org-agenda ()
+  (interactive)
+  (if (get-buffer "*Org Agenda(x)*")
+      (switch-to-buffer "*Org Agenda(x)*")
+    (org-agenda nil "x")))
+
+(defun sk/mailsync.sh ()
+  (interactive)
+  (async-shell-command "mailsync.sh"))
 
 
 ;;; Temporarily enable menu-bar
