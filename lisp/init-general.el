@@ -326,6 +326,9 @@
               ("E" . dired-do-eww)
               ("C-i" . image-dired-here))
   :config
+  ;; This actually binds `mouse-1'.
+  (define-key dired-mode-map [mouse-2] #'dired-mouse-find-file)
+
   (if (eq system-type 'darwin)
       (setq dired-listing-switches "-lAFh")
     (setq dired-listing-switches "-lAFh --group-directories-first"))
