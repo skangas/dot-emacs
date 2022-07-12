@@ -93,8 +93,6 @@
                                     #'elide-head-mode
                                   #'elide-head))
 
-(define-key ctl-x-map "\C-j" 'dired-jump)
-
 ;; C-h
 (define-key help-map "u" 'man)
 (define-key help-map "\C-a" 'apropos)

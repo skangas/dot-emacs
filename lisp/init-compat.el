@@ -38,11 +38,13 @@ Enable `recentf-mode' if it isn't already."
     (when file
       (funcall recentf-menu-action file))))
 
-(setq ffap-machine-p-known 'accept) ; default in Emacs 29
+(when (< emacs-major-version 29)
+  (setq ffap-machine-p-known 'accept))  ; Default in Emacs 29
 
 
 ;;;; Emacs < 28.1
 
+;; Some settings.
 (when (< emacs-major-version 28)
   (setq Info-streamline-headings
         '(("Emacs" . "Emacs")
@@ -50,7 +52,11 @@ Enable `recentf-mode' if it isn't already."
           ("Libraries" . "Libraries")
           ("Network applications\\|World Wide Web\\|Net Utilities" . "Network applications"))))
 
-;; Change all yes or no prompt to y or n prompts.
+;; Bind `C-x C-j' to `dired-jump'.
+(when (< emacs-major-version 28)
+  (define-key ctl-x-map "\C-j" #'dired-jump))
+
+;; Change all yes or no prompts to y or n prompts.
 (when (< emacs-major-version 28)
   (fset 'yes-or-no-p 'y-or-n-p)) ; Replaced by `use-short-answers'.
 
