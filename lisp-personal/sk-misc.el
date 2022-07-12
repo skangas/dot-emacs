@@ -191,7 +191,59 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
       ("org" (insert (format "[[%s][%s]]" url svg)))
       ("md" (insert (format "[![NonGNU ELPA](%s)](%s)" svg url))))))
 
-(defun sk/convert-to-defvar-keymap ()
+(defun sk/convert-to-defvar-keymap--make-key (key)
+  (save-match-data
+    (cond ((string-match (rx "(kbd \"" (group (+ (not ")"))) "\")") key)
+           (match-string 1 key))
+          (t
+           (key-description (read key))))))
+
+(defun sk/keymap-is-suppressed-p (variable-name)
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward
+           (rx "\n" (* space) "(suppress-keymap" (+ space)
+               (regexp variable-name)
+               (* space) ")" (* space) eol)
+           nil t)
+      (replace-match "")
+      t)))
+
+(defun sk/keymap-has-parent-p (variable-name)
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward
+           (rx "\n" (* space) "(set-keymap-parent" (+ space)
+               (regexp variable-name) (+ space)
+               (group lisp-mode-symbol)
+               (* space) ")" (* space) eol)
+           nil t)
+      (prog1 (match-string 1)
+        (replace-match "")))))
+
+(defun sk/define-keymap-re (variable-name)
+  (rx
+   ;; (define-key
+   "(" (* space) "define-key" symbol-end (+ space)
+   ;; map
+   (regexp variable-name) symbol-end (+ space)
+   ;; [1] key
+   (group (or
+           ;; "a"
+           (seq "\"" (+ (not "\"")) "\"")
+           ;; [header-line mouse-1]
+           (seq "[" (+ (not "]")) "]")
+           ;; (kbd "a")
+           (seq "(kbd " (+ (not ")")) ")")))
+   (+ space)
+   ;; [2] binding
+   (group (? (or "'" "#'")) lisp-mode-symbol)
+   ;; end of sexp
+   (* space) ")"
+   ;; [3] any junk, e.g. comments
+   (group (regexp ".*")) line-end))
+
+(defun convert-to-defvar-keymap┄☭ ()
   (interactive)
   (require 'paredit)
   (let (orig varname)
@@ -214,45 +266,32 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
         (unless (re-search-forward "(let ((\\([^ ]+\\) (make-\\(sparse-\\)?keymap)))" nil t)
           (user-error "Unable to continue: no let found"))
 
-        (let ((variable-name (match-string 1))
-              (is-full (not (string= (match-string 2) "sparse-"))))
+        (let* ((variable-name (match-string 1))
+               (is-full (not (string= (match-string 2) "sparse-")))
+               (is-suppressed (sk/keymap-is-suppressed-p variable-name))
+               (has-parent (sk/keymap-has-parent-p variable-name)))
           ;; Delete let -- we no longer need it.
           (paredit-splice-sexp-killing-backward)
 
           (when is-full
-            (insert ":full t\n"))
+            (insert "  :full t\n"))
+          (when is-suppressed
+            (insert "  :suppress t\n"))
+          (when has-parent
+            (insert (format "  :parent %s\n" has-parent)))
 
-          (while (re-search-forward
-                  (rx
-                   ;; (define-key
-                   "(" (* space) "define-key" symbol-end (+ space)
-                   ;; map
-                   (regexp variable-name) symbol-end (+ space)
-                   ;; [1] key
-                   (group (or
-                           ;; "a"
-                           (seq "\"" (+ (not "\"")) "\"")
-                           ;; (kbd "a")
-                           (seq "(kbd " (+ (not ")")) ")")))
-                   (+ space)
-                   ;; [2] binding
-                   (group (? (or "'" "#'")) lisp-mode-symbol)
-                   ;; end of sexp
-                   (* space) ")"
-                   ;; [3] any junk, e.g. comments
-                   (group (regexp ".*")) line-end)
-                  nil t)
+          (while (re-search-forward (sk/define-keymap-re variable-name) nil t)
             (let ((key (match-string 1))
                   (definition (match-string 2))
                   (comment (match-string 3)))
               (replace-match
                (format "\"%s\" %s%s%s"
-                       (save-match-data
-                         (if (string-match (rx "(kbd \"" (group (+ (not ")"))) "\")") key)
-                             (match-string 1 key)
-                           (key-description (read key))))
+                       (sk/convert-to-defvar-keymap--make-key key)
                        ;; Maybe add "#"
-                       (if (string-match-p (rx bos (or "#" "'mouse-face")) definition) "" "#")
+                       (if (string-match-p (rx bos (or "#" "'mouse-face" "nil"))
+                                           definition)
+                           ""
+                         "#")
                        definition comment)
                nil t)))
 
@@ -274,7 +313,8 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
 
           ;; Remove variable name
           (progn
-            (re-search-forward variable-name)
+            (goto-char (point-max))
+            (re-search-backward variable-name)
             (replace-match "")
             (delete-indentation))
 
@@ -289,9 +329,10 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
           (pop-to-buffer "*scratch")
           (insert (format "(equal %s)\n\n" orig))
           (eval-last-sexp 1)
+          (insert "\n\n")
           )))))
 
-(defun flush-empty-lines ()
+(defun flush-empty-lines☭ ()
   (interactive)
   (flush-lines "^$"))
 
