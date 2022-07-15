@@ -472,11 +472,17 @@
       (let ((buffer-read-only nil))
         (goto-char (point-min))
         (flush-lines (rx bol "." (? "/lisp") "/"
-                         (or "ldefs-boot.el"
-                             "loaddefs.el"
-                             "calc/calc-loaddefs.el"
-                             "org/org-loaddefs.el"
-                             "textmodes/reftex-loaddefs.el"))))))
+                         (or
+                          "etc/DOC"
+                          "ldefs-boot.el"
+                          "loaddefs.el"
+                          "calc/calc-loaddefs.el"
+                          "emacs-lisp/loaddefs-gen.el"
+                          "mh-e/mh-loaddefs.el"
+                          "net/tramp-loaddefs.el"
+                          "org/org-loaddefs.el"
+                          "textmodes/reftex-loaddefs.el"
+                          ))))))
 
   (defun sk/grep-mode-hook ()
     (setq-local compilation-finish-functions #'sk/compilation-finish-flush-lines))
