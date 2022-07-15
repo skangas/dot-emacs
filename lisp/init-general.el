@@ -400,7 +400,7 @@
 
 (use-package eshell ; built-in
   :config
-  (setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
+  (setq eshell-visual-subcommands '(("git" "log" "diff" "show" "tag"))))
 
 (use-package eww                        ; built-in
   :config
