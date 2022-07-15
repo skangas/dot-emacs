@@ -20,6 +20,7 @@
  '(company-tooltip-limit 15)
  '(compilation-message-face 'default)
  '(confirm-kill-emacs 'y-or-n-p)
+ '(copyright-year-ranges t)
  '(cua-enable-cua-keys nil)
  '(cua-global-mark-cursor-color "#689d6a")
  '(cua-normal-cursor-color "#7c6f64")
