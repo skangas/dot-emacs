@@ -1,3 +1,8 @@
+;;; init-mail.el                                                 -*- lexical-binding: t; -*-
+
+;; Setup:
+;; sudo apt-get install hashcash
+
 (progn
   (setq message-user-fqdn "stefankangas.se") ; used to generate Message-ID
   (setq user-mail-address "stefan@marxist.se")
@@ -44,6 +49,8 @@
 
   ;; allows use of `gnus-dired-attach' (C-c RET C-a)
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
+
+;; check for subject
 
 (defun my/check-for-subject ()
   "Prevent user from sending email without a subject."
