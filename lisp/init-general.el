@@ -607,8 +607,7 @@
   :init
   (midnight-mode 1)
   (setq clean-buffer-list-delay-general 7) ; default is 3 days
-  (midnight-delay-set 'midnight-delay "06:00")
-  (timer-activate midnight-timer))
+  (midnight-delay-set 'midnight-delay "06:00"))
 
 (use-package markdown-mode
   :ensure t
