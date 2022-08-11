@@ -369,11 +369,6 @@
   (require 'dired-aux)
   (setq dired-create-destination-dirs 'ask))
 
-(use-package discover
-  :ensure t
-  :config
-  (global-discover-mode 1))
-
 (use-package engine-mode
   :ensure t
   :config
