@@ -30,7 +30,7 @@
 (setq scroll-preserve-screen-position nil)
 
 (setq user-full-name "Stefan Kangas"
-      user-mail-address "stefan@marxist.se"
+      user-mail-address "stefankangas@gmail.com"
       require-final-newline t                        ; Make sure text files end in a newline
       Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails

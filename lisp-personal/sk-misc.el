@@ -1,6 +1,6 @@
 ;;; sk-misc.el --- random functions
 
-;; Copyright (C) 2010-2022 Stefan Kangas <stefan@marxist.se>
+;; Copyright (C) 2010-2022 Stefan Kangas <stefankangas@gmail.com>
 
 ;; Author: Stefan Kangas
 ;; Keywords: utilities
