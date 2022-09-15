@@ -607,7 +607,9 @@
   :init
   (midnight-mode 1)
   (setq clean-buffer-list-delay-general 7) ; default is 3 days
-  (midnight-delay-set 'midnight-delay "06:00"))
+  (midnight-delay-set 'midnight-delay "06:00")
+  (when (fboundp 'native-compile-prune-cache)
+    (add-to-list 'midnight-hook 'native-compile-prune-cache)))
 
 (use-package markdown-mode
   :ensure t
