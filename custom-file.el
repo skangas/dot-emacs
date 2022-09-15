@@ -189,7 +189,9 @@
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
-   '((auto-insert)
+   '((vc-git-annotate-switches . "-w")
+     (diff-add-log-use-relative-names . t)
+     (auto-insert)
      (eval add-hook 'before-save-hook #'copyright-update nil t)
      (system-time-locale . "sv_SE.UTF-8")
      (truncate-partial-width-windows . t)
