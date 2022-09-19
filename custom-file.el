@@ -191,7 +191,10 @@
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
-   '((vc-git-annotate-switches . "-w")
+   '((texinfo-column-for-description . 32)
+     (c-file-offsets
+      (arglist-intro . +))
+     (vc-git-annotate-switches . "-w")
      (diff-add-log-use-relative-names . t)
      (auto-insert)
      (eval add-hook 'before-save-hook #'copyright-update nil t)
