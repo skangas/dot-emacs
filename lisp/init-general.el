@@ -654,6 +654,13 @@
     (ad-deactivate 'abort-if-file-too-large)
     (ad-activate 'abort-if-file-too-large)))
 
+(use-package nov
+  :ensure t
+  :bind (:map nov-mode-map
+              ("u" . #'nov-goto-toc))
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+
 (use-package orderless
   :pin "gnu"
   :ensure t

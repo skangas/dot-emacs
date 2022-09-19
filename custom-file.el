@@ -165,6 +165,7 @@
      (:name "emacs::bugs" :query "tag:emacs::bugs AND tag:unread")
      (:name "emacs" :query "((tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help OR tag:emacs-todo OR tag:emacs-elpa-diffs) AND tag:unread) AND not tag:muted" :key "e")
      (:name "emacs-all" :query "(((tag:emacs-devel OR tag:emacs-bugs OR tag:emacs-diffs OR tag:emacs-help OR tag:emacs-elpa-diffs) AND tag:unread) OR tag:emacs-todo) AND not tag:muted" :key "f")))
+ '(nov-text-width 70)
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#C16069")
