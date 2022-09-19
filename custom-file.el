@@ -41,6 +41,7 @@
  '(display-time-default-load-average nil)
  '(display-time-mode t)
  '(ecb-options-version "2.32")
+ '(echo-keystrokes 1e-11)
  '(eldoc-echo-area-use-multiline-p t)
  '(eldoc-idle-delay 0.4)
  '(erc-auto-query 'bury)
