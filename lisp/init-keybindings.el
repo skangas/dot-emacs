@@ -95,7 +95,8 @@
 
 ;; C-h
 (define-key help-map "u" 'man)
-(define-key help-map "\C-a" 'apropos)
+(define-key help-map (kbd "C-b") 'which-key-show-major-mode)
+(define-key help-map (kbd "C-a") 'apropos)
 
 ;; (global-set-key "\C-t" 'shell-pop)
 ;; (global-set-key "\C-c\C-k" 'kill-region)
