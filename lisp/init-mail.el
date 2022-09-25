@@ -48,16 +48,31 @@
                                        "emacs-pretest-bug@gnu.org")))
 
   ;; allows use of `gnus-dired-attach' (C-c RET C-a)
-  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
+  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+
+  ;; Maybe use hashcash.
+  (when (executable-find "hashcash")
+    (add-hook 'message-send-hook #'mail-add-payment)))
 
 ;; check for subject
 
 (defun my/check-for-subject ()
   "Prevent user from sending email without a subject."
-  (unless (message-field-value "Subject")
+  (unless (or (message-field-value "Subject")
+              (y-or-n-p "Send email with NO subject line?"))
     (message-goto-subject)
-    (user-error "Attempting to send mail without a subject line")))
+    (user-error "Not sending mail without a subject line")))
 (add-hook 'message-send-hook #'my/check-for-subject)
+
+(defun my/check-email ()
+  (when (not (string-match (rx "<stefankangas@gmail.com>" eol)
+                           (message-field-value "From")))
+    (message-goto-from)
+    (message-beginning-of-line)
+    (kill-line)
+    (insert "Stefan Kangas <stefankangas@gmail.com>")
+    (user-error "Using wrong email address, press `C-c C-c' again to send")))
+(add-hook 'message-send-hook #'my/check-email)
 
 (require 'notmuch)
 (with-eval-after-load 'notmuch
@@ -93,6 +108,8 @@
         (notmuch-search-tag (list "-trash"))
       (notmuch-search-tag (list "+trash")))
     (notmuch-search-next-thread))
+
+  (setopt notmuch-archive-tags '("-inbox" "-emacs-todo"))
 
   (define-key notmuch-search-mode-map "h" 'notmuch-search-archive-thread)
   (define-key notmuch-show-mode-map "h" 'notmuch-show-archive-message-then-next-or-next-thread)

@@ -437,6 +437,7 @@
   ;; If non-nil, add correction to abbreviation table.
   (setq flyspell-abbrev-p t)
   (add-hook 'text-mode-hook 'flyspell-mode)
+  ;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   )
 
@@ -714,6 +715,9 @@
   :config
   (setq winner-dont-bind-my-keys t)    ; default bindings conflict with org-mode
   (winner-mode 1))
+
+(use-package xml-rpc
+  :ensure t)
 
 (use-package winum
   ;; Replaces window-numbering.el
