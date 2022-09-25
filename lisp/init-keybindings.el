@@ -15,6 +15,11 @@
 (add-hook 'next-error-hook 'recenter)
 
 
+
+;; Unsent some useless keybindings
+(global-unset-key (kbd "C-x C-z")) ; suspend-frame
+
+
 ;;; Global key bindings
 
 ;; C-<foo>
@@ -56,7 +61,8 @@
 (global-set-key (kbd "<f8>") 'w3m)
 
 ;; C-x <foo>
-(global-set-key (kbd "C-c m")   #'browse-url-at-point)
+(global-set-key (kbd "C-x M")   #'compose-mail)
+(global-set-key (kbd "C-x m")   #'browse-url-at-point)
 (global-set-key (kbd "C-x x q") #'read-only-mode)
 (global-set-key (kbd "C-x C-b") #'ibuffer)
 (global-set-key (kbd "C-x C-r") #'recentf-open) ; replaces `find-file-read-only'
