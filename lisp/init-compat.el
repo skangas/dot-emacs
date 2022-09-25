@@ -3,6 +3,7 @@
 
 ;;; Emacs 29 master branch
 (unless (get 'magit--handle-bookmark 'bookmark-handler-type)
+  (autoload 'magit--handle-bookmark "magit")
   (put 'magit--handle-bookmark 'bookmark-handler-type "Magit"))
 
 
