@@ -122,6 +122,24 @@
 
 ;;; My utility functions
 
+(defun my/kill-ring-save-without-whitespace (beg end &optional region arg)
+  "Like `kill-ring-save', but filter all spaces.
+With prefix ARG, don't filter anything."
+  (interactive (list (mark) (point) 'region current-prefix-arg))
+  (let ((filter-buffer-substring-function
+         (if (not arg)
+             (lambda (beg end &optional delete)
+               (replace-regexp-in-string
+                "‐ " ""
+                (replace-regexp-in-string
+                 (rx (+ space)) " "
+                 (buffer-substring beg end))))
+           filter-buffer-substring-function)))
+    (kill-ring-save beg end region)))
+
+(with-eval-after-load 'man
+  (define-key Man-mode-map (kbd "M-w") #'my/kill-ring-save-without-whitespace))
+
 (defun sk/use-swedish-dictionary ()
   ;; This is no longer needed; I use Hunspell instead.
   (interactive)
