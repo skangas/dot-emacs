@@ -3,12 +3,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(Man-width-max 76)
  '(abbrev-suggest t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline success warning error])
  '(auth-source-save-behavior nil)
  '(awesome-tray-mode-line-active-color "#0031a9")
  '(awesome-tray-mode-line-inactive-color "#d7d7d7")
+ '(blink-cursor-blinks 2)
  '(bookmark-menu-confirm-deletion t)
  '(bookmark-save-flag 1)
  '(calendar-week-start-day 1)
@@ -60,6 +62,8 @@
  '(erc-paranoid t)
  '(erc-track-exclude-types '("JOIN" "KICK" "NICK" "PART" "QUIT" "MODE" "333" "353"))
  '(erc-user-full-name "Stefan Kangas")
+ '(eval-expression-print-length 50)
+ '(eval-expression-print-level 8)
  '(exwm-floating-border-color "#888888")
  '(fci-rule-color "#525252")
  '(fit-window-to-buffer-horizontally t)
@@ -112,7 +116,7 @@
  '(ignored-local-variable-values '((image-dired-thumbnail-storage . per-directory)))
  '(image-animate-loop t)
  '(image-auto-resize 'fit-window)
- '(image-dired-external-viewer "feh")
+ '(image-dired-external-viewer "feh -FZ")
  '(image-dired-show-all-from-dir-max-files nil)
  '(inhibit-startup-screen t)
  '(isearch-allow-scroll t)
@@ -132,6 +136,7 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#000000" "#80A0C2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#000000" "#A2BF8A"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#000000" "#3f3f3f"))
+ '(kill-do-not-save-duplicates t)
  '(kill-whole-line t)
  '(lsp-ui-doc-border "#665c54")
  '(magit-diff-use-overlays nil)
@@ -178,7 +183,7 @@
  '(outline-minor-mode-cycle t)
  '(package-quickstart t)
  '(package-selected-packages
-   '(prescient selectrum ioccur consult elsearch xr aggressive-indent doom-themes marginalia el-search monokai-theme color-theme-sanityinc-tomorrow solarized-theme php-mode suggest macrostep nameless yaml-mode yasnippet-snippets yasnippet ws-butler web-mode smartparens projectile paredit markdown-mode winum which-key wgrep visual-fill-column use-package undo-tree org-journal org-download org-bullets openwith ob-async multiple-cursors magit iedit hydra flx f elfeed-org discover diminish diff-hl debbugs counsel company centered-window browse-kill-ring boxquote auto-compile ag))
+   '(picpocket nov xml-rpc gruvbox-theme gotham-theme engine-mode svg-tag-mode org-modern-mode org-modern orglink w3m haskell-mode bbdb geiser minitest ruby-test-mode robe projectile-rails enh-ruby-mode prescient selectrum ioccur consult elsearch xr aggressive-indent doom-themes marginalia el-search monokai-theme color-theme-sanityinc-tomorrow solarized-theme php-mode suggest macrostep nameless yaml-mode yasnippet-snippets yasnippet ws-butler web-mode smartparens projectile paredit markdown-mode winum which-key wgrep visual-fill-column use-package undo-tree org-journal org-download org-bullets openwith ob-async multiple-cursors magit iedit hydra flx f elfeed-org discover diminish diff-hl debbugs counsel company centered-window browse-kill-ring boxquote auto-compile ag))
  '(pdf-view-bounding-box-margin 0.15)
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(pdf-view-resize-factor 1.05)
