@@ -1,6 +1,71 @@
-;;; General coding
+;;; General coding.
 
-(setq compilation-scroll-output t)
+;; Disabled for now.
+;; (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Shared bindings
+(defun my-coding-keys (map)
+  "Sets the key bindings which shall be available in all programming
+  languages. Argument MAP is the local keymap (e.g. cperl-mode-map)."
+  (define-key map (kbd "RET") #'newline-and-indent)
+  (define-key map (kbd "M-?") #'indent-region))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Compile command.
+
+(setq compile-command (format "make -k -j%s " (num-processors)))
+
+;; this function is used to set up compile command in both c and c++ conf
+(defun my-compile-runs-makefile-or-compiler (create-compiler-command)
+  "Configure compile command to run Makefile if it exists, or
+otherwise use the compiler command given by passed in
+compiler-command."
+  (unless (file-exists-p "Makefile")
+    (set (make-local-variable 'compile-command)
+         (when (buffer-file-name)
+           (let ((file (file-name-nondirectory buffer-file-name)))
+             (funcall create-compiler-command file))))))
+
+(add-hook 'c-mode-hook
+          (lambda ()
+            (my-compile-runs-makefile-or-compiler
+             (lambda (file)
+               (concat "gcc -O2 -Wall -o " (file-name-sans-extension file)
+                       " " file)))))
+
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (my-compile-runs-makefile-or-compiler
+             (lambda (file)
+               (concat "g++ -O2 -Wall -o " (file-name-sans-extension file)
+                       " " file)))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pretty λ-symbol.
+(defun my/pretty-lambda ()
+  (setq prettify-symbols-alist '(("lambda" . ?λ))))
+(add-hook 'emacs-lisp-mode-hook #'my/pretty-lambda)
+(add-hook 'ielm-mode-hook #'my/pretty-lambda)
+(add-hook 'lisp-interaction-mode-hook #'my/pretty-lambda)
+(add-hook 'scheme-mode-hook #'my/pretty-lambda)
+(global-prettify-symbols-mode 1)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Mark special words
+(defun my-highlight-special-words ()
+  (font-lock-add-keywords nil
+                  '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
+(add-hook 'c-mode-common-hook 'my-highlight-special-words)
+(set-face-underline 'font-lock-warning-face "yellow")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Packages.
 
 (use-package company
   :ensure t
@@ -69,11 +134,6 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-enable-caching t
         projectile-globally-ignored-file-suffixes '(".elc")))
-
-(use-package smartparens
-  :ensure t
-  :config
-  (add-hook 'enh-ruby-mode-hook 'smartparens-mode))
 
 (use-package smerge-mode
   :after hydra
@@ -152,71 +212,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :ensure t
   :defer 30)
 
-(defun my-pretty-lambda ()
-  "make some word or string show as pretty Unicode symbols"
-  (setq prettify-symbols-alist
-        '(
-          ("lambda" . 955) ; λ
-          )))
-
-(add-hook 'emacs-lisp-mode-hook 'my-pretty-lambda)
-(add-hook 'ielm-mode-hook 'my-pretty-lambda)
-(add-hook 'lisp-interaction-mode-hook 'my-pretty-lambda)
-(add-hook 'scheme-mode-hook 'my-pretty-lambda)
-(global-prettify-symbols-mode 1)
-
 (use-package yaml-mode
   :ensure t
   :mode (("\\.ya?ml\\'" . yaml-mode)))
-
-;; Disabled for now.
-;; (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-;; Shared bindings
-(defun my-coding-keys (map)
-  "Sets the key bindings which shall be available in all programming
-  languages. Argument MAP is the local keymap (e.g. cperl-mode-map)."
-  (define-key map (kbd "RET")                 'newline-and-indent)
-  (define-key map (kbd "M-?")                 'indent-region))
-
-;; Mark special words
-(defun my-highlight-special-words ()
-  (font-lock-add-keywords nil
-                  '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t))))
-(add-hook 'c-mode-common-hook 'my-highlight-special-words)
-(set-face-underline 'font-lock-warning-face "yellow")
-
-(setq glasses-separate-parentheses-p nil)
-;; (projectile ido-flx)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; compile command
-
-(setq compile-command "make -k -j5 ")
-
-;; this function is used to set up compile command in both c and c++ conf
-(defun my-compile-runs-makefile-or-compiler (create-compiler-command)
-  "Configure compile command to run Makefile if it exists, or
-otherwise use the compiler command given by passed in
-compiler-command."
-  (unless (file-exists-p "Makefile")
-    (set (make-local-variable 'compile-command)
-         (when (buffer-file-name)
-           (let ((file (file-name-nondirectory buffer-file-name)))
-             (funcall create-compiler-command file))))))
-
-(add-hook 'c-mode-hook
-   (lambda ()
-     (my-compile-runs-makefile-or-compiler
-      (lambda (file)
-        (concat "gcc -O2 -Wall -o " (file-name-sans-extension file)
-                " " file)))))
-
-(add-hook 'c++-mode-hook
-   (lambda ()
-     (my-compile-runs-makefile-or-compiler
-      (lambda (file)
-        (concat "g++ -O2 -Wall -o " (file-name-sans-extension file)
-                " " file)))))
 
 (provide 'init-coding-common)
