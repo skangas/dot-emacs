@@ -1,7 +1,5 @@
 ;;; General coding
 
-(setq gdb-many-windows t)
-
 (setq compilation-scroll-output t)
 
 (use-package company
