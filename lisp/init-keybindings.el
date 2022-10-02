@@ -128,6 +128,20 @@
 
 ;;; My utility functions
 
+(defun my/man-copy-name-as-kill ()
+  (interactive nil Man-mode)
+  (when-let ((str
+              (save-excursion
+                (goto-char (point-min))
+                (and (looking-at (rx bol )))))))
+  (setq str
+        (if (string-match " " Man-arguments)
+            (let ((args (string-split Man-arguments " ")))
+              (apply #'format "%s(%s)" (reverse args)))
+          Man-arguments))
+  (kill-new str)
+  (message str))
+
 (defun my/kill-ring-save-without-whitespace (beg end &optional region arg)
   "Like `kill-ring-save', but filter all spaces.
 With prefix ARG, don't filter anything."
@@ -144,6 +158,7 @@ With prefix ARG, don't filter anything."
     (kill-ring-save beg end region)))
 
 (with-eval-after-load 'man
+  (define-key Man-mode-map (kbd "w") #'my/man-copy-name-as-kill)
   (define-key Man-mode-map (kbd "M-w") #'my/kill-ring-save-without-whitespace))
 
 (defun sk/use-swedish-dictionary ()
