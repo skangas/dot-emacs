@@ -70,6 +70,7 @@
  '(flymake-error-bitmap '(flymake-double-exclamation-mark modus-theme-fringe-red))
  '(flymake-note-bitmap '(exclamation-mark modus-theme-fringe-cyan))
  '(flymake-warning-bitmap '(exclamation-mark modus-theme-fringe-yellow))
+ '(gnus-user-agent nil)
  '(help-enable-variable-value-editing t)
  '(highlight-changes-colors '("#d3869b" "#8f3f71"))
  '(highlight-symbol-colors
