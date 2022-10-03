@@ -74,20 +74,15 @@
          )))
 
     (setq my-cperl-outline-regexp
-          (concat
-           "^"                            ; Start of line
-           "[ \\t]*"                      ; Skip leading whitespace
-           "\\("                          ; begin capture group \1
-           (sk-join "\\|"
-                    '("=head[12]"         ; POD header
-                      "package"           ; package
-                      "=item"             ; POD item
-                      "sub"               ; subroutine definition
-                      "class" "has"       ; use Moose;
+          (rx bol (* (in " \t"))
+              (group (or
+                      (: "=head" (any "12")) ; POD header
+                      "package"              ; package
+                      "=item"                ; POD item
+                      "sub"                  ; subroutine definition
+                      "class" "has"          ; use Moose;
                       ))
-           "\\)"                          ; end capture group \1
-           "\\b"                          ; Word boundary
-           ))
+              word-boundary))
 
     (setq cperl-outline-regexp  my-cperl-outline-regexp)
     (setq outline-regexp        cperl-outline-regexp)
