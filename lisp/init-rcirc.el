@@ -262,5 +262,3 @@
 ;;                 (rcirc-reconnect-mode 1))))
 
 (provide 'init-rcirc)
-
-;; init-rcirc.el ends here

@@ -3,7 +3,6 @@
 
 ;;; Settings
 
-(setq cua-enable-cua-keys nil) ; Disable cua keys
 (when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
 
 
@@ -16,25 +15,12 @@
 (add-hook 'next-error-hook 'recenter)
 
 
+
+;; Unsent some useless keybindings
+(global-unset-key (kbd "C-x C-z")) ; suspend-frame
+
+
 ;;; Global key bindings
-
-(defun sk/notmuch-inbox (arg)
-  "Show notmuch inbox, with prefix arg show notmuch."
-  (interactive "P")
-  (require 'notmuch)
-  (if arg
-      (notmuch)
-    (notmuch-search "tag:inbox")))
-
-(defun sk/org-agenda ()
-  (interactive)
-  (if (get-buffer "*Org Agenda(x)*")
-      (switch-to-buffer "*Org Agenda(x)*")
-    (org-agenda nil "x")))
-
-(defun sk/mailsync.sh ()
-  (interactive)
-  (async-shell-command "mailsync.sh"))
 
 ;; C-<foo>
 (dolist (k '("C-" ""))
@@ -63,15 +49,23 @@
 (global-set-key (kbd "M-<right>") 'next-buffer)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 
+(global-set-key (kbd "M-c") #'capitalize-dwim)
+(global-set-key (kbd "M-u") #'upcase-dwim)
+(global-set-key (kbd "M-l") #'downcase-dwim)
+(global-unset-key (kbd "C-x C-l")) ; default is `downcase-region'
+(global-unset-key (kbd "C-x C-u")) ; default is `upcase-region'
+
 ;; F<foo>
 (global-set-key (kbd "<f5>") 'my-switch-to-gnus)
 (global-set-key (kbd "<f6>") 'mentor)
 (global-set-key (kbd "<f8>") 'w3m)
 
 ;; C-x <foo>
-(global-set-key (kbd "C-x m") 'browse-url-at-point)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open) ; replaces `find-file-read-only'
+(global-set-key (kbd "C-x M")   #'compose-mail)
+(global-set-key (kbd "C-x m")   #'browse-url-at-point)
+(global-set-key (kbd "C-x x q") #'read-only-mode)
+(global-set-key (kbd "C-x C-b") #'ibuffer)
+(global-set-key (kbd "C-x C-r") #'recentf-open) ; replaces `find-file-read-only'
 
 ;; C-c <foo>
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -79,11 +73,11 @@
 (global-set-key (kbd "C-c B") 'gnus-read-ephemeral-emacs-bug-group)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c t") 'sk/translate-using-tyda)
 (global-set-key (kbd "C-c y") (lambda () (interactive) (popup-menu 'yank-menu)))
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; Remove?
 
 ;; C-c e <foo>
+(global-set-key (kbd "C-c e a") 'aggressive-indent-mode)
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
 (global-set-key (kbd "C-c e f") 'emacs-lisp-byte-compile-and-load)
@@ -95,18 +89,20 @@
 (global-set-key (kbd "C-c e t") 'sk/ert-run-all-tests)
 
 ;; C-g
-(global-set-key (kbd "M-g M-r") 'goto-random-line)
-(global-set-key (kbd "M-g M-s") 'sort-lines)
+(global-set-key (kbd "M-g M-r") #'goto-random-line)
+(global-set-key (kbd "M-g M-l") #'list-packages)
+(global-set-key (kbd "M-g M-m") #'my-menu-bar-mode)
+(global-set-key (kbd "M-g M-s") #'sort-lines)
+(global-set-key (kbd "M-g M-w") #'eww)
 
 (global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
                                     #'elide-head-mode
                                   #'elide-head))
 
-(define-key ctl-x-map "\C-j" 'dired-jump)
-
 ;; C-h
 (define-key help-map "u" 'man)
-(define-key help-map "\C-a" 'apropos)
+(define-key help-map (kbd "C-b") 'which-key-show-major-mode)
+(define-key help-map (kbd "C-a") 'apropos)
 
 ;; (global-set-key "\C-t" 'shell-pop)
 ;; (global-set-key "\C-c\C-k" 'kill-region)
@@ -131,6 +127,39 @@
 
 
 ;;; My utility functions
+
+(defun my/man-copy-name-as-kill ()
+  (interactive nil Man-mode)
+  (when-let ((str
+              (save-excursion
+                (goto-char (point-min))
+                (and (looking-at (rx bol )))))))
+  (setq str
+        (if (string-match " " Man-arguments)
+            (let ((args (string-split Man-arguments " ")))
+              (apply #'format "%s(%s)" (reverse args)))
+          Man-arguments))
+  (kill-new str)
+  (message str))
+
+(defun my/kill-ring-save-without-whitespace (beg end &optional region arg)
+  "Like `kill-ring-save', but filter all spaces.
+With prefix ARG, don't filter anything."
+  (interactive (list (mark) (point) 'region current-prefix-arg))
+  (let ((filter-buffer-substring-function
+         (if (not arg)
+             (lambda (beg end &optional delete)
+               (replace-regexp-in-string
+                "‐ " ""
+                (replace-regexp-in-string
+                 (rx (+ space)) " "
+                 (buffer-substring beg end))))
+           filter-buffer-substring-function)))
+    (kill-ring-save beg end region)))
+
+(with-eval-after-load 'man
+  (define-key Man-mode-map (kbd "w") #'my/man-copy-name-as-kill)
+  (define-key Man-mode-map (kbd "M-w") #'my/kill-ring-save-without-whitespace))
 
 (defun sk/use-swedish-dictionary ()
   ;; This is no longer needed; I use Hunspell instead.
@@ -211,12 +240,6 @@ kill it (unless it's modified)."
   (with-current-buffer reb-target-buffer
     (query-replace-regexp (reb-target-binding reb-regexp) to-string)))
 
-;; open recent files using ido
-(defun my-ido-recentf-open ()
-  "Use ido to select a recently opened file from the `recentf-list'"
-  (interactive)
-  (find-file (ido-completing-read "Open file: " recentf-list nil t)))
-
 
 ;;; Currently unused
 
@@ -263,5 +286,45 @@ kill it (unless it's modified)."
 ;;           (candidate
 ;;            (switch-to-buffer candidate)))))
 
+
+;;;; Various jump commands
+
+(defun sk/notmuch-inbox (arg)
+  "Show notmuch inbox, with prefix arg show notmuch."
+  (interactive "P")
+  (require 'notmuch)
+  (if arg
+      (notmuch)
+    (notmuch-search "tag:inbox")))
+
+(defun sk/org-agenda ()
+  (interactive)
+  (if (get-buffer "*Org Agenda(x)*")
+      (switch-to-buffer "*Org Agenda(x)*")
+    (org-agenda nil "x")))
+
+(defun sk/mailsync.sh ()
+  (interactive)
+  (async-shell-command "mailsync.sh"))
+
+
+;;; Temporarily enable menu-bar
+
+(defvar my-menu-bar-timer nil)
+
+(defun my-menu-bar-cancel-timer ()
+  (when my-menu-bar-timer
+    (cancel-timer my-menu-bar-timer)
+    (setq my-menu-bar-timer nil)))
+
+(defun my-menu-bar-mode-disable ()
+  (my-menu-bar-cancel-timer)
+  (menu-bar-mode -1))
+
+(defun my-menu-bar-mode ()
+  (interactive)
+  (my-menu-bar-cancel-timer)
+  (menu-bar-mode 1)
+  (run-with-idle-timer 60 nil #'my-menu-bar-mode-disable))
+
 (provide 'init-keybindings)
-;; init-keybindings.el ends here

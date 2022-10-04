@@ -5,11 +5,6 @@
 ;;;; Various configuration settings
 ;; FIXME: add visual line mode to all modes where it makes sense
 
-(setq Info-streamline-headings '(("Emacs" . "Emacs")
- ("Software development\\|Programming" . "Software development")
- ("Libraries" . "Libraries")
- ("Network applications\\|World Wide Web\\|Net Utilities" . "Network applications")))
-
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 (unless (eq window-system 'ns)
@@ -21,17 +16,13 @@
 (run-if-fboundp (line-number-mode 1))      ; Show line number
 (run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
 (run-if-fboundp (display-time-mode 1))
+(save-place-mode 1)                        ; Use `save-place-mode'
+(savehist-mode 1)                          ; Use `savehist-mode'
+(global-hl-line-mode 1)                    ; Use hl-line-mode globally
+(show-paren-mode 1)
+
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
 ;;   are enabled by default.
-
-;; Change all yes or no prompt to y or n prompts
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; Use hl-line-mode globally.
-(global-hl-line-mode 1)
-
-;; Use savehist-mode.
-(savehist-mode 1)
 
 (setq scroll-conservatively 500)
 (setq scroll-margin 2)
@@ -39,11 +30,7 @@
 (setq scroll-preserve-screen-position nil)
 
 (setq user-full-name "Stefan Kangas"
-      user-mail-address "stefan@marxist.se"
-      inhibit-startup-message t                      ; No startup message
-      visible-bell t                                 ; No audible bell
-      display-time-24hr-format t                     ; Show 24hr clock when it's shown
-      bookmark-save-flag 1                           ; Save bookmarks immediately when added
+      user-mail-address "stefankangas@gmail.com"
       require-final-newline t                        ; Make sure text files end in a newline
       Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails
@@ -53,24 +40,19 @@
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
       lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
-      ffap-machine-p-known 'reject                   ; stop ffap from pinging random hosts
       save-interprogram-paste-before-kill t
       apropos-do-all t
 
       ;; choose browser
-      browse-url-browser-function 'browse-url-generic
+      browse-url-browser-function #'browse-url-generic
       browse-url-generic-program (if (eq system-type 'darwin) "open" "firefox")
+
       frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
                            (:eval (format " [%s]" mode-name)))
 
       ;; calendar
-      calendar-week-start-day 1              ; Start week on Monday
       calendar-date-style 'european          ; Use European calendar
-      display-time-world-buffer-name "*World Clock*"
-
-
-
       ;; holidays
       calendar-mark-holidays-flag t
       calendar-holidays nil
@@ -80,9 +62,7 @@
       holiday-general-holidays nil
       holiday-hebrew-holidays nil
       holiday-islamic-holidays nil
-      holiday-solar-holidays nil
-
-      )
+      holiday-solar-holidays nil)
 
 (setq sk/video-types
       (concat (regexp-opt '(".asf" ".avi" ".f4v"
@@ -100,7 +80,8 @@
         regexp-search-ring
         last-kbd-macro
         kmacro-ring
-        shell-command-history))
+        shell-command-history
+        Info-history-list))
 
 ;; TODO: Could/should this be added to Emacs itself?
 (when (>= emacs-major-version 27)
@@ -119,8 +100,6 @@
 
 ;; This is very slow, due to Terminus font? -- skangas @ 2019-11-05
 ;; (add-to-list 'auto-coding-alist '("\\.nfo\\'" . cp437-dos))
-
-;; (setq-default bidi-display-reordering nil)
 
 (setq-default fill-column 80      ;; note to self: use M-q and C-u 78 C-x f
               indent-tabs-mode nil                   ; Always indent using spaces, never tabs
@@ -150,13 +129,6 @@
 
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
-
-(require 'saveplace) ; has to be a require
-(setq save-place-file "~/.emacs.d/saveplace") ; keep my ~/ clean
-(setq-default save-place t)                   ; activate it for all buffers
-
-(show-paren-mode 1)
-(setq show-paren-delay 0)
 
 (require 'uniquify) ;; has to be a require
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -247,10 +219,12 @@
                                       (split-window-vertically arg))))
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-;; FIXME: Move this somewhere else.
-(progn
-  ;; I can never remember the correct name for this.  So whatever.
-  (defalias 'toolbar-mode 'tool-bar-mode))
+;; auto-save-visited-mode
+(defun my/auto-save-visited-predicate ()
+  (and (eq major-mode 'org-mode)
+       (string-match "^/home/skangas/org/" buffer-file-name)))
+(setq auto-save-visited-predicate #'my/auto-save-visited-predicate)
+(auto-save-visited-mode 1)
 
 
 ;;;; packages
@@ -270,10 +244,12 @@
   ;; (add-hook 'erc-mode-hook (lambda () (abbrev-mode 1)))
   )
 
-(use-package ace-jump-mode
+(use-package avy
   :ensure t
-  :bind (("C-," . ace-jump-mode)
-         ("C-x SPC" . ace-jump-mode-pop-mark)))
+  :bind (("C-å" . avy-goto-char-timer)
+         ("C-Å" . avy-goto-char)
+         ("C-x SPC" . avy-mark)
+         ("M-g f" . avy-goto-line)))
 
 (use-package ag
   :ensure t)
@@ -347,8 +323,12 @@
               ("." . dired-hide-dotfiles-mode)
               ("," . dired-hide-details-mode)
               ("å" . dired-sk/open-media-dwim)
+              ("E" . dired-do-eww)
               ("C-i" . image-dired-here))
   :config
+  ;; This actually binds `mouse-1'.
+  (define-key dired-mode-map [mouse-2] #'dired-mouse-find-file)
+
   (if (eq system-type 'darwin)
       (setq dired-listing-switches "-lAFh")
     (setq dired-listing-switches "-lAFh --group-directories-first"))
@@ -389,29 +369,13 @@
   (require 'dired-aux)
   (setq dired-create-destination-dirs 'ask))
 
-(use-package discover
+(use-package engine-mode
   :ensure t
   :config
-  (global-discover-mode 1))
-
-(use-package embark
-  :ensure t
-  :pin "gnu"
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+  (engine-mode t)
+  (defengine duckduckgo
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d"))
 
 (use-package epa-file
   :config
@@ -431,7 +395,7 @@
 
 (use-package eshell ; built-in
   :config
-  (setq eshell-visual-subcommands '(("git" "log" "diff" "show"))))
+  (setq eshell-visual-subcommands '(("git" "log" "diff" "show" "tag"))))
 
 (use-package eww                        ; built-in
   :config
@@ -465,9 +429,6 @@
       (recenter 0)))
   (add-hook 'eww-after-render-hook #'sk/eww-move-point-in-place))
 
-(use-package f
-  :ensure t)
-
 (use-package flyspell :ensure nil
   :config
   (setq flyspell-issue-welcome-flag nil)
@@ -476,8 +437,53 @@
   ;; If non-nil, add correction to abbreviation table.
   (setq flyspell-abbrev-p t)
   (add-hook 'text-mode-hook 'flyspell-mode)
+  ;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   )
+
+(use-package embark  ; put after flyspell
+  :ensure t
+  :pin "gnu"
+  :bind
+  (("C-." . embark-act)
+   ("M-." . embark-dwim)
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package grep                       ; built-in
+  :config
+  (defun sk/compilation-finish-flush-lines (buf _)
+    "Flush irrelevant lines in grep buffers."
+    (with-current-buffer buf
+      (let ((buffer-read-only nil))
+        (goto-char (point-min))
+        (flush-lines (rx bol "." (? "/lisp") "/"
+                         (or
+                          "etc/DOC"
+                          "ldefs-boot.el"
+                          "loaddefs.el"
+                          "calc/calc-loaddefs.el"
+                          "emacs-lisp/loaddefs-gen.el"
+                          "mh-e/mh-loaddefs.el"
+                          "net/tramp-loaddefs.el"
+                          "org/org-loaddefs.el"
+                          "textmodes/reftex-loaddefs.el"
+                          ))))))
+
+  (defun sk/grep-mode-hook ()
+    (setq-local compilation-finish-functions #'sk/compilation-finish-flush-lines))
+
+  (add-hook 'grep-setup-hook 'sk/grep-mode-hook))
 
 ;; (use-package google-translate
 ;;   :ensure t
@@ -552,44 +558,6 @@
   (setq ibuffer-show-empty-filter-groups nil)
   (setq ibuffer-expert t))
 
-(use-package ido
-  :config
-  (ido-mode 0)
-  (ido-everywhere 0)
-
-  (setq ido-enable-flex-matching t
-        ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-        ido-default-file-method 'selected-window
-        ido-default-buffer-method 'selected-window
-        ido-work-directory-list '("~/" "~/org" "~/src")
-        ido-case-fold t                 ; Be case-insensitive
-        ido-max-directory-size 100000   ; Avoid [Too Big] messages
-        ;; display matches vertically
-        ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
-                                " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
-
-  (dolist (file-ending '("os" "pyc"))
-    (add-to-list 'ido-ignore-files (concat "." file-ending "$")))
-
-  ;; http://whattheemacsd.com/setup-ido.el-02.html
-  (defun my-ido-go-straight-home ()
-    ;; Go straight home
-    (define-key ido-file-completion-map
-      (kbd "~")
-      (lambda ()
-        (interactive)
-        (if (looking-back "/")
-            (insert "~/")
-          (call-interactively 'self-insert-command)))))
-  (add-hook 'ido-setup-hook 'my-ido-go-straight-home))
-
-;; ;; Disabled.  It is slow and sometimes broken.
-;; (use-package ido-completing-read+
-;;   :ensure t
-;;   :config
-;;   (ido-ubiquitous-mode 1)
-;;   (setq ido-cr+-auto-update-blacklist t))
-
 (use-package iedit
   :ensure t)
 
@@ -617,18 +585,19 @@
 (use-package ispell
   :config
   ;; FIXME: temporary workaround
-  ;; (setq ispell-program-name "hunspell")
-  ;; (setq ispell-dictionary "en_US,sv_SE,es_ES")
-  ;; (ispell-set-spellchecker-params)
-  ;; (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
+  (when (eq system-type 'gnu/linux)
+    (setq ispell-program-name "hunspell"
+          ispell-extra-args '("-a" "-i" "utf-8"))
+    (setq ispell-dictionary "en_US,sv_SE,es_ES")
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES"))
 
   ;; (setq ispell-extra-args '("--sug-mode=ultra"))
   ;; (setq ispell-dictionary "swedish"
   ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
 
   (setq ispell-silently-savep t)
-  (setq flyspell-use-global-abbrev-table-p t)
-  )
+  (setq flyspell-use-global-abbrev-table-p t))
 
 (use-package marginalia
   :pin "gnu"
@@ -641,7 +610,13 @@
   (midnight-mode 1)
   (setq clean-buffer-list-delay-general 7) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
-  (timer-activate midnight-timer))
+  (when (fboundp 'native-compile-prune-cache)
+    (add-to-list 'midnight-hook 'native-compile-prune-cache)))
+
+(use-package markdown-mode
+  :ensure t
+  :defer 300 ; I rarely use this
+  :mode ("\\.md\\'" . gfm-mode))
 
 (use-package mpc                        ; (built-in)
   :config
@@ -680,6 +655,13 @@
     (ad-deactivate 'abort-if-file-too-large)
     (ad-activate 'abort-if-file-too-large)))
 
+(use-package nov
+  :ensure t
+  :bind (:map nov-mode-map
+              ("u" . #'nov-goto-toc))
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+
 (use-package orderless
   :pin "gnu"
   :ensure t
@@ -690,18 +672,20 @@
 ;;   :config
 ;;   (powerline-default-theme))
 
-(use-package recentf
+(use-package recentf                    ; built-in
   :config
   (recentf-mode 1)
-  (setq recentf-max-saved-items 100
-        recentf-save-file "~/.emacs.d/cache/recentf"
-        recentf-exclude '("^/home/skangas/org/.*"
-                          "^/home/skangas/.emacs.bmk$"
-                          "^/Users/skangas/org/.*")))
+  :custom
+  (recentf-max-saved-items 200)
+  (recentf-save-file "~/.emacs.d/cache/recentf")
+  (recentf-exclude `(,(rx bos "/" (or "home" "Users") "/skangas/"
+                          (or (seq "org/" (* any))
+                              (seq ".emacs.bmk" eos))))))
 
 (use-package tramp                      ; built-in
   :config
-  ;; don't backup any remote lines
+  ;; don't backup any remote files:
+  ;; (info "(tramp) Auto-save File Lock and Backup")
   (add-to-list 'backup-directory-alist
                (cons tramp-file-name-regexp nil)))
 
@@ -731,6 +715,9 @@
   :config
   (setq winner-dont-bind-my-keys t)    ; default bindings conflict with org-mode
   (winner-mode 1))
+
+(use-package xml-rpc
+  :ensure t)
 
 (use-package winum
   ;; Replaces window-numbering.el

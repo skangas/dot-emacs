@@ -99,5 +99,3 @@
         (point)))))
 
 (provide 'init-w3m)
-
-;; init-w3m.el ends here

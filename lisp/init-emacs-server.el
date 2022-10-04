@@ -30,5 +30,3 @@
             (local-set-key (kbd "C-x k") 'server-edit)))
 
 (provide 'init-emacs-server)
-
-;; init-emacs-server.el ends here

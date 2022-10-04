@@ -58,5 +58,3 @@
 ;; (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
 
 (provide 'init-desktop)
-
-;; init-desktop.el ends here

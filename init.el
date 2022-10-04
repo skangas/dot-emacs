@@ -63,13 +63,13 @@
 (unless (eq system-type 'darwin)
   (require 'init-mail))
 (require 'init-org-mode)
+
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)
+;; (require 'init-ido)
 ;; (require 'init-mu4e)
 ;; (require 'init-rcirc)
 ;; (require 'init-w3m)
-
-;;(require 'init-mail)
 
 ;; Coding
 (require 'init-coding-c)
@@ -110,5 +110,4 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 (put 'list-timers 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+(put 'help-fns-edit-variable 'disabled nil)

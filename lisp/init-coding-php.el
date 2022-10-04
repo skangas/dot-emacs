@@ -17,5 +17,3 @@
   (add-hook 'php-mode-hook 'my-php-mode-customizations))
 
 (provide 'init-coding-php)
-
-;; init-coding-php.el ends here

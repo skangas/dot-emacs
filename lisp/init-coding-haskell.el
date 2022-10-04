@@ -106,5 +106,3 @@ This will run newline-and-indent, and then indent once more."
 
 
 (provide 'init-coding-haskell)
-
-;; init-coding-haskell.el ends here

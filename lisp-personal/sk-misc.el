@@ -1,6 +1,6 @@
 ;;; sk-misc.el --- random functions
 
-;; Copyright (C) 2010-2020 Stefan Kangas
+;; Copyright (C) 2010-2022 Stefan Kangas <stefankangas@gmail.com>
 
 ;; Author: Stefan Kangas
 ;; Keywords: utilities
@@ -181,6 +181,160 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
       (when words
         (princ " 'words"))
       (princ ")"))))
+
+(defun sk/insert-nongnu-elpa-button ()
+  (interactive)
+  (let* ((pkg-name (car (last (file-name-split (buffer-file-name)) 2)))
+         (url (format "https://elpa.nongnu.org/nongnu/%s.html" pkg-name))
+         (svg (format "https://elpa.nongnu.org/nongnu/%s.svg" pkg-name)))
+    (pcase (file-name-extension (buffer-file-name))
+      ("org" (insert (format "[[%s][%s]]" url svg)))
+      ("md" (insert (format "[![NonGNU ELPA](%s)](%s)" svg url))))))
+
+(defun sk/convert-to-defvar-keymap--make-key (key)
+  (save-match-data
+    (cond ((string-match (rx "(kbd \"" (group (+ (not ")"))) "\")") key)
+           (match-string 1 key))
+          (t
+           (key-description (read key))))))
+
+(defun sk/keymap-is-suppressed-p (variable-name)
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward
+           (rx "\n" (* space) "(suppress-keymap" (+ space)
+               (regexp variable-name)
+               (* space) ")" (* space) eol)
+           nil t)
+      (replace-match "")
+      t)))
+
+(defun sk/keymap-has-parent-p (variable-name)
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward
+           (rx "\n" (* space) "(set-keymap-parent" (+ space)
+               (regexp variable-name) (+ space)
+               (group lisp-mode-symbol)
+               (* space) ")" (* space) eol)
+           nil t)
+      (prog1 (match-string 1)
+        (replace-match "")))))
+
+(defun sk/define-keymap-re (variable-name)
+  (rx
+   ;; (define-key
+   "(" (* space) "define-key" symbol-end (+ space)
+   ;; map
+   (regexp variable-name) symbol-end (+ space)
+   ;; [1] key
+   (group (or
+           ;; "a"
+           (seq "\"" (+ (not "\"")) "\"")
+           ;; [header-line mouse-1]
+           (seq "[" (+ (not "]")) "]")
+           ;; (kbd "a")
+           (seq "(kbd " (+ (not ")")) ")")))
+   (+ space)
+   ;; [2] binding
+   (group (? (or "'" "#'")) lisp-mode-symbol)
+   ;; end of sexp
+   (* space) ")"
+   ;; [3] any junk, e.g. comments
+   (group (regexp ".*")) line-end))
+
+(defun convert-to-defvar-keymap┄☭ ()
+  (interactive)
+  (require 'paredit)
+  (let (orig varname)
+    (save-restriction
+      (save-excursion
+        (narrow-to-defun)
+        (goto-char (point-min))
+        (forward-char 1)
+        (forward-sexp 1)
+        ;; insert "-keymap"
+        (insert "-keymap")
+        (forward-char 1)
+        ;; copy old keymap
+        (save-excursion
+          (let ((op (point)))
+            (forward-sexp 2)
+            (setq orig (buffer-substring op (point)))))
+
+        ;; go to let
+        (unless (re-search-forward "(let ((\\([^ ]+\\) (make-\\(sparse-\\)?keymap)))" nil t)
+          (user-error "Unable to continue: no let found"))
+
+        (let* ((variable-name (match-string 1))
+               (is-full (not (string= (match-string 2) "sparse-")))
+               (is-suppressed (sk/keymap-is-suppressed-p variable-name))
+               (has-parent (sk/keymap-has-parent-p variable-name)))
+          ;; Delete let -- we no longer need it.
+          (paredit-splice-sexp-killing-backward)
+
+          (when is-full
+            (insert "  :full t\n"))
+          (when is-suppressed
+            (insert "  :suppress t\n"))
+          (when has-parent
+            (insert (format "  :parent %s\n" has-parent)))
+
+          (while (re-search-forward (sk/define-keymap-re variable-name) nil t)
+            (let ((key (match-string 1))
+                  (definition (match-string 2))
+                  (comment (match-string 3)))
+              (replace-match
+               (format "\"%s\" %s%s%s"
+                       (sk/convert-to-defvar-keymap--make-key key)
+                       ;; Maybe add "#"
+                       (if (string-match-p (rx bos (or "#" "'mouse-face" "nil"))
+                                           definition)
+                           ""
+                         "#")
+                       definition comment)
+               nil t)))
+
+
+          ;; handle docstring
+          (goto-char (point-max))
+          (forward-line -1)
+          (back-to-indentation)
+
+          (when (not (looking-at (rx (* space) (regexp variable-name))))
+            (paredit-kill)
+            (delete-indentation)
+            (goto-char (point-min))
+            (forward-line 1)
+            (open-line 1)
+            (insert (format "  :doc "))
+            (yank)
+            (cycle-spacing))
+
+          ;; Remove variable name
+          (progn
+            (goto-char (point-max))
+            (re-search-backward variable-name)
+            (replace-match "")
+            (delete-indentation))
+
+          ;; Align regexp
+          (progn
+            (align-regexp (point-min) (point-max) "\\(\\s-*\\)\\#'"))
+
+
+          (eval-defun nil)
+
+          ;; double check it is okay
+          (pop-to-buffer "*scratch")
+          (insert (format "(equal %s)\n\n" orig))
+          (eval-last-sexp 1)
+          (insert "\n\n")
+          )))))
+
+(defun flush-empty-lines☭ ()
+  (interactive)
+  (flush-lines "^$"))
 
 (provide 'sk-misc)
 ;; sk-misc.el ends here

@@ -1,7 +1,5 @@
 ;;; General coding
 
-(setq gdb-many-windows t)
-
 (setq compilation-scroll-output t)
 
 (use-package company
@@ -47,23 +45,15 @@
   (setq magit-diff-refine-hunk 'all)
   (setq magit-repository-directories '(("~/wip/emacs/" . 0))))
 
-(use-package markdown-mode
-  :ensure t
-  :defer 300 ; I rarely use this
-  :mode ("\\.md\\'" . gfm-mode))
-
 (use-package paredit
   :ensure t
   :config
-  (autoload 'paredit-mode "paredit"
-    "Minor mode for pseudo-structurally editing Lisp code." t)
-  (defun my-enable-paredit-mode ()
-    (paredit-mode +1))
-  (add-hook 'emacs-lisp-mode-hook       'my-enable-paredit-mode)
-  (add-hook 'lisp-data-mode-hook        'my-enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             'my-enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook 'my-enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           'my-enable-paredit-mode)
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  ;; (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-data-mode-hook        #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
   
   ;; make eldoc aware of paredit
   (eval-after-load 'eldoc
@@ -230,5 +220,3 @@ compiler-command."
                 " " file)))))
 
 (provide 'init-coding-common)
-
-;; init-coding.el ends here

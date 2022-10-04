@@ -5,5 +5,3 @@
   (my-coding-keys lisp-mode-base-map))
 
 (provide 'init-coding-common-lisp)
-
-;; init-coding-common-lisp.el ends here
