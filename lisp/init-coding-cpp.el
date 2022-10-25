@@ -4,9 +4,9 @@
   (my-coding-keys c++-mode-map)
 
   (setq c-default-style "gnu"
-        c-basic-offset 2
-        tab-width 2
-        indent-tabs-mode nil
+        c-basic-offset 8
+        tab-width 8
+        indent-tabs-mode t
         backward-delete-function nil  ; do NOT expand tabs when deleting them
         c-toggle-auto-state 0         ; Do *not* start newline on certain characters
         c-toggle-hungry-state 1)      ; Do *not * delete to next non-whitespace
