@@ -25,10 +25,10 @@ This will run newline-and-indent, and then indent once more."
 
 
   (defun flymake-Haskell-init ()
-  (flymake-simple-make-init-impl
-   'flymake-create-temp-with-folder-structure nil nil
-   (file-name-nondirectory buffer-file-name)
-   'flymake-get-Haskell-cmdline))
+    (flymake-simple-make-init-impl
+     'flymake-create-temp-with-folder-structure nil nil
+     (file-name-nondirectory buffer-file-name)
+     'flymake-get-Haskell-cmdline))
 
   (defun flymake-get-Haskell-cmdline (source base-dir)
     (list "ghc"
@@ -100,9 +100,8 @@ This will run newline-and-indent, and then indent once more."
    'haskell-mode-hook
    '(lambda ()
       (define-key haskell-mode-map "\C-cd"
-        'credmp/flymake-display-err-minibuf)))
-  
-  (add-hook 'haskell-mode-hook 'haskell-simple-indent-mode))
+                  'credmp/flymake-display-err-minibuf)))
+  )
 
 
 (provide 'init-coding-haskell)
