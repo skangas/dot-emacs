@@ -263,16 +263,19 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
             (setq orig (buffer-substring op (point)))))
 
         ;; go to let
-        (unless (re-search-forward "(let ((\\([^ ]+\\) (make-\\(sparse-\\)?keymap)))" nil t)
+        (unless (re-search-forward "(let ((\\([^ ]+\\) (make-\\(sparse-\\)?keymap\\(?: \\(\"[^\"]+\"\\)\\)?)))" nil t)
           (user-error "Unable to continue: no let found"))
 
         (let* ((variable-name (match-string 1))
                (is-full (not (string= (match-string 2) "sparse-")))
+               (is-named (match-string 3))
                (is-suppressed (sk/keymap-is-suppressed-p variable-name))
                (has-parent (sk/keymap-has-parent-p variable-name)))
           ;; Delete let -- we no longer need it.
           (paredit-splice-sexp-killing-backward)
 
+          (when is-named
+            (insert (format "  :name %s\n" is-named)))
           (when is-full
             (insert "  :full t\n"))
           (when is-suppressed
