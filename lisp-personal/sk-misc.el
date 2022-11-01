@@ -196,7 +196,8 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
     (cond ((string-match (rx "(kbd \"" (group (+ (not ")"))) "\")") key)
            (match-string 1 key))
           (t
-           (key-description (read key))))))
+           (replace-regexp-in-string (rx "\\" eos) "\\\\\\\\"
+                                     (key-description (read key)))))))
 
 (defun sk/keymap-is-suppressed-p (variable-name)
   (save-excursion
@@ -228,13 +229,16 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
    ;; map
    (regexp variable-name) symbol-end (+ space)
    ;; [1] key
-   (group (or
-           ;; "a"
-           (seq "\"" (+ (not "\"")) "\"")
-           ;; [header-line mouse-1]
-           (seq "[" (+ (not "]")) "]")
-           ;; (kbd "a")
-           (seq "(kbd " (+ (not ")")) ")")))
+   (group
+    (or
+     ;; "a"
+     (seq "\"" (+ (not "\"")) "\"")
+     ;; [header-line mouse-1]
+     (seq "[" (+ (not "]")) "]")
+     ;; (kbd "a")
+     (seq "(kbd " (+ (not ")")) ")"))
+    ;; (+ any)
+    )
    (+ space)
    ;; [2] binding
    (group (? (or "'" "#'")) lisp-mode-symbol)
@@ -301,9 +305,10 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
 
           ;; handle docstring
           (goto-char (point-max))
-          (forward-line -1)
-          (back-to-indentation)
+          (backward-char 2)
+          (paredit-backward 1)
 
+          ;; move documentation
           (when (not (looking-at (rx (* space) (regexp variable-name))))
             (paredit-kill)
             (delete-indentation)
@@ -319,16 +324,19 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
             (goto-char (point-max))
             (re-search-backward variable-name)
             (replace-match "")
-            (delete-indentation))
+            (unless (save-excursion (forward-line -1)
+                                    (back-to-indentation)
+                                    (looking-at ";"))
+              (delete-indentation)))
 
           ;; Align regexp
           (progn
             (align-regexp (point-min) (point-max) "\\(\\s-*\\)\\#'"))
 
+          (delete-trailing-whitespace)
 
+          ;; check that the conversion is okay
           (eval-defun nil)
-
-          ;; double check it is okay
           (pop-to-buffer "*scratch")
           (insert (format "(equal %s)\n\n" orig))
           (eval-last-sexp 1)
