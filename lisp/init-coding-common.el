@@ -12,11 +12,44 @@
   (define-key map (kbd "RET") #'newline-and-indent)
   (define-key map (kbd "M-?") #'indent-region))
 
+(add-hook 'lisp-mode-hook 'my-lisp-mode-customizations t)
+(defun my-lisp-mode-customizations ()
+  (my-coding-keys lisp-mode-base-map))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Compilation.
+
+(use-package compile
+  :custom
+  (compile-command (format "make -k -j%s " (num-processors))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Codespell < 2.2.2 bug workaround.
+
+(defun sk/compile-adjust-line-for-codespell-bug (&rest _args)
+  (when (with-current-buffer compilation-last-buffer
+          (and (eq major-mode 'compilation-mode)
+               (save-excursion (goto-char (point-min))
+                               (re-search-forward "^./codespell.sh" nil t))))
+    (let ((line-offset 0))
+      (save-restriction
+        (narrow-to-region (point-min) (point))
+        (save-excursion
+          (goto-char (point-min))
+          (while (re-search-forward (rx bol "\^L") nil t)
+            (cl-incf line-offset))))
+      (when (> line-offset 0)
+        (forward-line (- line-offset))))))
+
+(advice-add 'next-error :after 'sk/compile-adjust-line-for-codespell-bug)
+;;(advice-add 'previous-error :after 'sk/compile-adjust-line-for-codespell-bug)
+(advice-add 'compile-goto-error :after 'sk/compile-adjust-line-for-codespell-bug)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Compile command.
-
-(setq compile-command (format "make -k -j%s " (num-processors)))
 
 ;; this function is used to set up compile command in both c and c++ conf
 (defun my-compile-runs-makefile-or-compiler (create-compiler-command)
@@ -46,13 +79,14 @@ compiler-command."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Pretty λ-symbol.
+
 (defun my/pretty-lambda ()
-  (setq prettify-symbols-alist '(("lambda" . ?λ))))
+  (setq prettify-symbols-alist '(("lambda" . ?λ)))
+  (prettify-symbols-mode 1))
 (add-hook 'emacs-lisp-mode-hook #'my/pretty-lambda)
 (add-hook 'ielm-mode-hook #'my/pretty-lambda)
 (add-hook 'lisp-interaction-mode-hook #'my/pretty-lambda)
 (add-hook 'scheme-mode-hook #'my/pretty-lambda)
-(global-prettify-symbols-mode 1)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -67,22 +101,24 @@ compiler-command."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Packages.
 
+(use-package aggressive-indent
+  :hook (emacs-lisp-mode-hook . aggressive-indent-mode))
+
 (use-package company
-  :ensure t
   :pin "gnu"
+  :defer 5
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  (global-company-mode 1))
 
 (use-package debbugs
-  :ensure t
   :pin "gnu"
+  :commands (debbugs-gnu)
   :config
-  (setq debbugs-gnu-emacs-current-release "27.1")
-  (setq debbugs-gnu-branch-directory "~/wip/emacs26")
-  (setq debbugs-gnu-trunk-directory "~/wip/emacs")
+  (debbugs-gnu-branch-directory "~/wip/emacs-release")
+  (debbugs-gnu-trunk-directory "~/wip/emacs")
+  :config
   ;; workaround to send control messages...
-  (autoload 'sendmail-send-it "sendmail" nil t)
-  )
+  (autoload 'sendmail-send-it "sendmail" nil t))
 
 (use-package diff-mode                  ; (built-in)
   :bind (("C-j" . 'diff-goto-source)))
@@ -95,45 +131,171 @@ compiler-command."
 ;;   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
 
 (use-package elide-head
-  :config
-  (add-hook 'prog-mode-hook 'elide-head))
+  :hook (prog-mode . elide-head))
+
+(use-package el-search
+  :defer t)
 
 (use-package flymake
+  :hook (emacs-lisp-mode . flymake-mode)
+  :bind ( :map flymake-mode
+          ("M-n" . flymake-goto-next-error)
+          ("M-p" . flymake-goto-prev-error)))
+
+(use-package haskell-mode
+  :ensure t
+  :mode "\\.hs\\'"
+  :commands haskell-mode
   :config
-  (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-  (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error))
+  (require 'haskell-interactive-mode)
+  (defun my-haskell-newline-and-indent ()
+    (interactive)
+    "The default behavior of 'newline-and-indent in haskell-mode is annoying.
+This will run newline-and-indent, and then indent once more."
+    (newline-and-indent)
+    (indent-for-tab-command)
+    (indent-for-tab-command))
+  (defun my-haskell-customizations ()
+    "haskell-mode customizations that must be done after haskell-mode loads"
+    (defvar multiline-flymake-mode nil)
+    (defvar flymake-split-output-multiline nil)
+    (define-key haskell-mode-map (kbd "RET") 'my-haskell-newline-and-indent)
+    (flymake-mode))
+  (add-hook 'haskell-mode-hook 'my-haskell-customizations t)
+  (require 'haskell-process)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
+
+  (defun flymake-Haskell-init ()
+    (flymake-simple-make-init-impl
+     'flymake-create-temp-with-folder-structure nil nil
+     (file-name-nondirectory buffer-file-name)
+     'flymake-get-Haskell-cmdline))
+
+  (defun flymake-get-Haskell-cmdline (source base-dir)
+    (list "ghc"
+          (list "--make" "-fbyte-code"
+                (concat "-i"base-dir)  ;;; can be expanded for additional -i options as in the Perl script
+                source)))
+
+  ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+  ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-ghci)
+  ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+  ;; (add-hook 'haskell-mode-hook 'haskell-refac-mode)
+  ;; (add-hook 'haskell-mode-hook 'hs-lint-mode-hook)
+
+  ;; show error below
+  (when (fboundp 'resize-minibuffer-mode) ; for old emacs
+    (resize-minibuffer-mode)
+    (setq resize-minibuffer-window-exactly nil))
+
+
+  ;; TODO what does this do?
+  (defvar multiline-flymake-mode nil)
+  (defvar flymake-split-output-multiline nil)
+
+  ;; this needs to be advised as flymake-split-string is used in other places and
+  ;; I don't know of a better way to get at the caller's details
+  (defadvice flymake-split-output
+      (around flymake-split-output-multiline activate protect)
+    (if multiline-flymake-mode
+        (let ((flymake-split-output-multiline t))
+          ad-do-it)
+      ad-do-it))
+
+  (defadvice flymake-split-string
+      (before flymake-split-string-multiline activate)
+    (when flymake-split-output-multiline
+      (ad-set-arg 1 "^\\s *$")))
+
+  (add-hook
+   'haskell-mode-hook
+   '(lambda ()
+        ;;; use add-to-list rather than push to avoid growing the list for every Haskell file loaded
+      (add-to-list 'flymake-allowed-file-name-masks
+                   '("\\.l?hs$" flymake-Haskell-init flymake-simple-java-cleanup))
+      (add-to-list 'flymake-err-line-patterns
+                   '("^\\(.+\\.l?hs\\):\\([0-9]+\\):\\([0-9]+\\):\\(\\(?:.\\|\\W\\)+\\)"
+                     1 2 3 4))
+      (set (make-local-variable 'multiline-flymake-mode) t)))
+
+  (defun credmp/flymake-display-err-minibuf ()
+    "Displays the error/warning for the current line in the minibuffer"
+    (interactive)
+    (let* ((line-no             (flymake-current-line-no))
+           (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
+           (count               (length line-err-info-list))
+           )
+      (while (> count 0)
+        (when line-err-info-list
+          (let* ((file       (flymake-ler-file (nth (1- count) line-err-info-list)))
+                 (full-file  (flymake-ler-full-file (nth (1- count) line-err-info-list)))
+                 (text (flymake-ler-text (nth (1- count) line-err-info-list)))
+                 (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
+            (message "[%s] %s" line text)
+            )
+          )
+        (setq count (1- count)))))
+
+  ;; bind the above function to C-c d
+  (add-hook
+   'haskell-mode-hook
+   '(lambda ()
+      (define-key haskell-mode-map "\C-cd"
+                  'credmp/flymake-display-err-minibuf))))
+
+(use-package macrostep
+  :defer t)
 
 (use-package magit
-  :ensure t
   :bind (("C-c g" . magit-dispatch))
-  :config
-  (setq magit-diff-refine-hunk 'all)
-  (setq magit-repository-directories '(("~/wip/emacs/" . 0))))
+  :custom
+  (magit-diff-refine-hunk 'all)
+  (magit-repository-directories '(("~/wip/emacs/" . 0))))
+
+(use-package nameless
+  :diminish
+  :hook (emacs-lisp-mode . nameless-mode))
+
+(use-package package-lint
+  :commands (package-lint-current-buffer))
 
 (use-package paredit
-  :ensure t
+  :hook (( emacs-lisp-mode ielm-mode
+           lisp-data-mode lisp-mode lisp-interaction-mode
+           scheme-mode)
+         . enable-paredit-mode)
   :config
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  ;; (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-data-mode-hook        #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-  
   ;; make eldoc aware of paredit
-  (eval-after-load 'eldoc
-    '(progn (eldoc-add-command
-             'paredit-backward-delete
-             'paredit-close-round))))
+  (with-eval-after-load 'eldoc
+    (eldoc-add-command 'paredit-backward-delete 'paredit-close-round)))
+
+(use-package php-mode
+  :ensure t
+  :mode ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'")
+  :config
+  (defun my-php-mode-customizations ()
+    (set (make-local-variable 'compile-command)
+         (let ((file (file-name-nondirectory buffer-file-name)))
+           (concat "php -l " file)))
+
+    (setq c-basic-offset 4
+          tab-width 4
+          indent-tabs-mode nil          ; No tabs - only spaces
+          backward-delete-function nil  ; do NOT expand tabs when deleting them
+          ))
+  (add-hook 'php-mode-hook 'my-php-mode-customizations))
 
 (use-package projectile
+  :defer 5
   :ensure t
   :pin "melpa"
-  :diminish projectile-mode
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-enable-caching t
-        projectile-globally-ignored-file-suffixes '(".elc")))
+  :diminish
+  :bind ( :map projectile-mode
+          ("C-c p" . projectile-command-map))
+  :custom
+  (projectile-enable-caching t)
+  (projectile-globally-ignored-file-suffixes '(".elc")))
 
 (use-package smerge-mode
   :after hydra
@@ -195,11 +357,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :interpreter ("node" . web-mode)
   :ensure t)
 
-(use-package ws-butler ; Automatically trim whitespace on save.
+(use-package ws-butler
   :ensure t
-  :config
-  (setq ws-butler-convert-leading-tabs-or-spaces t)
-  (add-hook 'prog-mode-hook #'ws-butler-mode))
+  :hook (prog-mode-hook . ws-butler-mode)
+  :custom
+  (ws-butler-convert-leading-tabs-or-spaces t))
+
+(use-package xr
+  :defer t)
 
 (use-package yasnippet
   :ensure t

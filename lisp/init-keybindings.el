@@ -16,7 +16,7 @@
 
 
 
-;; Unsent some useless keybindings
+;; Unset some useless keybindings
 (global-unset-key (kbd "C-x C-z")) ; suspend-frame
 
 

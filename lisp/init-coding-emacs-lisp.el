@@ -3,32 +3,6 @@
 ;; (require 'eval-expr)
 ;; (eval-expr-install)
 
-(use-package aggressive-indent
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
-
-(use-package el-search
-  :ensure t)
-
-(use-package nameless
-  :ensure t
-  :diminish nameless-mode
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'nameless-mode))
-
-(use-package macrostep
-  :ensure t)
-
-(use-package package-lint
-  :ensure t)
-
-(use-package suggest
-  :ensure t)
-
-(use-package xr
-  :ensure t)
-
 (defun sk/emacs-lisp-data-mode-hook ()
   (add-hook 'local-write-file-hooks #'check-parens))
 (add-hook 'lisp-data-mode-hook #'sk/emacs-lisp-data-mode-hook)
