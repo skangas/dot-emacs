@@ -113,7 +113,7 @@ compiler-command."
 (use-package debbugs
   :pin "gnu"
   :commands (debbugs-gnu)
-  :config
+  :custom
   (debbugs-gnu-branch-directory "~/wip/emacs-release")
   (debbugs-gnu-trunk-directory "~/wip/emacs")
   :config

@@ -230,6 +230,7 @@
 ;;;; packages
 
 (use-package abbrev
+  :ensure nil
   :config
   (setq save-abbrevs t
         abbrev-file-name "~/org/.abbrev_defs")
@@ -252,9 +253,10 @@
          ("M-g f" . avy-goto-line)))
 
 (use-package ag
-  :ensure t)
+  :defer t)
 
 (use-package async
+  :defer 5
   :ensure t
   :config
   (dired-async-mode 1))
@@ -274,25 +276,19 @@
 ;;   (auto-dim-other-buffers-mode t))
 
 (use-package boxquote
-  :ensure t)
+  :defer t)
 
 (use-package centered-window
   :pin "melpa"
-  :ensure t)
+  :defer t)
 
 (use-package dash
   :ensure t
   :defer t)
 
-;; (use-package dashboard
-;;   :ensure t
-;;   :config
-;;   (dashboard-setup-startup-hook))
-
 (use-package diff-hl
   :ensure t
-  :config
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
+  :hook (dired-mode-hook . diff-hl-dired-mode))
 
 (use-package diminish
   :ensure t
@@ -319,6 +315,7 @@
     (diminish 'ruby-test-mode "RT")))
 
 (use-package dired                      ; (built-in)
+  :ensure nil
   :bind (:map dired-mode-map
               ("." . dired-hide-dotfiles-mode)
               ("," . dired-hide-details-mode)
@@ -360,13 +357,13 @@
                     "mpv * &"
                   "feh -F -Z -r -z * &") ))
       (message cmd)
-      (dired-do-shell-command cmd nil (list file))))
+      (dired-do-shell-command cmd nil (list file)))))
 
-  (require 'dired-x)
+(use-package dired-aux
+  :ensure nil
+  :config
   (push `(,sk/video-types "mpv")
         dired-guess-shell-alist-default)
-
-  (require 'dired-aux)
   (setq dired-create-destination-dirs 'ask))
 
 (use-package engine-mode
@@ -378,6 +375,7 @@
     :keybinding "d"))
 
 (use-package epa-file
+  :ensure nil
   :config
   ;;(setq epa-armor t)
   ;; Disable gpg agent when runing in terminal
@@ -390,14 +388,18 @@
         (setenv "GPG_AGENT_INFO" agent)))))
 
 (use-package erc ; built-in
-  :config
-  (add-hook 'erc-mode-hook #'abbrev-mode))
+  :ensure nil
+  :hook (erc-mode-hook . abbrev-mode))
 
 (use-package eshell ; built-in
-  :config
-  (setq eshell-visual-subcommands '(("git" "log" "diff" "show" "tag"))))
+  :ensure nil
+  :defer t
+  :custom
+  (eshell-visual-subcommands '(("git" "log" "diff" "show" "tag"))))
 
 (use-package eww                        ; built-in
+  :defer t
+  :ensure nil
   :config
   (setq shr-width 80)
   (defun sk/my-eww-mode-hook ()
@@ -429,17 +431,15 @@
       (recenter 0)))
   (add-hook 'eww-after-render-hook #'sk/eww-move-point-in-place))
 
-(use-package flyspell :ensure nil
+(use-package flyspell
+  :ensure nil
+  :hook ((prog-mode text-mode) . flyspell-mode)
   :config
   (setq flyspell-issue-welcome-flag nil)
   ;; Non-nil means that flyspell uses M-TAB to correct word.
   (setq flyspell-use-meta-tab nil)
   ;; If non-nil, add correction to abbreviation table.
-  (setq flyspell-abbrev-p t)
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  ;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  )
+  (setq flyspell-abbrev-p t))
 
 (use-package embark  ; put after flyspell
   :ensure t
@@ -461,6 +461,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package grep                       ; built-in
+  :ensure nil
   :config
   (defun sk/compilation-finish-flush-lines (buf _)
     "Flush irrelevant lines in grep buffers."
@@ -496,6 +497,8 @@
 ;;   (setq guess-language-languages '(en sv)))
 
 (use-package ibuffer
+  :ensure nil
+  :defer t
   :config
   (setq ibuffer-saved-filter-groups
         '(("default"
@@ -559,9 +562,11 @@
   (setq ibuffer-expert t))
 
 (use-package iedit
-  :ensure t)
+  :defer t)
 
 (use-package image-dired                ; (built-in)
+  :ensure nil
+  :defer t
   :config
   (setq image-dired-dir "~/.emacs.d/cache/image-dired/")
   (setq image-dired-thumb-width  150
@@ -573,16 +578,18 @@
     (image-dired default-directory)))
 
 (use-package image-mode                 ; (built-in)
-  :no-require t
+  :ensure nil
+  :defer t
   :bind (:map image-mode-map
               ("SPC" . #'image-next-file)
               ("V" . #'sk/image-mode-toggle-resized)))
 
 (use-package ioccur
   :pin "gnu"
-  :ensure t)
+  :defer t)
 
 (use-package ispell
+  :ensure nil
   :config
   ;; FIXME: temporary workaround
   (when (eq system-type 'gnu/linux)
@@ -600,12 +607,15 @@
   (setq flyspell-use-global-abbrev-table-p t))
 
 (use-package marginalia
+  :defer 3
   :pin "gnu"
   :ensure t
-  :init
+  :config
   (marginalia-mode 1))
 
 (use-package midnight                   ; (built-in)
+  :defer 30
+  :ensure nil
   :init
   (midnight-mode 1)
   (setq clean-buffer-list-delay-general 7) ; default is 3 days
@@ -614,19 +624,13 @@
     (add-to-list 'midnight-hook 'native-compile-prune-cache)))
 
 (use-package markdown-mode
-  :ensure t
-  :defer 300 ; I rarely use this
   :mode ("\\.md\\'" . gfm-mode))
 
-(use-package mpc                        ; (built-in)
-  :config
-  (setq mpc-mpd-music-directory "~/music"))
-
 (use-package multiple-cursors
-  :ensure t)
+  :defer t)
 
 (use-package openwith                   ; open files using external helpers
-  :ensure t
+  :defer 10
   :pin "melpa"
   :config
   (openwith-mode t)
@@ -656,13 +660,12 @@
     (ad-activate 'abort-if-file-too-large)))
 
 (use-package nov
-  :ensure t
+  :mode ("\\.epub\\'" . nov-mode)
   :bind (:map nov-mode-map
-              ("u" . #'nov-goto-toc))
-  :config
-  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+              ("u" . #'nov-goto-toc)))
 
 (use-package orderless
+  :defer 10
   :pin "gnu"
   :ensure t
   :custom (completion-styles '(orderless basic)))
@@ -673,6 +676,7 @@
 ;;   (powerline-default-theme))
 
 (use-package recentf                    ; built-in
+  :ensure nil
   :config
   (recentf-mode 1)
   :custom
@@ -683,6 +687,8 @@
                               (seq ".emacs.bmk" eos))))))
 
 (use-package tramp                      ; built-in
+  :ensure nil
+  :defer t
   :config
   ;; don't backup any remote files:
   ;; (info "(tramp) Auto-save File Lock and Backup")
@@ -690,11 +696,11 @@
                (cons tramp-file-name-regexp nil)))
 
 (use-package undo-tree
-  :pin "gnu"
-  :ensure t)
+  :defer t
+  :pin "gnu")
 
 (use-package visual-fill-column
-  :ensure t)
+  :defer t)
 
 (use-package wgrep
   :ensure t)
@@ -710,6 +716,7 @@
     "C-c r t" "Go to test/search"))
 
 (use-package winner                     ; (built-in)
+  :ensure nil
   :bind (("<C-s-left>" . winner-undo)
          ("<C-s-right>" . winner-redo))
   :config
@@ -717,7 +724,7 @@
   (winner-mode 1))
 
 (use-package xml-rpc
-  :ensure t)
+  :defer t)
 
 (use-package winum
   ;; Replaces window-numbering.el

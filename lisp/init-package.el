@@ -28,15 +28,19 @@
 ;;; use-package
 
 ;; Bootstrap use-package
-(dolist (package '(use-package))
-  (unless (package-installed-p package)
-    (package-refresh-contents)
-    (package-install 'use-package)))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; Configure use-package
-;;(eval-when-compile
-;;  (require 'use-package))
-;; (setq use-package-always-pin "melpa")
+(setq use-package-always-ensure t)
+
+(if init-file-debug
+    (setq use-package-verbose t
+          use-package-expand-minimally nil
+          use-package-compute-statistics t
+          debug-on-error t)
+  (setq use-package-verbose nil
+        use-package-expand-minimally t))
 
 ;; For use-package :diminish
 (use-package diminish
