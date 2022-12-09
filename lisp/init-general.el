@@ -579,6 +579,30 @@
   (setq ibuffer-show-empty-filter-groups nil)
   (setq ibuffer-expert t))
 
+(use-package ido
+  :ensure nil                           ; built-in
+  :defer t
+  :config
+  (ido-everywhere 1)
+  ;; http://whattheemacsd.com/setup-ido.el-02.html
+  (defun my-ido-go-straight-home ()
+    ;; Go straight home
+    (define-key ido-file-completion-map
+                (kbd "~")
+                (lambda ()
+                  (interactive)
+                  (if (looking-back "/")
+                      (insert "~/")
+                    (call-interactively 'self-insert-command)))))
+  (add-hook 'ido-setup-hook 'my-ido-go-straight-home))
+
+(use-package ido-completing-read+
+  :disabled t                           ; It is slow and sometimes broken.
+  :ensure t
+  :config
+  (ido-ubiquitous-mode 1)
+  (setq ido-cr+-auto-update-blacklist t))
+
 (use-package iedit
   :defer t)
 

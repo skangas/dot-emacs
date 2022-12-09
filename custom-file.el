@@ -125,6 +125,13 @@
  '(ibuffer-filter-group-name-face 'modus-theme-mark-symbol)
  '(ibuffer-marked-face 'modus-theme-mark-sel)
  '(ibuffer-title-face 'modus-theme-pseudo-header)
+ '(ido-case-fold t)
+ '(ido-decorations
+   '("\12-> " "" "\12   " "\12   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
+ '(ido-default-buffer-method 'selected-window)
+ '(ido-default-file-method 'selected-window)
+ '(ido-enable-flex-matching t)
+ '(ido-save-directory-list-file "~/.emacs.d/cache/ido.last")
  '(ignored-local-variable-values '((image-dired-thumbnail-storage . per-directory)))
  '(image-animate-loop t)
  '(image-auto-resize 'fit-window)

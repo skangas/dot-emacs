@@ -66,7 +66,6 @@
 
 ;; (require 'init-bbdb)
 ;; (require 'init-emms)
-;; (require 'init-ido)
 ;; (require 'init-mu4e)
 ;; (require 'init-rcirc)
 ;; (require 'init-w3m)
