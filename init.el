@@ -90,9 +90,6 @@
 (require 'sk-idom-article-length)
 (require 'sk-misc)
 
-(autoload 'insert-x-resources "pjb-xresources"
-  "Insert current theme as XResources in current buffer" t)
-
 ;; Don't clutter .emacs with M-x customize stuff
 (setq custom-file "~/.emacs.d/custom-file.el")
 (load custom-file 'noerror)

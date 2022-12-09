@@ -9,8 +9,13 @@
 
   (use-package exec-path-from-shell
     :ensure t
-    :config
+    :init
     (exec-path-from-shell-initialize))
+
+  (use-package ns-auto-titlebar
+    :ensure t
+    :init
+    (ns-auto-titlebar-mode))
 
   ;; Workaround for broken visual bell on OSX El Capitain
   (setq visible-bell nil)

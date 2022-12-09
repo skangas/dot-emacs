@@ -71,4 +71,7 @@
 ;;   ;; (add-hook 'auto-compile-inhibit-compile-hook 'my-inhibit-byte-compile)
 ;;   )
 
+(autoload 'insert-x-resources "pjb-xresources"
+  "Insert current theme as XResources in current buffer" t)
+
 (provide 'init-package)
