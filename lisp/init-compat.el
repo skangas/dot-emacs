@@ -1,4 +1,6 @@
-;;;; init-compat.el
+;;;; init-compat.el --- Compatibility code.
+;;; Commentary:
+;;; Code:
 
 
 ;;; Emacs 29 master branch
@@ -110,3 +112,5 @@ Enable `recentf-mode' if it isn't already."
 (defalias 'toolbar-mode 'tool-bar-mode)
 
 (provide 'init-compat)
+
+;;; init-compat.el ends here
