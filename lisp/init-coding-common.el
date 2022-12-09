@@ -1,3 +1,7 @@
+;;; init-coding-common.el --- Config for programming
+;;; Commentary:
+;;; Code:
+
 ;;; General coding.
 
 ;; Disabled for now.
@@ -7,8 +11,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Shared bindings
 (defun my-coding-keys (map)
-  "Sets the key bindings which shall be available in all programming
-  languages. Argument MAP is the local keymap (e.g. cperl-mode-map)."
+  "Set key bindings for all programming languages. 
+Argument MAP is the local keymap (e.g. `cperl-mode-map')."
   (define-key map (kbd "RET") #'newline-and-indent)
   (define-key map (kbd "M-?") #'indent-region))
 
@@ -53,9 +57,9 @@
 
 ;; this function is used to set up compile command in both c and c++ conf
 (defun my-compile-runs-makefile-or-compiler (create-compiler-command)
-  "Configure compile command to run Makefile if it exists, or
-otherwise use the compiler command given by passed in
-compiler-command."
+  "Configure compile command to run Makefile if it exists.
+Otherwise use the compiler command given by passed in
+CREATE-COMPILER-COMMAND."
   (unless (file-exists-p "Makefile")
     (set (make-local-variable 'compile-command)
          (when (buffer-file-name)
@@ -125,7 +129,11 @@ compiler-command."
 ;;   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
 
 (use-package elide-head
-  :hook (prog-mode . elide-head))
+  :ensure nil                           ; built-in
+  :preface
+  (when (< emacs-major-version 29)
+    (defalias 'elide-head 'elide-head-mode))
+  :hook (prog-mode . elide-head-mode))
 
 (use-package el-search
   :defer t)
@@ -143,9 +151,9 @@ compiler-command."
   :config
   (require 'haskell-interactive-mode)
   (defun my-haskell-newline-and-indent ()
-    (interactive)
-    "The default behavior of 'newline-and-indent in haskell-mode is annoying.
+    "The default behavior of `newline-and-indent in haskell-mode is annoying.
 This will run newline-and-indent, and then indent once more."
+    (interactive)
     (newline-and-indent)
     (indent-for-tab-command)
     (indent-for-tab-command))
@@ -204,7 +212,7 @@ This will run newline-and-indent, and then indent once more."
 
   (add-hook
    'haskell-mode-hook
-   '(lambda ()
+   (lambda ()
         ;;; use add-to-list rather than push to avoid growing the list for every Haskell file loaded
       (add-to-list 'flymake-allowed-file-name-masks
                    '("\\.l?hs$" flymake-Haskell-init flymake-simple-java-cleanup))
@@ -234,7 +242,7 @@ This will run newline-and-indent, and then indent once more."
   ;; bind the above function to C-c d
   (add-hook
    'haskell-mode-hook
-   '(lambda ()
+   (lambda ()
       (define-key haskell-mode-map "\C-cd"
                   'credmp/flymake-display-err-minibuf))))
 
@@ -366,3 +374,5 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :mode (("\\.ya?ml\\'" . yaml-mode)))
 
 (provide 'init-coding-common)
+
+;;; init-coding-common.el ends here

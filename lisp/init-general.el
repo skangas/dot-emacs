@@ -1,3 +1,7 @@
+;;; init-general.el --- general customizations
+;;; Commentary:
+;;; Code:
+
 ;;; General settings
 (require 'ansi-color)
 
@@ -101,17 +105,6 @@
         (holiday-fixed 1 31 "Nyårsafton")))
 (setq calendar-holidays holiday-swedish-holidays)
 
-(setq world-clock-list
-      '(("America/Los_Angeles" "Seattle")
-        ("America/Chicago" "Chicago")
-        ("America/New_York" "New York")
-        ("Europe/London" "London")
-        ("Europe/Stockholm" "Stockholm")
-        ("Europe/Rome" "Rome")
-        ("Asia/Karachi" "Karachi")
-        ("Asia/Shanghai" "Shanghai")
-        ("Australia/Sydney" "Sydney")))
-
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
 
@@ -142,7 +135,7 @@
 (setq my/set-cursor-color-color "")
 (setq my/set-cursor-color-buffer "")
 (defun my/set-cursor-color-according-to-mode ()
-  "change cursor color according to some minor modes."
+  "Change cursor color according to some minor modes."
   ;; set-cursor-color is somewhat costly, so we only call it when needed:
   (let ((color
          (if buffer-read-only "#8888FF"
@@ -278,7 +271,7 @@
 (use-package counsel
   :ensure t
   :pin "gnu"
-  :bind 
+  :bind
   (nil
    ("M-x" . counsel-M-x)
    ("C-x C-f" . counsel-find-file)
@@ -701,9 +694,9 @@
 ;;   :config
 ;;   (powerline-default-theme))
 
-(use-package recentf                    ; built-in
+(use-package recentf
   :defer 10
-  :ensure nil
+  :ensure nil                           ; built-in
   :config
   (recentf-mode 1)
   :custom
@@ -713,8 +706,22 @@
                           (or (seq "org/" (* any))
                               (seq ".emacs.bmk" eos))))))
 
-(use-package tramp                      ; built-in
-  :ensure nil
+(use-package time
+  :ensure nil                           ; built-in
+  :defer t
+  :custom
+  (world-clock-list (("America/Los_Angeles" "Seattle")
+                     ("America/Chicago" "Chicago")
+                     ("America/New_York" "New York")
+                     ("Europe/London" "London")
+                     ("Europe/Stockholm" "Stockholm")
+                     ("Europe/Rome" "Rome")
+                     ("Asia/Karachi" "Karachi")
+                     ("Asia/Shanghai" "Shanghai")
+                     ("Australia/Sydney" "Sydney"))))
+
+(use-package tramp
+  :ensure nil                           ; built-in
   :defer t
   :config
   ;; don't backup any remote files:
@@ -794,3 +801,5 @@
   :after yasnippet)
 
 (provide 'init-general)
+
+;;; init-general.el ends here

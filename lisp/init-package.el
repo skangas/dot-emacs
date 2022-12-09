@@ -1,4 +1,4 @@
-;;; init-package.el                                                 -*- lexical-binding: t; -*-
+;;; init-package.el --- Package config  -*- lexical-binding: t; -*-
 
 
 ;;; Configuration

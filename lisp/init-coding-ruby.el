@@ -1,3 +1,7 @@
+;;; init-coding-ruby.el --- Ruby programming
+;;; Commentary:
+;;; Code:
+
 ;; Necessary setup:
 ;;  Install and use rvm
 ;;  gem install pry
@@ -89,3 +93,5 @@
 ;;   (rvm-use-default))
 
 (provide 'init-coding-ruby)
+
+;;; init-coding-ruby.el ends here
