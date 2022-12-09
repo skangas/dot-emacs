@@ -216,7 +216,7 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
     (when (re-search-forward
            (rx "\n" (* space) "(set-keymap-parent" (+ space)
                (regexp variable-name) (+ space)
-               (group lisp-mode-symbol)
+               (group (+ any))
                (* space) ")" (* space) eol)
            nil t)
       (prog1 (match-string 1)
@@ -241,7 +241,8 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
     )
    (+ space)
    ;; [2] binding
-   (group (? (or "'" "#'")) lisp-mode-symbol)
+   (group (or (: (? (or "'" "#'")) lisp-mode-symbol)
+              (: "[" lisp-mode-symbol "]")))
    ;; end of sexp
    (* space) ")"
    ;; [3] any junk, e.g. comments
@@ -295,7 +296,10 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
                (format "\"%s\" %s%s%s"
                        (sk/convert-to-defvar-keymap--make-key key)
                        ;; Maybe add "#"
-                       (if (string-match-p (rx bos (or "#" "'mouse-face" "nil"))
+                       (if (string-match-p (rx bos (or "#"
+                                                       "'mouse-face"
+                                                       "nil"
+                                                       "["))
                                            definition)
                            ""
                          "#")
@@ -346,6 +350,13 @@ Mainly covers output from `regexp-opt' as converted by `xr'."
 (defun flush-empty-lines☭ ()
   (interactive)
   (flush-lines "^$"))
+
+(defun add-line-to-codespell☭ ()
+  (interactive)
+  (let ((str (buffer-substring (pos-bol) (pos-eol))))
+    (with-current-buffer "codespell.exclude"
+      (goto-char (point-max))
+      (insert str "\n"))))
 
 (provide 'sk-misc)
 ;; sk-misc.el ends here
