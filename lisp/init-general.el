@@ -32,9 +32,7 @@
 (setq user-full-name "Stefan Kangas"
       user-mail-address "stefankangas@gmail.com"
       require-final-newline t                        ; Make sure text files end in a newline
-      Man-width 80                                   ; Limit man to 80 character width
       message-send-mail-partially-limit nil          ; Never split emails
-
       kill-ring-max (* kill-ring-max 2)
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
@@ -49,20 +47,7 @@
 
       frame-title-format '((buffer-file-name "%f" "%b")
                            " -- %F"
-                           (:eval (format " [%s]" mode-name)))
-
-      ;; calendar
-      calendar-date-style 'european          ; Use European calendar
-      ;; holidays
-      calendar-mark-holidays-flag t
-      calendar-holidays nil
-      holiday-bahai-holidays nil
-      holiday-christian-holidays nil
-      holiday-dragon-holidays nil
-      holiday-general-holidays nil
-      holiday-hebrew-holidays nil
-      holiday-islamic-holidays nil
-      holiday-solar-holidays nil)
+                           (:eval (format " [%s]" mode-name))))
 
 (setq sk/video-types
       (concat (regexp-opt '(".asf" ".avi" ".f4v"

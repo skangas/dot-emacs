@@ -4,6 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(Man-switches "--no-hyphenation --no-justification")
+ '(Man-width 80)
  '(Man-width-max 76)
  '(abbrev-suggest t)
  '(ansi-color-faces-vector
@@ -14,6 +15,8 @@
  '(blink-cursor-blinks 2)
  '(bookmark-menu-confirm-deletion t)
  '(bookmark-save-flag 1)
+ '(calendar-date-style 'european)
+ '(calendar-mark-holidays-flag t)
  '(calendar-week-start-day 1)
  '(checkdoc-column-zero-backslash-before-paren nil)
  '(checkdoc-force-docstrings-flag nil)
@@ -113,6 +116,11 @@
      ("XXX+" . "#972500")
      ("REVIEW" . "#005a5f")
      ("DEPRECATED" . "#201f55")))
+ '(holiday-bahai-holidays nil)
+ '(holiday-christian-holidays nil)
+ '(holiday-hebrew-holidays nil)
+ '(holiday-islamic-holidays nil)
+ '(holiday-solar-holidays nil)
  '(ibuffer-deletion-face 'modus-theme-mark-del)
  '(ibuffer-filter-group-name-face 'modus-theme-mark-symbol)
  '(ibuffer-marked-face 'modus-theme-mark-sel)
