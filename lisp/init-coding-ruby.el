@@ -15,6 +15,7 @@
   :ensure t
   :mode "\\.rb\\'"
   :interpreter "ruby"
+  :diminish "Ruby"
   :config
   ;; (add-to-list 'ac-modes 'enh-ruby-mode)
   (add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
@@ -34,18 +35,20 @@
 
 ;; FIXME: This was last updated in 2015.  Still relevant?
 
-;; (use-package rinari
-;;   :ensure t
-;;   :pin "melpa"
-;;   :config
-;;   (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)
-;;   ;; ;; Disabled for now to not clutter my minor-modes
-;;   ;; (global-rinari-mode)
-;;   )
+(use-package rinari
+  :disable t
+  :ensure t
+  :pin "melpa"
+  :config
+  (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)
+  ;; ;; Disabled for now to not clutter my minor-modes
+  ;; (global-rinari-mode)
+  )
 
 (use-package robe
   :ensure t
   :pin "melpa"
+  :diminish "Robe"
   :config
   (add-hook 'enh-ruby-mode-hook 'robe-mode)
   (add-hook 'ruby-mode-hook 'robe-mode)
@@ -65,6 +68,7 @@
 (use-package ruby-test-mode
   :ensure t
   :pin "melpa"
+  :diminish "RT"
   :config
   (add-hook 'enh-ruby-mode-hook 'ruby-test-mode)
   (add-hook 'ruby-mode-hook 'ruby-test-mode))
@@ -75,6 +79,7 @@
 ;; Compare to ruby-compilation package
 (use-package minitest
   :ensure t
+  :diminish "MT"
   :config
   (add-hook 'ruby-mode-hook 'minitest-mode))
 

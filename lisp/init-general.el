@@ -232,6 +232,7 @@
 (use-package abbrev
   :ensure nil
   :defer 5
+  :diminish "Ab"
   :hook
   (text-mode . (lambda () (abbrev-mode 1)))
   (erc-mode-hook . (lambda () (abbrev-mode 1)))
@@ -258,19 +259,22 @@
   :config
   (dired-async-mode 1))
 
-;; (use-package centered-cursor-mode
-;;   :ensure t
-;;   :config
-;;   ;; center cursor in info-mode
-;;   (defun my-info-mode-hook-center-cursor ()
-;;     (centered-cursor-mode))
-;;   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
+(use-package centered-cursor-mode
+  :disable t
+  :ensure t
+  :config
+  ;; center cursor in info-mode
+  (defun my-info-mode-hook-center-cursor ()
+    (centered-cursor-mode))
+  (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
-;; (use-package auto-dim-other-buffers
-;;   :pin "melpa"
-;;   :ensure t
-;;   :config
-;;   (auto-dim-other-buffers-mode t))
+(use-package auto-dim-other-buffers
+  :disable t
+  :pin "melpa"
+  :ensure t
+  :config
+  :diminish
+  (auto-dim-other-buffers-mode t))
 
 (use-package boxquote
   :defer t)
@@ -282,6 +286,7 @@
 (use-package company
   :pin "gnu"
   :defer 5
+  :diminish "comp"
   :config
   (global-company-mode 1))
 
@@ -342,26 +347,6 @@
   :ensure t
   :hook (dired-mode-hook . diff-hl-dired-mode))
 
-(use-package diminish
-  :ensure t
-  :config
-  (with-eval-after-load 'auto-dim-other-buffers
-    (diminish 'auto-dim-other-buffers-mode ""))
-  (diminish 'abbrev-mode "Ab")
-  (diminish 'eldoc-mode "")
-  (with-eval-after-load 'anzu
-    (diminish 'anzu-mode ""))
-  (with-eval-after-load 'company
-    (diminish 'company-mode "comp"))
-  (with-eval-after-load 'enh-ruby-mode
-    (diminish 'enh-ruby-mode "Ruby"))
-  (with-eval-after-load 'minitest
-    (diminish 'minitest-mode "MT"))
-  (with-eval-after-load 'robe
-    (diminish 'robe-mode "Ro"))
-  (with-eval-after-load 'ruby-test-mode
-    (diminish 'ruby-test-mode "RT")))
-
 (use-package dired                      ; (built-in)
   :ensure nil
   :bind (:map dired-mode-map
@@ -415,6 +400,10 @@
         dired-guess-shell-alist-default)
   (setq dired-create-destination-dirs 'ask))
 
+(use-package eldoc
+  :ensure nil                           ; built-in
+  :diminish)
+
 (use-package engine-mode
   :ensure t
   :config
@@ -437,8 +426,8 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
-(use-package erc ; built-in
-  :ensure nil
+(use-package erc
+  :ensure nil                           ; built-in
   :hook (erc-mode-hook . abbrev-mode))
 
 (use-package eshell ; built-in

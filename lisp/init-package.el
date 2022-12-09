@@ -43,20 +43,11 @@
         use-package-expand-minimally t))
 
 ;; For use-package :diminish
-(use-package diminish
-  :ensure t
-  :init
-  (require 'diminish))
-
-;; For use-package :bind
-(use-package bind-key
-  :ensure t
-  :init
-  (require 'bind-key))
+(use-package diminish :ensure t)
 
 ;; Enable auto-compile
 
-;; This lead to some crashes and other weird issues, disable:
+;; This led to some crashes and other weird issues, disable:
 
 ;; (use-package auto-compile
 ;;   :ensure t
