@@ -1,53 +1,54 @@
 ;;; init-auto-insert-mode.el
 
-(add-hook 'find-file-hook 'auto-insert)
-(setq auto-insert-directory "~/.emacs.d/templates/") ; Keep trailing slash
+(auto-insert-mode t)
+(setq auto-insert-directory "~/.emacs.d/templates")
 (setq auto-insert-query nil)
 
-(string-match "~/org/.*\\.org\\'"
-              "~/org/foo.org")
-
-(eval-after-load 'autoinsert
+(with-eval-after-load 'autoinsert
   ;; Reset to default
-  '(progn
-     (custom-reevaluate-setting 'auto-insert-alist)
+  (custom-reevaluate-setting 'auto-insert-alist)
 
-     ;; Python
-     (define-auto-insert
-       '(python-mode . "Python Program")
-       '["python-template" my-auto-update-source-file])
+  ;; C
+  (define-auto-insert
+    '(c-mode . "C Program")
+    ["c-template" my-auto-update-source-file])
 
-     ;; Perl
-     (define-auto-insert
-       '(cperl-mode . "Perl Program")
-       '["perl-template" my-auto-update-source-file])
+  ;; Python
+  (define-auto-insert
+    '(python-mode . "Python Program")
+    ["python-template" my-auto-update-source-file])
 
-     ;; Shell
-     (define-auto-insert
-       '(sh-mode . "Shell Script")
-       '["shell-template" my-auto-update-source-file])
+  ;; Perl
+  (define-auto-insert
+    '(cperl-mode . "Perl Program")
+    ["perl-template" my-auto-update-source-file])
 
-     ;; Emacs Configuration
-     (define-auto-insert
-       (expand-file-name "~/\\.emacs\\.d/.*\\.el")
-       '(nil
-         ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
+  ;; Shell
+  (define-auto-insert
+    '(sh-mode . "Shell Script")
+    ["shell-template" my-auto-update-source-file])
+
+  ;; Emacs Configuration
+  (define-auto-insert
+    (expand-file-name "~/\\.emacs\\.d/.*\\.el")
+    '(nil
+      ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
 
 " _ "
 
 \(provide '" (file-name-base (buffer-file-name)) ")\n"))
 
-     ;; *.org
-     (define-auto-insert
-       '(org-mode . "Org")
-       '(nil
-         "#+TITLE:  " (read-string "Title: ") "
+  ;; *.org
+  (define-auto-insert
+    '(org-mode . "Org")
+    '(nil
+      "#+TITLE:  " (read-string "Title: ") "
 #+DATE:   " (format-time-string "%Y-%m-%d") "
 #+AUTHOR: SK
 #+STARTUP: content hidestars indent
 #+OPTIONS: toc:nil num:1 email:nil
 
-" _)))
+" _))
 
   ;; (define-auto-insert
   ;;   '(org-mode . "Org-mode File")
