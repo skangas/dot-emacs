@@ -231,19 +231,17 @@
 
 (use-package abbrev
   :ensure nil
+  :defer 5
+  :hook
+  (text-mode . (lambda () (abbrev-mode 1)))
+  (erc-mode-hook . (lambda () (abbrev-mode 1)))
+  :custom
+  (save-abbrevs t)
+  (abbrev-file-name "~/org/.abbrev_defs")
   :config
-  (setq save-abbrevs t
-        abbrev-file-name "~/org/.abbrev_defs")
-
   ;; reads the abbreviations file on startup
   (if (file-exists-p abbrev-file-name)
-      (quietly-read-abbrev-file))
-
-  ;; Enable abbrev-mode in text and derived modes
-  (add-hook 'text-mode-hook (lambda () (abbrev-mode 1)))
-  ;; (add-hook 'emacs-lisp-mode-hook (lambda () (abbrev-mode 1)))
-  ;; (add-hook 'erc-mode-hook (lambda () (abbrev-mode 1)))
-  )
+      (quietly-read-abbrev-file)))
 
 (use-package avy
   :ensure t
@@ -256,8 +254,7 @@
   :defer t)
 
 (use-package async
-  :defer 5
-  :ensure t
+  :after dired
   :config
   (dired-async-mode 1))
 
@@ -278,9 +275,64 @@
 (use-package boxquote
   :defer t)
 
-(use-package centered-window
-  :pin "melpa"
-  :defer t)
+;; (use-package centered-window
+;;   :pin "melpa"
+;;   :defer t)
+
+(use-package company
+  :pin "gnu"
+  :defer 5
+  :config
+  (global-company-mode 1))
+
+(use-package counsel
+  :ensure t
+  :pin "gnu"
+  :bind 
+  (nil
+   ("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("M-y" . my/counsel-yank-or-yank-pop)
+
+   ("C-h f" . counsel-describe-function)
+   ("C-h v" . counsel-describe-variable)
+   ("C-c t" . counsel-load-theme)
+   ("C-h l" . counsel-find-library)
+
+   ("<f2> i" . counsel-info-lookup-symbol)
+   ("<f2> u" . counsel-unicode-char)
+   ("<f2> j" . counsel-set-variable)
+
+   ;; ("C-x b" . ivy-switch-buffer)
+   ;; ("C-c v" . ivy-push-view)
+   ;; ("C-c V" . ivy-pop-view)
+
+   ;; ;; Ivy-based interface to shell and system tools
+   ;; ("C-c c" . counsel-compile)
+   ;; ("C-c g" . counsel-git)
+   ;; ("C-c j" . counsel-git-grep)
+   ;; ("C-c L" . counsel-git-log)
+   ;; ("C-c k" . counsel-rg)
+   ;; ("C-c m" . counsel-linux-app)
+   ;; ("C-c n" . counsel-fzf)
+   ;; ("C-x l" . counsel-locate)
+   ;; ("C-c J" . counsel-file-jump)
+   ;; ("C-S-o" . counsel-rhythmbox)
+   ;; ("C-c w" . counsel-wmctrl)
+
+   ;; ("C-c b" . counsel-bookmark)
+   ;; ("C-c d" . counsel-descbinds)
+   ;; ("C-c g" . counsel-git)
+   ;; ("C-c o" . counsel-outline)
+   ;; ("C-c F" . counsel-org-file)
+   )
+  :preface
+  (defun my/counsel-yank-or-yank-pop (&optional arg)
+    "Call `consult-yank'. If called after a yank, call `yank-pop' instead."
+    (interactive "*p")
+    (if (eq last-command 'yank)
+        (yank-pop arg)
+      (counsel-yank-pop))))
 
 (use-package dash
   :ensure t
@@ -303,10 +355,6 @@
     (diminish 'company-mode "comp"))
   (with-eval-after-load 'enh-ruby-mode
     (diminish 'enh-ruby-mode "Ruby"))
-  (with-eval-after-load 'gcmh
-    (diminish 'gcmh-mode ""))
-  (with-eval-after-load 'paredit
-    (diminish 'paredit-mode "PEd"))
   (with-eval-after-load 'minitest
     (diminish 'minitest-mode "MT"))
   (with-eval-after-load 'robe
@@ -361,6 +409,7 @@
 
 (use-package dired-aux
   :ensure nil
+  :defer t
   :config
   (push `(,sk/video-types "mpv")
         dired-guess-shell-alist-default)
@@ -375,6 +424,7 @@
     :keybinding "d"))
 
 (use-package epa-file
+  :defer t
   :ensure nil
   :config
   ;;(setq epa-armor t)
@@ -461,6 +511,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package grep                       ; built-in
+  :defer t
   :ensure nil
   :config
   (defun sk/compilation-finish-flush-lines (buf _)
@@ -590,6 +641,7 @@
 
 (use-package ispell
   :ensure nil
+  :defer t
   :config
   ;; FIXME: temporary workaround
   (when (eq system-type 'gnu/linux)
@@ -616,7 +668,7 @@
 (use-package midnight                   ; (built-in)
   :defer 30
   :ensure nil
-  :init
+  :config
   (midnight-mode 1)
   (setq clean-buffer-list-delay-general 7) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
@@ -676,6 +728,7 @@
 ;;   (powerline-default-theme))
 
 (use-package recentf                    ; built-in
+  :defer 10
   :ensure nil
   :config
   (recentf-mode 1)
@@ -703,7 +756,12 @@
   :defer t)
 
 (use-package wgrep
+  :after grep
   :ensure t)
+
+(use-package writegood
+  :ensure t
+  :defer t)
 
 (use-package which-key
   :ensure t
@@ -751,5 +809,14 @@
   (define-key winum-keymap (kbd "M-9") 'winum-select-window-9)
   (setq winum-scope 'frame-local)
   (winum-mode))
+
+(use-package yasnippet
+  :defer 20
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
 
 (provide 'init-general)

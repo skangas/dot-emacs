@@ -104,12 +104,6 @@ compiler-command."
 (use-package aggressive-indent
   :hook (emacs-lisp-mode-hook . aggressive-indent-mode))
 
-(use-package company
-  :pin "gnu"
-  :defer 5
-  :config
-  (global-company-mode 1))
-
 (use-package debbugs
   :pin "gnu"
   :commands (debbugs-gnu)
@@ -265,6 +259,7 @@ This will run newline-and-indent, and then indent once more."
            lisp-data-mode lisp-mode lisp-interaction-mode
            scheme-mode)
          . enable-paredit-mode)
+  :diminish "PEd"
   :config
   ;; make eldoc aware of paredit
   (with-eval-after-load 'eldoc
@@ -278,15 +273,15 @@ This will run newline-and-indent, and then indent once more."
     (set (make-local-variable 'compile-command)
          (let ((file (file-name-nondirectory buffer-file-name)))
            (concat "php -l " file)))
-
-    (setq c-basic-offset 4
-          tab-width 4
-          indent-tabs-mode nil          ; No tabs - only spaces
-          backward-delete-function nil  ; do NOT expand tabs when deleting them
-          ))
+    (setq c-basic-offset 4)
+    (setq tab-width 4)
+    (setq indent-tabs-mode nil)
+    ;; Don't expand tabs when deleting them
+    (setq backward-delete-function nil))
   (add-hook 'php-mode-hook 'my-php-mode-customizations))
 
 (use-package projectile
+  :disabled t
   :defer 5
   :ensure t
   :pin "melpa"
@@ -365,17 +360,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package xr
   :defer t)
-
-(use-package yasnippet
-  :ensure t
-  :defer 20
-  :diminish yas-minor-mode
-  :config
-  (yas-global-mode 1))
-
-(use-package yasnippet-snippets
-  :ensure t
-  :defer 30)
 
 (use-package yaml-mode
   :ensure t
