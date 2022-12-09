@@ -238,7 +238,7 @@
   (dired-async-mode 1))
 
 (use-package centered-cursor-mode
-  :disable t
+  :disabled t
   :ensure t
   :config
   ;; center cursor in info-mode
@@ -247,7 +247,7 @@
   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 (use-package auto-dim-other-buffers
-  :disable t
+  :disabled t
   :pin "melpa"
   :ensure t
   :config
