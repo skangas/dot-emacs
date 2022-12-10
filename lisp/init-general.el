@@ -37,7 +37,10 @@
       user-mail-address "stefankangas@gmail.com"
       require-final-newline t                        ; Make sure text files end in a newline
       message-send-mail-partially-limit nil          ; Never split emails
-      kill-ring-max (* kill-ring-max 2)
+      kill-ring-max (* kill-ring-max 4)
+      undo-limit (* undo-limit 4)
+      undo-strong-limit (* undo-strong-limit 4)
+      undo-outer-limit (* undo-outer-limit 4)
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
       scroll-preserve-screen-position t              ; Affects Page-up Page-down
       mouse-yank-at-point t                          ; Yank at point, even in X
@@ -764,7 +767,7 @@
   :after grep
   :ensure t)
 
-(use-package writegood
+(use-package writegood-mode
   :ensure t
   :defer t)
 

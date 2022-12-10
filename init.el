@@ -76,7 +76,6 @@
 (require 'init-coding-cpp)
 (require 'init-coding-emacs-lisp)
 (require 'init-coding-perl)
-(require 'init-coding-php)
 ;; (require 'init-coding-cedet)
 ;; (require 'init-coding-common-lisp)
 ;; (require 'init-coding-haskell)
