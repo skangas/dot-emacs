@@ -29,22 +29,23 @@
 ;;   are enabled by default.
 
 (setq scroll-conservatively 500)
-(setq scroll-margin 2)
 (setq scroll-step 0)
 (setq scroll-preserve-screen-position nil)
 
+(setq scroll-margin 2)
+
 (setq user-full-name "Stefan Kangas"
       user-mail-address "stefankangas@gmail.com"
-      require-final-newline t                        ; Make sure text files end in a newline
-      message-send-mail-partially-limit nil          ; Never split emails
+      require-final-newline t               ; Make sure text files end in a newline
+      message-send-mail-partially-limit nil ; Never split emails
       kill-ring-max (* kill-ring-max 4)
       undo-limit (* undo-limit 4)
       undo-strong-limit (* undo-strong-limit 4)
       undo-outer-limit (* undo-outer-limit 4)
       ;; scroll-conservatively most-positive-fixnum     ; Always scroll one line at a time
-      scroll-preserve-screen-position t              ; Affects Page-up Page-down
-      mouse-yank-at-point t                          ; Yank at point, even in X
-      lazy-highlight-initial-delay 0.15              ; Seconds to wait before isearch highlights
+      scroll-preserve-screen-position t ; Affects Page-up Page-down
+      mouse-yank-at-point t             ; Yank at point, even in X
+      lazy-highlight-initial-delay 0.15 ; Seconds to wait before isearch highlights
       save-interprogram-paste-before-kill t
       apropos-do-all t
 
@@ -250,12 +251,12 @@
   (setq Info-mode-hook 'my-info-mode-hook-center-cursor))
 
 (use-package auto-dim-other-buffers
+  ;; :pin "melpa"
   :disabled t
-  :pin "melpa"
   :ensure t
-  :config
   :diminish
-  (auto-dim-other-buffers-mode t))
+  :config
+  (auto-dim-other-buffers-mode 1))
 
 (use-package boxquote
   :defer t)
@@ -263,6 +264,12 @@
 ;; (use-package centered-window
 ;;   :pin "melpa"
 ;;   :defer t)
+
+(use-package comint
+  :ensure nil                           ; built-in
+  ;; FIXME: :defer should not be needed here
+  :defer t
+  :hook (comint-mode . (lambda () (setq-local scroll-margin 0))))
 
 (use-package company
   :pin "gnu"
@@ -411,9 +418,10 @@
   :ensure nil                           ; built-in
   :hook (erc-mode-hook . abbrev-mode))
 
-(use-package eshell ; built-in
-  :ensure nil
+(use-package eshell
+  :ensure nil                           ; built-in
   :defer t
+  :hook (eshell-mode . (lambda () (setq-local scroll-margin 0)))
   :custom
   (eshell-visual-subcommands '(("git" "log" "diff" "show" "tag"))))
 
@@ -586,7 +594,7 @@
   :ensure nil                           ; built-in
   :defer t
   :config
-  (ido-everywhere 1)
+  ;; (ido-everywhere -1)
   ;; http://whattheemacsd.com/setup-ido.el-02.html
   (defun my-ido-go-straight-home ()
     ;; Go straight home

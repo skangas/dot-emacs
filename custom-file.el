@@ -184,6 +184,7 @@
  '(mouse-highlight 1)
  '(mpc-mpd-music-directory "~/music")
  '(native-comp-async-report-warnings-errors nil)
+ '(network-security-level 'high)
  '(notmuch-saved-searches
    '((:name "inbox" :query "tag:inbox" :key
             [105])
@@ -233,7 +234,9 @@
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
-   '((texinfo-column-for-description . 32)
+   '((recentf-mode)
+     (save-place-mode)
+     (texinfo-column-for-description . 32)
      (c-file-offsets
       (arglist-intro . +))
      (vc-git-annotate-switches . "-w")
@@ -244,6 +247,7 @@
      (truncate-partial-width-windows . t)
      (epa-file-cache-passphrase-for-symmetric-encryption . t)))
  '(save-abbrevs 'silently)
+ '(save-place-abbreviate-file-names nil)
  '(savehist-mode t)
  '(send-mail-function 'sendmail-send-it)
  '(show-paren-delay 0)
