@@ -1,10 +1,11 @@
 (use-package bbdb
+  :disabled t
   :ensure t
   :pin "gnu"
   :commands bbdb-initialize
   :defer
-  :hook ((bbdb-notice-mail-hook . bbdb-auto-notes)
-         (bbdb-initialize-hook . user--bbdb-configialize-hook))
+  :hook ((bbdb-notice-mail . bbdb-auto-notes)
+         (bbdb-initialize . user--bbdb-configialize-hook))
 
   :config
   (when (> (string-to-number bbdb-version) 3)
