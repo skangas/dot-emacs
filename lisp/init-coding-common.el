@@ -139,7 +139,8 @@ CREATE-COMPILER-COMMAND."
   :defer t)
 
 (use-package flymake
-  :hook (emacs-lisp-mode . flymake-mode)
+  :hook ((emacs-lisp-mode . flymake-mode)
+         (texinfo-mode . flymake-mode))
   :bind ( :map flymake-mode
           ("M-n" . flymake-goto-next-error)
           ("M-p" . flymake-goto-prev-error)))
