@@ -234,7 +234,9 @@
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
-   '((recentf-mode)
+   '((eval turn-on-visual-fill-cond)
+     (eval setq org-adapt-indentation nil)
+     (recentf-mode)
      (save-place-mode)
      (texinfo-column-for-description . 32)
      (c-file-offsets
