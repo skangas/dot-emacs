@@ -7,6 +7,10 @@
   (setq ns-option-modifier 'super)
   (setq ns-right-alternate-modifier 'none) ; use right alt for special characters
 
+  ;; Prefer `ls` from GNU coreutils
+  (if (executable-find "gls")
+    (setq insert-directory-program "gls"))
+
   (use-package exec-path-from-shell
     :ensure t
     :init
