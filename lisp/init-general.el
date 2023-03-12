@@ -671,7 +671,9 @@
     (add-to-list 'midnight-hook 'native-compile-prune-cache)))
 
 (use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode))
+  :mode ("\\.md\\'" . gfm-mode)
+  :hook ((markdown-mode . orgtbl-mode)
+         (markdown-mode . visual-line-mode)))
 
 (use-package multiple-cursors
   :defer t)
