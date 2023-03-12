@@ -645,18 +645,11 @@
   :ensure nil
   :defer t
   :config
-  ;; FIXME: temporary workaround
-  (when (eq system-type 'gnu/linux)
-    (setq ispell-program-name "hunspell"
-          ispell-extra-args '("-a" "-i" "utf-8"))
-    (setq ispell-dictionary "en_US,sv_SE,es_ES")
-    (ispell-set-spellchecker-params)
-    (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES"))
-
-  ;; (setq ispell-extra-args '("--sug-mode=ultra"))
-  ;; (setq ispell-dictionary "swedish"
-  ;;       ispell-extra-args '("-a" "-i" "utf-8") ; aspell doesn't understand -i utf-8, hunspell needs it
-
+  (setq ispell-program-name "hunspell")
+  (setq ispell-extra-args '("-a" "-i" "utf-8"))
+  (setq ispell-dictionary "en_US,sv_SE,es_ES")
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "en_US,sv_SE,es_ES")
   (setq ispell-silently-savep t)
   (setq flyspell-use-global-abbrev-table-p t))
 
