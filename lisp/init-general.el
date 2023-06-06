@@ -388,6 +388,11 @@
         dired-guess-shell-alist-default)
   (setq dired-create-destination-dirs 'ask))
 
+(use-package eglot
+  :ensure t
+  :defer t
+  :hook (python-mode . eglot-ensure))
+
 (use-package eldoc
   :ensure nil                           ; built-in
   :diminish)
