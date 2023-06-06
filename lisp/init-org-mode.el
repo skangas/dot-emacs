@@ -1,5 +1,9 @@
 ;;; init-org-mode.el                                                 -*- lexical-binding: t; -*-
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((shell . t)))
+
 (use-package org
   :bind (("C-c å" . sk/toggle-next-task-display))
   :custom
