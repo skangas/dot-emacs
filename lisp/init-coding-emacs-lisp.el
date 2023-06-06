@@ -1,13 +1,16 @@
-;; Emacs Lisp
+;;; init-coding-emacs-lisp.el --- Emacs Lisp
+;;; Commentary:
+;;; Code:
 
 ;; (require 'eval-expr)
 ;; (eval-expr-install)
 
 (defun sk/emacs-lisp-data-mode-hook ()
-  (add-hook 'local-write-file-hooks #'check-parens))
+  (add-hook 'write-file-functions #'check-parens))
 (add-hook 'lisp-data-mode-hook #'sk/emacs-lisp-data-mode-hook)
 
 (defun my-recompile-el ()
+  "Recompile Emacs Lisp files automatically, but not in some directories."
   (interactive)
   (rx-let ((home (: bos "/" (or "home" "Users") "/skangas")))
       (when (and buffer-file-name
@@ -34,3 +37,5 @@
 (add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-mode-hook)
 
 (provide 'init-coding-emacs-lisp)
+
+;;; init-coding-emacs-lisp.el ends here
