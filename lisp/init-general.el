@@ -389,8 +389,7 @@
   (setq dired-create-destination-dirs 'ask))
 
 (use-package eglot
-  :ensure t
-  :defer t
+  :ensure nil
   :hook (python-mode . eglot-ensure))
 
 (use-package eldoc
