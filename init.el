@@ -129,6 +129,7 @@
 (require 'init-coding-cpp)
 (require 'init-coding-emacs-lisp)
 (require 'init-coding-perl)
+(require 'init-python)
 ;; (require 'init-coding-cedet)
 ;; (require 'init-coding-common-lisp)
 ;; (require 'init-coding-haskell)
