@@ -468,7 +468,8 @@
 
 (use-package flyspell
   :ensure nil
-  :hook ((prog-mode text-mode) . flyspell-mode)
+  :hook ((text-mode . flyspell-mode)
+         (prog-mode . flyspell-prog-mode))
   :config
   (setq flyspell-issue-welcome-flag nil)
   ;; Non-nil means that flyspell uses M-TAB to correct word.
