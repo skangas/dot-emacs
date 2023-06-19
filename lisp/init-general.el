@@ -741,6 +741,13 @@
                           (or (seq "org/" (* any))
                               (seq ".emacs.bmk" eos))))))
 
+(use-package tab-bar
+  :ensure nil                           ; built-in
+  :bind (("C-x t n" . tab-next)
+         ("C-x t p" . tab-previous)
+         ("C-x t o" . tab-duplicate)
+         ("C-x t O" . project-other-tab-command)))
+
 (use-package time
   :ensure nil                           ; built-in
   :defer t
