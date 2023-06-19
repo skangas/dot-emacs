@@ -650,6 +650,8 @@
   :ensure nil
   :defer t
   :config
+  (when (equal system-type 'darwin)
+    (setenv "LANG" "en_US.UTF-8"))
   (setq ispell-program-name "hunspell")
   (setq ispell-extra-args '("-a" "-i" "utf-8"))
   (setq ispell-dictionary "en_US,sv_SE,es_ES")
