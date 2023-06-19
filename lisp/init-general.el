@@ -275,6 +275,9 @@
   :pin "gnu"
   :defer 5
   :diminish "comp"
+  :custom
+  ;; Using company mode in eshell and shell-mode causes problems
+  (company-global-modes '(not eshell-mode shell-mode))
   :config
   (global-company-mode 1))
 
