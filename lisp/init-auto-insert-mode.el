@@ -7,38 +7,25 @@
 (with-eval-after-load 'autoinsert
   ;; Reset to default
   (custom-reevaluate-setting 'auto-insert-alist)
-
-  ;; C
   (define-auto-insert
     '(c-mode . "C Program")
     ["c-template" my-auto-update-source-file])
 
-  ;; Python
-  (define-auto-insert
-    '(python-mode . "Python Program")
-    ["python-template" my-auto-update-source-file])
+  ;;;; FIXME: Commented out the Python insertion for now.  I had the problem
+  ;;;; that when I jumped to a module with LSP, I landed in an empty __init__.py
+  ;;;; file where the auto-insert triggered.  Could I make `auto-insert-mode'
+  ;;;; not insert in such files?
 
-  ;; Perl
+  ;; (define-auto-insert
+  ;;   '(python-mode . "Python Program")
+  ;;   ["python-template" my-auto-update-source-file])
+
   (define-auto-insert
     '(cperl-mode . "Perl Program")
     ["perl-template" my-auto-update-source-file])
-
-  ;; Shell
   (define-auto-insert
     '(sh-mode . "Shell Script")
     ["shell-template" my-auto-update-source-file])
-
-  ;; Emacs Configuration
-  (define-auto-insert
-    (expand-file-name "~/\\.emacs\\.d/.*\\.el")
-    '(nil
-      ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
-
-" _ "
-
-\(provide '" (file-name-base (buffer-file-name)) ")\n"))
-
-  ;; *.org
   (define-auto-insert
     '(org-mode . "Org")
     '(nil
@@ -49,6 +36,14 @@
 #+OPTIONS: toc:nil num:1 email:nil
 
 " _))
+  (define-auto-insert
+    (expand-file-name "~/\\.emacs\\.d/.*\\.el")
+    '(nil
+      ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
+
+" _ "
+
+\(provide '" (file-name-base (buffer-file-name)) ")\n"))
 
   ;; (define-auto-insert
   ;;   '(org-mode . "Org-mode File")
