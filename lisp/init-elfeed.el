@@ -186,7 +186,7 @@
           (url (elfeed-entry-link elfeed-show-entry)))
       (message-mail)
       ;; Compose message.
-      (insert "desk@marxist.se")
+      (insert "foo@example.org")
       (message-goto-subject)
       (insert title " | " source)
       (message-goto-body)
@@ -273,7 +273,6 @@
 
 (use-package elfeed-org
   :ensure t
-  :disabled t
   :pin "melpa"
   :config
   (elfeed-org)
