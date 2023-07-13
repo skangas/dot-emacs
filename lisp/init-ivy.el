@@ -32,7 +32,7 @@
   (global-set-key (kbd "C-c L") 'counsel-git-log)
   (global-set-key (kbd "C-c k") 'counsel-rg)
   (global-set-key (kbd "C-c m") 'counsel-linux-app)
-  (global-set-key (kbd "C-c n") 'counsel-fzf)
+  ;; (global-set-key (kbd "C-c n") 'counsel-fzf)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-c J") 'counsel-file-jump)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
