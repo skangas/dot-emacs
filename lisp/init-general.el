@@ -757,15 +757,15 @@
   :ensure nil                           ; built-in
   :defer t
   :custom
-  (world-clock-list (("America/Los_Angeles" "Seattle")
-                     ("America/Chicago" "Chicago")
-                     ("America/New_York" "New York")
-                     ("Europe/London" "London")
-                     ("Europe/Stockholm" "Stockholm")
-                     ("Europe/Rome" "Rome")
-                     ("Asia/Karachi" "Karachi")
-                     ("Asia/Shanghai" "Shanghai")
-                     ("Australia/Sydney" "Sydney"))))
+  (world-clock-list '(("America/Los_Angeles" "Seattle")
+                      ("America/Chicago" "Chicago")
+                      ("America/New_York" "New York")
+                      ("Europe/London" "London")
+                      ("Europe/Stockholm" "Stockholm")
+                      ("Europe/Rome" "Rome")
+                      ("Asia/Karachi" "Karachi")
+                      ("Asia/Shanghai" "Shanghai")
+                      ("Australia/Sydney" "Sydney"))))
 
 (use-package tramp
   :ensure nil                           ; built-in
