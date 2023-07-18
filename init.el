@@ -117,7 +117,6 @@
   (require 'init-mail))
 (require 'init-org-mode)
 
-;; (require 'init-bbdb)
 ;; (require 'init-emms)
 ;; (require 'init-mu4e)
 ;; (require 'init-rcirc)
