@@ -8,6 +8,7 @@
 .mc-lists.el
 .org-id-locations
 .secrets.el
+.#*
 \#*
 ac-comphist.dat
 auto-save-list/
