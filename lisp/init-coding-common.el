@@ -106,7 +106,7 @@ CREATE-COMPILER-COMMAND."
 ;;;; Packages.
 
 (use-package aggressive-indent
-  :hook (emacs-lisp-mode-hook . aggressive-indent-mode))
+  :hook (emacs-lisp-mode . aggressive-indent-mode))
 
 (use-package debbugs
   :pin "gnu"
