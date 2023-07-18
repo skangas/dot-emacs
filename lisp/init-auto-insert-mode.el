@@ -4,6 +4,17 @@
 (setq auto-insert-directory "~/.emacs.d/templates")
 (setq auto-insert-query nil)
 
+(define-skeleton sk/skel-org-mode
+  "My org-mode skeleton."
+  nil
+  "#+TITLE:  " (read-string "Title: ") "
+#+DATE:   " (format-time-string "%Y-%m-%d") "
+#+AUTHOR: SK
+#+STARTUP: content hidestars indent
+#+OPTIONS: toc:nil num:1 email:nil
+
+" _)
+
 (with-eval-after-load 'autoinsert
   ;; Reset to default
   (custom-reevaluate-setting 'auto-insert-alist)
@@ -28,14 +39,12 @@
     ["shell-template" my-auto-update-source-file])
   (define-auto-insert
     '(org-mode . "Org")
-    '(nil
-      "#+TITLE:  " (read-string "Title: ") "
-#+DATE:   " (format-time-string "%Y-%m-%d") "
-#+AUTHOR: SK
-#+STARTUP: content hidestars indent
-#+OPTIONS: toc:nil num:1 email:nil
-
-" _))
+    ;; Don't insert the skeleton in my org-roam or journal files.
+    (lambda ()
+      (when (not (string-match (rx bos (eval (expand-file-name "~/org/"))
+                                   (or "roam" "journal") "/")
+                               buffer-file-name))
+        (sk/skel-org-mode))))
   (define-auto-insert
     (expand-file-name "~/\\.emacs\\.d/.*\\.el")
     '(nil
