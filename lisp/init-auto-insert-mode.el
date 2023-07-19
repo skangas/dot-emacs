@@ -66,6 +66,24 @@
                               buffer-file-name))
        (sk/skel-org-mode))))
 
+  ;; HTML
+  (define-skeleton sk/html-html5-template
+    "My HTML5 template."
+    nil
+    "<!DOCTYPE html>" \n
+    "<html lang=\"en\">" \n
+    "<head>" \n
+    "<meta charset=\"utf-8\">" \n
+    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" \n
+    "<title>" (skeleton-read "Page Title: ") "</title>" \n
+    "</head>" \n
+    "<body>" \n
+    _
+    "</body>" \n
+    "</html>")
+  (sk/define-auto-insert
+   'html-mode #'sk/html-html5-template)
+
   ;; Emacs Lisp
   (sk/define-auto-insert
    (expand-file-name "~/\\.emacs\\.d/.*\\.el")
