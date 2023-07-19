@@ -1,54 +1,76 @@
 ;;; init-auto-insert-mode.el
 
-(auto-insert-mode t)
-(setq auto-insert-directory "~/.emacs.d/templates")
-(setq auto-insert-query nil)
+(eval-when-compile
+  (require 'auto-insert))
 
-(define-skeleton sk/skel-org-mode
-  "My org-mode skeleton."
-  nil
-  "#+TITLE:  " (read-string "Title: ") "
+(defun sk/define-auto-insert (condition action &optional after)
+  "Delete all auto inserts before calling `define-auto-insert'."
+  (setq auto-insert-alist (assoc-delete-all condition auto-insert-alist))
+  (define-auto-insert condition action after))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; main config
+
+(use-package autoinsert
+  :defer 3
+  :ensure nil
+  :custom
+  (auto-insert-directory (locate-user-emacs-file "templates"))
+  :config
+  (auto-insert-mode t)
+
+  ;; Reset to default
+  (custom-reevaluate-setting 'auto-insert-alist)
+
+  ;; C Program
+  (sk/define-auto-insert
+   '(c-mode . "C Program")
+   ["c-template" sk/auto-update-source-file])
+
+;;;; FIXME: Commented out the Python insertion for now.  I had the problem
+;;;; that when I jumped to a module with LSP, I landed in an empty __init__.py
+;;;; file where the auto-insert triggered.  Could I make `auto-insert-mode'
+;;;; not insert in such files?
+
+  ;; (define-auto-insert
+  ;;   '(python-mode . "Python Program")
+  ;;   ["python-template" sk/auto-update-source-file])
+
+  ;; Perl
+  (sk/define-auto-insert
+   '(cperl-mode . "Perl Program")
+   ["perl-template" sk/auto-update-source-file])
+
+  ;; Shell
+  (sk/define-auto-insert
+   '(sh-mode . "Shell Script")
+   ["shell-template" sk/auto-update-source-file])
+
+  ;; Org-mode
+  (define-skeleton sk/skel-org-mode
+    "My org-mode skeleton."
+    nil
+    "#+TITLE:  " (read-string "Title: ") "
 #+DATE:   " (format-time-string "%Y-%m-%d") "
 #+AUTHOR: SK
 #+STARTUP: content hidestars indent
 #+OPTIONS: toc:nil num:1 email:nil
 
 " _)
+  (sk/define-auto-insert
+   '(org-mode . "Org")
+   ;; Don't insert the skeleton in my org-roam or journal files.
+   (lambda ()
+     (when (not (string-match (rx bos (eval (expand-file-name "~/org/"))
+                                  (or "roam" "journal") "/")
+                              buffer-file-name))
+       (sk/skel-org-mode))))
 
-(with-eval-after-load 'autoinsert
-  ;; Reset to default
-  (custom-reevaluate-setting 'auto-insert-alist)
-  (define-auto-insert
-    '(c-mode . "C Program")
-    ["c-template" my-auto-update-source-file])
-
-  ;;;; FIXME: Commented out the Python insertion for now.  I had the problem
-  ;;;; that when I jumped to a module with LSP, I landed in an empty __init__.py
-  ;;;; file where the auto-insert triggered.  Could I make `auto-insert-mode'
-  ;;;; not insert in such files?
-
-  ;; (define-auto-insert
-  ;;   '(python-mode . "Python Program")
-  ;;   ["python-template" my-auto-update-source-file])
-
-  (define-auto-insert
-    '(cperl-mode . "Perl Program")
-    ["perl-template" my-auto-update-source-file])
-  (define-auto-insert
-    '(sh-mode . "Shell Script")
-    ["shell-template" my-auto-update-source-file])
-  (define-auto-insert
-    '(org-mode . "Org")
-    ;; Don't insert the skeleton in my org-roam or journal files.
-    (lambda ()
-      (when (not (string-match (rx bos (eval (expand-file-name "~/org/"))
-                                   (or "roam" "journal") "/")
-                               buffer-file-name))
-        (sk/skel-org-mode))))
-  (define-auto-insert
-    (expand-file-name "~/\\.emacs\\.d/.*\\.el")
-    '(nil
-      ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
+  ;; Emacs Lisp
+  (sk/define-auto-insert
+   (expand-file-name "~/\\.emacs\\.d/.*\\.el")
+   '(nil
+     ";;; " (format "%s%76s" (file-name-nondirectory buffer-file-name) " -*- lexical-binding: t; -*-") "
 
 " _ "
 
@@ -56,10 +78,10 @@
 
   ;; (define-auto-insert
   ;;   '(org-mode . "Org-mode File")
-  ;;   '["org-mode-template" my-auto-update-source-file])
+  ;;   '["org-mode-template" sk/auto-update-source-file])
   )
 
-(defun my-auto-update-source-file ()
+(defun sk/auto-update-source-file ()
   ;; replace HEADER_NAME with something suitable for an ifdef
   (save-excursion
     (while (search-forward "HEADER_NAME" nil t)
