@@ -225,7 +225,6 @@
  '(org-enforce-todo-dependencies t)
  '(org-modules
    '(org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-w3m))
- '(org-roam-directory "~/org/roam/")
  '(org-src-block-faces 'nil)
  '(outline-minor-mode-cycle t)
  '(package-quickstart t)

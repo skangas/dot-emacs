@@ -3,6 +3,27 @@
 (use-package restclient
   :defer t)
 
+(use-package org-roam
+  :bind (("C-c n c" . org-roam-capture)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n l" . org-roam-buffer-toggle)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point))
+  :custom
+  (org-roam-directory (expand-file-name "~/org/roam/"))
+  (org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-capture-templates
+   (("d" "default" plain "%?" :target
+     (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+")
+     :unnarrowed t)
+    ("w" "work" plain "%?" :target
+     (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+")
+     :unnarrowed t)))
+  :config
+  (org-roam-db-autosync-mode))
 
 (use-package ob-restclient
   :defer t)
