@@ -123,11 +123,11 @@
 ;; (require 'init-w3m)
 
 ;; Coding
-(require 'init-coding-c)
 (require 'init-coding-common)
-(require 'init-coding-cpp)
-(require 'init-coding-emacs-lisp)
-(require 'init-coding-perl)
+(require 'init-lang-c)
+(require 'init-lang-cpp)
+(require 'init-lang-emacs-lisp)
+(require 'init-lang-perl)
 (require 'init-python)
 ;; (require 'init-coding-cedet)
 ;; (require 'init-coding-common-lisp)
