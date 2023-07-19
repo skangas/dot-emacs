@@ -3,6 +3,20 @@
 (use-package restclient
   :defer t)
 
+(use-package org-journal
+  :bind (("C-c n j" . org-journal-new-entry))
+  :init
+  (defun sk/org-journal-date (&rest args)
+    (let ((system-time-locale "sv_SE.UTF-8"))
+      (format "* %s %s"
+              (format-time-string "%A, %d")
+              (downcase (format-time-string "%B %Y")))))
+  :custom
+  (org-journal-date-prefix "#+title: ")
+  (org-journal-dir "~/org/journal/")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-date-format 'sk/org-journal-date))
+
 (use-package org-roam
   :bind (("C-c n c" . org-roam-capture)
          ("C-c n f" . org-roam-node-find)
