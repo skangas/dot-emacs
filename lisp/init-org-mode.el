@@ -1,8 +1,16 @@
 ;;; init-org-mode.el                                                 -*- lexical-binding: t; -*-
 
+(use-package restclient
+  :defer t)
+
+
+(use-package ob-restclient
+  :defer t)
+
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((shell . t)))
+ '((shell . t)
+   (restclient . t)))
 
 (use-package org
   :bind (("C-c å" . sk/toggle-next-task-display))
