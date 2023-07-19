@@ -14,6 +14,8 @@
 
 (use-package org
   :bind (("C-c å" . sk/toggle-next-task-display))
+  :hook
+  (org-mode . visual-line-mode)
   :custom
   (org-footnote-auto-adjust t)
   (org-return-follows-link t)
@@ -51,9 +53,6 @@
                       "~/org/agenda.org"
                       "~/org/todo.org"
                       "~/org/personal.org"
-                      ;; FIXME
-                      ;; "~/org/.cache/revolution-imt.org"
-                      ;; "~/org/.cache/google-calendar.org"
                       ))
   ;;(org-agenda-skip-deadline-if-done t)
   ;;(org-agenda-skip-scheduled-if-done t)
@@ -76,8 +75,8 @@
   (ignore-errors (require 'org-notmuch)) ; 9.3 and earlier (27.1)
 
   ;; Link to man pages.
-  (ignore-errors (require 'ol-man))      ; 9.3.1 and later
-  (ignore-errors (require 'org-man))     ; 9.3 and earlier (27.1)
+  (ignore-errors (require 'ol-man))     ; 9.3.1 and later
+  (ignore-errors (require 'org-man))    ; 9.3 and earlier (27.1)
 
   ;; My GMail link type.
   (org-add-link-type
