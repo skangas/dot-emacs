@@ -34,23 +34,7 @@ EMACSWIKI_DOWNLOAD=http://www.emacswiki.org/cgi-bin/wiki/download
 # Where I most recently fetched various random elisp files written by
 # other people.
 
-cperl-mode.el:
-	curl -O http://github.com/jrockway/cperl-mode/raw/master/cperl-mode.el
-ffap-perl-module.el:
-	curl -O ftp://download.tuxfamily.org/user42/ffap-perl-module.el
-filladapt.el:
-	curl -O http://www.wonderworks.com/download/filladapt.el
-haskell-ghci.el:
-	curl -O http://home.arachsys.com/~chris/haskell-ghci.el
-org-habit-plus.el:
-	curl -O https://raw.githubusercontent.com/oddious/org-habit-plus/master/org-habit-plus.el
-rcirc-late-fix.el:
-	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-late-fix.el
-rcirc-notify.el:
-	curl -O $(EMACSWIKI_DOWNLOAD)/rcirc-notify.el
+pjb-xresources.el:
+	curl -O https://raw.githubusercontent.com/informatimago/emacs/master/pjb-xresources.el
 sv-kalender.el:
 	curl -O http://bigwalter.net/daniel/elisp/sv-kalender.el
-zenburn-theme.el:
-	curl -O https://github.com/djcb/elisp/raw/master/themes/zenburn-theme.el
-window-numbering.el:
-	curl -O http://nschum.de/src/emacs/window-numbering-mode/window-numbering.el
