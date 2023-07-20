@@ -36,6 +36,6 @@
 
 (add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-mode-hook)
 
-(provide 'init-coding-emacs-lisp)
+(provide 'init-lang-elisp)
 
-;;; init-coding-emacs-lisp.el ends here
+;;; init-lang-elisp.el ends here

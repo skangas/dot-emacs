@@ -101,4 +101,4 @@
     (save-excursion (mark-defun)
                     (perltidy-region))))
 
-(provide 'init-coding-perl)
+(provide 'init-lang-perl)

@@ -1,4 +1,6 @@
-;;; Scheme
+;;; init-lang-scheme.el - Scheme  -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 
 ;; (require 'quack)
 ;; (quack-install)
@@ -13,4 +15,6 @@
   :config
   (setq geiser-default-implementation 'racket))
 
-(provide 'init-coding-scheme)
+(provide 'init-lang-scheme)
+
+;;; init-lang-scheme.el ends here

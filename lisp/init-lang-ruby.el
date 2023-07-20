@@ -92,6 +92,6 @@
 ;;   :config
 ;;   (rvm-use-default))
 
-(provide 'init-coding-ruby)
+(provide 'init-lang-ruby)
 
-;;; init-coding-ruby.el ends here
+;;; init-lang-ruby.el ends here

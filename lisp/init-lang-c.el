@@ -20,4 +20,4 @@
 
 (add-hook 'c-mode-hook #'my/c-mode-customizations)
 
-(provide 'init-coding-c)
+(provide 'init-lang-c)
