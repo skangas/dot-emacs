@@ -256,13 +256,6 @@ This will run newline-and-indent, and then indent once more."
   (magit-diff-refine-hunk 'all)
   (magit-repository-directories '(("~/wip/emacs/" . 0))))
 
-(use-package nameless
-  :diminish
-  :hook (emacs-lisp-mode . nameless-mode))
-
-(use-package package-lint
-  :commands (package-lint-current-buffer))
-
 (use-package paredit
   :hook (( emacs-lisp-mode ielm-mode
            lisp-data-mode lisp-mode lisp-interaction-mode

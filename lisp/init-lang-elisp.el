@@ -2,8 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (require 'eval-expr)
-;; (eval-expr-install)
+(use-package elisp-mode :ensure nil
+  :defer t
+  :diminish "el"
+  :init
+  (defun my-emacs-lisp-mode-hook ()
+    (my-coding-keys emacs-lisp-mode-map)
+    (add-hook 'after-save-hook #'my-recompile-el))
+  :hook (emacs-lisp-mode . my-emacs-lisp-mode-hook))
+
+(use-package nameless
+  :diminish
+  :hook (emacs-lisp-mode . nameless-mode))
+
+(use-package package-lint :defer t)
 
 (add-hook 'lisp-data-mode-hook
           (lambda ()
@@ -24,17 +36,6 @@
       (when (file-exists-p (concat buffer-file-name ".elc"))
         (delete-file (concat buffer-file-name ".elc")))
       (byte-compile-file buffer-file-name))))
-
-(defun my-emacs-lisp-mode-hook ()
-  (my-coding-keys emacs-lisp-mode-map)
-
-  ;; Abbreviate Emacs Lisp
-  (setq mode-name "el")
-
-  ;; automatically compile all .el files on save
-  (add-hook 'after-save-hook #'my-recompile-el))
-
-(add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-mode-hook)
 
 (provide 'init-lang-elisp)
 
