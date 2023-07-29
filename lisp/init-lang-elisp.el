@@ -11,6 +11,10 @@
     (add-hook 'after-save-hook #'my-recompile-el))
   :hook (emacs-lisp-mode . my-emacs-lisp-mode-hook))
 
+(use-package checkdoc :defer t
+  :config
+  (push "org-mode" checkdoc-symbol-words))
+
 (use-package nameless
   :diminish
   :hook (emacs-lisp-mode . nameless-mode))
