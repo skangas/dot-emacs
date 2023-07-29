@@ -343,6 +343,16 @@
               ("å" . dired-sk/open-media-dwim)
               ("E" . dired-do-eww)
               ("C-i" . image-dired-here))
+  :custom
+  (dired-dwim-target t)           ; Try to guess a default target directory
+  (dired-isearch-filenames 'dwim) ; Search filenames only
+  (dired-auto-revert-buffer #'dired-directory-changed-p)
+  (dired-make-directory-clickable t) ; 29.1
+  (dired-hide-details-hide-symlink-targets nil)
+  (dired-omit-verbose nil)
+  (dired-omit-files
+   (concat dired-omit-files
+           (rx (or ".pytest_cache" ".ruff_cache") eos)))
   :config
   ;; This actually binds `mouse-1'.
   (define-key dired-mode-map [mouse-2] #'dired-mouse-find-file)
@@ -350,10 +360,6 @@
   (if (eq system-type 'darwin)
       (setq dired-listing-switches "-lAFh")
     (setq dired-listing-switches "-lAFh --group-directories-first"))
-  (setq dired-dwim-target t)           ; Try to guess a default target directory
-  (setq dired-isearch-filenames 'dwim) ; Search filenames only
-  (setq dired-auto-revert-buffer #'dired-directory-changed-p)
-  (setq dired-make-directory-clickable t) ; 29.1
 
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
@@ -361,7 +367,7 @@
     "Toggle showing dot-files."
     :lighter " Hide"
     :init-value nil
-    (if (not (eq major-mode 'dired-mode))
+    (if (not (derived-mode-p 'dired-mode))
         (progn
           (error "Doesn't seem to be a Dired buffer")
           (setq dired-hide-dotfiles-mode nil))
@@ -379,6 +385,10 @@
                   "feh -F -Z -r -z * &") ))
       (message cmd)
       (dired-do-shell-command cmd nil (list file)))))
+
+
+(use-package diredfl
+  :hook dired-mode)
 
 (use-package dired-aux
   :ensure nil
