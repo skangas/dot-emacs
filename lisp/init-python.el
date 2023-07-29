@@ -2,12 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+;; TODO: Should this be in `python-mode'?
+(use-package grep :ensure nil :defer t
+  :config
+  (dolist (dir '(".tox" ".venv" ".mypy_cache" ".ruff_cache"))
+    (add-to-list 'grep-find-ignored-directories dir)))
+
+(use-package pip-requirements
+  :defer t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; venv
 
-;; (use-package pyvenv
-;;   :defer t)
+(use-package pyvenv
+  :config
+  (pyvenv-mode))
 
 ;; (use-package auto-virtualenv
 ;;   :hook
