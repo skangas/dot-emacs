@@ -266,7 +266,7 @@
 ;;   :defer t)
 
 (use-package comint
-  :ensure nil                           ; built-in
+  :ensure nil                         ; built-in
   ;; FIXME: :defer should not be needed here
   :defer t
   :hook (comint-mode . (lambda () (setq-local scroll-margin 0))))
@@ -465,6 +465,9 @@
       (search-forward "Details " nil t)
       (recenter 0)))
   (add-hook 'eww-after-render-hook #'sk/eww-move-point-in-place))
+
+(use-package executable
+  :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 
 (use-package flyspell
   :ensure nil
