@@ -391,6 +391,9 @@
         dired-guess-shell-alist-default)
   (setq dired-create-destination-dirs 'ask))
 
+(use-package dockerfile-mode
+  :defer t)
+
 (use-package eglot
   :ensure nil
   :hook (python-mode . eglot-ensure))
