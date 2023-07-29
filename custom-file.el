@@ -229,7 +229,7 @@
  '(outline-minor-mode-cycle t)
  '(package-quickstart t)
  '(package-selected-packages
-   '(writegood-mode yaml-mode yasnippet-snippets yasnippet xr ws-butler web-mode projectile php-mode paredit package-lint nameless magit macrostep haskell-mode el-search engine-mode orderless ag ob-async markdown-mode diff-hl winum company undo-tree hydra org-download openwith use-package wgrep xml-rpc org-modern org-super-agenda which-key ioccur nov diminish centered-window counsel orglink boxquote aggressive-indent visual-fill-column debbugs marginalia multiple-cursors avy iedit embark elfeed-org))
+   '(diredfl dockerfile-mode elsa elisp-mode org-journal pip-requirements org-roam flymake-ruff python-docstring blacken ob-restclient restclient impatient-mode auto-virtualenv ledger-mode writegood-mode yaml-mode yasnippet-snippets yasnippet xr ws-butler web-mode projectile php-mode paredit package-lint nameless magit macrostep haskell-mode el-search engine-mode orderless ag ob-async markdown-mode diff-hl winum company undo-tree hydra org-download openwith use-package wgrep xml-rpc org-modern org-super-agenda which-key ioccur nov diminish centered-window counsel orglink boxquote aggressive-indent visual-fill-column debbugs marginalia multiple-cursors avy iedit embark elfeed-org))
  '(pdf-view-bounding-box-margin 0.15)
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(pdf-view-resize-factor 1.05)
