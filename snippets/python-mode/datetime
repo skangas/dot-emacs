@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: datetime
+# key: datetime
+# --
+from datetime import datetime
