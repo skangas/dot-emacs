@@ -126,7 +126,7 @@
 (require 'init-coding-common)
 (require 'init-lang-c)
 (require 'init-lang-cpp)
-(require 'init-lang-emacs-lisp)
+(require 'init-lang-elisp)
 (require 'init-lang-perl)
 (require 'init-python)
 ;; (require 'init-coding-cedet)

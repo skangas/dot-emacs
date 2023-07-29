@@ -112,9 +112,6 @@
 (setq sv-hide-some-holidays t)
 (require 'sv-kalender)
 
-(require 'uniquify) ;; has to be a require
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-
 ;; (setq use-dialog-box nil) ;; DON'T DO THIS! Will unfortunately sometimes crash emacs
 
 (add-hook 'before-save-hook 'time-stamp)
@@ -786,8 +783,11 @@
   :defer t
   :pin "gnu")
 
+(use-package uniquify
+  :defer nil)                            ; has to be a require
+
 (use-package visual-fill-column
-  :defer t)
+  :hook visual-line-mode)
 
 (use-package wgrep
   :after grep
@@ -811,12 +811,10 @@
   :ensure nil
   :bind (("<C-s-left>" . winner-undo)
          ("<C-s-right>" . winner-redo))
-  :config
+  :init
   (setq winner-dont-bind-my-keys t)    ; default bindings conflict with org-mode
   (winner-mode 1))
 
-(use-package xml-rpc
-  :defer t)
 
 (use-package winum
   ;; Replaces window-numbering.el

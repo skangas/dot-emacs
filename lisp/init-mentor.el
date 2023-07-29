@@ -1,7 +1,7 @@
 ;;; init-mentor.el  -*- lexical-binding:t -*-
 
 ;; (use-package xml-rpc
-;;   :ensure t)
+;;   :defer t)
 
 (add-to-list 'load-path (expand-file-name "~/wip/mentor"))
 ;; Use my local version.

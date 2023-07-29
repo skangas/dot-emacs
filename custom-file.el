@@ -242,7 +242,10 @@
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-values
-   '((eval turn-on-visual-fill-cond)
+   '((checkdoc--interactive-docstring-flag)
+     (checkdoc--disambiguate-symbol-flag)
+     (checkdoc--argument-missing-flag)
+     (eval turn-on-visual-fill-cond)
      (eval setq org-adapt-indentation nil)
      (recentf-mode)
      (save-place-mode)

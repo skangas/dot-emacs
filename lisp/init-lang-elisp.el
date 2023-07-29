@@ -4,7 +4,7 @@
 
 (use-package elisp-mode :ensure nil
   :defer t
-  :diminish "el"
+  :diminish (emacs-lisp-mode . "el")
   :init
   (defun my-emacs-lisp-mode-hook ()
     (my-coding-keys emacs-lisp-mode-map)

@@ -1,7 +1,7 @@
 ;;; init-auto-insert-mode.el
 
 (eval-when-compile
-  (require 'auto-insert))
+  (require 'autoinsert))
 
 (defun sk/define-auto-insert (condition action &optional after)
   "Delete all auto inserts before calling `define-auto-insert'."
