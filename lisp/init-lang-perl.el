@@ -4,11 +4,10 @@
 (defalias 'perl-mode 'cperl-mode)
 
 (use-package cperl-mode
-  :mode (("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode)
-         ("\\.plx\\'" . cperl-mode)
-         ("\\.cgi\\'" . cperl-mode)
-         ("\\.pod\\'" . cperl-mode)
-         (".*/perl/.*" . cperl-mode))
+  :mode (((rx (or (or ".pl" ".plx" ".cgi" ".pod")
+                  (seq (* nonl) "/perl/" (* nonl)))
+              eos)
+          . cperl-mode))
   :interpreter (("perl" . cperl-mode)
                 ("perl5" . cperl-mode)
                 ("miniperl" . cperl-mode))
@@ -95,6 +94,7 @@
     (interactive)
     (save-excursion
       (shell-command-on-region (point) (mark) "perltidy -q" nil t)))
+
   (defun perltidy-defun ()
     "Run perltidy on the current defun."
     (interactive)
