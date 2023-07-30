@@ -17,7 +17,7 @@
 
 (use-package nameless
   :diminish
-  :hook (emacs-lisp-mode . nameless-mode))
+  :hook emacs-lisp-mode)
 
 (use-package package-lint :defer t)
 
