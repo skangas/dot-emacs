@@ -78,17 +78,17 @@
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; Remove?
 
 ;; C-c e <foo>
-(global-set-key (kbd "C-c e a") #'aggressive-indent-mode)
-(global-set-key (kbd "C-c e b") #'eval-buffer)
-(global-set-key (kbd "C-c e d") #'toggle-debug-on-error)
 (global-set-key (kbd "C-c e F") #'flyspell-mode)
-(global-set-key (kbd "C-c e f") #'emacs-lisp-byte-compile-and-load)
+(global-set-key (kbd "C-c e a") #'aggressive-indent-mode)
+;; (global-set-key (kbd "C-c e b") #'eval-buffer) ; moved to emacs-lisp-mode
+(global-set-key (kbd "C-c e d") #'toggle-debug-on-error)
+;; (global-set-key (kbd "C-c e f") #'emacs-lisp-byte-compile-and-load) ; moved to emacs-lisp-mode
 (global-set-key (kbd "C-c e i") #'my-eval-and-replace)
-(global-set-key (kbd "C-c e n") #'nameless-mode)
+(global-set-key (kbd "C-c e m") #'macrostep-expand)
+;; (global-set-key (kbd "C-c e n") #'nameless-mode) ; moved to emacs-lisp-mode
 (global-set-key (kbd "C-c e r") #'eval-region)
 (global-set-key (kbd "C-c e s") #'scratch-buffer)
-(global-set-key (kbd "C-c e m") #'macrostep-expand)
-(global-set-key (kbd "C-c e t") #'sk/ert-run-all-tests)
+;; (global-set-key (kbd "C-c e t") #'sk/ert-run-all-tests) ; moved to emacs-lisp-mode
 
 ;; C-g
 (global-set-key (kbd "M-g M-r") #'goto-random-line)

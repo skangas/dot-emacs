@@ -5,6 +5,11 @@
 (use-package elisp-mode :ensure nil
   :defer t
   :diminish (emacs-lisp-mode . "el")
+  :bind (:map emacs-lisp-mode-map
+              (("C-c e b" . eval-buffer)
+               ("C-c e f" . emacs-lisp-byte-compile-and-load)
+               ("C-c e n" . nameless-mode)
+               ("C-c e t" . sk/ert-run-all-tests)))
   :init
   (defun my-emacs-lisp-mode-hook ()
     (my-coding-keys emacs-lisp-mode-map)
