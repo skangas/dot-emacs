@@ -124,7 +124,6 @@
   )
 
 (use-package org-super-agenda
-  :ensure t
   :custom
   (org-agenda-custom-commands
    '(("w" "Work"

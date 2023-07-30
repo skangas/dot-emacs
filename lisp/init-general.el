@@ -224,7 +224,6 @@
       (quietly-read-abbrev-file)))
 
 (use-package avy
-  :ensure t
   :bind (("C-å" . avy-goto-char-timer)
          ("C-Å" . avy-goto-char)
          ("C-x SPC" . avy-mark)
@@ -240,7 +239,6 @@
 
 (use-package centered-cursor-mode
   :disabled t
-  :ensure t
   :config
   ;; center cursor in info-mode
   (defun my-info-mode-hook-center-cursor ()
@@ -250,7 +248,6 @@
 (use-package auto-dim-other-buffers
   ;; :pin "melpa"
   :disabled t
-  :ensure t
   :diminish
   :config
   (auto-dim-other-buffers-mode 1))
@@ -279,7 +276,6 @@
   (global-company-mode 1))
 
 (use-package counsel
-  :ensure t
   :pin "gnu"
   :bind
   (nil
@@ -328,11 +324,9 @@
       (counsel-yank-pop))))
 
 (use-package dash
-  :ensure t
   :defer t)
 
 (use-package diff-hl
-  :ensure t
   :hook (dired-mode-hook . diff-hl-dired-mode))
 
 (use-package dired                      ; (built-in)
@@ -410,7 +404,6 @@
   :diminish)
 
 (use-package engine-mode
-  :ensure t
   :config
   (engine-mode t)
   (defengine duckduckgo
@@ -491,7 +484,6 @@
   (setq flyspell-abbrev-p t))
 
 (use-package embark  ; put after flyspell
-  :ensure t
   :pin "gnu"
   :bind
   (("C-." . embark-act)
@@ -537,12 +529,10 @@
   (add-hook 'grep-setup-hook 'sk/grep-mode-hook))
 
 ;; (use-package google-translate
-;;   :ensure t
 ;;   :bind (("C-c t" . google-translate-at-point)
 ;;          ("C-c T" . google-translate-query-translate)))
 
 ;; (use-package guess-language-mode
-;;   :ensure t
 ;;   :config
 ;;   (setq guess-language-languages '(en sv)))
 
@@ -630,7 +620,6 @@
 
 (use-package ido-completing-read+
   :disabled t                           ; It is slow and sometimes broken.
-  :ensure t
   :config
   (ido-ubiquitous-mode 1)
   (setq ido-cr+-auto-update-blacklist t))
@@ -713,7 +702,6 @@ With prefix ARG, don't filter anything."
 (use-package marginalia
   :defer 3
   :pin "gnu"
-  :ensure t
   :config
   (marginalia-mode 1))
 
@@ -779,11 +767,9 @@ With prefix ARG, don't filter anything."
 (use-package orderless
   :defer 10
   :pin "gnu"
-  :ensure t
   :custom (completion-styles '(orderless basic)))
 
 ;; (use-package powerline
-;;   :ensure t
 ;;   :config
 ;;   (powerline-default-theme))
 
@@ -846,11 +832,9 @@ With prefix ARG, don't filter anything."
               ("C-c C-c". wgrep-finish-edit)))
 
 (use-package writegood-mode
-  :ensure t
   :defer t)
 
 (use-package which-key
-  :ensure t
   :diminish which-key-mode
   :config
   (which-key-mode)

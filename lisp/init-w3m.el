@@ -1,5 +1,4 @@
 (use-package w3m
-  :ensure t
   :pin "melpa"
   :commands w3m-goto-url w3m-search
   :config

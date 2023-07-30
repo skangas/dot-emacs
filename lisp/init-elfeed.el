@@ -203,7 +203,6 @@
       (message-goto-body))))
 
 (use-package elfeed
-  :ensure t
   :bind (:map elfeed-search-mode-map
               ("h" . elfeed-search-untag-all-unread) ; more ergonomic keybinding
               ;; ("j" . sk/elfeed-jump/body)
@@ -272,7 +271,6 @@
 ;;   )
 
 (use-package elfeed-org
-  :ensure t
   :pin "melpa"
   :config
   (elfeed-org)

@@ -122,7 +122,6 @@ CREATE-COMPILER-COMMAND."
   :bind (("C-j" . 'diff-goto-source)))
 
 ;; (use-package diff-hl
-;;   :ensure t
 ;;   :config
 ;;   (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 ;;   (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
@@ -146,7 +145,6 @@ CREATE-COMPILER-COMMAND."
           ("M-p" . flymake-goto-prev-error)))
 
 (use-package haskell-mode
-  :ensure t
   :mode "\\.hs\\'"
   :commands haskell-mode
   :config
@@ -215,12 +213,12 @@ This will run newline-and-indent, and then indent once more."
    'haskell-mode-hook
    (lambda ()
         ;;; use add-to-list rather than push to avoid growing the list for every Haskell file loaded
-      (add-to-list 'flymake-allowed-file-name-masks
-                   '("\\.l?hs$" flymake-Haskell-init flymake-simple-java-cleanup))
-      (add-to-list 'flymake-err-line-patterns
-                   '("^\\(.+\\.l?hs\\):\\([0-9]+\\):\\([0-9]+\\):\\(\\(?:.\\|\\W\\)+\\)"
-                     1 2 3 4))
-      (set (make-local-variable 'multiline-flymake-mode) t)))
+     (add-to-list 'flymake-allowed-file-name-masks
+                  '("\\.l?hs$" flymake-Haskell-init flymake-simple-java-cleanup))
+     (add-to-list 'flymake-err-line-patterns
+                  '("^\\(.+\\.l?hs\\):\\([0-9]+\\):\\([0-9]+\\):\\(\\(?:.\\|\\W\\)+\\)"
+                    1 2 3 4))
+     (set (make-local-variable 'multiline-flymake-mode) t)))
 
   (defun credmp/flymake-display-err-minibuf ()
     "Displays the error/warning for the current line in the minibuffer"
@@ -244,8 +242,8 @@ This will run newline-and-indent, and then indent once more."
   (add-hook
    'haskell-mode-hook
    (lambda ()
-      (define-key haskell-mode-map "\C-cd"
-                  'credmp/flymake-display-err-minibuf))))
+     (define-key haskell-mode-map "\C-cd"
+                 'credmp/flymake-display-err-minibuf))))
 
 (use-package macrostep
   :defer t)
@@ -268,7 +266,6 @@ This will run newline-and-indent, and then indent once more."
     (eldoc-add-command 'paredit-backward-delete 'paredit-close-round)))
 
 (use-package php-mode
-  :ensure t
   :mode ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'")
   :config
   (defun my-php-mode-customizations ()
@@ -285,7 +282,6 @@ This will run newline-and-indent, and then indent once more."
 (use-package projectile
   :disabled t
   :defer 5
-  :ensure t
   :pin "melpa"
   :diminish
   :bind ( :map projectile-mode
@@ -355,11 +351,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("\\.erb\\'" . web-mode)
          ("\\.mustache\\'" . web-mode)
          ("\\.djhtml\\'" . web-mode))
-  :interpreter ("node" . web-mode)
-  :ensure t)
+  :interpreter ("node" . web-mode))
 
 (use-package ws-butler
-  :ensure t
   :hook prog-mode-hook
   :custom
   (ws-butler-convert-leading-tabs-or-spaces t))
@@ -368,7 +362,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :defer t)
 
 (use-package yaml-mode
-  :ensure t
   :mode (("\\.ya?ml\\'" . yaml-mode)))
 
 (provide 'init-coding-common)

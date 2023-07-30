@@ -1,15 +1,13 @@
 ;;; init-ivy.el                                                 -*- lexical-binding: t; -*-
 
 (use-package flx                        ; mostly needed for ivy completion
-  :ensure t
   :pin "melpa")
 
 (use-package counsel
-	     :ensure t
-	     :pin "gnu"
-	     :config
-	     (global-set-key (kbd "M-x") 'counsel-M-x)
-	       ;; Ivy-based interface to standard commands
+  :pin "gnu"
+  :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  ;; Ivy-based interface to standard commands
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   ;; (global-set-key (kbd "M-y") 'counsel-yank-pop)
@@ -51,10 +49,9 @@
   (global-set-key (kbd "C-x l") 'counsel-locate)
   ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 
-)
+  )
 
 (use-package ivy
-  :ensure t
   :pin "gnu"
   :diminish ivy-mode
   :config

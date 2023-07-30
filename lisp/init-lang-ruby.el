@@ -16,7 +16,6 @@
   (setq-local ac-stop-words '("if" "end" "else" "do" "def")))
 
 (use-package enh-ruby-mode
-  :ensure t
   :mode "\\.rb\\'"
   :interpreter "ruby"
   :diminish "Ruby"
@@ -32,7 +31,6 @@
   (add-hook 'enh-ruby-mode-hook 'my-ruby-mode-hook))
 
 (use-package projectile-rails
-  :ensure t
   :pin "melpa"
   :config
   (projectile-rails-global-mode))
@@ -41,7 +39,6 @@
 
 (use-package rinari
   :disable t
-  :ensure t
   :pin "melpa"
   :config
   (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)
@@ -50,7 +47,6 @@
   )
 
 (use-package robe
-  :ensure t
   :pin "melpa"
   :diminish "Robe"
   :config
@@ -60,17 +56,15 @@
   (add-hook 'robe-mode-hook 'ac-robe-setup)
   ;; Run rvm first
   (when (fboundp 'rvm-activate-corresponding-ruby)
-   (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
-     (rvm-activate-corresponding-ruby))))
+    (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+      (rvm-activate-corresponding-ruby))))
 
 ;; (use-package ruby-end
-;;   :ensure t
 ;;   :config
 ;;   (add-hook 'ruby-mode-hook 'ruby-end-mode)
 ;;   (add-hook 'enh-ruby-mode-hook 'ruby-end-mode))
 
 (use-package ruby-test-mode
-  :ensure t
   :pin "melpa"
   :diminish "RT"
   :config
@@ -78,17 +72,15 @@
   (add-hook 'ruby-mode-hook 'ruby-test-mode))
 
 (use-package inf-ruby
-  :ensure t)
+  :defer t)
 
 ;; Compare to ruby-compilation package
 (use-package minitest
-  :ensure t
   :diminish "MT"
   :config
   (add-hook 'ruby-mode-hook 'minitest-mode))
 
 ;; (use-package rvm
-;;   :ensure t
 ;;   :config
 ;;   (rvm-use-default))
 

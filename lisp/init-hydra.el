@@ -1,5 +1,4 @@
 (use-package hydra
-  :ensure t
   :config
 
   (defhydra sk/gogo (:exit nil)

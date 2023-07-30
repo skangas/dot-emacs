@@ -11,7 +11,6 @@
 
 ;; Geiser
 (use-package geiser
-  :ensure t
   :config
   (setq geiser-default-implementation 'racket))
 

@@ -9,15 +9,13 @@
 
   ;; Prefer `ls` from GNU coreutils
   (if (executable-find "gls")
-    (setq insert-directory-program "gls"))
+      (setq insert-directory-program "gls"))
 
   (use-package exec-path-from-shell
-    :ensure t
     :init
     (exec-path-from-shell-initialize))
 
   (use-package ns-auto-titlebar
-    :ensure t
     :init
     (ns-auto-titlebar-mode))
 
