@@ -8,42 +8,37 @@
                   (seq (* nonl) "/perl/" (* nonl)))
               eos)
           . cperl-mode))
-  :interpreter (("perl" . cperl-mode)
-                ("perl5" . cperl-mode)
-                ("miniperl" . cperl-mode))
-  :config
-  (require 'sk-macros)
+  :interpreter (((rx (or "perl" "perl5" "miniperl")) . cperl-mode))
+  :custom
+  (cperl-clobber-lisp-bindings t)
+  
+  (cperl-lazy-help-time 1) ;; show help after x seconds
+  (cperl-invalid-face nil) ;; NB. should be made obsolete
 
-  (setq cperl-clobber-lisp-bindings t)
-  (setq cperl-highlight-variables-indiscriminately t) ;; hilight all scalars
-  (setq cperl-lazy-help-time 1) ;; show help after x seconds
-  (setq cperl-invalid-face nil) ;; don't show trailing whitespace with _
-  (setq cperl-highlight-variables-indiscriminately nil)
-
-  (setq cperl-electric-linefeed t)
-  (setq cperl-electric-keywords t)
-  (setq cperl-electric-parens nil)
+  (cperl-electric-linefeed t)
+  (cperl-electric-keywords t)
+  (cperl-electric-parens nil)
 
   ;; indentation settings
-  (setq cperl-tab-always-indent t)            ;; TAB always indents line
-  (setq cperl-indent-left-aligned-comments t) ;; indent left aligned comments
-  (setq cperl-auto-newline nil)               ;; No automatic newline
-  ;; (setq cperl-auto-newline-after-colon) ;; automatic newline after colon when above setting enabled
-  (setq cperl-indent-level 4)
-  (setq cperl-continued-statement-offset 4)
-  (setq cperl-continued-brace-offset 0)
-  (setq cperl-indent-parens-as-block t) ;; indent parenthetic expressions sanely
-  (setq cperl-close-paren-offset -4)    ;; needed for parens-as-block
-  (setq cperl-label-offset 0) ;; extra indentation for line that is a label
-  (setq cperl-brace-offset 0) ;; braces should only get default indentation
+  (cperl-tab-always-indent t)            ;; TAB always indents line
+  (cperl-indent-left-aligned-comments t) ;; indent left aligned comments
+  (cperl-auto-newline nil)               ;; No automatic newline
+  ;; (cperl-auto-newline-after-colon) ;; automatic newline after colon when above setting enabled
+  (cperl-indent-level 4)
+  (cperl-continued-statement-offset 4)
+  (cperl-continued-brace-offset 0)
+  (cperl-indent-parens-as-block t) ;; indent parenthetic expressions sanely
+  (cperl-close-paren-offset -4)    ;; needed for parens-as-block
+  (cperl-label-offset 0)           ;; extra indentation for line that is a label
+  (cperl-brace-offset 0)           ;; braces should only get default indentation
+
+  :config
+  (require 'sk-macros)
 
   (defun my-cperl-customizations ()
     "cperl-mode customizations that must be done after cperl-mode loads"
     (define-key cperl-mode-map (kbd "C-M-<") 'cperl-lineup)
     (define-key cperl-mode-map (kbd "C-h f") 'cperl-perldoc)
-
-    ;; flyspell in comments
-    (flyspell-prog-mode)
 
     ;; use perl to compile
     (set (make-local-variable 'compile-command) (concat "perl -w -c " buffer-file-name))
@@ -71,16 +66,16 @@
          (t 8)
          )))
 
-    (setq my-cperl-outline-regexp
-          (rx bol (* (in " \t"))
-              (group (or
-                      (: "=head" (any "12")) ; POD header
-                      "package"              ; package
-                      "=item"                ; POD item
-                      "sub"                  ; subroutine definition
-                      "class" "has"          ; use Moose;
-                      ))
-              word-boundary))
+    (defvar my-cperl-outline-regexp
+      (rx bol (* (in " \t"))
+          (group (or
+                  (: "=head" (any "12")) ; POD header
+                  "package"              ; package
+                  "=item"                ; POD item
+                  "sub"                  ; subroutine definition
+                  "class" "has"          ; use Moose;
+                  ))
+          word-boundary))
 
     (setq cperl-outline-regexp  my-cperl-outline-regexp)
     (setq outline-regexp        cperl-outline-regexp)
