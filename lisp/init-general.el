@@ -208,8 +208,7 @@
 
 ;;;; packages
 
-(use-package abbrev
-  :ensure nil
+(use-package abbrev :ensure nil         ; built-in
   :defer 5
   :diminish "Ab"
   :hook
@@ -259,8 +258,7 @@
 ;;   :pin "melpa"
 ;;   :defer t)
 
-(use-package comint
-  :ensure nil                         ; built-in
+(use-package comint :ensure nil       ; built-in
   ;; FIXME: :defer should not be needed here
   :defer t
   :hook (comint-mode . (lambda () (setq-local scroll-margin 0))))
@@ -329,8 +327,7 @@
 (use-package diff-hl
   :hook (dired-mode-hook . diff-hl-dired-mode))
 
-(use-package dired                      ; (built-in)
-  :ensure nil
+(use-package dired :ensure nil          ; built-in
   :bind (:map dired-mode-map
               ("." . dired-hide-dotfiles-mode)
               ("," . dired-hide-details-mode)
@@ -338,10 +335,10 @@
               ("E" . dired-do-eww)
               ("C-i" . image-dired-here))
   :custom
-  (dired-dwim-target t)           ; Try to guess a default target directory
-  (dired-isearch-filenames 'dwim) ; Search filenames only
+  (dired-dwim-target t)                ; Try to guess a default target directory
+  (dired-isearch-filenames 'dwim)      ; Search filenames only
   (dired-auto-revert-buffer #'dired-directory-changed-p)
-  (dired-make-directory-clickable t) ; 29.1
+  (dired-make-directory-clickable t)    ; 29.1
   (dired-hide-details-hide-symlink-targets nil)
   (dired-omit-verbose nil)
   (dired-omit-files
@@ -384,8 +381,7 @@
 (use-package diredfl
   :hook dired-mode)
 
-(use-package dired-aux
-  :ensure nil
+(use-package dired-aux :ensure nil      ; built-in
   :defer t
   :config
   (push `(,sk/video-types "mpv")
@@ -395,12 +391,10 @@
 (use-package dockerfile-mode
   :defer t)
 
-(use-package eglot
-  :ensure nil
+(use-package eglot :ensure nil          ; built-in
   :hook (python-mode . eglot-ensure))
 
-(use-package eldoc
-  :ensure nil                           ; built-in
+(use-package eldoc :ensure nil          ; built-in
   :diminish)
 
 (use-package engine-mode
@@ -410,9 +404,8 @@
     "https://duckduckgo.com/?q=%s"
     :keybinding "d"))
 
-(use-package epa-file
+(use-package epa-file :ensure nil       ; built-in
   :defer t
-  :ensure nil
   :config
   ;;(setq epa-armor t)
   ;; Disable gpg agent when runing in terminal
@@ -424,20 +417,16 @@
       (when (not (display-graphic-p))
         (setenv "GPG_AGENT_INFO" agent)))))
 
-(use-package erc
-  :ensure nil                           ; built-in
-  :hook (erc-mode-hook . abbrev-mode))
+(use-package erc :ensure nil            ; built-in
+  :hook (erc-mode . abbrev-mode))
 
-(use-package eshell
-  :ensure nil                           ; built-in
-  :defer t
+(use-package eshell :ensure nil         ; built-in
   :hook (eshell-mode . (lambda () (setq-local scroll-margin 0)))
   :custom
   (eshell-visual-subcommands '(("git" "log" "diff" "show" "tag"))))
 
-(use-package eww                        ; built-in
+(use-package eww :ensure nil            ; built-in
   :defer t
-  :ensure nil
   :config
   (setq shr-width 80)
   (defun sk/my-eww-mode-hook ()
@@ -472,8 +461,7 @@
 (use-package executable
   :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 
-(use-package flyspell
-  :ensure nil
+(use-package flyspell :ensure nil       ; built-in
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode))
   :config
@@ -483,12 +471,11 @@
   ;; If non-nil, add correction to abbreviation table.
   (setq flyspell-abbrev-p t))
 
-(use-package embark  ; put after flyspell
+(use-package embark                     ; put after flyspell
   :pin "gnu"
-  :bind
-  (("C-." . embark-act)
-   ("M-." . embark-dwim)
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :bind (("C-." . embark-act)
+         ("M-." . embark-dwim)
+         ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
   :init
   ;; Optionally replace the key help with a completing-read interface
@@ -501,9 +488,8 @@
                  nil
                  (window-parameters (mode-line-format . none)))))
 
-(use-package grep                       ; built-in
+(use-package grep :ensure nil           ; built-in
   :defer t
-  :ensure nil
   :config
   (defun sk/compilation-finish-flush-lines (buf _)
     "Flush irrelevant lines in grep buffers."
@@ -536,8 +522,7 @@
 ;;   :config
 ;;   (setq guess-language-languages '(en sv)))
 
-(use-package ibuffer
-  :ensure nil
+(use-package ibuffer :ensure nil        ; built-in
   :defer t
   :config
   (setq ibuffer-saved-filter-groups
@@ -601,8 +586,7 @@
   (setq ibuffer-show-empty-filter-groups nil)
   (setq ibuffer-expert t))
 
-(use-package ido
-  :ensure nil                           ; built-in
+(use-package ido :ensure nil            ; built-in
   :defer t
   :config
   ;; (ido-everywhere -1)
@@ -620,6 +604,7 @@
 
 (use-package ido-completing-read+
   :disabled t                           ; It is slow and sometimes broken.
+  :after ido
   :config
   (ido-ubiquitous-mode 1)
   (setq ido-cr+-auto-update-blacklist t))
@@ -627,8 +612,7 @@
 (use-package iedit
   :bind ("C-M-y" . iedit-mode))
 
-(use-package image-dired                ; (built-in)
-  :ensure nil
+(use-package image-dired :ensure nil    ; built-in
   :defer t
   :config
   (setq image-dired-dir "~/.emacs.d/cache/image-dired/")
@@ -640,8 +624,7 @@
     (interactive)
     (image-dired default-directory)))
 
-(use-package image-mode                 ; (built-in)
-  :ensure nil
+(use-package image-mode :ensure nil     ; built-in
   :defer t
   :bind (:map image-mode-map
               ("SPC" . #'image-next-file)
@@ -651,8 +634,7 @@
   :pin "gnu"
   :defer t)
 
-(use-package ispell
-  :ensure nil
+(use-package ispell :ensure nil         ; built-in
   :defer t
   :config
   (when (equal system-type 'darwin)
@@ -665,7 +647,7 @@
   (setq ispell-silently-savep t)
   (setq flyspell-use-global-abbrev-table-p t))
 
-(use-package man :ensure nil
+(use-package man :ensure nil            ; built-in
   :bind (:map Man-mode-map
               ("w"   . my/man-copy-name-as-kill)
               ("M-w" . my/kill-ring-save-without-whitespace))
@@ -705,12 +687,12 @@ With prefix ARG, don't filter anything."
   :config
   (marginalia-mode 1))
 
-(use-package midnight                   ; (built-in)
+(use-package midnight :ensure nil       ; built-in
   :defer 30
-  :ensure nil
+  :custom
+  (clean-buffer-list-delay-general 7)   ; default is 3 days
   :config
   (midnight-mode 1)
-  (setq clean-buffer-list-delay-general 7) ; default is 3 days
   (midnight-delay-set 'midnight-delay "06:00")
   (when (fboundp 'native-compile-prune-cache)
     (add-to-list 'midnight-hook 'native-compile-prune-cache)))
@@ -773,9 +755,8 @@ With prefix ARG, don't filter anything."
 ;;   :config
 ;;   (powerline-default-theme))
 
-(use-package recentf
+(use-package recentf :ensure nil        ; built-in
   :defer 10
-  :ensure nil                           ; built-in
   :config
   (recentf-mode 1)
   :custom
@@ -785,15 +766,13 @@ With prefix ARG, don't filter anything."
                           (or (seq "org/" (* any))
                               (seq ".emacs.bmk" eos))))))
 
-(use-package tab-bar
-  :ensure nil                           ; built-in
+(use-package tab-bar :ensure nil        ; built-in
   :bind (("C-x t n" . tab-next)
          ("C-x t p" . tab-previous)
          ("C-x t o" . tab-duplicate)
          ("C-x t O" . project-other-tab-command)))
 
-(use-package time
-  :ensure nil                           ; built-in
+(use-package time :ensure nil           ; built-in
   :defer t
   :custom
   (world-clock-list '(("America/Los_Angeles" "Seattle")
@@ -806,8 +785,7 @@ With prefix ARG, don't filter anything."
                       ("Asia/Shanghai" "Shanghai")
                       ("Australia/Sydney" "Sydney"))))
 
-(use-package tramp
-  :ensure nil                           ; built-in
+(use-package tramp :ensure nil          ; built-in
   :defer t
   :config
   ;; don't backup any remote files:
@@ -843,14 +821,12 @@ With prefix ARG, don't filter anything."
     "C-c r T" "Go to test/toggle"
     "C-c r t" "Go to test/search"))
 
-(use-package winner                     ; (built-in)
-  :ensure nil
+(use-package winner :ensure nil         ; built-in
   :bind (("<C-s-left>" . winner-undo)
          ("<C-s-right>" . winner-redo))
   :init
   (setq winner-dont-bind-my-keys t)    ; default bindings conflict with org-mode
   (winner-mode 1))
-
 
 (use-package winum
   ;; Replaces window-numbering.el

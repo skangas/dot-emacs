@@ -38,7 +38,7 @@
 ;; FIXME: This was last updated in 2015.  Still relevant?
 
 (use-package rinari
-  :disable t
+  :disabled t
   :pin "melpa"
   :config
   (add-hook 'enh-ruby-mode-hook 'rinari-minor-mode)

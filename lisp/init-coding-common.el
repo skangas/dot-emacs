@@ -4,22 +4,6 @@
 
 ;;; General coding.
 
-;; Disabled for now.
-;; (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Shared bindings
-(defun my-coding-keys (map)
-  "Set key bindings for all programming languages. 
-Argument MAP is the local keymap (e.g. `cperl-mode-map')."
-  (define-key map (kbd "RET") #'newline-and-indent)
-  (define-key map (kbd "M-?") #'indent-region))
-
-(add-hook 'lisp-mode-hook 'my-lisp-mode-customizations t)
-(defun my-lisp-mode-customizations ()
-  (my-coding-keys lisp-mode-base-map))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compilation.

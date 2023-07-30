@@ -129,12 +129,8 @@
 (require 'init-lang-elisp)
 (require 'init-lang-perl)
 (require 'init-python)
-;; (require 'init-coding-cedet)
-;; (require 'init-coding-common-lisp)
-;; (require 'init-coding-haskell)
-;; (require 'init-coding-java)
-;; (require 'init-coding-ruby)
-;; (require 'init-coding-scheme)
+;; (require 'init-lang-ruby)
+;; (require 'init-lang-scheme)
 
 ;; My code
 (require 'sk-lisp)

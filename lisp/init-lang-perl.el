@@ -39,9 +39,8 @@
 
   (defun my-cperl-customizations ()
     "cperl-mode customizations that must be done after cperl-mode loads"
-    (my-coding-keys cperl-mode-map)
-    (define-key cperl-mode-map (kbd "C-M-<") 'cperl-lineup) ;; TODO: translate to other languages
-    (define-key cperl-mode-map (kbd "C-h f") 'cperl-perldoc) ;; TODO: translate to other languages
+    (define-key cperl-mode-map (kbd "C-M-<") 'cperl-lineup)
+    (define-key cperl-mode-map (kbd "C-h f") 'cperl-perldoc)
 
     ;; flyspell in comments
     (flyspell-prog-mode)

@@ -12,7 +12,6 @@
                ("C-c e t" . sk/ert-run-all-tests)))
   :init
   (defun my-emacs-lisp-mode-hook ()
-    (my-coding-keys emacs-lisp-mode-map)
     (add-hook 'after-save-hook #'my-recompile-el))
   :hook (emacs-lisp-mode . my-emacs-lisp-mode-hook))
 

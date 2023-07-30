@@ -13,8 +13,6 @@
         backward-delete-function nil  ; do NOT expand tabs when deleting them
         )
   (setq paragraph-start "[      ]*\\(//+\\|\\**\\)[     ]*$\\|^\f")
-  ;; "my-coding-keys" is defined above
-  (my-coding-keys c-mode-base-map)
   ;; brackets should be at same indentation level as the statements they open
   (c-set-offset 'substatement-open '0))
 

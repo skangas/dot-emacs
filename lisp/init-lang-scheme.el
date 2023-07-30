@@ -4,15 +4,11 @@
 
 ;; (require 'quack)
 ;; (quack-install)
-(defun my-scheme-mode-customizations ()
-  ;; (setq quack-fontify-style 'emacs)
-  (my-coding-keys scheme-mode-map))
-(add-hook 'scheme-mode-hook 'my-scheme-mode-customizations t)
 
-;; Geiser
 (use-package geiser
-  :config
-  (setq geiser-default-implementation 'racket))
+  :defer t
+  :custom
+  (geiser-default-implementation 'racket))
 
 (provide 'init-lang-scheme)
 

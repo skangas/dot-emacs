@@ -1,8 +1,6 @@
 ;;; C++
 
 (defun my-c++-mode-customizations ()
-  (my-coding-keys c++-mode-map)
-
   (setq c-default-style "gnu"
         c-basic-offset 8
         tab-width 8
