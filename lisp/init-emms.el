@@ -32,14 +32,14 @@
 ;;       emms-player-mpd-server-name "localhost"
 ;;       emms-player-mpd-server-port "6600")
 
-;; (global-set-key (kbd "<XF86AudioPlay>") 'emms-pause)
-;; (global-set-key (kbd "<XF86AudioStop>") 'emms-stop)
-;; (global-set-key (kbd "<XF86AudioPrev>") 'emms-previous)
-;; (global-set-key (kbd "<XF86AudioNext>") 'emms-next)
-;;(global-set-key (kbd "<XF86>") 'de-add-dir)
-;;(global-set-key (kbd "<XF86)" 'emms-smart-browse)
-;;(global-set-key (kbd "<XF86ight>") 'emms-seek-forward)
-;;(global-set-key (kbd "<XF86eft>") 'emms-seek-backward)
+;; (bind-key "<XF86AudioPlay>" 'emms-pause)
+;; (bind-key "<XF86AudioStop>" 'emms-stop)
+;; (bind-key "<XF86AudioPrev>" 'emms-previous)
+;; (bind-key "<XF86AudioNext>" 'emms-next)
+;; (bind-key "<XF86>" 'de-add-dir)
+;; (bind-key "<XF86>" 'emms-smart-browse)
+;; (bind-key "<XF86ight>" 'emms-seek-forward)
+;; (bind-key "<XF86eft>" 'emms-seek-backward)
 
 ;; caching stuff
 ;; (emms-cache 1)

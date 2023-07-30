@@ -1,4 +1,7 @@
 (use-package hydra
+  :bind (("M-g TAB" . sk/gogo/body)
+         ("<f1>" . hydra-help/body)
+         ("C-c m" . hydra-multiple-cursors/body))
   :config
 
   (defhydra sk/gogo (:exit nil)
@@ -7,8 +10,6 @@
     ("p" (previous-error) "prev-error")
     ("f" (flyspell-goto-next-error) "flyspell-next")
     ("i" (ispell-word) "ispell-word"))
-
-  (global-set-key (kbd "M-g TAB") 'sk/gogo/body)
 
   (defhydra sk/go (:exit nil)
     "filter"
@@ -106,8 +107,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     ;; quit
     ("q" help-quit "quit"))
 
-  (global-set-key (kbd "<f1>") #'hydra-help/body)
-
   (defhydra hydra-multiple-cursors (:hint nil)
     "
      ^Up^            ^Down^        ^Other^
@@ -127,8 +126,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     ("M-p" mc/unmark-previous-like-this)
     ("r" mc/mark-all-in-region-regexp :exit t)
     ("q" nil))
-
-  (global-set-key (kbd "C-c m") 'hydra-multiple-cursors/body)
 
   (defhydra hydra-window-stuff (:hint nil)
     "

@@ -3,10 +3,14 @@
 
 ;;; Settings
 
-(when (display-graphic-p) (global-unset-key "\C-z")) ; Disable keyboard iconfying
+(when (display-graphic-p)
+  ;; Disable keyboard iconfying
+  (bind-key "C-z" 'isearch-forward)
+  ;; (unbind-key "C-z")
+  )
 
 ;; Unset some useless keybindings
-(global-unset-key (kbd "C-x C-z")) ; suspend-frame
+(unbind-key "C-x C-z") ; suspend-frame
 
 
 ;;; Advice
@@ -21,95 +25,93 @@
 ;;; Global key bindings
 
 ;; C-<foo>
-(dolist (k '("C-" ""))
-  (global-set-key (kbd (concat "C-c " k "1")) 'sk/org-agenda)
-  (global-set-key (kbd (concat "C-c " k "2")) 'sk/notmuch-inbox)
-  (global-set-key (kbd (concat "C-c " k "3")) 'elfeed)
-  (global-set-key (kbd (concat "C-c " k "4")) 'notmuch)
-  (global-set-key (kbd (concat "C-c " k "5")) 'magit-status))
+(bind-key "C-c 1" 'sk/org-agenda)
+(bind-key "C-c 2" 'sk/notmuch-inbox)
+(bind-key "C-c 3" 'elfeed)
+(bind-key "C-c 4" 'notmuch)
+(bind-key "C-c 5" 'magit-status)
 
-(global-set-key (kbd "C-z") 'isearch-forward)
-;; (global-set-key (kbd "-/") 'hippie-expand) ; Remove?
+;; (bind-key "-/" 'hippie-expand) ; Remove?
 
 ;; (define-prefix-command 'ctl-ao-map)
-;; (global-set-key (kbd "C-ä") 'ctl-ao-map)
-;; (global-set-key (kbd "C-ä C-ä") 'switch-bury-or-kill-buffer)
-;; (global-set-key (kbd "C-ä C-c") 'compile)
-;; (global-set-key (kbd "C-ä C-b") 'previous-buffer)
-;; (global-set-key (kbd "C-ä C-f") 'next-buffer)
-;; (global-set-key (kbd "C-ä C-p") 'winner-undo)
-;; (global-set-key (kbd "C-ä C-n") 'winner-redo)
+;; (bind-key "C-ä" 'ctl-ao-map)
+;; (bind-key "C-ä C-ä" #'switch-bury-or-kill-buffer)
+;; (bind-key "C-ä C-c" #'compile)
+;; (bind-key "C-ä C-b" #'previous-buffer)
+;; (bind-key "C-ä C-f" #'next-buffer)
+;; (bind-key "C-ä C-p" #'winner-undo)
+;; (bind-key "C-ä C-n" #'winner-redo)
 
 ;; M-<foo>
-(global-set-key (kbd "M-<left>") 'previous-buffer)
-(global-set-key (kbd "M-<right>") 'next-buffer)
-(global-set-key (kbd "M-z") 'zap-up-to-char)
+(bind-key "M-<left>" 'previous-buffer)
+(bind-key "M-<right>" 'next-buffer)
+(bind-key "M-z" 'zap-up-to-char)
 
-(global-set-key (kbd "M-c") #'capitalize-dwim)
-(global-set-key (kbd "M-u") #'upcase-dwim)
-(global-set-key (kbd "M-l") #'downcase-dwim)
-(global-unset-key (kbd "C-x C-l")) ; default is `downcase-region'
-(global-unset-key (kbd "C-x C-u")) ; default is `upcase-region'
+(bind-key "M-c" #'capitalize-dwim)
+(bind-key "M-u" #'upcase-dwim)
+(bind-key "M-l" #'downcase-dwim)
+(unbind-key "C-x C-l") ; default is `downcase-region'
+(unbind-key "C-x C-u") ; default is `upcase-region'
 
 ;; F<foo>
-(global-set-key (kbd "<f5>") 'my-switch-to-gnus)
-(global-set-key (kbd "<f6>") 'mentor)
-(global-set-key (kbd "<f8>") 'w3m)
+(bind-key "<f5>" #'my-switch-to-gnus)
+(bind-key "<f6>" #'mentor)
+(bind-key "<f8>" #'w3m)
 
 ;; C-x <foo>
-(global-set-key (kbd "C-x M")   #'compose-mail)
-(global-set-key (kbd "C-x m")   #'browse-url-at-point)
-(global-set-key (kbd "C-x x q") #'read-only-mode)
-(global-set-key (kbd "C-x C-b") #'ibuffer)
-(global-set-key (kbd "C-x C-r") #'recentf-open) ; replaces `find-file-read-only'
+(bind-key "C-x M"   #'compose-mail)
+(bind-key "C-x m"   #'browse-url-at-point)
+(bind-key "C-x x e" (if (fboundp 'elide-head-mode) ; Emacs 29
+                        #'elide-head-mode
+                      'elide-head))
+(bind-key "C-x x q" #'read-only-mode)
+(bind-key "C-x C-b" #'ibuffer)
+(bind-key "C-x C-r" #'recentf-open) ; replaces `find-file-read-only'
 
 ;; C-c <foo>
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-iswitchb)
-(global-set-key (kbd "C-c B") 'gnus-read-ephemeral-emacs-bug-group)
-(global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c q") #'refill-mode)
-(global-set-key (kbd "C-c y") (lambda () (interactive) (popup-menu 'yank-menu)))
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; Remove?
+(bind-key "C-c a" #'org-agenda)
+(bind-key "C-c b" #'org-iswitchb)
+(bind-key "C-c B" #'gnus-read-ephemeral-emacs-bug-group)
+(bind-key "C-c c" #'org-capture)
+(bind-key "C-c l" #'org-store-link)
+(bind-key "C-c q" #'refill-mode)
+(bind-key "C-c y" (lambda () (interactive) (popup-menu 'yank-menu)))
+(bind-key "C-c C-c M-x" 'execute-extended-command) ;; Remove?
 
 ;; C-c e <foo>
-(global-set-key (kbd "C-c e F") #'flyspell-mode)
-(global-set-key (kbd "C-c e a") #'aggressive-indent-mode)
-;; (global-set-key (kbd "C-c e b") #'eval-buffer) ; moved to emacs-lisp-mode
-(global-set-key (kbd "C-c e d") #'toggle-debug-on-error)
-;; (global-set-key (kbd "C-c e f") #'emacs-lisp-byte-compile-and-load) ; moved to emacs-lisp-mode
-(global-set-key (kbd "C-c e i") #'my-eval-and-replace)
-(global-set-key (kbd "C-c e m") #'macrostep-expand)
-;; (global-set-key (kbd "C-c e n") #'nameless-mode) ; moved to emacs-lisp-mode
-(global-set-key (kbd "C-c e r") #'eval-region)
-(global-set-key (kbd "C-c e s") #'scratch-buffer)
-;; (global-set-key (kbd "C-c e t") #'sk/ert-run-all-tests) ; moved to emacs-lisp-mode
+(bind-key "C-c e F" #'flyspell-mode)
+(bind-key "C-c e a" #'aggressive-indent-mode)
+(bind-key "C-c e d" #'toggle-debug-on-error)
+(bind-key "C-c e i" #'my-eval-and-replace)
+(bind-key "C-c e m" #'macrostep-expand)
+(bind-key "C-c e r" #'eval-region)
+(bind-key "C-c e s" #'scratch-buffer)
+;; (bind-key "C-c e b" #'eval-buffer) ; moved to emacs-lisp-mode
+;; (bind-key "C-c e f" #'emacs-lisp-byte-compile-and-load) ; moved to emacs-lisp-mode
+;; (bind-key "C-c e n" #'nameless-mode) ; moved to emacs-lisp-mode
+;; (bind-key "C-c e t" #'sk/ert-run-all-tests) ; moved to emacs-lisp-mode
 
 ;; C-g
-(global-set-key (kbd "M-g M-r") #'goto-random-line)
-(global-set-key (kbd "M-g M-l") #'list-packages)
-(global-set-key (kbd "M-g M-m") #'my-menu-bar-mode)
-(global-set-key (kbd "M-g M-s") #'sort-lines)
-(global-set-key (kbd "M-g M-w") #'eww)
-
-(global-set-key (kbd "C-x x e") (if (fboundp 'elide-head-mode) ; Emacs 29
-                                    #'elide-head-mode
-                                  #'elide-head))
+(bind-key "M-g M-r" #'goto-random-line)
+(bind-key "M-g M-l" #'list-packages)
+(bind-key "M-g M-m" #'my-menu-bar-mode)
+(bind-key "M-g M-s" #'sort-lines)
+(bind-key "M-g M-w" #'eww)
 
 ;; C-h
-(define-key help-map "u" 'man)
-(define-key help-map (kbd "C-b") 'which-key-show-major-mode)
-(define-key help-map (kbd "C-a") 'apropos)
+(bind-keys :map help-map
+           ("u" . man )
+           ("C-b" . which-key-show-major-mode)
+           ("C-a" . apropos))
 
 
 ;;; My utility functions
 
-(defun sk/use-swedish-dictionary ()
-  ;; This is no longer needed; I use Hunspell instead.
-  (interactive)
-  (ispell-change-dictionary "swedish")
-  (flyspell-buffer))
+;; This is no longer needed; I use Hunspell instead.
+;; (defun sk/use-swedish-dictionary ()
+;;   (interactive)
+;;   (ispell-change-dictionary "swedish")
+;;   (flyspell-buffer))
 
 (defun sk/translate-using-tyda (&optional arg)
   "Translate word at point using tyda.nu"
@@ -148,8 +150,8 @@ kill it (unless it's modified)."
   (condition-case nil (scroll-up)
     (end-of-buffer (goto-char (point-max)))))
 
-(global-set-key [next] 'my-scroll-up)
-(global-set-key [prior] 'my-scroll-down)
+(bind-key "<next>" #'my-scroll-up)
+(bind-key "<prior>" #'my-scroll-down)
 
 ;; copy current line without selecting it (courtesy of emacs-fu)
 (defadvice kill-ring-save (before slick-copy activate compile)

@@ -6,54 +6,57 @@
 (use-package counsel
   :pin "gnu"
   :config
-  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (bind-key "M-x" 'counsel-M-x)
   ;; Ivy-based interface to standard commands
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  ;; (global-set-key (kbd "M-y") 'counsel-yank-pop)
-  (global-set-key (kbd "C-h f") 'counsel-describe-function)
+  (bind-key "M-x" 'counsel-M-x)
+  (bind-key "C-x C-f" 'counsel-find-file)
+  ;; (bind-key "M-y" 'counsel-yank-pop)
+  (bind-key "C-h f" 'counsel-describe-function)
 
-  ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  ;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  ;; (global-set-key (kbd "<f2> j") 'counsel-set-variable)
-  ;; (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-  ;; (global-set-key (kbd "C-c v") 'ivy-push-view)
-  ;; (global-set-key (kbd "C-c V") 'ivy-pop-view)
+  ;; (bind-key "<f1> f" 'counsel-describe-function)
+  ;; (bind-key "<f1> v" 'counsel-describe-variable)
+  ;; (bind-key "<f1> l" 'counsel-find-library)
+  ;; (bind-key "<f2> i" 'counsel-info-lookup-symbol)
+  ;; (bind-key "<f2> u" 'counsel-unicode-char)
+  ;; (bind-key "<f2> j" 'counsel-set-variable)
+  ;; (bind-key "C-x b" 'ivy-switch-buffer)
+  ;; (bind-key "C-c v" 'ivy-push-view)
+  ;; (bind-key "C-c V" 'ivy-pop-view)
 
   ;; Ivy-based interface to shell and system tools
-  ;; (global-set-key (kbd "C-c c") 'counsel-compile)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  (global-set-key (kbd "C-c L") 'counsel-git-log)
-  (global-set-key (kbd "C-c k") 'counsel-rg)
-  (global-set-key (kbd "C-c m") 'counsel-linux-app)
-  ;; (global-set-key (kbd "C-c n") 'counsel-fzf)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (global-set-key (kbd "C-c J") 'counsel-file-jump)
-  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-  (global-set-key (kbd "C-c w") 'counsel-wmctrl)
+  ;; (bind-key "C-c c" 'counsel-compile)
+  (bind-key "C-c g" 'counsel-git)
+  (bind-key "C-c j" 'counsel-git-grep)
+  (bind-key "C-c L" 'counsel-git-log)
+  (bind-key "C-c k" 'counsel-rg)
+  (bind-key "C-c m" 'counsel-linux-app)
+  ;; (bind-key "C-c n" 'counsel-fzf)
+  (bind-key "C-x l" 'counsel-locate)
+  (bind-key "C-c J" 'counsel-file-jump)
+  (bind-key "C-S-o" 'counsel-rhythmbox)
+  (bind-key "C-c w" 'counsel-wmctrl)
 
-  (global-set-key (kbd "C-c b") 'counsel-bookmark)
-  (global-set-key (kbd "C-c d") 'counsel-descbinds)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c o") 'counsel-outline)
-  (global-set-key (kbd "C-c t") 'counsel-load-theme)
-  (global-set-key (kbd "C-c F") 'counsel-org-file)
+  (bind-key "C-c b" 'counsel-bookmark)
+  (bind-key "C-c d" 'counsel-descbinds)
+  (bind-key "C-c g" 'counsel-git)
+  (bind-key "C-c o" 'counsel-outline)
+  (bind-key "C-c t" 'counsel-load-theme)
+  (bind-key "C-c F" 'counsel-org-file)
 
-  ;; (global-set-key (kbd "C-c g") 'counsel-git)
+  ;; (bind-key "C-c g" 'counsel-git)
 
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (bind-key "C-c k" 'counsel-ag)
+  (bind-key "C-x l" 'counsel-locate)
+  ;; (bind-key "C-S-o" 'counsel-rhythmbox)
 
   )
 
 (use-package ivy
   :pin "gnu"
   :diminish ivy-mode
+  :bind (("C-r" . swiper-isearch-backward)
+         ("C-s" . swiper-isearch)
+         ("C-c C-r" . ivy-resume))
   :config
   (ivy-mode 1)
 
@@ -70,15 +73,6 @@
 
   ;; Show the full virtual file paths
   (setq ivy-virtual-abbreviate 'full)
-
-  
-  ;; Global bindings
-  (global-set-key (kbd "C-r") 'swiper-isearch-backward)
-  (global-set-key (kbd "C-s") 'swiper-isearch)
-
-
-  ;; Ivy-resume and other commands
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
   ;; Minibuffer bindings
   (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word)
