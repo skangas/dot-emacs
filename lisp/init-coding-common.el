@@ -295,6 +295,10 @@ This will run newline-and-indent, and then indent once more."
   (projectile-globally-ignored-file-suffixes '(".elc")))
 
 (use-package smerge-mode
+  :defer t
+  :custom
+  (smerge-command-prefix (kbd "C-c v"))
+
   :after hydra
 
   ;; This hydra taken from
@@ -356,7 +360,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package ws-butler
   :ensure t
-  :hook (prog-mode-hook . ws-butler-mode)
+  :hook prog-mode-hook
   :custom
   (ws-butler-convert-leading-tabs-or-spaces t))
 

@@ -636,7 +636,7 @@
   (setq ido-cr+-auto-update-blacklist t))
 
 (use-package iedit
-  :defer t)
+  :bind ("C-M-y" . iedit-mode))
 
 (use-package image-dired                ; (built-in)
   :ensure nil
@@ -676,6 +676,40 @@
   (setq ispell-silently-savep t)
   (setq flyspell-use-global-abbrev-table-p t))
 
+(use-package man :ensure nil
+  :bind (:map Man-mode-map
+              ("w"   . my/man-copy-name-as-kill)
+              ("M-w" . my/kill-ring-save-without-whitespace))
+  :init
+  (defun my/man-copy-name-as-kill ()
+    (interactive nil Man-mode)
+    (when-let ((str
+                (save-excursion
+                  (goto-char (point-min))
+                  (and (looking-at (rx bol )))))))
+    (setq str
+          (if (string-match " " Man-arguments)
+              (let ((args (string-split Man-arguments " ")))
+                (apply #'format "%s(%s)" (reverse args)))
+            Man-arguments))
+    (kill-new str)
+    (message str))
+
+  (defun my/kill-ring-save-without-whitespace (beg end &optional region arg)
+    "Like `kill-ring-save', but filter all spaces.
+With prefix ARG, don't filter anything."
+    (interactive (list (mark) (point) 'region current-prefix-arg))
+    (let ((filter-buffer-substring-function
+           (if (not arg)
+               (lambda (beg end &optional delete)
+                 (replace-regexp-in-string
+                  "‐ " ""
+                  (replace-regexp-in-string
+                   (rx (+ space)) " "
+                   (buffer-substring beg end))))
+             filter-buffer-substring-function)))
+      (kill-ring-save beg end region))))
+
 (use-package marginalia
   :defer 3
   :pin "gnu"
@@ -700,6 +734,12 @@
 
 (use-package multiple-cursors
   :defer t)
+
+(use-package occur :ensure nil
+  :bind (:map occur-mode-map
+              ("d" . occur-mode-display-occurrence)
+              ("n" . next-logical-line)
+              ("p" . previous-logical-line)))
 
 (use-package openwith                   ; open files using external helpers
   :defer 10
@@ -793,15 +833,17 @@
   :defer t
   :pin "gnu")
 
-(use-package uniquify
-  :defer nil)                            ; has to be a require
+(use-package uniquify :ensure nil
+  :demand t)                            ; has to be a require
 
 (use-package visual-fill-column
   :hook visual-line-mode)
 
 (use-package wgrep
   :after grep
-  :ensure t)
+  :bind (:map grep-mode-map
+              ("C-x C-q" . wgrep-change-to-wgrep-mode)
+              ("C-c C-c". wgrep-finish-edit)))
 
 (use-package writegood-mode
   :ensure t

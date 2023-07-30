@@ -3,7 +3,10 @@
 
 ;;; Settings
 
-(when window-system (global-unset-key "\C-z")) ; Disable keyboard iconfying
+(when (display-graphic-p) (global-unset-key "\C-z")) ; Disable keyboard iconfying
+
+;; Unset some useless keybindings
+(global-unset-key (kbd "C-x C-z")) ; suspend-frame
 
 
 ;;; Advice
@@ -13,11 +16,6 @@
   (recenter-top-bottom 0))
 
 (add-hook 'next-error-hook 'recenter)
-
-
-
-;; Unset some useless keybindings
-(global-unset-key (kbd "C-x C-z")) ; suspend-frame
 
 
 ;;; Global key bindings
@@ -31,8 +29,6 @@
   (global-set-key (kbd (concat "C-c " k "5")) 'magit-status))
 
 (global-set-key (kbd "C-z") 'isearch-forward)
-(global-set-key (kbd "C-M-y") 'iedit-mode)
-(global-set-key (kbd "C-!") 'org-capture)
 ;; (global-set-key (kbd "-/") 'hippie-expand) ; Remove?
 
 ;; (define-prefix-command 'ctl-ao-map)
@@ -106,62 +102,8 @@
 (define-key help-map (kbd "C-b") 'which-key-show-major-mode)
 (define-key help-map (kbd "C-a") 'apropos)
 
-;; (global-set-key "\C-t" 'shell-pop)
-;; (global-set-key "\C-c\C-k" 'kill-region)
-
-
-;;; Mode dependent key bindings
-
-(customize-set-variable 'smerge-command-prefix (kbd "C-c v"))
-
-;; occur-mode
-(define-key occur-mode-map (kbd "d") 'occur-mode-display-occurrence)
-(define-key occur-mode-map (kbd "n") 'next-logical-line)
-(define-key occur-mode-map (kbd "p") 'previous-logical-line)
-
-;; wgrep
-(with-eval-after-load 'grep
-  (define-key grep-mode-map
-              (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
-(with-eval-after-load 'wgrep
-  (define-key grep-mode-map
-              (kbd "C-c C-c") 'wgrep-finish-edit))
-
 
 ;;; My utility functions
-
-(defun my/man-copy-name-as-kill ()
-  (interactive nil Man-mode)
-  (when-let ((str
-              (save-excursion
-                (goto-char (point-min))
-                (and (looking-at (rx bol )))))))
-  (setq str
-        (if (string-match " " Man-arguments)
-            (let ((args (string-split Man-arguments " ")))
-              (apply #'format "%s(%s)" (reverse args)))
-          Man-arguments))
-  (kill-new str)
-  (message str))
-
-(defun my/kill-ring-save-without-whitespace (beg end &optional region arg)
-  "Like `kill-ring-save', but filter all spaces.
-With prefix ARG, don't filter anything."
-  (interactive (list (mark) (point) 'region current-prefix-arg))
-  (let ((filter-buffer-substring-function
-         (if (not arg)
-             (lambda (beg end &optional delete)
-               (replace-regexp-in-string
-                "‐ " ""
-                (replace-regexp-in-string
-                 (rx (+ space)) " "
-                 (buffer-substring beg end))))
-           filter-buffer-substring-function)))
-    (kill-ring-save beg end region)))
-
-(with-eval-after-load 'man
-  (define-key Man-mode-map (kbd "w") #'my/man-copy-name-as-kill)
-  (define-key Man-mode-map (kbd "M-w") #'my/kill-ring-save-without-whitespace))
 
 (defun sk/use-swedish-dictionary ()
   ;; This is no longer needed; I use Hunspell instead.
