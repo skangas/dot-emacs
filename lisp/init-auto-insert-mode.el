@@ -1,21 +1,23 @@
-;;; init-auto-insert-mode.el
+;;; init-auto-insert-mode.el ---  -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 
 (eval-when-compile
   (require 'autoinsert))
 
 (defun sk/define-auto-insert (condition action &optional after)
-  "Delete all auto inserts before calling `define-auto-insert'."
+  "Delete all auto-inserts before calling `define-auto-insert'."
   (setq auto-insert-alist (assoc-delete-all condition auto-insert-alist))
   (define-auto-insert condition action after))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; main config
 
-(use-package autoinsert
+(use-package autoinsert :ensure nil
   :defer 3
-  :ensure nil
   :custom
   (auto-insert-directory (locate-user-emacs-file "templates"))
+  (auto-insert-query nil "Don't ask before auto-inserting.")
   :config
   (auto-insert-mode t)
 
@@ -121,3 +123,5 @@
 	(replace-match (format-time-string "%Y" (current-time)))))))
 
 (provide 'init-auto-insert-mode)
+
+;;; init-auto-insert-mode.el ends here

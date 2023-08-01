@@ -89,9 +89,6 @@ CREATE-COMPILER-COMMAND."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Packages.
 
-(use-package aggressive-indent
-  :hook (emacs-lisp-mode . aggressive-indent-mode))
-
 (use-package debbugs
   :pin "gnu"
   :commands (debbugs-gnu)
@@ -338,7 +335,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :interpreter ("node" . web-mode))
 
 (use-package ws-butler
-  :hook prog-mode-hook
+  :hook prog-mode
   :custom
   (ws-butler-convert-leading-tabs-or-spaces t))
 

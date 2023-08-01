@@ -57,6 +57,9 @@
                            " -- %F"
                            (:eval (format " [%s]" mode-name))))
 
+(setq show-paren-context-when-offscreen 'child-frame)
+(setq proced-enable-color-flag t)
+
 (setq sk/video-types
       (concat (regexp-opt '(".asf" ".avi" ".f4v"
                             ".flv" ".m4a" ".m4v"
@@ -211,14 +214,11 @@
 (use-package abbrev :ensure nil         ; built-in
   :defer 5
   :diminish "Ab"
-  :hook
-  (text-mode . (lambda () (abbrev-mode 1)))
-  (erc-mode-hook . (lambda () (abbrev-mode 1)))
+  :hook (erc-mode text-mode)
   :custom
-  (save-abbrevs t)
   (abbrev-file-name "~/org/.abbrev_defs")
+  (save-abbrevs t)
   :config
-  ;; reads the abbreviations file on startup
   (if (file-exists-p abbrev-file-name)
       (quietly-read-abbrev-file)))
 

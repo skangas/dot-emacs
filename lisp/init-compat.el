@@ -73,6 +73,15 @@ Enable `recentf-mode' if it isn't already."
   (setq gnutls-min-prime-bits (max 2048 gnutls-min-prime-bits)))
 
 
+;;;; Emacs < 26.3
+
+;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
+(when (and (version< emacs-version "26.3")
+           (boundp 'libgnutls-version)
+           (>= libgnutls-version 30604))
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
+
 ;;;; Emacs < 25.3
 
 ;; From etc/NEWS.25:

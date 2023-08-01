@@ -1,4 +1,6 @@
-;;; init-portability.el                                                 -*- lexical-binding: t; -*-
+;;; init-portability.el --- -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 
 ;;; macOS portability.
@@ -11,10 +13,12 @@
   (if (executable-find "gls")
       (setq insert-directory-program "gls"))
 
+  ;; Set the environment variables with NAMES from the user’s shell.
   (use-package exec-path-from-shell
     :init
     (exec-path-from-shell-initialize))
 
+  ;; Set the MacOS transparent titlebar background automatically.
   (use-package ns-auto-titlebar
     :init
     (ns-auto-titlebar-mode))
@@ -34,3 +38,4 @@
     (setenv "HOME" (file-name-directory load-file-name))))
 
 (provide 'init-portability)
+;;; init-portability.el ends here
