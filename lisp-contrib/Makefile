@@ -38,3 +38,5 @@ pjb-xresources.el:
 	curl -O https://raw.githubusercontent.com/informatimago/emacs/master/pjb-xresources.el
 sv-kalender.el:
 	curl -O http://bigwalter.net/daniel/elisp/sv-kalender.el
+sql-upcase.el:
+	curl -O https://www.emacswiki.org/emacs/download/sql-upcase.el

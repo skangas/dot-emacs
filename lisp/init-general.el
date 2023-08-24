@@ -766,6 +766,14 @@ With prefix ARG, don't filter anything."
                           (or (seq "org/" (* any))
                               (seq ".emacs.bmk" eos))))))
 
+(use-package sql-upcase :ensure nil  ; in "lisp-contrib"
+  :commands sql-upcase-mode sql-upcase-region
+  :hook (sql-mode sql-interactive-mode))
+
+(use-package sql-indent
+  :config
+  (setq-default sqlind-basic-offset 4))
+
 (use-package tab-bar :ensure nil        ; built-in
   :bind (("C-x t n" . tab-next)
          ("C-x t p" . tab-previous)
