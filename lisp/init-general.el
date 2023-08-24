@@ -211,6 +211,10 @@
 
 ;;;; packages
 
+(use-package emacs
+  ;; This is a bit broken.
+  :hook (term-mode . (lambda () (hl-line-mode 'toggle))))
+
 (use-package abbrev :ensure nil         ; built-in
   :defer 5
   :diminish "Ab"
@@ -377,6 +381,8 @@
       (message cmd)
       (dired-do-shell-command cmd nil (list file)))))
 
+(use-package dired-collapse
+  :hook dired-mode)
 
 (use-package diredfl
   :hook dired-mode)
@@ -387,6 +393,9 @@
   (push `(,sk/video-types "mpv")
         dired-guess-shell-alist-default)
   (setq dired-create-destination-dirs 'ask))
+
+(use-package docker-compose-mode
+  :defer t)
 
 (use-package dockerfile-mode
   :defer t)
@@ -783,15 +792,22 @@ With prefix ARG, don't filter anything."
 (use-package time :ensure nil           ; built-in
   :defer t
   :custom
+  (world-clock-time-format "%R %z %4Z  %A %d %B")
+  (world-clock-buffer-name "*world-clock*")
   (world-clock-list '(("America/Los_Angeles" "Seattle")
                       ("America/Chicago" "Chicago")
                       ("America/New_York" "New York")
+                      ("UTC" "UTC")
                       ("Europe/London" "London")
                       ("Europe/Stockholm" "Stockholm")
                       ("Europe/Rome" "Rome")
                       ("Asia/Karachi" "Karachi")
                       ("Asia/Shanghai" "Shanghai")
+                      ("Asia/Tokyo" "Tokyo")
                       ("Australia/Sydney" "Sydney"))))
+
+(use-package toml-mode
+  :defer t)
 
 (use-package tramp :ensure nil          ; built-in
   :defer t
@@ -810,6 +826,9 @@ With prefix ARG, don't filter anything."
 
 (use-package visual-fill-column
   :hook visual-line-mode)
+
+(use-package visual-line-mode :ensure nil ; built-in
+  :hook (Custom-mode))
 
 (use-package wgrep
   :after grep
