@@ -9,8 +9,6 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline success warning error])
  '(auth-source-save-behavior nil)
- '(awesome-tray-mode-line-active-color "#0031a9")
- '(awesome-tray-mode-line-inactive-color "#d7d7d7")
  '(blink-cursor-blinks 2)
  '(bookmark-menu-confirm-deletion t)
  '(bookmark-save-flag 1)
@@ -20,8 +18,6 @@
  '(checkdoc-column-zero-backslash-before-paren nil)
  '(checkdoc-force-docstrings-flag nil)
  '(checkdoc-spellcheck-documentation-flag nil)
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
  '(company-tooltip-limit 15)
  '(compilation-message-face 'default)
  '(compilation-scroll-output t)
@@ -87,8 +83,6 @@
  '(erc-user-full-name "Stefan Kangas")
  '(eval-expression-print-length 50)
  '(eval-expression-print-level 8)
- '(exwm-floating-border-color "#888888")
- '(fci-rule-color "#525252")
  '(fit-window-to-buffer-horizontally t)
  '(flymake-error-bitmap '(flymake-double-exclamation-mark modus-theme-fringe-red))
  '(flymake-note-bitmap '(exclamation-mark modus-theme-fringe-cyan))
@@ -96,29 +90,6 @@
  '(gdb-many-windows t)
  '(gnus-user-agent nil)
  '(help-enable-variable-value-editing t)
- '(highlight-changes-colors '("#d3869b" "#8f3f71"))
- '(highlight-symbol-colors
-   '("#ed94d1d39b5c" "#d6a5dca3af86" "#eb90bc25933d" "#e1bec426b1e4"
-     "#e40dda889de7" "#ef28c40e9555" "#c667cd42b3b9"))
- '(highlight-symbol-foreground-color "#665c54")
- '(highlight-tail-colors
-   '(("#32302f" . 0) ("#747400" . 20) ("#2e7d33" . 30) ("#14676b" . 50)
-     ("#a76e00" . 60) ("#a53600" . 70) ("#9f4d64" . 85) ("#32302f" . 100)))
- '(hl-bg-colors
-   '("#e29a3f" "#df6835" "#cf5130" "#f598a7" "#c2608f" "#5b919b" "#82cc73"
-     "#c6c148"))
- '(hl-fg-colors
-   '("#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7" "#fbf1c7"
-     "#fbf1c7"))
- '(hl-paren-colors '("#689d6a" "#b57614" "#076678" "#8f3f71" "#98971a"))
- '(hl-sexp-background-color "#efebe9")
- '(hl-todo-keyword-faces
-   '(("HOLD" . "#70480f") ("TODO" . "#721045") ("NEXT" . "#5317ac")
-     ("THEM" . "#8f0075") ("PROG" . "#00538b") ("OKAY" . "#30517f")
-     ("DONT" . "#315b00") ("FAIL" . "#a60000") ("BUG" . "#a60000")
-     ("DONE" . "#005e00") ("NOTE" . "#863927") ("KLUDGE" . "#813e00")
-     ("HACK" . "#813e00") ("TEMP" . "#5f0000") ("FIXME" . "#a0132f")
-     ("XXX+" . "#972500") ("REVIEW" . "#005a5f") ("DEPRECATED" . "#201f55")))
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-hebrew-holidays nil)
@@ -156,12 +127,8 @@
      (swiper-all . swiper--all-format-function)
      (swiper-multi . swiper--all-format-function)
      (t . ivy-format-function-arrow)))
- '(jdee-db-active-breakpoint-face-colors (cons "#000000" "#80A0C2"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#000000" "#A2BF8A"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#000000" "#3f3f3f"))
  '(kill-do-not-save-duplicates t)
  '(kill-whole-line t)
- '(lsp-ui-doc-border "#665c54")
  '(magit-diff-use-overlays nil)
  '(magit-log-section-commit-count 12)
  '(magit-openpgp-default-signing-key "CEA1DE21AB108493CC9C65742E82323B8F4353EE")
@@ -209,10 +176,6 @@
      (:name "debian" :query "tag:debian-mentors and tag:unread" :key [104])))
  '(notmuch-search-oldest-first nil)
  '(nov-text-width 70)
- '(nrepl-message-colors
-   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3"
-     "#DC8CC3"))
- '(objed-cursor-color "#C16069")
  '(org-emphasis-alist
    '(("*" bold) ("/" italic) ("_" underline) ("=" org-verbatim verbatim)
      ("~" org-code verbatim) ("+" (:strike-through t)) ("`" org-code verbatim)))
@@ -240,16 +203,11 @@
                boxquote aggressive-indent visual-fill-column debbugs marginalia
                multiple-cursors avy iedit embark elfeed-org))
  '(pdf-view-bounding-box-margin 0.15)
- '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(pdf-view-resize-factor 1.05)
  '(pixel-scroll-mode nil)
- '(pos-tip-background-color "#ebdbb2")
- '(pos-tip-foreground-color "#665c54")
  '(proced-auto-update-flag t)
  '(read-extended-command-predicate 'command-completion-default-include-p)
  '(repeat-mode t)
- '(rustic-ansi-faces
-   ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])
  '(safe-local-variable-directories
    '("/Users/skangas/vala/" "/Users/skangas/vala/ve-db/"
      "/Users/skangas/vala/ve-api/"))
@@ -268,11 +226,8 @@
  '(send-mail-function 'sendmail-send-it)
  '(show-paren-delay 0)
  '(shr-max-image-proportion 0.6)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#98971a" "#ebdbb2" 0.2))
  '(smerge-command-prefix "\3v")
  '(suggest-key-bindings t)
- '(term-default-bg-color "#fbf1c7")
- '(term-default-fg-color "#7c6f64")
  '(tool-bar-position 'top)
  '(uniquify-buffer-name-style 'forward nil (uniquify))
  '(use-package-always-ensure t)
@@ -280,15 +235,7 @@
  '(use-short-answers t)
  '(vc-annotate-background-mode nil)
  '(visible-bell t)
- '(weechat-color-list
-   '(unspecified "#fbf1c7" "#ebdbb2" "#750000" "#9d0006" "#747400" "#98971a"
-                 "#8a5100" "#b57614" "#004858" "#076678" "#9f4d64" "#d3869b"
-                 "#2e7d33" "#689d6a" "#7c6f64" "#3c3836"))
  '(widget-image-enable t)
- '(xterm-color-names
-   ["#32302f" "#fb4933" "#98971a" "#d79921" "#458588" "#d3869b" "#689d6a" "#a89984"])
- '(xterm-color-names-bright
-   ["#282828" "#d65d0e" "#7c6f64" "#282828" "#a89984" "#b16286" "#bdae93" "#fbf1c7"])
  '(yas-use-menu nil))
 
 (custom-set-faces
@@ -296,7 +243,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fringe ((t (:background "#fbf1c7"))))
  '(notmuch-tag-deleted ((t (:strike-through t :underline (:color "#a60000" :style wave)))))
  '(notmuch-tag-face ((t nil)))
  '(org-document-title ((t (:height 1.4 :family "Lucida Grande" :weight bold))))
