@@ -2,11 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;; TODO: Should this be in `python-mode'?
-(use-package grep :ensure nil :defer t
-  :config
-  (dolist (dir '(".tox" ".venv" ".mypy_cache" ".ruff_cache"))
-    (add-to-list 'grep-find-ignored-directories dir)))
 
 (use-package pip-requirements
   :defer t)
@@ -44,13 +39,15 @@
   :hook python-mode)
 
 (use-package flymake-ruff
-  :hook (eglot-managed-mode . flymake-ruff-load))
+  :init
+  (defun sk/flymake-ruff-load-for-python ()
+    (if (derived-mode-p 'python-mode)
+        (flymake-ruff-load)))
+  :hook (eglot-managed-mode . sk/flymake-ruff-load-for-python))
 
 (use-package eglot
   :ensure nil
   :defer t)
-
-(add-hook 'eglot-managed-mode-hook 'flymake-ruff-load)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; pyright LSP

@@ -240,6 +240,26 @@
   :config
   (dired-async-mode 1))
 
+(use-package beacon
+  :custom
+  (beacon-blink-delay 0.1)
+  (beacon-blink-duration 0.1)
+  (beacon-color 0.2)
+  :diminish beacon-mode
+  :init (beacon-mode 1)
+  :config
+  (setq beacon-dont-blink-commands
+        (cl-delete-duplicates
+         (append beacon-dont-blink-commands
+                 '(beginning-of-buffer
+                   end-of-buffer
+                   dired-find-file
+                   magit-previous-line
+                   magit-next-line
+                   paredit-backward
+                   paredit-forward
+                   )))))
+
 (use-package centered-cursor-mode
   :disabled t
   :config
@@ -473,12 +493,12 @@
 (use-package flyspell :ensure nil       ; built-in
   :hook ((text-mode . flyspell-mode)
          (prog-mode . flyspell-prog-mode))
-  :config
-  (setq flyspell-issue-welcome-flag nil)
+  :custom
+  (flyspell-issue-welcome-flag nil)
   ;; Non-nil means that flyspell uses M-TAB to correct word.
-  (setq flyspell-use-meta-tab nil)
+  (flyspell-use-meta-tab nil)
   ;; If non-nil, add correction to abbreviation table.
-  (setq flyspell-abbrev-p t))
+  (flyspell-abbrev-p t))
 
 (use-package embark                     ; put after flyspell
   :pin "gnu"
@@ -500,23 +520,35 @@
 (use-package grep :ensure nil           ; built-in
   :defer t
   :config
+
+  ;; TODO: Should this be in `python-mode'?
+  (add-to-list 'grep-files-aliases '("py" . "*.py"))
+  (dolist (dir '(".tox" ".venv" ".mypy_cache" ".ruff_cache"))
+    (add-to-list 'grep-find-ignored-directories dir))
+
   (defun sk/compilation-finish-flush-lines (buf _)
     "Flush irrelevant lines in grep buffers."
     (with-current-buffer buf
-      (let ((buffer-read-only nil))
-        (goto-char (point-min))
-        (flush-lines (rx bol "." (? "/lisp") "/"
-                         (or
-                          "etc/DOC"
-                          "ldefs-boot.el"
-                          "loaddefs.el"
-                          "calc/calc-loaddefs.el"
-                          "emacs-lisp/loaddefs-gen.el"
-                          "mh-e/mh-loaddefs.el"
-                          "net/tramp-loaddefs.el"
-                          "org/org-loaddefs.el"
-                          "textmodes/reftex-loaddefs.el"
-                          ))))))
+      (save-excursion
+        (let ((buffer-read-only nil))
+          (goto-char (point-min))
+          (flush-lines (rx bol "." (? "/lisp") "/"
+                           (or
+                            "etc/DOC"
+                            "ldefs-boot.el"
+                            "loaddefs.el"
+                            "calc/calc-loaddefs.el"
+                            "calendar/diary-loaddefs.el"
+                            "calendar/holiday-loaddefs.el"
+                            "emacs-lisp/cl-loaddefs.el"
+                            "erc/erc-loaddefs.el"
+                            "mh-e/mh-loaddefs.el"
+                            "ibuffer-loaddefs.el"
+                            "net/tramp-loaddefs.el"
+                            "org/org-loaddefs.el"
+                            "textmodes/reftex-loaddefs.el"
+                            "textmodes/texinfo-loaddefs.el"
+                            )))))))
 
   (defun sk/grep-mode-hook ()
     (setq-local compilation-finish-functions #'sk/compilation-finish-flush-lines))
@@ -533,67 +565,66 @@
 
 (use-package ibuffer :ensure nil        ; built-in
   :defer t
+  :custom
+  (ibuffer-show-empty-filter-groups nil)
+  (ibuffer-expert t)
+  (ibuffer-filter-group-name-face '(:inherit (success bold)))
+  (ibuffer-saved-filter-groups
+   '(("default"
+      ("Work"
+       (or
+        (mode . org-agenda-mode)
+        (name . "org/.+")))
+      ("Text Files"
+       (or
+        (mode . org-mode)
+        (mode . text-mode)
+        ))
+      ("Email"
+       (or
+        (mode . notmuch-search-mode)
+        (mode . notmuch-show-mode)
+        (mode . notmuch-hello-mode)
+        (mode . message-mode)
+        (mode . mail-mode)
+        (mode . gnus-group-mode)
+        (mode . gnus-summary-mode)
+        (mode . gnus-article-mode)))
+      ("init.el"
+       (or (filename . "\\.emacs\\.d")
+           (filename . "\\.emacs")))
+      ("Mentor"
+       (filename . "wip/mentor"))
+      ("emacs.git"
+       (filename . "/wip/emacs.+"))
+      ("Programming"
+       (or
+        (mode . ag-mode)
+        (mode . grep-mode)
+        (mode . compilation-mode)
+        (mode . c-mode)
+        (mode . perl-mode)
+        (mode . cperl-mode)
+        (mode . python-mode)
+        (mode . java-mode)
+        (mode . sh-mode)
+        (mode . haskell-mode)))
+      ("Configuration"
+       (or
+        (mode . conf-unix-mode)))
+      ("IRC"
+       (mode . rcirc-mode)))))
+  :hook (ibuffer-mode .
+                      (lambda ()
+                        (ibuffer-auto-mode 1)
+                        (ibuffer-switch-to-saved-filter-groups "default")))
   :config
-  (setq ibuffer-saved-filter-groups
-        '(("default"
-           ("Main"
-            (or
-             (mode . image-mode)
-             (mode . dired-mode)
-             (filename . "/mnt/usb/seed/")))
-           ("Work"
-            (or
-             (mode . org-agenda-mode)
-             (name . "org/")
-             (name . "\*mentor\*")))
-           ("Text Files"
-            (or
-             (mode . org-mode)
-             (mode . text-mode)
-             ))
-           ("Email"
-            (or
-             (mode . notmuch-search-mode)
-             (mode . notmuch-show-mode)
-             (mode . notmuch-hello-mode)
-             (mode . message-mode)
-             (mode . mail-mode)
-             (mode . gnus-group-mode)
-             (mode . gnus-summary-mode)
-             (mode . gnus-article-mode)))
-           ("Emacs Configuration"
-            (or (filename . "\\.emacs\\.d")
-                (filename . "\\.emacs")))
-           ("Mentor"
-            (filename . "wip/mentor"))
-           ("Emacs"
-            (or
-             (filename . "~/wip/emacs")))
-           ("Emacs Lisp"
-            (mode . emacs-lisp-mode))
-           ("Programming"
-            (or
-             (mode . ag-mode)
-             (mode . grep-mode)
-             (mode . compilation-mode)
-             (mode . c-mode)
-             (mode . perl-mode)
-             (mode . cperl-mode)
-             (mode . python-mode)
-             (mode . java-mode)
-             (mode . sh-mode)
-             (mode . haskell-mode)))
-           ("Configuration"
-            (or
-             (mode . conf-unix-mode)))
-           ("IRC"
-            (mode . rcirc-mode)))))
-  (add-hook 'ibuffer-mode-hook
-            (lambda ()
-              (ibuffer-auto-mode 1)
-              (ibuffer-switch-to-saved-filter-groups "default")))
-  (setq ibuffer-show-empty-filter-groups nil)
-  (setq ibuffer-expert t))
+  ;; Redefine size column to display human readable size
+  (define-ibuffer-column size
+    (:name "Size"
+           :inline t
+           :header-mouse-map ibuffer-size-header-map)
+    (file-size-human-readable (buffer-size))))
 
 (use-package ido :ensure nil            ; built-in
   :defer t
@@ -661,6 +692,10 @@
               ("w"   . my/man-copy-name-as-kill)
               ("M-w" . my/kill-ring-save-without-whitespace))
   :init
+  (setopt Man-switches (if '(eq system-type darwin)
+                           ;; The below flags aren't supported in BSD.
+                           ""
+                         "--no-hyphenation --no-justification"))
   (defun my/man-copy-name-as-kill ()
     (interactive nil Man-mode)
     (when-let ((str
@@ -707,9 +742,16 @@ With prefix ARG, don't filter anything."
     (add-to-list 'midnight-hook 'native-compile-prune-cache)))
 
 (use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode)
+  :mode (("\\`README\\.md\\'" . gfm-mode)
+         ("\\.md\\'"          . markdown-mode)
+         ("\\.markdown\\'"    . markdown-mode))
   :hook ((markdown-mode . orgtbl-mode)
-         (markdown-mode . visual-line-mode)))
+         (markdown-mode . visual-line-mode))
+  :custom-face
+  (markdown-header-face-1 ((t (:inherit markdown-header-face :height 2.0))))
+  (markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.6))))
+  (markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.4))))
+  (markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.2)))))
 
 (use-package multiple-cursors
   :defer t)
@@ -764,6 +806,9 @@ With prefix ARG, don't filter anything."
 ;;   :config
 ;;   (powerline-default-theme))
 
+(use-package rainbow-delimiters
+  :hook prog-mode)
+
 (use-package recentf :ensure nil        ; built-in
   :defer 10
   :config
@@ -805,9 +850,6 @@ With prefix ARG, don't filter anything."
                       ("Asia/Shanghai" "Shanghai")
                       ("Asia/Tokyo" "Tokyo")
                       ("Australia/Sydney" "Sydney"))))
-
-(use-package toml-mode
-  :defer t)
 
 (use-package tramp :ensure nil          ; built-in
   :defer t

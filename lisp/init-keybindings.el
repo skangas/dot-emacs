@@ -25,6 +25,11 @@
 ;;; Global key bindings
 
 ;; C-<foo>
+(bind-key "C-k" #'my/kill-and-join-forward)
+(bind-key "C-=" #'text-scale-increase)
+(bind-key "C-+" #'text-scale-increase)
+(bind-key "C--" #'text-scale-decrease) ; use ´C-u -' for negative prefix
+
 (bind-key "C-c 1" 'sk/org-agenda)
 (bind-key "C-c 2" 'sk/notmuch-inbox)
 (bind-key "C-c 3" 'elfeed)
@@ -45,6 +50,7 @@
 ;; M-<foo>
 (bind-key "M-<left>" 'previous-buffer)
 (bind-key "M-<right>" 'next-buffer)
+(bind-key "M-/" #'hippie-expand)
 (bind-key "M-z" 'zap-up-to-char)
 
 (bind-key "M-c" #'capitalize-dwim)
@@ -61,6 +67,7 @@
 ;; C-x <foo>
 (bind-key "C-x M"   #'compose-mail)
 (bind-key "C-x m"   #'browse-url-at-point)
+(bind-key "C-x j"   #'duplicate-dwim)
 (bind-key "C-x x e" (if (fboundp 'elide-head-mode) ; Emacs 29
                         #'elide-head-mode
                       'elide-head))
@@ -272,5 +279,15 @@ kill it (unless it's modified)."
   (my-menu-bar-cancel-timer)
   (menu-bar-mode 1)
   (run-with-idle-timer 60 nil #'my-menu-bar-mode-disable))
+
+;; From:
+;; https://writequit.org/org/#6a7b04f8-ab04-4d6f-a3ef-3a907aa0e5d2
+(defun my/kill-and-join-forward (&optional arg)
+  "If at end of line, join with following; otherwise kill line.
+Deletes whitespace at join."
+  (interactive "P")
+  (if (and (eolp) (not (bolp)))
+      (delete-indentation t)
+    (kill-line arg)))
 
 (provide 'init-keybindings)
