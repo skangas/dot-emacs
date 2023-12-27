@@ -113,8 +113,7 @@
 (require 'init-hydra)
 (require 'init-ivy)
 (require 'init-mentor)
-(unless (eq system-type 'darwin)
-  (require 'init-mail))
+(require 'init-mail)
 (require 'init-org-mode)
 
 ;; (require 'init-emms)
