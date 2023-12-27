@@ -12,6 +12,7 @@
  '(blink-cursor-blinks 2)
  '(bookmark-menu-confirm-deletion t)
  '(bookmark-save-flag 1)
+ '(browse-url-default-scheme "https")
  '(calendar-date-style 'european)
  '(calendar-mark-holidays-flag t)
  '(calendar-week-start-day 1)
@@ -29,7 +30,17 @@
  '(cua-overwrite-cursor-color "#d79921")
  '(cua-read-only-cursor-color "#98971a")
  '(custom-safe-themes
-   '("56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695"
+   '("2721b06afaf1769ef63f942bf3e977f208f517b187f2526f0e57c1bd4a000350"
+     "da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738"
+     "e87fd8e24e82eb94d63b1a9c79abc8161d25de9f2f13b64014d3bf4b8db05e9a"
+     "c5878086e65614424a84ad5c758b07e9edcf4c513e08a1c5b1533f313d1b17f1"
+     "7964b513f8a2bb14803e717e0ac0123f100fb92160dcf4a467f530868ebaae3e"
+     "89d9dc6f4e9a024737fb8840259c5dd0a140fd440f5ed17b596be43a05d62e67"
+     "29b4f767c48da68f8f3c2bbf0dde2be58e4ed9c97e685af5a7ab7844f0d08b8b"
+     "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184"
+     "e1f4f0158cd5a01a9d96f1f7cdcca8d6724d7d33267623cc433fe1c196848554"
+     "13096a9a6e75c7330c1bc500f30a8f4407bd618431c94aeab55c9855731a95e1"
+     "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695"
      "4f1d2476c290eaa5d9ab9d13b60f2c0f1c8fa7703596fa91b235db7f99a9441b"
      "cf922a7a5c514fad79c483048257c5d8f242b21987af0db813d3f0b138dfaf53"
      "f6665ce2f7f56c5ed5d91ed5e7f6acb66ce44d0ef4acfaa3a42c7cfe9e9a9013"
@@ -187,21 +198,16 @@
  '(outline-minor-mode-cycle t)
  '(package-quickstart t)
  '(package-selected-packages
-   '(nyan-mode sql-indent browse-kill-ring toml-mode default-text-scale
-               know-your-http-well docker-compose-mode discover-my-major
-               rainbow-delimiters dired-single dired-collapse smartscan
-               idle-highlight-mode beacon diredfl dockerfile-mode elsa
-               elisp-mode org-journal pip-requirements org-roam flymake-ruff
-               python-docstring blacken ob-restclient restclient impatient-mode
-               auto-virtualenv ledger-mode writegood-mode yaml-mode
-               yasnippet-snippets yasnippet xr ws-butler web-mode projectile
-               php-mode paredit package-lint nameless magit macrostep
-               haskell-mode el-search engine-mode orderless ag ob-async
-               markdown-mode diff-hl winum company undo-tree hydra org-download
-               openwith use-package wgrep xml-rpc org-modern org-super-agenda
-               which-key ioccur nov diminish centered-window counsel orglink
-               boxquote aggressive-indent visual-fill-column debbugs marginalia
-               multiple-cursors avy iedit embark elfeed-org))
+   '(ag aggressive-indent async avy beacon blacken boxquote company counsel debbugs
+        diff-hl diminish dired-collapse diredfl docker-compose-mode
+        dockerfile-mode doom-themes el-search embark engine-mode
+        exec-path-from-shell flx flymake-ruff haskell-mode hydra iedit ioccur
+        macrostep magit marginalia markdown-mode multiple-cursors nameless nov
+        ns-auto-titlebar ob-restclient openwith orderless org-journal org-roam
+        org-super-agenda package-lint paredit php-mode pip-requirements
+        python-docstring pyvenv rainbow-delimiters rust-mode sql-indent
+        undo-tree visual-fill-column web-mode wgrep which-key winum
+        writegood-mode ws-butler xr yasnippet-snippets))
  '(pdf-view-bounding-box-margin 0.15)
  '(pdf-view-resize-factor 1.05)
  '(pixel-scroll-mode nil)
