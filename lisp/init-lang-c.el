@@ -10,7 +10,6 @@
         tab-width 8
         indent-tabs-mode t
         ;; ws-butler-convert-leading-tabs-or-spaces nil
-        backward-delete-function nil  ; do NOT expand tabs when deleting them
         )
   (setq paragraph-start "[      ]*\\(//+\\|\\**\\)[     ]*$\\|^\f")
   ;; brackets should be at same indentation level as the statements they open
