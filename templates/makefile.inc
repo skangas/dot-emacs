@@ -1,5 +1,6 @@
+# -*- mode: makefile -*-
 CC=gcc
-CFLAGS = -g -Wall -Wpedantic -Wextra -Werror
+CFLAGS = -g3 -Wall -Wpedantic -Wextra -Werror -Wno-unused-parameter -Wno-unused-function -fsanitize=undefined -﻿fsanitize-trap -﻿Wdouble-promotion -Wconversion
 
 main: main.o
 
