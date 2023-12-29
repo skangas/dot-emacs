@@ -45,8 +45,9 @@
 ;; Local packages
 (dolist (dir '("~/wip/org-mode/lisp"
                "~/wip/mentor"
-               "~/wip/url-scgi"))
-  (when (file-directory-p dir)
+               "~/wip/url-scgi"
+               "/opt/homebrew/share/emacs/site-lisp/notmuch"))
+  (when (and (file-directory-p dir) (file-readable-p dir))
     (add-to-list 'load-path dir)))
 
 (autoload 'insert-x-resources "pjb-xresources"

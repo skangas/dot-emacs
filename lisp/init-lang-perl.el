@@ -10,7 +10,7 @@
           . cperl-mode))
   :interpreter (((rx (or "perl" "perl5" "miniperl")) . cperl-mode))
   :custom
-  (cperl-clobber-lisp-bindings t)
+  (cperl-clobber-lisp-bindings 'null) ; never clobber Lisp bindings
   
   (cperl-lazy-help-time 1) ;; show help after x seconds
   (cperl-invalid-face nil) ;; NB. should be made obsolete

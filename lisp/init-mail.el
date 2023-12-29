@@ -46,11 +46,7 @@
                                        "emacs-pretest-bug@gnu.org")))
 
   ;; allows use of `gnus-dired-attach' (C-c RET C-a)
-  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
-
-  ;; Maybe use hashcash.
-  (when (executable-find "hashcash")
-    (add-hook 'message-send-hook #'mail-add-payment)))
+  (add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode))
 
 ;; check for subject
 
