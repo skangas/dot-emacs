@@ -41,9 +41,9 @@
     (define-key cperl-mode-map (kbd "C-h f") 'cperl-perldoc)
 
     ;; use perl to compile
-    (set (make-local-variable 'compile-command) (concat "perl -w -c " buffer-file-name))
+    (setq-local compile-command (concat "perl -w -c " buffer-file-name))
     ;; don't ask for confirmation
-    (set (make-local-variable 'compilation-read-command) nil)
+    (setq-local compilation-read-command nil)
     ;; turn on auto-completion of keywords
     (abbrev-mode 1)
 

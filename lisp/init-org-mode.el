@@ -45,7 +45,8 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((shell . t)
-   (restclient . t)))
+   (restclient . t)
+   (scheme . t)))
 
 (use-package org
   :bind (("C-c å" . sk/toggle-next-task-display))

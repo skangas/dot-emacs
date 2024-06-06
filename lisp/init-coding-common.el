@@ -45,10 +45,10 @@
 Otherwise use the compiler command given by passed in
 CREATE-COMPILER-COMMAND."
   (unless (file-exists-p "Makefile")
-    (set (make-local-variable 'compile-command)
-         (when (buffer-file-name)
-           (let ((file (file-name-nondirectory buffer-file-name)))
-             (funcall create-compiler-command file))))))
+    (setq-local compile-command
+                (when (buffer-file-name)
+                  (let ((file (file-name-nondirectory buffer-file-name)))
+                    (funcall create-compiler-command file))))))
 
 (add-hook 'c-mode-hook
           (lambda ()
@@ -199,7 +199,7 @@ This will run newline-and-indent, and then indent once more."
      (add-to-list 'flymake-err-line-patterns
                   '("^\\(.+\\.l?hs\\):\\([0-9]+\\):\\([0-9]+\\):\\(\\(?:.\\|\\W\\)+\\)"
                     1 2 3 4))
-     (set (make-local-variable 'multiline-flymake-mode) t)))
+     (setq-local multiline-flymake-mode t)))
 
   (defun credmp/flymake-display-err-minibuf ()
     "Displays the error/warning for the current line in the minibuffer"
@@ -250,9 +250,8 @@ This will run newline-and-indent, and then indent once more."
   :mode ("\\.php[s34]?\\'" "\\.phtml\\'" "\\.inc\\'")
   :config
   (defun my-php-mode-customizations ()
-    (set (make-local-variable 'compile-command)
-         (let ((file (file-name-nondirectory buffer-file-name)))
-           (concat "php -l " file)))
+    (let ((file (file-name-nondirectory buffer-file-name)))
+      (setq-local compile-command (concat "php -l " file)))
     (setq c-basic-offset 4)
     (setq tab-width 4)
     (setq indent-tabs-mode nil)

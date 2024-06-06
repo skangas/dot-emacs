@@ -12,17 +12,18 @@
 (defmacro run-if-fboundp (arg)
   (if (fboundp (car arg)) arg))
 (unless (eq window-system 'ns)
-  (run-if-fboundp (menu-bar-mode -1)))     ; No menu
-(run-if-fboundp (scroll-bar-mode -1))      ; No scrollbar
-(run-if-fboundp (tool-bar-mode -1))        ; No toolbar
-(run-if-fboundp (mouse-wheel-mode 1))      ; Enable mousewheel
-(run-if-fboundp (column-number-mode 1))    ; Show column number
-(run-if-fboundp (line-number-mode 1))      ; Show line number
-(run-if-fboundp (auto-image-file-mode 1))  ; View images in emacs
+  (run-if-fboundp (menu-bar-mode -1)))
+(run-if-fboundp (scroll-bar-mode -1))
+(run-if-fboundp (tool-bar-mode -1))
+
+(run-if-fboundp (mouse-wheel-mode 1))
+(run-if-fboundp (column-number-mode 1))
+(run-if-fboundp (line-number-mode 1))
+(run-if-fboundp (auto-image-file-mode 1))
 (run-if-fboundp (display-time-mode 1))
-(save-place-mode 1)                        ; Use `save-place-mode'
-(savehist-mode 1)                          ; Use `savehist-mode'
-(global-hl-line-mode 1)                    ; Use hl-line-mode globally
+(save-place-mode 1)
+(savehist-mode 1)
+(global-hl-line-mode 1)
 (show-paren-mode 1)
 
 ;; * Font Lock mode, Auto Compression mode, and File Name Shadow Mode
@@ -548,6 +549,7 @@
                             "org/org-loaddefs.el"
                             "textmodes/reftex-loaddefs.el"
                             "textmodes/texinfo-loaddefs.el"
+                            (: "test/manual/etags/" (+ (any "a-z")) "-src/")
                             )))))))
 
   (defun sk/grep-mode-hook ()
@@ -865,9 +867,6 @@ With prefix ARG, don't filter anything."
 
 (use-package uniquify :ensure nil
   :demand t)                            ; has to be a require
-
-(use-package visual-fill-column
-  :hook visual-line-mode)
 
 (use-package visual-line-mode :ensure nil ; built-in
   :hook (Custom-mode))
