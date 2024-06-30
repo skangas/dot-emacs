@@ -8,7 +8,10 @@
 (use-package geiser
   :defer t
   :custom
-  (geiser-default-implementation 'racket))
+  (geiser-default-implementation 'guile))
+
+(use-package geiser-guile)
+
 
 (provide 'init-lang-scheme)
 

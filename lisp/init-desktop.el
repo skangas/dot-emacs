@@ -1,41 +1,21 @@
-(setq desktop-restore-eager 5)
-(desktop-save-mode 1)
-
 ;; Warn if there is no desktop.
 (add-hook 'desktop-not-loaded-hook
           (lambda ()
             (with-current-buffer "*scratch*"
               (insert ";; WARNING: desktop not loaded - already in use\n\n"))))
 
-;; Use new 'guess value.
-(if (fboundp 'desktop--load-locked-desktop-p) ; >= Emacs 28
-    (setq desktop-load-locked-desktop 'check))
-
-;; (setq desktop-restore-eager 10)
-
-(setq desktop-save 'if-exists)
-(setq desktop-dirname (expand-file-name "~/.emacs.d/cache"))
-(add-to-list 'desktop-path desktop-dirname)
-
-(setq history-length 250)
-(add-to-list 'desktop-globals-to-save 'file-name-history)
-
 (setq desktop-buffers-not-to-save
-      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-              "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-              "\\)$"))
-
-;; Yes, ugly, but whatever.
-;; (setq desktop-files-not-to-save-orig desktop-files-not-to-save)
-;; (setq desktop-files-not-to-save
-;;       (regexp-opt
-;;        (list
-;;         "\\`/mnt/usb/seed/"
-;;         desktop-files-not-to-save-orig)))
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+      (rx (or (seq bol "nn.a" (one-or-more (any "0-9")))
+              ".log"
+              "(ftp)"
+              (seq bol "tags")
+              (seq bol "TAGS")
+              (seq ".emacs" (zero-or-more nonl))
+              ".diary"
+              ".newsrc-dribble"
+              ".bbdb"
+              )
+          eol))
 
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also

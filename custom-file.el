@@ -6,8 +6,6 @@
  '(Man-width 80)
  '(Man-width-max 76)
  '(abbrev-suggest t)
- '(ansi-color-faces-vector
-   [default bold shadow italic underline success warning error])
  '(auth-source-save-behavior nil)
  '(blink-cursor-blinks 2)
  '(bookmark-menu-confirm-deletion t)
@@ -66,6 +64,10 @@
  '(custom-variable-default-form 'edit)
  '(debug-on-error t)
  '(default-input-method "spanish-prefix")
+ '(desktop-load-locked-desktop 'check-pid)
+ '(desktop-path '("~/.emacs.d/cache" "~/.emacs.d/" "~"))
+ '(desktop-restore-eager 5)
+ '(desktop-save-mode t)
  '(diary-file "~/org/.diary")
  '(dired-clean-confirm-killing-deleted-buffers nil)
  '(dired-vc-rename-file t)
@@ -101,15 +103,12 @@
  '(gdb-many-windows t)
  '(gnus-user-agent nil)
  '(help-enable-variable-value-editing t)
+ '(history-length 250)
  '(holiday-bahai-holidays nil)
  '(holiday-christian-holidays nil)
  '(holiday-hebrew-holidays nil)
  '(holiday-islamic-holidays nil)
  '(holiday-solar-holidays nil)
- '(ibuffer-deletion-face 'modus-theme-mark-del)
- '(ibuffer-filter-group-name-face 'modus-theme-mark-symbol)
- '(ibuffer-marked-face 'modus-theme-mark-sel)
- '(ibuffer-title-face 'modus-theme-pseudo-header)
  '(ido-case-fold t)
  '(ido-decorations
    '("\12-> " "" "\12   " "\12   ..." "[" "]" " [No match]" " [Matched]"
@@ -165,7 +164,6 @@
  '(modus-themes-variable-pitch-ui t)
  '(mouse-highlight 1)
  '(mpc-mpd-music-directory "~/music")
- '(native-comp-async-report-warnings-errors nil)
  '(network-security-level 'high)
  '(notmuch-saved-searches
    '((:name "inbox" :query "tag:inbox" :key [105])
@@ -191,23 +189,20 @@
    '(("*" bold) ("/" italic) ("_" underline) ("=" org-verbatim verbatim)
      ("~" org-code verbatim) ("+" (:strike-through t)) ("`" org-code verbatim)))
  '(org-enforce-todo-dependencies t)
- '(org-modules
-   '(org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc
-              org-w3m))
- '(org-src-block-faces 'nil)
+ '(org-src-ask-before-returning-to-edit-buffer nil)
  '(outline-minor-mode-cycle t)
  '(package-quickstart t)
  '(package-selected-packages
    '(ag aggressive-indent async avy beacon blacken boxquote company counsel debbugs
         diff-hl diminish dired-collapse diredfl docker-compose-mode
-        dockerfile-mode doom-themes el-search embark engine-mode
-        exec-path-from-shell flx flymake-ruff haskell-mode hydra iedit ioccur
-        macrostep magit marginalia markdown-mode multiple-cursors nameless nov
-        ns-auto-titlebar ob-restclient openwith orderless org-journal org-roam
-        org-super-agenda package-lint paredit php-mode pip-requirements
-        python-docstring pyvenv rainbow-delimiters rust-mode sql-indent
-        undo-tree visual-fill-column web-mode wgrep which-key winum
-        writegood-mode ws-butler xr yasnippet-snippets))
+        dockerfile-mode doom el-search elfeed embark engine-mode
+        exec-path-from-shell flx flymake-ruff geiser geiser-guile haskell-mode
+        hydra iedit ioccur macrostep magit marginalia markdown-mode
+        multiple-cursors nameless nov ns-auto-titlebar ob-restclient openwith
+        orderless org-journal org-roam org-super-agenda package-lint paredit
+        php-mode pip-requirements python-docstring pyvenv rainbow-delimiters
+        sql-indent undo-tree web-mode wgrep which-key winum writegood-mode
+        ws-butler xr yasnippet-snippets))
  '(pdf-view-bounding-box-margin 0.15)
  '(pdf-view-resize-factor 1.05)
  '(pixel-scroll-mode nil)

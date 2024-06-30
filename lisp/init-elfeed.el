@@ -270,10 +270,4 @@
 ;;   ;; (set-window-text-height (get-buffer-window) (round (* 0.7 (frame-height))))
 ;;   )
 
-(use-package elfeed-org
-  :pin "melpa"
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files '("~/org/misc/elfeed.org")))
-
 (provide 'init-elfeed)

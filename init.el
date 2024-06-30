@@ -106,7 +106,7 @@
 (require 'init-compat)
 (require 'init-emacs-server)
 (require 'init-keybindings)
-;;(require 'init-desktop)
+(require 'init-desktop)
 
 ;; Various features
 (require 'init-auto-insert-mode)
